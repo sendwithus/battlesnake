@@ -1,62 +1,69 @@
-# [BattleSnake] Client API
+# BattleSnake Client API
 
 ## General Client Rules
 
-*   Game clients must exist at a valid HTTP URL capable of responding to the requests specified below.
-*   Clients must respond to all requests within 2 seconds or face disqualification.
-*   All requests must return a 200 status code and a valid response body or face disqualification.
+* Game clients must exist at a valid HTTP URL capable of responding to the requests specified below.
+* Clients must respond to all requests within 2 seconds or face disqualification.
+* All requests must return a 200 status code and a valid response body or face disqualification.
 
 ## POST /start
 
 Signals the start of a BattleSnake game. All clients must respond with a 200 status code and valid response object or risk being disqualified.
 
 Since game IDs may be re-used, this endpoint may be called multiple times with the same game ID. Clients use this call to reset any saved game state for the given game ID.
-<undefined><li>**<u>Request</u>**</li></undefined>
 
-*   **id** - ID of the game about to start
+##### Request
 
-*   {
-*       "id": "hairy-cheese"
-*   }
+* **id** - ID of the game about to start
 
-<undefined><li>**<u>Response</u>**</li></undefined>
+```json
+{
+  "id": "hairy-cheese"
+}
+```
 
-*   **name **-** **friendly name of this snake
-*   **color **- display color for this snake (must be CSS compatible)
-*   **head_url**_ (optional)_ - full URL for a 20x20 snake head image
-*   **taunt**_ (optional)_ - string message for other snakes
+##### Response
 
-*   {
-*       "name": "Team Gregio",
-*       "color": "#ff0000",
-*       "head_url": "[](http://img.server.com/snake_head.png)http://img.server.com/snake_head.png",
-*       "taunt": "Let's rock!"
-*   }
+* **name** - friendly name of this snake
+* **color** - display color for this snake (must be CSS compatible)
+* **head_url** _(optional)_ - full URL for a 20x20 snake head image
+* **taunt** _(optional)_ - string message for other snakes
+
+```json
+{
+  "name": "Team Gregio",
+  "color": "#ff0000",
+  "head_url": "[](http://img.server.com/snake_head.png)http://img.server.com/snake_head.png",
+  "taunt": "Let's rock!"
+}
+```
 
 ## POST /move
 
 Failing to respond appropriately
-
 if invalid response, snake moves forward
-<undefined><li>**<u>Request</u>**</li></undefined>
 
-*   **id** - ID of the game being played
-*   **turn** - turn number being played
-*   **board** - current board state (see [Board State Objects](/Battle-Snake-Client-API-FaFoovzSb9v#:h=Board-State-Objects))
-*   **snakes** - array of snakes in play (see [Snake Objects](/Battle-Snake-Client-API-FaFoovzSb9v#:h=Snake-Objects))
+##### Request
 
-*   {
-*       "id": "hairy-cheese",
-*       "turn": 1,
-*       "board": [
-*           [<BoardTile>, <BoardTile>, ...],
-*           [<BoardTile>, <BoardTile>, ...],
-*           ...
-*       ],
-*       "snakes":[<Snake>, <Snake>, ...]
-*   }
+* **id** - ID of the game being played
+* **turn** - turn number being played
+* **board** - current board state (see [Board State Objects](#))
+* **snakes** - array of snakes in play (see [Snake Objects](#))
 
-<undefined><li>**<u>Response</u>**</li></undefined>
+```json
+{
+  "id": "hairy-cheese",
+  "turn": 1,
+  "board": [
+    [<BoardTile>, <BoardTile>, ...],
+    [<BoardTile>, <BoardTile>, ...],
+    ...
+  ],
+  "snakes":[<Snake>, <Snake>, ...]
+}
+```
+
+##### Response
 
 *   **move** - this snakes' next move, one of: ["up", "down", "left", "right"]
 *   **taunt** _(optional)_ - string message to other snakes

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if hash jsxs 2>/dev/null; then
+    jsx -x jsx --watch ./static/js/src ./static/js/build
+else
+    read -r -p "'react-tools' not found. Do you want to install? [y/N] " response
+    case $response in
+        [yY][eE][sS]|[yY])
+            echo "Running 'npm install -g react-tools'"
+            npm install -g react-tools
+            ;;
+        *)
+            echo "You can install with 'npm install -g react-tools'"
+            ;;
+    esac
+fi

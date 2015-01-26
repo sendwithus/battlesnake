@@ -24,7 +24,7 @@ Since game IDs may be re-used, this endpoint may be called multiple times with t
 
 * **id** - ID of the game about to start
 
-```json
+```javascript
 {
   "id": "hairy-cheese"
 }
@@ -39,11 +39,11 @@ Since game IDs may be re-used, this endpoint may be called multiple times with t
 * **head_url** _(optional)_ - full URL for a 20x20 snake head image
 * **taunt** _(optional)_ - string message for other snakes
 
-```json
+```js
 {
   "name": "Team Gregio",
   "color": "#ff0000",
-  "head_url": "[](http://img.server.com/snake_head.png)http://img.server.com/snake_head.png",
+  "head_url": "http://img.server.com/snake_head.png",
   "taunt": "Let's rock!"
 }
 ```
@@ -64,7 +64,7 @@ if invalid response, snake moves forward
 * **board** - current board state (see [Board State Objects](#board-state-objects))
 * **snakes** - array of snakes in play (see [Snake Objects](#snake-objects))
 
-```json
+```javascript
 {
   "id": "hairy-cheese",
   "turn": 1,
@@ -84,7 +84,7 @@ if invalid response, snake moves forward
 * **move** - this snakes' next move, one of: ["up", "down", "left", "right"]
 * **taunt** _(optional)_ - string message to other snakes
 
-```json
+```javascript
 {
   "move": "up",
   "taunt": "go snake yourself"
@@ -103,7 +103,7 @@ Indicates that a specific game has ended. No more move requests will be made. No
 
 * **id** - id of game being ended
 
-```json
+```javascript
 {
   "id": "hairy-cheese"
 }
@@ -125,7 +125,7 @@ Describes the state of the board for a specific game. Board State Objects are co
 
 ##### Example Board State
 
-```json
+```javascript
 [
   [<BoardTile>, <BoardTile>, ...],
   [<BoardTile>, <BoardTile>, ...],
@@ -144,7 +144,7 @@ Describes the state of the board for a specific game. Board State Objects are co
   * _empty_ - an empty tile
 * **snake** _(optional)_ - snake id of occupying snake (if applicable)
 
-```json
+```javascript
 {
   "type": "head",
   "snake": "snake_19283"
@@ -168,7 +168,7 @@ Describes the state of a single snake in a particular game.
 * **head_url** - full URL to 20x20 snake head image
 * **taunt** - latest string message to other snakes
 
-```json
+```javascript
 {
   "id": "snake_19283",
   "name": "Noodlez",
@@ -176,7 +176,7 @@ Describes the state of a single snake in a particular game.
   "coords": [[0, 0], [0, 1], [0, 2], [1, 2]],
   "score": 4,
   "color": "#ff0000",
-  "head_url": "[](http://img.server.com/snake_head.png)[http://img.server.com/snake_head.png](http://img.server.com/snake_head.png)",
+  "head_url": "http://img.server.com/snake_head.png",
   "taunt": "I'm one slippery noodle"
 }
 ```

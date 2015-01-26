@@ -21,11 +21,8 @@ var Board = function (ctx, canvas) {
 Board.prototype.resize = function() {
   var board = this.canvas.parentNode;
 
-  var width  = board.offsetWidth - 60;
-  var height = document.body.offsetHeight - 160;
-
-  console.log('HI', board);
-  console.log('W x H', width, height);
+  var width  = board.clientWidth - 30;
+  var height = window.innerHeight - 95;
 
   var size1 = Math.ceil(width / this.dimensions[0]);
   var size2 = Math.ceil(height / this.dimensions[1]);
@@ -34,6 +31,8 @@ Board.prototype.resize = function() {
 
   this.canvas.width  = this.SQUARE_SIZE * this.dimensions[0];
   this.canvas.height = this.SQUARE_SIZE * this.dimensions[1];
+
+  this.update(this.gameState);
 };
 
 Board.prototype.init = function (gameState, updateCallback) {
@@ -41,7 +40,13 @@ Board.prototype.init = function (gameState, updateCallback) {
   this.gameState = gameState;
   this.dimensions = this.getBoardDimensions(this.gameState.board);
   this.update(gameState);
+
+  // Needs to be called twice because the first one might trigger scrollbars
+  // to be shown, so the window size changes.
   this.resize();
+  this.resize();
+
+  window.onresize = this.resize.bind(this);
 };
 
 Board.prototype.getGameId = function () {

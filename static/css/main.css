@@ -6,11 +6,33 @@ body {
     color: #ddd;
 }
 
-.navbar {
-    border-radius: 0;
-    margin-bottom: 0;
+canvas {
+    margin: auto;
+    display: block;
 }
 
-.sidebar {
-    padding-top: 10px;
+.navbar {
+    border-radius: 0;
+}
+
+.float-right {
+    float: right;
+}
+
+.site-links {
+    float: right;
+    padding: 0;
+}
+
+/** MEDIA QUERIES **/
+
+@media (max-width: 767px) {
+    .sidebar {
+        margin-top: 20px;
+    }
+
+    .site-links {
+        float: none;
+        padding: 0 15px;
+    }
 }

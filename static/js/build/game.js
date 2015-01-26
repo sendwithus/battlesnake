@@ -7,8 +7,6 @@ var Game = React.createClass({displayName: "Game",
 
         var board = new Board(ctx, canvas);
         board.init(sampleBoardData, function () { });
-        board.update(sampleBoardData);
-        console.log('updated');
     },
     render: function () {
         return (

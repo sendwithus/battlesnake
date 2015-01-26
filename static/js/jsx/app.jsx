@@ -1,14 +1,19 @@
 /** @jsx React.DOM */
 
-var Wrapper = React.createClass({
+var App = React.createClass({
     render: function () {
         return (
-            <div className="row">
-                <div className="col-md-9">
-                    <Game />
-                </div>
-                <div className="col-md-3 sidebar">
-                    <Sidebar />
+            <div>
+                <Navbar />
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-9">
+                            <Game />
+                        </div>
+                        <div className="col-md-3 sidebar">
+                            <Sidebar />
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -16,4 +21,6 @@ var Wrapper = React.createClass({
 });
 
 // Trigger the first render
-React.render(<Wrapper />, document.getElementById('wrapper'));
+window.onload = function () {
+    React.render(<App />, document.getElementById('app'));
+};

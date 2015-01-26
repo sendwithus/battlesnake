@@ -1,0 +1,16 @@
+body {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    background: #333;
+    color: #ddd;
+}
+
+.navbar {
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.sidebar {
+    padding-top: 10px;
+}

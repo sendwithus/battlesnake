@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if hash jsxs 2>/dev/null; then
-    jsx -x jsx --watch ./static/js/src ./static/js/build
+if hash jsx 2>/dev/null; then
+    jsx -x jsx --watch ./static/js/jsx ./static/js/build
 else
     read -r -p "'react-tools' not found. Do you want to install? [y/N] " response
     case $response in

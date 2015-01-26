@@ -2,6 +2,8 @@
 
 For more information visit [battlesnake.io](http://www.battlesnake.io).
 
+<br>
+
 ## General Client Rules
 
 * Game clients must exist at a valid HTTP URL capable of responding to the requests specified below.
@@ -59,8 +61,8 @@ if invalid response, snake moves forward
 
 * **id** - ID of the game being played
 * **turn** - turn number being played
-* **board** - current board state (see [Board State Objects](#))
-* **snakes** - array of snakes in play (see [Snake Objects](#))
+* **board** - current board state (see [Board State Objects](#board-state-objects))
+* **snakes** - array of snakes in play (see [Snake Objects](#snake-objects))
 
 ```json
 {

@@ -6,6 +6,7 @@ var Navbar = React.createClass({
     },
     handleNavChange: function (link) {
         this.setState({ mobileNavExpanded: false });
+        this.props.onPageChange(link);
     },
     getInitialState: function () {
         return { mobileNavExpanded: false };

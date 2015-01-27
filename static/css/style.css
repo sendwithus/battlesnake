@@ -11,7 +11,7 @@
 .yellow{color:#d5c747;}
 
 body{
-	background: #221E1D url('IMG/bg-battlesnake.jpg') top center no-repeat;
+	background: #221E1D url('../img/bg-battlesnake.jpg') top center no-repeat;
 	font-family: myriad, arial, helvetica;
 }
 
@@ -109,7 +109,7 @@ p.desc{
 .box .btn.map{
 	font-size: 18px;
 	padding: 10px 20px;
-	background: #F8F568 url('IMG/icon-map.png') no-repeat 15px 12px;
+	background: #F8F568 url('../img/icon-map.png') no-repeat 15px 12px;
 	text-indent: 22px;
 	margin-top: -6px;
 	margin-left: 30px;
@@ -119,7 +119,7 @@ p.desc{
 
 .box .btn.map:hover{
 	cursor:pointer;
-	background: #C7C308 url('IMG/icon-map.png') no-repeat 15px 12px;
+	background: #C7C308 url('../img/icon-map.png') no-repeat 15px 12px;
 	top:3px;
     -moz-transition: all .25s ease-in;
     -webkit-transition: all .25s ease-in;

@@ -1,0 +1,288 @@
+
+
+.black{color:#070404;}
+
+.white{color:#fff;}
+
+.white-2{color:7f7e7e;}
+
+.white-3{color:#4A4848;}
+
+.yellow{color:#d5c747;}
+
+body{
+	background: #221E1D url('../img/bg-battlesnake.jpg') top center no-repeat;
+	font-family: myriad, arial, helvetica;
+}
+
+.presents{
+	-o-animation-delay: 1s;
+	-moz-animation-delay: 1s;
+	-webkit-animation-delay: 1s;
+	animation-delay: 1s;
+}
+
+img{
+	max-width: 100%;
+}
+
+.jumbotron {
+	background: none;
+	text-align:center;
+}
+
+.bs-logo{
+	margin-top: 360px;
+	-o-animation-delay: 1.5s;
+	-moz-animation-delay: 1.5s;
+	-webkit-animation-delay: 1.5s;
+	animation-delay: 1.5s;
+}
+
+.hr-logo{
+	margin-top: 40px;
+	-o-animation-delay: 2s;
+	-moz-animation-delay: 2s;
+	-webkit-animation-delay:2s;
+	animation-delay: 2s;
+}
+
+h3{
+	color: #FFF;
+	letter-spacing: 8px;
+	font-size: 28px;
+	text-align: center;
+}
+
+.orange{color:c85959;}
+
+.btn.btn-lg{
+	background: #F8F568;
+	text-transform: uppercase;
+	color: #000;
+	font-weight: bold;
+	border: none;
+	border-radius: 0;
+	margin-top:20px;
+	font-size:24px;
+	padding: 16px 32px;
+	-o-animation-delay: 2.5s;
+	-moz-animation-delay: 2.5s;
+	-webkit-animation-delay: 2.5s;
+	animation-delay: 2.5s;
+}
+
+.btn:hover{
+	cursor:pointer;
+	background-color: #C7C308;
+	top:3px;
+    -moz-transition: all .25s ease-in;
+    -webkit-transition: all .25s ease-in;
+    -o-transition: all .25s ease-in;
+    transition: all .25s ease-in;
+}
+
+p.desc{
+	font-size: 30px;
+	line-height: 36px;
+	margin-top: 60px;
+}
+
+.col-sm-4{
+	text-align: center;
+}
+
+.col-sm-4 h5{font-size:36px;}
+
+.col-sm-4 p{font-size:18px;}
+
+.box{
+	border: 3px solid #3E3737;
+	padding: 24px 47px;
+	margin-top: 100px;
+}
+
+.map-holder{
+	text-align:left;
+}
+
+.box .btn.map{
+	font-size: 18px;
+	padding: 10px 20px;
+	background: #F8F568 url('../img/icon-map.png') no-repeat 15px 12px;
+	text-indent: 22px;
+	margin-top: -6px;
+	margin-left: 30px;
+	text-align:center;
+
+}
+
+.box .btn.map:hover{
+	cursor:pointer;
+	background: #C7C308 url('../img/icon-map.png') no-repeat 15px 12px;
+	top:3px;
+    -moz-transition: all .25s ease-in;
+    -webkit-transition: all .25s ease-in;
+    -o-transition: all .25s ease-in;
+    transition: all .25s ease-in;
+}
+
+}
+
+.box h4{
+	text-align:center;
+}
+
+h4{
+	font-size:30px;
+	text-align:center;
+}
+
+h5{
+	font-size:24px;
+	color:7f7e7e;
+	margin-top: 50px;
+}
+
+p{
+	font-size:18px;
+	color:#4A4848;
+}
+
+h4.yellow{
+	text-align: center;
+	margin-top: 40px;
+}
+
+.col-lg-6 .col-xs-3, .col-lg-6 .col-xs-9{
+	margin-top: 30px;
+}
+
+footer{
+	background: #1D1A19;
+	width: 100%;
+	text-align: center;
+	padding: 10px;
+	margin-top: 30px;
+}
+
+
+
+@media(max-width:767px){
+	body{
+		background-size:175% auto;
+	}
+	.bs-logo {
+		margin-top: 90px;
+	}
+
+	h3 {
+		letter-spacing: 6px;
+		font-size: 14px;
+	}
+	.hr-logo {
+		margin-top: 40px;
+		width: 90px;
+	}
+	p.desc {
+		font-size: 20px;
+		line-height: 27px;
+	}
+	.btn.btn-lg {
+		font-size: 18px;
+	}
+	
+	.white-2 .white-3{
+		clear: both;
+		float: left;
+		margin-top: 20px;
+		width: 100%;
+	}
+	.white-2 .white-3{
+		clear: both;
+		float: left;
+		margin-top: 20px;
+		width: 100%;
+	}
+	.box .btn.map{
+		clear: both;
+		margin-top: 30px;
+		margin-left: 0;
+	}
+	.col-sm-4 img{
+		max-width: 70%;
+	}
+	.col-sm-4 h5 {
+		font-size: 30px;
+		margin-top: 20px;
+	}
+	.col-sm-4 p {
+		font-size: 18px;
+		margin-bottom: 40px;
+	}
+	.box {
+		margin-top: 30px;
+		margin-bottom: 30px;
+
+	}
+
+	.map-holder{
+		text-align:center;
+	}
+	
+	h4 {
+		font-size: 24px;
+		text-align: center;
+	}
+}
+@media(min-width:768px){
+	.white-2 .white-3{
+		clear: both;
+		float: left;
+		margin-top: 20px;
+		width: 100%;
+	}
+	.box .btn.map{
+		clear: both;
+		margin-top: 4px;
+		margin-left: 0;
+	}
+	
+	p.desc {
+		font-size: 25px;
+		line-height: 36px;
+		margin-top: 60px;
+	}
+	.col-sm-4 h5 {
+		font-size: 30px;
+		margin-top: 20px;
+	}
+	.col-sm-4 p {
+		font-size: 18px;
+		margin-bottom: 40px;
+	}
+	
+	.map-holder{
+		text-align:center;
+	}
+	
+}
+@media(min-width:992px){
+	.white-2 .white-3{
+		clear: none;
+		float: none;
+		margin-top: 0;
+		width: none;
+	}
+	.box .btn.map{
+		clear: none;
+		margin-top: none;
+		margin-left: none;
+	}
+	.map-holder{
+		text-align:right;
+	}
+}
+@media(min-width:1200px){
+	
+}

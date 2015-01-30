@@ -54,7 +54,7 @@ h3{
 	text-align: center;
 }
 
-.orange{color:c85959;}
+.orange{color:#F7931D;}
 
 .btn.btn-lg{
 	background: #F8F568;
@@ -191,7 +191,7 @@ footer{
 	.btn.btn-lg {
 		font-size: 18px;
 	}
-	
+
 	.white-2 .white-3{
 		clear: both;
 		float: left;
@@ -229,7 +229,7 @@ footer{
 	.map-holder{
 		text-align:center;
 	}
-	
+
 	h4 {
 		font-size: 24px;
 		text-align: center;
@@ -247,7 +247,7 @@ footer{
 		margin-top: 4px;
 		margin-left: 0;
 	}
-	
+
 	p.desc {
 		font-size: 25px;
 		line-height: 36px;
@@ -261,11 +261,11 @@ footer{
 		font-size: 18px;
 		margin-bottom: 40px;
 	}
-	
+
 	.map-holder{
 		text-align:center;
 	}
-	
+
 }
 @media(min-width:992px){
 	.white-2 .white-3{
@@ -284,5 +284,5 @@ footer{
 	}
 }
 @media(min-width:1200px){
-	
+
 }

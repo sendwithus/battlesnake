@@ -1,2 +1,2 @@
 #!/bin/bash
-python lib/game/test.py
+nosetests lib.game.tests --verbosity 2

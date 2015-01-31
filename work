@@ -1,2 +1,23 @@
 #!/bin/bash
-python lib/worker.py
+# python lib/worker.py
+
+PIDS=() # store forked pids here
+NUM_PROCS=${1-1} # use $1 or default to 1
+
+trap exiting SIGINT
+function exiting() {
+    # kill all pids
+    for i in "${PIDS[@]}"; do kill $i; done
+    exit 0
+}
+
+# fork $n procs
+for i in $(seq 1 $NUM_PROCS); do
+    echo "Starting worker #$i";
+    python lib/worker.py &
+    PIDS+=($!)
+    sleep 0.1
+done
+
+# join all the processes
+for i in "${PIDS[@]}"; do wait $i; done

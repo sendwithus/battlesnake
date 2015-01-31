@@ -59,9 +59,11 @@ class GameState(object):
             for tile in tile_row:
                 if not isinstance(tile, dict):
                     raise ValueError('Sanity Check Failed: board.tile is not dict' % (tile))
-                if tile['type'] not in GameState.TILE_STATES:
+                if tile['state'] not in GameState.TILE_STATES:
                     raise ValueError('Sanity Check FaileD: board.tile has invalid state, %s' % (
-                        tile['type]']))
+                        tile['state']))
+
+        # TODO: Sanity check snakes array
 
     # Serialize/Deserialize
 
@@ -69,8 +71,8 @@ class GameState(object):
         return {
             'id': self._game_id,
             'turn': self._turn,
-            'board': self._board.copy(),
-            'snakes': self._snakes.copy()
+            'board': self._board[:],
+            'snakes': self._snakes[:]
         }
 
     def from_json(self, obj):
@@ -81,7 +83,7 @@ class GameState(object):
 
         self._sanity_check()
 
-    def to_string(self, content):
+    def to_string(self):
         self._sanity_check()
 
         tile_map = {
@@ -100,5 +102,24 @@ class GameState(object):
 
         return output
 
-    def from_string(self):
-        pass
+    def from_string(self, content):
+        self._board = []
+
+        tile_map = {
+            '_': GameState.TILE_STATE_EMPTY,
+            '*': GameState.TILE_STATE_FOOD,
+            'B': GameState.TILE_STATE_SNAKE_BODY,
+            'H': GameState.TILE_STATE_SNAKE_HEAD
+        }
+
+        for raw_row in [row for row in content.split('\n') if row]:
+            row = []
+
+            for raw_tile in raw_row:
+                row.append({
+                    'state': tile_map[raw_tile],
+                    'snake': None
+                })
+            self._board.append(row)
+
+        self._sanity_check()

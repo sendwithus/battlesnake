@@ -137,7 +137,7 @@ Describes the state of the board for a specific game. Board State Objects are co
 
 ##### Board Tiles
 
-* **type** - one of ["head", "body", "food", "empty"]
+* **state** - one of ["head", "body", "food", "empty"]
   * _head_ - occupied by snake head (see snake attribute)
   * _body_ - occupied by snake body (see snake attribute)
   * _food_ - contains an uneaten piece of food
@@ -146,7 +146,7 @@ Describes the state of the board for a specific game. Board State Objects are co
 
 ```javascript
 {
-  "type": "head",
+  "state": "head",
   "snake": "snake_19283"
 }
 ```

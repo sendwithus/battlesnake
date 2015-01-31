@@ -2,5 +2,3 @@ bottle==0.12.8
 gnureadline==6.3.3
 gunicorn==19.1.1
 ipython==2.3.1
-pymongo==2.8
-requests==2.5.1

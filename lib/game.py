@@ -6,9 +6,9 @@ logger = logging.getLogger(__name__)
 
 class GameState(object):
     TILE_STATE_EMPTY = 'empty'
+    TILE_STATE_FOOD = 'food'
     TILE_STATE_SNAKE_HEAD = 'head'
     TILE_STATE_SNAKE_BODY = 'body'
-    TILE_STATE_FOOD = 'food'
 
     TILE_STATES = [
         TILE_STATE_EMPTY,
@@ -25,7 +25,7 @@ class GameState(object):
         self._board = []
         for x in range(width):
             self._board.append([])
-            for y in (height):
+            for y in range(height):
                 self._board[x].append({
                     'state': GameState.TILE_STATE_EMPTY,
                     'snake': None
@@ -63,6 +63,8 @@ class GameState(object):
                     raise ValueError('Sanity Check FaileD: board.tile has invalid state, %s' % (
                         tile['type]']))
 
+    # Serialize/Deserialize
+
     def to_json(self):
         return {
             'id': self._game_id,
@@ -78,3 +80,25 @@ class GameState(object):
         self._snakes = obj['snakes']
 
         self._sanity_check()
+
+    def to_string(self, content):
+        self._sanity_check()
+
+        tile_map = {
+            GameState.TILE_STATE_EMPTY: '_',
+            GameState.TILE_STATE_FOOD: '*',
+            GameState.TILE_STATE_SNAKE_BODY: 'B',
+            GameState.TILE_STATE_SNAKE_HEAD: 'H'
+        }
+
+        output = ''
+        for row in self._board:
+            for tile in row:
+                output += tile_map[tile['state']]
+            output += '\n'
+        output += '\n'
+
+        return output
+
+    def from_string(self):
+        pass

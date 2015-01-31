@@ -43,7 +43,7 @@ class Game(Model):
 
     def to_json(self):
         return {
-            'id': self._id,
+            '_id': self._id,
             'state': self._state,
             'width': self._width,
             'height': self._height
@@ -52,7 +52,7 @@ class Game(Model):
     @staticmethod
     def from_json(cls, obj):
         return cls(
-            id=obj['id'],
+            id=obj['_id'],
             state=obj['state'],
             width=obj['width'],
             height=obj['height']

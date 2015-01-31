@@ -1,10 +1,14 @@
-#! /usr/bin/env python
 import bottle
 
 
 @bottle.get('/')
 def index():
     return bottle.static_file('html/index.html', root='static')
+
+
+@bottle.get('/<page>')
+def page(page):
+    return bottle.static_file('html/%s.html' % page, root='static')
 
 
 @bottle.get('/static/<filepath:path>')

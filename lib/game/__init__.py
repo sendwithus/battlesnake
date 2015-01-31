@@ -1,10 +1,65 @@
 import logging
+from datetime import datetime
 
+from pymongo import MongoClient
 
 logger = logging.getLogger(__name__)
+client = MongoClient('mongodb://localhost:27017/')
+db = client['battlesnake']
 
 
-class GameState(object):
+class Model(object):
+
+    def _get_collection(self):
+        return db[self.__class__.__name__.lower()]
+
+    def insert(self):
+        doc = self.to_json()
+        doc['modified'] = datetime.now()
+        doc['created'] = doc.get('created', datetime.now())
+        self._get_collection().insert(doc)
+
+    def find(self, *args, **kwargs):
+        return self._get_collection().find(*args, **kwargs)
+
+    def find_one(self, *args, **kwargs):
+        return self._get_collection().find_one(*args, **kwargs)
+
+
+class Game(Model):
+    STATE_CREATED = 'created'
+    STATE_READY = 'ready'
+    STATE_PLAYING = 'playing'
+    STATE_DONE = 'done'
+
+    def __init__(self, id=None, width=10, height=10, state=STATE_CREATED):
+        self._id = id or self._generate_game_id()
+        self._state = state
+        self._width = width
+        self._height = height
+
+    def _generate_game_id(self):
+        return 'need-to-make-ids-still'
+
+    def to_json(self):
+        return {
+            'id': self._id,
+            'state': self._state,
+            'width': self._width,
+            'height': self._height
+        }
+
+    @staticmethod
+    def from_json(cls, obj):
+        return cls(
+            id=obj['id'],
+            state=obj['state'],
+            width=obj['width'],
+            height=obj['height']
+        )
+
+
+class GameState(Model):
     TILE_STATE_EMPTY = 'empty'
     TILE_STATE_FOOD = 'food'
     TILE_STATE_SNAKE_HEAD = 'head'
@@ -17,11 +72,9 @@ class GameState(object):
         TILE_STATE_FOOD
     ]
 
-    def __init__(self, game_id=None, width=10, height=10):
-        self._game_id = game_id
-        if not self._game_id:
-            self._generate_game_id()
+    def __init__(self, game_id, width, height):
 
+        self._game_id = game_id
         self._board = []
         for x in range(width):
             self._board.append([])
@@ -33,9 +86,6 @@ class GameState(object):
 
         self._snakes = []
         self._turn = 0
-
-    def _generate_game_id(self):
-        self._game_id = 'need-to-make-ids-still'
 
     def _sanity_check(self):
         if not isinstance(self._game_id, basestring):
@@ -69,14 +119,14 @@ class GameState(object):
 
     def to_json(self):
         return {
-            'id': self._game_id,
+            'game_id': self._game_id,
             'turn': self._turn,
             'board': self._board[:],
             'snakes': self._snakes[:]
         }
 
     def from_json(self, obj):
-        self._game_id = obj['id']
+        self._game_id = obj['game_id']
         self._turn = obj['turn']
         self._board = obj['board']
         self._snakes = obj['snakes']

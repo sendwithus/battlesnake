@@ -1,5 +1,7 @@
 import bottle
 
+from bottle import request
+
 
 @bottle.get('/')
 def index():
@@ -15,6 +17,16 @@ def page(page):
 def server_static(filepath):
     return bottle.static_file(filepath, root='static')
 
+
+@bottle.post('/api/games')
+def games_post():
+    from lib.game import Game
+
+    width = request.query.get('w', 10)
+    height = request.query.get('h', 10)
+
+    game = Game(width=width, height=height)
+    game.insert()
 
 if __name__ == '__main__':
     bottle.run(host='localhost', port=8080)

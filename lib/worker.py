@@ -2,8 +2,8 @@ import time
 
 from pymongo import MongoClient
 
+from lib.game import GameState
 client = MongoClient('mongodb://localhost:27017/')
-
 db = client['battlesnake']
 
 

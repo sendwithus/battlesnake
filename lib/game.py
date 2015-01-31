@@ -6,9 +6,9 @@ logger = logging.getLogger(__name__)
 
 class GameState(object):
     TILE_STATE_EMPTY = 'empty'
+    TILE_STATE_FOOD = 'food'
     TILE_STATE_SNAKE_HEAD = 'head'
     TILE_STATE_SNAKE_BODY = 'body'
-    TILE_STATE_FOOD = 'food'
 
     TILE_STATES = [
         TILE_STATE_EMPTY,
@@ -25,7 +25,7 @@ class GameState(object):
         self._board = []
         for x in range(width):
             self._board.append([])
-            for y in (height):
+            for y in range(height):
                 self._board[x].append({
                     'state': GameState.TILE_STATE_EMPTY,
                     'snake': None
@@ -59,16 +59,20 @@ class GameState(object):
             for tile in tile_row:
                 if not isinstance(tile, dict):
                     raise ValueError('Sanity Check Failed: board.tile is not dict' % (tile))
-                if tile['type'] not in GameState.TILE_STATES:
+                if tile['state'] not in GameState.TILE_STATES:
                     raise ValueError('Sanity Check FaileD: board.tile has invalid state, %s' % (
-                        tile['type]']))
+                        tile['state']))
+
+        # TODO: Sanity check snakes array
+
+    # Serialize/Deserialize
 
     def to_json(self):
         return {
             'id': self._game_id,
             'turn': self._turn,
-            'board': self._board.copy(),
-            'snakes': self._snakes.copy()
+            'board': self._board[:],
+            'snakes': self._snakes[:]
         }
 
     def from_json(self, obj):
@@ -76,5 +80,46 @@ class GameState(object):
         self._turn = obj['turn']
         self._board = obj['board']
         self._snakes = obj['snakes']
+
+        self._sanity_check()
+
+    def to_string(self):
+        self._sanity_check()
+
+        tile_map = {
+            GameState.TILE_STATE_EMPTY: '_',
+            GameState.TILE_STATE_FOOD: '*',
+            GameState.TILE_STATE_SNAKE_BODY: 'B',
+            GameState.TILE_STATE_SNAKE_HEAD: 'H'
+        }
+
+        output = ''
+        for row in self._board:
+            for tile in row:
+                output += tile_map[tile['state']]
+            output += '\n'
+        output += '\n'
+
+        return output
+
+    def from_string(self, content):
+        self._board = []
+
+        tile_map = {
+            '_': GameState.TILE_STATE_EMPTY,
+            '*': GameState.TILE_STATE_FOOD,
+            'B': GameState.TILE_STATE_SNAKE_BODY,
+            'H': GameState.TILE_STATE_SNAKE_HEAD
+        }
+
+        for raw_row in [row for row in content.split('\n') if row]:
+            row = []
+
+            for raw_tile in raw_row:
+                row.append({
+                    'state': tile_map[raw_tile],
+                    'snake': None
+                })
+            self._board.append(row)
 
         self._sanity_check()

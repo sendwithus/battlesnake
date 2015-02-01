@@ -12,8 +12,9 @@ db = client['battlesnake']
 
 class Model(object):
 
-    def _get_collection(self):
-        return db[self.__class__.__name__.lower()]
+    @classmethod
+    def _get_collection(cls):
+        return db[cls.__name__.lower()]
 
     def insert(self):
         doc = self.to_json()
@@ -21,11 +22,20 @@ class Model(object):
         doc['created'] = doc.get('created', datetime.now())
         self._get_collection().insert(doc)
 
-    def find(self, *args, **kwargs):
-        return self._get_collection().find(*args, **kwargs)
+    @classmethod
+    def find(cls, *args, **kwargs):
+        results = cls._get_collection().find(*args, **kwargs)
+        objects = []
 
-    def find_one(self, *args, **kwargs):
-        return self._get_collection().find_one(*args, **kwargs)
+        for result in results:
+            obj = cls.from_json(result)
+            objects.append(obj)
+
+        return objects
+
+    @classmethod
+    def find_one(cls, *args, **kwargs):
+        return cls._get_collection().find_one(*args, **kwargs)
 
 
 class Game(Model):
@@ -51,7 +61,7 @@ class Game(Model):
             'height': self._height
         }
 
-    @staticmethod
+    @classmethod
     def from_json(cls, obj):
         return cls(
             id=obj['_id'],

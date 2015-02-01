@@ -4,7 +4,7 @@ var Sidebar = React.createClass({
     render: function () {
         return (
             <div className="sidebar-inner">
-                <h3>Sidebar</h3>
+                <h3>{this.props.gameId}</h3>
                 <ul>
                 	<li>Snake 1</li>
                 	<li>Snake 2</li>

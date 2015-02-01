@@ -17,9 +17,11 @@ def index():
     return bottle.static_file('html/index.html', root='static')
 
 
-@bottle.get('/<page>')
-def page(page):
-    return bottle.static_file('html/%s.html' % page, root='static')
+@bottle.get('/play<:re:.*>')
+def page():
+    # serve play.html for anything that starts with "play/"
+    # fontend with show the correct route
+    return bottle.static_file('html/play.html', root='static')
 
 
 @bottle.get('/static/<filepath:path>')

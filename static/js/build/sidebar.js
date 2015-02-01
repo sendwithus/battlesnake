@@ -4,7 +4,7 @@ var Sidebar = React.createClass({displayName: "Sidebar",
     render: function () {
         return (
             React.createElement("div", {className: "sidebar-inner"}, 
-                React.createElement("h3", null, "Sidebar"), 
+                React.createElement("h3", null, this.props.gameId), 
                 React.createElement("ul", null, 
                 	React.createElement("li", null, "Snake 1"), 
                 	React.createElement("li", null, "Snake 2"), 

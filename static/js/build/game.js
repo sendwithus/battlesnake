@@ -15,3 +15,29 @@ var Game = React.createClass({displayName: "Game",
     }
 });
 
+var GameList = React.createClass({displayName: "GameList",
+    componentDidMount: function () {
+        $.ajax({
+            type: 'GET',
+            url: '/api/games',
+        }).done(function (response) {
+            this.setState({ games: response.data });
+        }.bind(this));
+    },
+    getInitialState: function () {
+        return { games: this.props.games || [] };
+    },
+    render: function () {
+        games = this.state.games.map(function (game, i) {
+            var path = '/play/watch/' + game._id
+            return (
+                React.createElement("li", {key: game._id}, React.createElement("a", {href: path}, game._id))
+            );
+        });
+
+        return (
+            React.createElement("ul", null, games)
+        );
+    }
+});
+

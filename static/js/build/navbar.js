@@ -14,9 +14,8 @@ var Navbar = React.createClass({displayName: "Navbar",
     getDefaultProps: function () {
         return {
             links: [ // Default nav links
-                ['#', 'Watch'],
-                ['#games', 'Games'],
-                ['#contact', 'Contact']
+                ['/play/watch', 'Watch'],
+                ['/play/rules', 'Rules']
             ]
         };
     },

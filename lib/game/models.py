@@ -3,6 +3,8 @@ from datetime import datetime
 
 from pymongo import MongoClient
 
+from lib.words import get_noun, get_adjective
+
 logger = logging.getLogger(__name__)
 client = MongoClient('mongodb://localhost:27017/')
 db = client['battlesnake']
@@ -33,13 +35,13 @@ class Game(Model):
     STATE_DONE = 'done'
 
     def __init__(self, id=None, width=10, height=10, state=STATE_CREATED):
-        self._id = id or self._generate_game_id()
+        self._id = id or self._generate_id()
         self._state = state
         self._width = width
         self._height = height
 
-    def _generate_game_id(self):
-        return 'need-to-make-ids-still'
+    def _generate_id(self):
+        return '%s-%s' % (get_adjective(), get_noun())
 
     def to_json(self):
         return {

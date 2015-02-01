@@ -51,7 +51,5 @@ def games_list():
 
     return _json_response(data)
 
-if __name__ == '__main__':
-    bottle.run(host='localhost', port=8080)
-else:
-    app = bottle.default_app()
+# Expose WSGI app
+application = bottle.default_app()

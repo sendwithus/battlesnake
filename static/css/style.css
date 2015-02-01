@@ -166,6 +166,20 @@ footer{
 	margin-top: 30px;
 }
 
+.participating{
+    text-align:center;
+    opacity: 0.5;
+    margin-top:20px;
+    -moz-transition: all .25s ease-in;
+    -webkit-transition: all .25s ease-in;
+    -o-transition: all .25s ease-in;
+    transition: all .25s ease-in;
+}
+
+.participating:hover{
+    opacity: 0.8;   
+}
+
 
 
 @media(max-width:767px){

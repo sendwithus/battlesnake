@@ -6,8 +6,8 @@ from pymongo import MongoClient
 from lib.words import get_noun, get_adjective
 
 logger = logging.getLogger(__name__)
-client = MongoClient('mongodb://localhost:27017/')
-db = client['battlesnake']
+client = MongoClient(os.environ['MONGOLAB_URI'])
+db = client.get_default_database()
 
 
 class Model(object):

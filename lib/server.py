@@ -2,7 +2,7 @@ import bottle
 
 from bottle import request
 
-from lib.game import Game
+from lib.game.models import Game
 
 
 def _json_response(data):

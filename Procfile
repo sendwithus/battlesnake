@@ -1,1 +1,1 @@
-web: newrelic-admin run-program gunicorn -c settings.gunicorn settings.wsgi:application
+web: newrelic-admin run-program gunicorn -c settings/gunicorn.py settings.wsgi:application

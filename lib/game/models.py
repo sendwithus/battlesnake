@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from lib.words import get_noun, get_adjective
 
 logger = logging.getLogger(__name__)
-client = MongoClient('mongodb://EXulounJNLEl:qMwcAdTnxbnb@mongosoup-cont002.mongosoup.de:31615/cc_EXulounJNLEl')
+client = MongoClient(os.environ['MONGOLAB_URI'])
 db = client['battlesnake']
 
 

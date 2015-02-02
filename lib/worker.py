@@ -3,7 +3,7 @@ import time
 from pymongo import MongoClient
 
 from lib.game import GameState
-client = MongoClient('mongodb://EXulounJNLEl:qMwcAdTnxbnb@mongosoup-cont002.mongosoup.de:31615/cc_EXulounJNLEl')
+client = MongoClient(os.environ['MONGOLAB_URI'])
 db = client['battlesnake']
 
 

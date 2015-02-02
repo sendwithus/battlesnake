@@ -7,7 +7,7 @@ from lib.words import get_noun, get_adjective
 
 logger = logging.getLogger(__name__)
 client = MongoClient(os.environ['MONGOLAB_URI'])
-db = client['battlesnake']
+db = client.get_default_database()
 
 
 class Model(object):

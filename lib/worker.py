@@ -4,7 +4,7 @@ from pymongo import MongoClient
 
 from lib.game import GameState
 client = MongoClient(os.environ['MONGOLAB_URI'])
-db = client['battlesnake']
+db = client.get_default_database()
 
 
 def run_game(game):

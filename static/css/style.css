@@ -177,7 +177,11 @@ footer{
 }
 
 .participating:hover{
-    opacity: 0.8;   
+    opacity: 0.8;
+}
+
+.participating img {
+	max-height: 100px;
 }
 
 

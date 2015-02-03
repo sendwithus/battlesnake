@@ -1,59 +1,46 @@
 /** @jsx React.DOM */
 
 var App = React.createClass({displayName: "App",
-    handleHashChange: function (hash) {
-        this.setState({ hash: hash });
+    mixins: [ ReactMiniRouter.RouterMixin ],
+    routes: {
+        '/': 'games',
+        '/play/watch': 'games',
+        '/play/watch/:gameId': 'watch'
     },
-    componentDidMount: function () {
-        this.handleHashChange(window.location.hash);
+    watch: function (gameId) {
+        return this.wrapPage(
+            React.createElement("div", {className: "row"}, 
+                React.createElement("div", {className: "col-md-9"}, 
+                    React.createElement(Game, {gameId: gameId})
+                ), 
+                React.createElement("div", {className: "col-md-3 sidebar"}, 
+                    React.createElement(Sidebar, {gameId: gameId})
+                )
+            )
+        );
     },
-    getInitialState: function () {
-        return { };
+    games: function () {
+        return this.wrapPage(
+            React.createElement(GameList, null)
+        );
     },
-    render: function () {
-        var page;
-
-        if (this.state.hash === '#games') {
-            page = (
-                React.createElement("div", {className: "row"}, 
-                    React.createElement("div", {className: "col-md-12"}, 
-                        React.createElement("h1", null, "Games")
-                    )
-                )
-            );
-        } else if (this.state.hash === '#contact') {
-            page = (
-                React.createElement("div", {className: "row"}, 
-                    React.createElement("div", {className: "col-md-12"}, 
-                        React.createElement("h1", null, "Contact")
-                    )
-                )
-            );
-        } else {
-            page = (
-                React.createElement("div", {className: "row"}, 
-                    React.createElement("div", {className: "col-md-9"}, 
-                        React.createElement(Game, null)
-                    ), 
-                    React.createElement("div", {className: "col-md-3 sidebar"}, 
-                        React.createElement(Sidebar, null)
-                    )
-                )
-            );
-        }
-
+    wrapPage: function (page) {
         return (
             React.createElement("div", null, 
-                React.createElement(Navbar, {onPageChange: this.handleHashChange}), 
+                React.createElement(Navbar, null), 
                 React.createElement("div", {className: "container-fluid"}, 
                     page
                 )
             )
         );
+    },
+
+    render: function () {
+        return this.renderCurrentRoute();
     }
 });
 
 // Trigger the first render
 window.onload = function () {
-    React.render(React.createElement(App, null), document.getElementById('app'));
+    React.render(React.createElement(App, {history: true}), document.getElementById('app'));
 };

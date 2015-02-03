@@ -22,11 +22,11 @@ Since game IDs may be re-used, this endpoint may be called multiple times with t
 
 ##### Request
 
-* **id** - ID of the game about to start
+* **game_id** - ID of the game about to start
 
 ```javascript
 {
-  "id": "hairy-cheese"
+  "game_id": "hairy-cheese"
 }
 ```
 
@@ -59,14 +59,14 @@ if invalid response, snake moves forward
 
 ##### Request
 
-* **id** - ID of the game being played
+* **game_id** - ID of the game being played
 * **turn** - turn number being played
 * **board** - current board state (see [Board State Objects](#board-state-objects))
 * **snakes** - array of snakes in play (see [Snake Objects](#snake-objects))
 
 ```javascript
 {
-  "id": "hairy-cheese",
+  "game_id": "hairy-cheese",
   "turn": 1,
   "board": [
     [<BoardTile>, <BoardTile>, ...],
@@ -101,11 +101,11 @@ Indicates that a specific game has ended. No more move requests will be made. No
 
 ##### Request
 
-* **id** - id of game being ended
+* **game_id** - id of game being ended
 
 ```javascript
 {
-  "id": "hairy-cheese"
+  "game_id": "hairy-cheese"
 }
 ```
 
@@ -137,17 +137,17 @@ Describes the state of the board for a specific game. Board State Objects are co
 
 ##### Board Tiles
 
-* **type** - one of ["head", "body", "food", "empty"]
+* **state** - one of ["head", "body", "food", "empty"]
   * _head_ - occupied by snake head (see snake attribute)
   * _body_ - occupied by snake body (see snake attribute)
   * _food_ - contains an uneaten piece of food
   * _empty_ - an empty tile
-* **snake** _(optional)_ - snake id of occupying snake (if applicable)
+* **snake_id** _(optional)_ - snake id of occupying snake (if applicable)
 
 ```javascript
 {
-  "type": "head",
-  "snake": "snake_19283"
+  "state": "head",
+  "snake_id": "snake_19283"
 }
 ```
 

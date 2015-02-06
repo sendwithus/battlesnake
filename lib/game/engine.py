@@ -49,7 +49,6 @@ class Engine(object):
     def update_snakes_on_board(game_state):
         snakes = game_state._snakes
         for snake in snakes:
-            print snake
             if snake['status'] is 'alive':
                 for coords in snake['coords']:
                     if coords == snake['coords'][0]:
@@ -86,7 +85,6 @@ class Engine(object):
             # Copy Old Snake
             new_snake = Engine.get_snake(game_state, snake_id)
             if new_snake['status'] == 'dead':
-                print 'this snake is dead'
                 continue
 
             # Add New Head

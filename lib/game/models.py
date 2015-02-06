@@ -1,15 +1,13 @@
 import logging
-import os
 
 from datetime import datetime
 
-from pymongo import MongoClient
-
+from lib.mongo import get_mongodb
 from lib.words import get_noun, get_adjective
 
 logger = logging.getLogger(__name__)
-client = MongoClient(os.environ['MONGOLAB_URI'])
-db = client.get_default_database()
+
+db = get_mongodb()
 
 
 class Model(object):

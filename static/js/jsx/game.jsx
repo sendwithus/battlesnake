@@ -36,7 +36,10 @@ var GameList = React.createClass({
         });
 
         return (
-            <ul>{games}</ul>
+            <div>
+                <h2>Current Games</h2>
+                <ul>{games}</ul>
+            </div>
         );
     }
 });

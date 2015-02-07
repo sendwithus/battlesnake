@@ -36,7 +36,10 @@ var GameList = React.createClass({displayName: "GameList",
         });
 
         return (
-            React.createElement("ul", null, games)
+            React.createElement("div", null, 
+                React.createElement("h2", null, "Current Games"), 
+                React.createElement("ul", null, games)
+            )
         );
     }
 });

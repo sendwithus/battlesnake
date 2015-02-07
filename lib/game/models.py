@@ -2,6 +2,8 @@ import logging
 
 from datetime import datetime
 
+import pymongo
+
 from lib.mongo import get_mongodb
 from lib.words import get_noun, get_adjective
 
@@ -17,25 +19,28 @@ class Model(object):
         return db[cls.__name__.lower()]
 
     def insert(self):
-        doc = self.to_json()
+        doc = self.to_dict()
         doc['modified'] = datetime.now()
         doc['created'] = doc.get('created', datetime.now())
         self._get_collection().insert(doc)
 
     @classmethod
     def find(cls, *args, **kwargs):
-        results = cls._get_collection().find(*args, **kwargs)
+        results = cls._get_collection().find(*args, **kwargs).sort(
+            'created', pymongo.DESCENDING)
+
         objects = []
 
         for result in results:
-            obj = cls.from_json(result)
+            obj = cls.from_dict(result)
             objects.append(obj)
 
         return objects
 
     @classmethod
     def find_one(cls, *args, **kwargs):
-        return cls._get_collection().find_one(*args, **kwargs)
+        doc = cls._get_collection().find_one(*args, **kwargs)
+        return cls.from_dict(doc)
 
 
 class Game(Model):
@@ -53,7 +58,7 @@ class Game(Model):
     def _generate_id(self):
         return '%s-%s' % (get_adjective(), get_noun())
 
-    def to_json(self):
+    def to_dict(self):
         return {
             '_id': self._id,
             'state': self._state,
@@ -62,7 +67,7 @@ class Game(Model):
         }
 
     @classmethod
-    def from_json(cls, obj):
+    def from_dict(cls, obj):
         return cls(
             id=obj['_id'],
             state=obj['state'],
@@ -129,7 +134,7 @@ class GameState(Model):
 
     # Serialize/Deserialize
 
-    def to_json(self):
+    def to_dict(self):
         return {
             'game_id': self._game_id,
             'turn': self._turn,
@@ -137,7 +142,7 @@ class GameState(Model):
             'snakes': self._snakes[:]
         }
 
-    def from_json(self, obj):
+    def from_dict(self, obj):
         self._game_id = obj['game_id']
         self._turn = obj['turn']
         self._board = obj['board']

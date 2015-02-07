@@ -38,7 +38,15 @@ def games_create():
     game = Game(width=width, height=height)
     game.insert()
 
-    return _json_response(game.to_json())
+    return _json_response(game.to_dict())
+
+
+@bottle.post('/api/games/:game_id/turn')
+def game_start(game_id):
+    game = Game.find_one({'_id': game_id})
+    from lib.controller import game_controller
+    game_controller.turn(game)
+    return _json_response(game.to_dict())
 
 
 @bottle.get('/api/games')
@@ -46,10 +54,16 @@ def games_list():
     games = Game.find()
     data = []
     for game in games:
-        obj = game.to_json()
+        obj = game.to_dict()
         data.append(obj)
 
     return _json_response(data)
+
+
+@bottle.get('/api/games/:game_id')
+def game_details(game_id):
+    game = Game.find_one({'_id': game_id})
+    return _json_response(game.to_dict())
 
 # Expose WSGI app
 application = bottle.default_app()

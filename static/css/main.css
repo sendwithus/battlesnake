@@ -1,7 +1,5 @@
 body {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 400;
-    font-size: 16px;
+    font-family: 'Orbitron', sans-serif; font-weight: 400; font-size: 16px;
     background: #333;
     color: #ddd;
 }
@@ -9,6 +7,14 @@ body {
 canvas {
     margin: auto;
     display: block;
+}
+
+a {
+    color: #aaa;
+}
+
+a:hover {
+    color: #ccc;
 }
 
 .navbar {

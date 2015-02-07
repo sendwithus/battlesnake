@@ -9,15 +9,26 @@ class Engine(object):
     MOVE_LEFT = 'left'
     MOVE_RIGHT = 'right'
 
-    @staticmethod
-    def create_game(game):
-
-        game_state = GameState(
-            game_id=game._id,
-            width=game._width,
-            height=game._height)
-
+    @classmethod
+    def create_game_state(cls, game):
+        game_state = GameState(game_id=game._id)
+        game_state._board = cls.create_board(game._width, game._height)
         return game_state
+
+    @staticmethod
+    def create_board(width, height):
+        board = []
+
+        for x in range(width):
+            board.append([])
+
+            for y in range(height):
+                board[x].append({
+                    'state': GameState.TILE_STATE_EMPTY,
+                    'snake': None
+                })
+
+        return board
 
     @staticmethod
     def add_snakes_to_board(game_state, snakes):
@@ -35,9 +46,9 @@ class Engine(object):
     @staticmethod
     def add_random_food_to_board(game_state):
         found_space = False
-        while(found_space is False):
-            x = randint(0, len(game_state._board[0])-1)
-            y = randint(0, len(game_state._board)-1)
+        while found_space is False:
+            x = randint(0, len(game_state._board[0]) - 1)
+            y = randint(0, len(game_state._board) - 1)
             coords = (x, y)
             found_space = True
             for snake in game_state._snakes:
@@ -59,8 +70,8 @@ class Engine(object):
 
         return game_state
 
-    @staticmethod
-    def update_snakes_on_board(game_state):
+    @classmethod
+    def update_snakes_on_board(cls, game_state):
         snakes = game_state._snakes
         for snake in snakes:
             if snake['status'] is 'alive':
@@ -70,7 +81,7 @@ class Engine(object):
                     else:
                         state = GameState.TILE_STATE_SNAKE_BODY
 
-                    Engine.set_coords(
+                    cls.set_coords(
                         game_state=game_state,
                         coords=coords,
                         state=state,
@@ -85,8 +96,8 @@ class Engine(object):
                 coords=coords,
                 state=GameState.TILE_STATE_FOOD)
 
-    @staticmethod
-    def resolve_moves(game_state, moves):
+    @classmethod
+    def resolve_moves(cls, game_state, moves):
         # Determine what snakes and food are left on the board after this turn
         new_snakes = []
         new_food = list(game_state._food)
@@ -97,25 +108,25 @@ class Engine(object):
             snake_id = move['snake_id']
 
             # Copy Old Snake
-            new_snake = Engine.copy_snake(game_state, snake_id)
+            new_snake = cls.copy_snake(game_state, snake_id)
             if new_snake['status'] == 'dead':
                 new_snakes.append(new_snake)
                 continue
 
             # Add New Head
-            if action == Engine.MOVE_UP:
+            if action == cls.MOVE_UP:
                 new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (-1, 0)))
                 new_snake['coords'].insert(0, new_head)
 
-            if action == Engine.MOVE_DOWN:
+            if action == cls.MOVE_DOWN:
                 new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (1, 0)))
                 new_snake['coords'].insert(0, new_head)
 
-            if action == Engine.MOVE_RIGHT:
+            if action == cls.MOVE_RIGHT:
                 new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (0, 1)))
                 new_snake['coords'].insert(0, new_head)
 
-            if action == Engine.MOVE_LEFT:
+            if action == cls.MOVE_LEFT:
                 new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (0, -1)))
                 new_snake['coords'].insert(0, new_head)
 
@@ -168,7 +179,7 @@ class Engine(object):
                 # Head to Body Collision
                 if snake['coords'][0] in check_snake['coords']:
                     kill.append(snake['snake_id'])
-                    grow[check_snake['snake_id']] = grow.get(snake['snake_id'], 0) + int(len(snake['coords'])/2)
+                    grow[check_snake['snake_id']] = grow.get(snake['snake_id'], 0) + int(len(snake['coords']) / 2)
 
                 if snake['coords'][0] in new_food:
                     eaten.append(snake['coords'][0])
@@ -189,21 +200,18 @@ class Engine(object):
                 new_food.remove(food)
 
         # Create new_game_state using new_snakes and new_food
-        new_game_state = GameState(
-            game_id=game_state._game_id,
-            width=len(game_state._board),
-            height=len(game_state._board[0]))
-
+        import copy
+        new_game_state = copy.deepcopy(game_state)
         new_game_state._snakes = new_snakes
         new_game_state._food = new_food
         new_game_state._turn = game_state._turn + 1
 
         # Add food every 3 turns
         if new_game_state._turn % 3 == 0:
-            Engine.add_random_food_to_board(new_game_state)
+            cls.add_random_food_to_board(new_game_state)
 
-        Engine.update_snakes_on_board(new_game_state)
-        Engine.update_food_on_board(new_game_state)
+        cls.update_snakes_on_board(new_game_state)
+        cls.update_food_on_board(new_game_state)
 
         return new_game_state
 

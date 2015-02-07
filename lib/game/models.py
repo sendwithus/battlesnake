@@ -1,6 +1,7 @@
 import logging
 
 from datetime import datetime
+from uuid import uuid1
 
 import pymongo
 
@@ -13,6 +14,18 @@ db = get_mongodb()
 
 
 class Model(object):
+
+    def __unicode__(self):
+        return '%s[%s]' % (self.__class__.__name__, self._id)
+
+    def __str__(self):
+        if hasattr(self, '__unicode__'):
+            return self.__unicode__().encode('utf-8')
+        else:
+            return super(Game, self).__str__()
+
+    def __repr__(self):
+        return self.__str__()
 
     @classmethod
     def _get_collection(cls):
@@ -89,18 +102,10 @@ class GameState(Model):
         TILE_STATE_FOOD
     ]
 
-    def __init__(self, game_id, width, height):
-
+    def __init__(self, game_id):
+        self._id = uuid1()
         self._game_id = game_id
         self._board = []
-        for x in range(width):
-            self._board.append([])
-            for y in range(height):
-                self._board[x].append({
-                    'state': GameState.TILE_STATE_EMPTY,
-                    'snake': None
-                })
-
         self._snakes = []
         self._food = []
         self._turn = 0
@@ -144,15 +149,6 @@ class GameState(Model):
             'food': self._food[:]
         }
 
-    def from_dict(self, obj):
-        self._game_id = obj['game_id']
-        self._turn = obj['turn']
-        self._board = obj['board']
-        self._snakes = obj['snakes']
-        self._food = obj['food']
-
-        self._sanity_check()
-
     def to_string(self):
         self._sanity_check()
 
@@ -193,3 +189,15 @@ class GameState(Model):
             self._board.append(row)
 
         self._sanity_check()
+
+    @classmethod
+    def from_dict(cls, obj):
+        game_state = cls(obj['game_id'])
+        game_state._turn = obj['turn']
+        game_state._board = obj['board']
+        game_state._snakes = obj['snakes']
+        game_state._food = obj['food']
+
+        game_state._sanity_check()
+
+        return game_state

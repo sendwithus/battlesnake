@@ -1,8 +1,9 @@
 import bottle
 
-from bottle import request
+from bottle import request, abort
 
 from lib.game.models import Game
+from lib import controller
 
 
 def _json_response(data):
@@ -31,22 +32,63 @@ def server_static(filepath):
 
 @bottle.post('/api/games')
 def games_create():
+    data = request.json
+    print data
 
-    width = request.query.get('w', 10)
-    height = request.query.get('h', 10)
+    if data is None:
+        return abort(400, 'No request body')
 
-    game = Game(width=width, height=height)
-    game.insert()
+    width = data.get('w', 10)
+    height = data.get('h', 10)
 
-    return _json_response(game.to_dict())
+    # try:
+    #     snake_urls = data['snakes_urls']
+    # except KeyError:
+    #     return abort(400, 'Invalid snakes')
+
+    snakes = [
+        {
+            'snake_id': 'snake_1',
+            'coords': [(1, 1), (1, 1)],
+            'status': 'alive'
+        },
+        {
+            'snake_id': 'snake_2',
+            'coords': [(3, 3), (3, 3)],
+            'status': 'alive'
+        }
+    ]
+
+    game, game_state = controller.create_game(
+        width=width,
+        height=height,
+        snakes=snakes
+    )
+
+    return _json_response({
+        'game': game.to_dict(),
+        'game_state': game_state.to_dict()
+    })
 
 
 @bottle.post('/api/games/:game_id/turn')
-def game_start(game_id):
+def game_turn(game_id):
     game = Game.find_one({'_id': game_id})
-    from lib.controller import game_controller
-    game_controller.turn(game)
-    return _json_response(game.to_dict())
+
+    moves = [
+        {
+            'snake_id': 'snake_1',
+            'action': 'right'
+        },
+        {
+            'snake_id': 'snake_2',
+            'action': 'left'
+        }
+    ]
+
+    game_state = controller.next_turn(game, moves)
+
+    return _json_response(game_state.to_dict())
 
 
 @bottle.get('/api/games')

@@ -73,9 +73,10 @@ MOVES_5 = [
     }
 ]
 
+
 def check_game_state(test_file):
     game = Game()
-    g = Engine.create_game(game)
+    g = Engine.create_game_state(game)
 
     # Load game state
     with open('%s/%s.in' % (ROOT_DATA_DIR, test_file)) as f:
@@ -142,7 +143,6 @@ def check_game_state(test_file):
     g = Engine.resolve_moves(g, MOVES_4)
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()
-
 
     # TODO: APPLY STATE CHANGES
 

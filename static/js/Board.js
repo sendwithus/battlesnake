@@ -219,7 +219,7 @@ Board.prototype.drawSquare = function (x, y, square) {
 
 Board.prototype.getSnake = function (id) {
   var snake_config = null;
-  for (var i=0; i<this.gameState.snakes.length; i++) {
+  for (var i = 0; i < this.gameState.snakes.length; i++) {
     var config = this.gameState.snakes[i];
     if (config.id === id) {
       snake_config = config;

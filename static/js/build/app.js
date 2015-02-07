@@ -9,14 +9,7 @@ var App = React.createClass({displayName: "App",
     },
     watch: function (gameId) {
         return this.wrapPage(
-            React.createElement("div", {className: "row"}, 
-                React.createElement("div", {className: "col-md-9"}, 
-                    React.createElement(Game, {gameId: gameId})
-                ), 
-                React.createElement("div", {className: "col-md-3 sidebar"}, 
-                    React.createElement(Sidebar, {gameId: gameId})
-                )
-            )
+            React.createElement(Game, {gameId: gameId})
         );
     },
     games: function () {

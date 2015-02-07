@@ -102,6 +102,7 @@ class GameState(Model):
                 })
 
         self._snakes = []
+        self._food = []
         self._turn = 0
 
     def _sanity_check(self):
@@ -139,7 +140,8 @@ class GameState(Model):
             'game_id': self._game_id,
             'turn': self._turn,
             'board': self._board[:],
-            'snakes': self._snakes[:]
+            'snakes': self._snakes[:],
+            'food': self._food[:]
         }
 
     def from_dict(self, obj):
@@ -147,6 +149,7 @@ class GameState(Model):
         self._turn = obj['turn']
         self._board = obj['board']
         self._snakes = obj['snakes']
+        self._food = obj['food']
 
         self._sanity_check()
 

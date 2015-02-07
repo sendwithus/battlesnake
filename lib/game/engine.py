@@ -1,3 +1,5 @@
+import copy
+from random import randint
 from lib.game.models import GameState
 
 
@@ -26,12 +28,24 @@ class Engine(object):
             game_state._snakes.append(snake)
 
             # Add snake to ._board
-            Engine.set_coords(
-                game_state=game_state,
-                coords=snake['coords'][0],
-                state=GameState.TILE_STATE_SNAKE_HEAD,
-                snake_id=snake['snake_id'])
+            Engine.update_snakes_on_board(game_state)
 
+        return game_state
+
+    @staticmethod
+    def add_random_food_to_board(game_state):
+        found_space = False
+        while(found_space is False):
+            x = randint(0, len(game_state._board[0])-1)
+            y = randint(0, len(game_state._board)-1)
+            coords = (x, y)
+            found_space = True
+            for snake in game_state._snakes:
+                if coords in snake['coords']:
+                    if snake['status'] is 'alive':
+                        found_space = False
+
+        Engine.add_food_to_board(game_state, (x, y))
         return game_state
 
     @staticmethod
@@ -75,7 +89,7 @@ class Engine(object):
     def resolve_moves(game_state, moves):
         # Determine what snakes and food are left on the board after this turn
         new_snakes = []
-        new_food = game_state._food
+        new_food = list(game_state._food)
 
         # Determine New Snake Positions
         for move in moves:
@@ -83,20 +97,24 @@ class Engine(object):
             snake_id = move['snake_id']
 
             # Copy Old Snake
-            new_snake = Engine.get_snake(game_state, snake_id)
+            new_snake = Engine.copy_snake(game_state, snake_id)
             if new_snake['status'] == 'dead':
+                new_snakes.append(new_snake)
                 continue
 
             # Add New Head
             if action == Engine.MOVE_UP:
                 new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (-1, 0)))
                 new_snake['coords'].insert(0, new_head)
+
             if action == Engine.MOVE_DOWN:
                 new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (1, 0)))
                 new_snake['coords'].insert(0, new_head)
+
             if action == Engine.MOVE_RIGHT:
                 new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (0, 1)))
                 new_snake['coords'].insert(0, new_head)
+
             if action == Engine.MOVE_LEFT:
                 new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (0, -1)))
                 new_snake['coords'].insert(0, new_head)
@@ -113,11 +131,35 @@ class Engine(object):
 
         # Check Collisions
         for snake in new_snakes:
-            for check_snake in new_snakes:
 
-                # Ignore Self
-                if snake['snake_id'] == check_snake['snake_id']:
+            # Don't Check Collisions for Dead Snakes
+            if snake['status'] is 'dead':
+                continue
+
+            # Check for wall collisions
+            if snake['coords'][0][0] < 0:
+                kill.append(snake['snake_id'])
+
+            if snake['coords'][0][1] < 0:
+                kill.append(snake['snake_id'])
+
+            if snake['coords'][0][0] >= len(game_state._board):
+                kill.append(snake['snake_id'])
+
+            if snake['coords'][0][1] >= len(game_state._board[0]):
+                kill.append(snake['snake_id'])
+
+            for check_snake in new_snakes:
+                # Ignore Dead Snakes
+                if check_snake['status'] is 'dead':
                     continue
+
+                # Self Collision or Ignore Self
+                if snake['snake_id'] == check_snake['snake_id']:
+                    if snake['coords'][0] in check_snake['coords'][1:]:
+                        kill.append(snake['snake_id'])
+                    else:
+                        continue
 
                 # Head to Head Collision
                 if snake['coords'][0] == check_snake['coords'][0]:
@@ -126,14 +168,14 @@ class Engine(object):
                 # Head to Body Collision
                 if snake['coords'][0] in check_snake['coords']:
                     kill.append(snake['snake_id'])
-                    grow[check_snake['snake_id']] = grow.get(snake['snake_id'], 0) + len(snake['coords'])/2
+                    grow[check_snake['snake_id']] = grow.get(snake['snake_id'], 0) + int(len(snake['coords'])/2)
 
                 if snake['coords'][0] in new_food:
                     eaten.append(snake['coords'][0])
                     grow[snake['snake_id']] = grow.get(snake['snake_id'], 0) + 1
 
         # Resolve Collisions
-        for i, snake in enumerate(new_snakes):
+        for snake in new_snakes:
 
             if snake['snake_id'] in kill:
                 snake['status'] = 'dead'
@@ -146,25 +188,30 @@ class Engine(object):
             if food in eaten:
                 new_food.remove(food)
 
-
         # Create new_game_state using new_snakes and new_food
         new_game_state = GameState(
             game_id=game_state._game_id,
             width=len(game_state._board),
             height=len(game_state._board[0]))
+
         new_game_state._snakes = new_snakes
         new_game_state._food = new_food
         new_game_state._turn = game_state._turn + 1
+
+        # Add food every 3 turns
+        if new_game_state._turn % 3 == 0:
+            Engine.add_random_food_to_board(new_game_state)
+
         Engine.update_snakes_on_board(new_game_state)
         Engine.update_food_on_board(new_game_state)
 
         return new_game_state
 
     @staticmethod
-    def get_snake(game_state, snake_id):
+    def copy_snake(game_state, snake_id):
         for snake in game_state._snakes:
             if snake['snake_id'] == snake_id:
-                return snake
+                return copy.deepcopy(snake)
 
     # Set Coords (x, y) to State
     @staticmethod

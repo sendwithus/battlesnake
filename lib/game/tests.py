@@ -51,6 +51,28 @@ MOVES_3 = [
     }
 ]
 
+MOVES_4 = [
+    {
+        'snake_id': 'snake_1',
+        'action': 'up'
+    },
+    {
+        'snake_id': 'snake_2',
+        'action': 'right'
+    }
+]
+
+MOVES_5 = [
+    {
+        'snake_id': 'snake_1',
+        'action': 'left'
+    },
+    {
+        'snake_id': 'snake_2',
+        'action': 'right'
+    }
+]
+
 def check_game_state(test_file):
     game = Game()
     g = Engine.create_game(game)
@@ -84,7 +106,7 @@ def check_game_state(test_file):
     g = Engine.resolve_moves(g, MOVES_2)
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_3)
+    g = Engine.resolve_moves(g, MOVES_2)
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()
     g = Engine.resolve_moves(g, MOVES_3)
@@ -97,6 +119,27 @@ def check_game_state(test_file):
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()
     g = Engine.resolve_moves(g, MOVES_3)
+    print 'Game State Turn[' + str(g._turn) + ']\n'
+    print g.to_string()
+    g = Engine.resolve_moves(g, MOVES_1)
+    print 'Game State Turn[' + str(g._turn) + ']\n'
+    print g.to_string()
+    g = Engine.resolve_moves(g, MOVES_1)
+    print 'Game State Turn[' + str(g._turn) + ']\n'
+    print g.to_string()
+    g = Engine.resolve_moves(g, MOVES_4)
+    print 'Game State Turn[' + str(g._turn) + ']\n'
+    print g.to_string()
+    g = Engine.resolve_moves(g, MOVES_4)
+    print 'Game State Turn[' + str(g._turn) + ']\n'
+    print g.to_string()
+    g = Engine.resolve_moves(g, MOVES_4)
+    print 'Game State Turn[' + str(g._turn) + ']\n'
+    print g.to_string()
+    g = Engine.resolve_moves(g, MOVES_4)
+    print 'Game State Turn[' + str(g._turn) + ']\n'
+    print g.to_string()
+    g = Engine.resolve_moves(g, MOVES_4)
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()
 

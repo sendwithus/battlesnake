@@ -30,6 +30,7 @@ Snake.prototype._loadImg = function() {
     };
     img.src = this.headImg;
   }
+
   return this.img;
 };
 

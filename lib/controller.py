@@ -16,7 +16,10 @@ def create_game(snakes, width, height):
     # Save the first GameState
     game_state.insert()
 
-    print game_state
+    print '----------------------------'
+    print game
+    print game_state.to_string()
+    print '----------------------------'
 
     return (game, game_state)
 
@@ -28,6 +31,11 @@ def next_turn(game, moves):
         game_state = game_states[0]
         next_game_state = Engine.resolve_moves(game_state, moves)
         next_game_state.insert()
+
+        print game_state.to_string()
+        print '----------------------------'
+        print next_game_state.to_string()
+        print '----------------------------'
 
         return next_game_state
     else:

@@ -5,11 +5,17 @@ var App = React.createClass({displayName: "App",
     routes: {
         '/': 'games',
         '/play/watch': 'games',
+        '/play/create': 'create',
         '/play/watch/:gameId': 'watch'
     },
     watch: function (gameId) {
         return this.wrapPage(
             React.createElement(Game, {gameId: gameId})
+        );
+    },
+    create: function () {
+        return this.wrapPage(
+            React.createElement(GameCreate, null)
         );
     },
     games: function () {

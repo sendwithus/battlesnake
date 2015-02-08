@@ -22,7 +22,7 @@ window.snakewithus = {
   },
   COLORS: {
     FOOD: '#F79E53',
-    EMPTY: '#444'
+    EMPTY: 'rgba(0, 0, 0, 0.2)'
   },
   MAX_COLOR: 255,
   MIN_COLOR: 120,

@@ -32,7 +32,7 @@ Board.prototype.resize = function() {
   this.canvas.width  = this.SQUARE_SIZE * this.dimensions[0];
   this.canvas.height = this.SQUARE_SIZE * this.dimensions[1];
 
-  // this.update(this.gameState);
+  if (this.gameState) { this.update(this.gameState); }
 };
 
 Board.prototype.init = function (width, height) {
@@ -191,6 +191,8 @@ Board.prototype.drawSquare = function (x, y, square) {
       'ERROR: More than one object returned at square', x, y
     );
   }
+
+  // console.log('DRAWING SQUARE', x, y, square.state);
 
   var snake;
   var head;

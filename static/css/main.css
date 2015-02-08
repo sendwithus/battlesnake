@@ -1,12 +1,19 @@
 body {
     font-family: 'Orbitron', sans-serif; font-weight: 400; font-size: 16px;
-    background: #333;
+    /* background: #221E1D url('/static/img/bg-battlesnake.jpg') top center no-repeat; */
+    /* background-size: cover; */
+    background: #221E1D;
     color: #ddd;
 }
 
 canvas {
     margin: auto;
     display: block;
+}
+
+form {
+    max-width: 500px;
+    margin: auto;
 }
 
 a {
@@ -21,14 +28,32 @@ a:hover {
     border-radius: 0;
 }
 
-.float-right {
-    float: right;
+.navbar .navbar-brand img {
+    height: 37px;
+    margin-top: -10px;
+}
+
+.navbar-inverse {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 0;
 }
 
 .site-links {
     float: right;
     padding: 0;
 }
+
+
+/** HELPERS **/
+
+.float-right {
+    float: right;
+}
+
+.stretch {
+    width: 100%;
+}
+
 
 /** MEDIA QUERIES **/
 

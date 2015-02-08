@@ -15,7 +15,8 @@ var Navbar = React.createClass({
         return {
             links: [ // Default nav links
                 ['/play/watch', 'Watch'],
-                ['/play/rules', 'Rules']
+                ['/play/create', 'New Game'],
+                ['/play/rules', 'Rules'],
             ]
         };
     },
@@ -37,7 +38,9 @@ var Navbar = React.createClass({
             <nav className="navbar navbar-inverse">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <a className="navbar-brand" href="#">Battle Snake</a>
+                        <a className="navbar-brand" href="#">
+                            <img src="http://localhost:8080/static/img/logo-battlesnake.png" />
+                        </a>
                         <button type="button"
                                 className="navbar-toggle collapsed"
                                 onClick={this.handleNavToggle}>

@@ -32,7 +32,7 @@ Board.prototype.resize = function() {
   this.canvas.width  = this.SQUARE_SIZE * this.dimensions[0];
   this.canvas.height = this.SQUARE_SIZE * this.dimensions[1];
 
-  // this.update(this.gameState);
+  if (this.gameState) { this.update(this.gameState); }
 };
 
 Board.prototype.init = function (width, height) {
@@ -192,6 +192,8 @@ Board.prototype.drawSquare = function (x, y, square) {
     );
   }
 
+  // console.log('DRAWING SQUARE', x, y, square.state);
+
   var snake;
   var head;
 
@@ -229,7 +231,7 @@ Board.prototype.getSnake = function (id) {
   var snake_data = null;
   for (var i = 0; i < this.gameState.snakes.length; i++) {
     var s = this.gameState.snakes[i];
-    if (s.snake_id === id) {
+    if (s.id === id) {
       snake_data = s;
       break;
     }

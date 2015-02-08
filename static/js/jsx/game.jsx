@@ -88,10 +88,11 @@ var GameSidebar = React.createClass({
             <div className="game-sidebar sidebar-inner">
                 <h3>{this.props.gameId}</h3>
 
-                <h4>Alive</h4>
+                <p>Living Snakes</p>
                 <ul>{snakes}</ul>
-                <h4>Dead</h4>
+                <p>Dead Snakes</p>
                 <ul>{deadSnakes}</ul>
+                <hr />
                 <button className="btn btn-success stretch" onClick={this.props.nextTurn}>
                     Next Turn
                 </button>

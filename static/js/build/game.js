@@ -88,10 +88,11 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
             React.createElement("div", {className: "game-sidebar sidebar-inner"}, 
                 React.createElement("h3", null, this.props.gameId), 
 
-                React.createElement("h4", null, "Alive"), 
+                React.createElement("p", null, "Living Snakes"), 
                 React.createElement("ul", null, snakes), 
-                React.createElement("h4", null, "Dead"), 
+                React.createElement("p", null, "Dead Snakes"), 
                 React.createElement("ul", null, deadSnakes), 
+                React.createElement("hr", null), 
                 React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.nextTurn}, 
                     "Next Turn"
                 ), 

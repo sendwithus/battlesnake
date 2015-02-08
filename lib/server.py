@@ -4,6 +4,10 @@ from bottle import request, abort
 
 from lib.game.models import Game
 from lib import controller
+from lib.caller import call_endpoints_async
+
+
+CLIENT_TIMEOUT_SECONDS = 2
 
 
 def _json_response(data):
@@ -41,23 +45,42 @@ def games_create():
     width = data.get('w', 10)
     height = data.get('h', 10)
 
-    # try:
-    #     snake_urls = data['snakes_urls']
-    # except KeyError:
-    #     return abort(400, 'Invalid snakes')
+    try:
+        snake_urls = data['snakes_urls']
+    except KeyError:
+        return abort(400, 'Invalid snakes')
 
+    # Call each snake endpoint
+    start_urls = ['%s/%s' % (url, 'start') for url in snake_urls]
+    responses = call_endpoints_async(
+        payload=None,
+        urls=start_urls,
+        timeout=CLIENT_TIMEOUT_SECONDS
+    )
+
+    # Attach each snake's URL
+    for url, snake in responses.iteritems():
+        snake['url'] = url
+
+    # Extract the array of snakes
+    snakes = responses.values()
+
+    '''
     snakes = [
         {
             'snake_id': 'snake_1',
             'coords': [(1, 1), (1, 1)],
-            'status': 'alive'
+            'status': 'alive',
+            'url': 'http://snake_1.herokuapp.com'
         },
         {
             'snake_id': 'snake_2',
             'coords': [(3, 3), (3, 3)],
-            'status': 'alive'
+            'status': 'alive',
+            'url': 'http://snake_2.herokuapp.com/mk1'
         }
     ]
+    '''
 
     game, game_state = controller.create_game(
         width=width,
@@ -75,6 +98,19 @@ def games_create():
 def game_turn(game_id):
     game = Game.find_one({'_id': game_id})
 
+    # Load snake URLs from the game
+    snake_urls = [snake['url'] for snake in game.snakes]
+
+    # Call each snake endpoint
+    move_urls = ['%s/%s' % (url, 'move') for url in snake_urls]
+    responses = call_endpoints_async(
+        payload=None,
+        urls=move_urls,
+        timeout=CLIENT_TIMEOUT_SECONDS
+    )
+    moves = responses.values()
+
+    '''
     moves = [
         {
             'snake_id': 'snake_1',
@@ -85,6 +121,7 @@ def game_turn(game_id):
             'action': 'left'
         }
     ]
+    '''
 
     game_state = controller.next_turn(game, moves)
 

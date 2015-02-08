@@ -38,7 +38,7 @@ var Navbar = React.createClass({
             <nav className="navbar navbar-inverse">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <a className="navbar-brand" href="#">
+                        <a className="navbar-brand" href="/play/watch">
                             <img src="http://localhost:8080/static/img/logo-battlesnake.png" />
                         </a>
                         <button type="button"

@@ -38,7 +38,7 @@ var Navbar = React.createClass({displayName: "Navbar",
             React.createElement("nav", {className: "navbar navbar-inverse"}, 
                 React.createElement("div", {className: "container-fluid"}, 
                     React.createElement("div", {className: "navbar-header"}, 
-                        React.createElement("a", {className: "navbar-brand", href: "#"}, 
+                        React.createElement("a", {className: "navbar-brand", href: "/play/watch"}, 
                             React.createElement("img", {src: "http://localhost:8080/static/img/logo-battlesnake.png"})
                         ), 
                         React.createElement("button", {type: "button", 

@@ -5,8 +5,9 @@ window.snakewithus = {
   HEAD_OPACITY: 1,
   BODY_OPACITY: 0.5,
   SQUARE_TYPES: {
-    SNAKE: 'snake',
-    SNAKE_HEAD: 'snake_head',
+    EMPTY: 'empty',
+    SNAKE: 'body',
+    SNAKE_HEAD: 'head',
     FOOD: 'food'
   },
   DIRECTIONS: {

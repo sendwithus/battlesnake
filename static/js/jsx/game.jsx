@@ -25,7 +25,8 @@ var Game = React.createClass({
         var canvas = this.refs.canvas.getDOMNode();
         var ctx = canvas.getContext('2d');
         var board = new Board(ctx, canvas);
-        board.init(this.state.latestGameState, function () { });
+        board.init(this.state.game.width, this.state.game.height);
+        board.update(this.state.latestGameState);
     },
     getInitialState: function () {
         return {

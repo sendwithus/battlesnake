@@ -58,15 +58,13 @@ h3{
 
 a{
     color: #666;
-    text-decoration: underline;
 }
 
 .orange{color:#F7931D;}
 
-a.btn{
+.btn{
 	border: none;
 	border-radius: 0;
-    text-decoration: none;
 }
 
 .btn:focus,

@@ -4,6 +4,7 @@ var Snake = function(config_data) {
   this.headImg = 'http://screenshots.en.sftcdn.net/en/scrn/3332000/3332933/snake-iii-3d-01-100x100.png';
   this.color = config_data.color || 'red';
   this.img = null;
+  this._loadImg();
 };
 
 Snake.prototype.getColor = function() {

@@ -6,7 +6,7 @@ var Game = React.createClass({
             type: 'POST',
             url: '/api/games/' + this.props.gameId + '/turn'
         }).done(function (response) {
-            console.log('Got GameState', response.data);
+            // console.log('Got GameState', response.data);
             var gameState = response.data;
 
             if (gameState.snakes.length === 0) {
@@ -30,12 +30,19 @@ var Game = React.createClass({
             this.handleClickNextTurn();
         }.bind(this));
     },
+    getBoard: function () {
+        if (!this.board) {
+            var canvas = this.refs.canvas.getDOMNode();
+            var ctx = canvas.getContext('2d');
+            this.board = new Board(ctx, canvas);
+        }
+
+        return this.board;
+    },
     componentDidUpdate: function (prevProps, prevState) {
         if (!this.state.latestGameState) { return; }
 
-        var canvas = this.refs.canvas.getDOMNode();
-        var ctx = canvas.getContext('2d');
-        var board = new Board(ctx, canvas);
+        var board = this.getBoard();
 
         board.init(this.state.game.width, this.state.game.height);
         board.update(this.state.latestGameState);

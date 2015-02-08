@@ -229,6 +229,9 @@ Board.prototype.drawSquare = function (x, y, square) {
 
 Board.prototype.getSnake = function (id) {
   var snake_data = null;
+
+  if (this.snakeCache[id]) { return this.snakeCache[id]; }
+
   for (var i = 0; i < this.gameState.snakes.length; i++) {
     var s = this.gameState.snakes[i];
     if (s.id === id) {
@@ -237,7 +240,9 @@ Board.prototype.getSnake = function (id) {
     }
   }
 
-  return new Snake(snake_data);
+  var snake = new Snake(snake_data);
+  this.snakeCache[id] = snake;
+  return snake;
 };
 
 Board.prototype.getBoardDimensions = function (board) {

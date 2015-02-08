@@ -29,3 +29,43 @@ BattleSnake is an adaptation of the classic video game "Snake" where you control
 * Killing another snake by cutting them off with your body will increase the length of your own snake.
 * Kills net you HALF of the vitims length rounded down.
 
+## GameState
+
+{
+    'snakes':[
+        {
+            'id': 'snake_1',
+            'coords': [
+                (1, 2),
+                (1, 3),
+                (1, 4),
+                (2, 4)
+            ],
+            'status': 'alive',
+            ### other info
+        },
+    ],
+    'food':[
+        (4, 0),
+        (6, 2),
+        (6, 7)
+    ]
+    'board':[
+        [
+            [
+                {
+                    'state': 'empty, food, head, body',
+                    'snake_id': 'snake_id, null'
+                }
+            ], [
+            ], [
+            ], [
+            ], [
+            ]
+        ], [
+        ], [
+        ], [
+        ], [
+        ]
+    ]
+}

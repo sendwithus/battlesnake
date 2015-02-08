@@ -7,12 +7,12 @@ from engine import Engine
 ROOT_DATA_DIR = 'lib/game/data'
 SNAKES = [
     {
-        'snake_id': 'snake_1',
+        'id': 'snake_1',
         'coords': [(1, 1), (1, 1)],
         'status': 'alive'
     },
     {
-        'snake_id': 'snake_2',
+        'id': 'snake_2',
         'coords': [(3, 3), (3, 3)],
         'status': 'alive'
     }
@@ -76,7 +76,7 @@ MOVES_5 = [
 
 def check_game_state(test_file):
     game = Game()
-    g = Engine.create_game_state(game)
+    g = Engine.create_game_state(game._id, game._width, game._height)
 
     # Load game state
     with open('%s/%s.in' % (ROOT_DATA_DIR, test_file)) as f:
@@ -88,10 +88,7 @@ def check_game_state(test_file):
 
     g = Engine.add_snakes_to_board(g, SNAKES)
     g._sanity_check()
-    g = Engine.add_food_to_board(g, (1, 2))
-    g = Engine.add_food_to_board(g, (1, 4))
-    g = Engine.add_food_to_board(g, (2, 4))
-    g = Engine.add_food_to_board(g, (3, 4))
+
     g._sanity_check()
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()

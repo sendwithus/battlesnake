@@ -231,7 +231,7 @@ Board.prototype.getSnake = function (id) {
   var snake_data = null;
   for (var i = 0; i < this.gameState.snakes.length; i++) {
     var s = this.gameState.snakes[i];
-    if (s.snake_id === id) {
+    if (s.id === id) {
       snake_data = s;
       break;
     }

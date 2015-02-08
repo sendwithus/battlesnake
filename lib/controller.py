@@ -7,7 +7,7 @@ def create_game(snakes, width, height):
     game.insert()
 
     # Create the first GameState
-    game_state = Engine.create_game_state(game)
+    game_state = Engine.create_game_state(game._id, game._width, game._height)
 
     # Init the first GameState
     Engine.add_snakes_to_board(game_state, snakes)

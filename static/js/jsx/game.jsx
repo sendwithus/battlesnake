@@ -7,8 +7,17 @@ var Game = React.createClass({
             url: '/api/games/' + this.props.gameId + '/turn'
         }).done(function (response) {
             console.log('Got GameState', response.data);
+            var gameState = response.data;
+
+            if (gameState.snakes.length === 0) {
+                clearInterval(this.interval);
+            }
+
             this.setState({ latestGameState: response.data });
         }.bind(this));
+    },
+    handleClickContinuous: function () {
+        this.interval = setInterval(this.handleClickNextTurn, 400);
     },
     componentDidMount: function () {
         var canvas = this.refs.canvas.getDOMNode();
@@ -23,9 +32,11 @@ var Game = React.createClass({
     },
     componentDidUpdate: function (prevProps, prevState) {
         if (!this.state.latestGameState) { return; }
+
         var canvas = this.refs.canvas.getDOMNode();
         var ctx = canvas.getContext('2d');
         var board = new Board(ctx, canvas);
+
         board.init(this.state.game.width, this.state.game.height);
         board.update(this.state.latestGameState);
     },
@@ -45,6 +56,7 @@ var Game = React.createClass({
                     <GameSidebar
                         gameId={this.props.gameId}
                         latestGameState={this.state.latestGameState}
+                        continueous={this.handleClickContinuous}
                         nextTurn={this.handleClickNextTurn} />
                 </div>
             </div>
@@ -58,8 +70,10 @@ var GameSidebar = React.createClass({
 
         if (this.props.latestGameState) {
             var snakes = this.props.latestGameState.snakes.map(function (snake, i) {
-                console.log(snake);
-                return <li key={snake.snake_id}>{snake.snake_id} ({snake.status})</li>;
+                return <li key={snake.snake_id}>{snake.name} ({snake.coords.length})</li>;
+            });
+            var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
+                return <li key={snake.snake_id}>{snake.name} ({snake.coords.length})</li>;
             });
         }
 
@@ -67,8 +81,14 @@ var GameSidebar = React.createClass({
             <div className="game-sidebar sidebar-inner">
                 <h3>{this.props.gameId}</h3>
                 <ul>{snakes}</ul>
+                <ul>{deadSnakes}</ul>
                 <button className="btn btn-success stretch" onClick={this.props.nextTurn}>
                     Next Turn
+                </button>
+                <br />
+                <br />
+                <button className="btn btn-success stretch" onClick={this.props.continueous}>
+                    Continueous
                 </button>
             </div>
         );

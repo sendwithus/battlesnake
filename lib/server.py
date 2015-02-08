@@ -42,7 +42,7 @@ def games_create():
     if data is None:
         return abort(400, 'No request body')
 
-    width = data.get('w', 40)
+    width = data.get('w', 20)
     height = data.get('h', 20)
 
     # try:

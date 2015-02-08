@@ -77,17 +77,20 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
 
         if (this.props.latestGameState) {
             var snakes = this.props.latestGameState.snakes.map(function (snake, i) {
-                return React.createElement("li", {key: snake.snake_id}, snake.name, " (", snake.coords.length, ")");
+                return React.createElement("li", {key: 'a_' + i}, snake.name, " (", snake.coords.length, ")");
             });
             var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-                return React.createElement("li", {key: snake.snake_id}, snake.name, " (", snake.coords.length, ")");
+                return React.createElement("li", {key: 'd_' + i}, snake.name, " (", snake.coords.length, ")");
             });
         }
 
         return (
             React.createElement("div", {className: "game-sidebar sidebar-inner"}, 
                 React.createElement("h3", null, this.props.gameId), 
+
+                React.createElement("h4", null, "Alive"), 
                 React.createElement("ul", null, snakes), 
+                React.createElement("h4", null, "Dead"), 
                 React.createElement("ul", null, deadSnakes), 
                 React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.nextTurn}, 
                     "Next Turn"
@@ -166,7 +169,7 @@ var GameCreate = React.createClass({displayName: "GameCreate",
     render: function () {
         var snakeUrls = this.state.snakeUrls.map(function (snakeUrl, i) {
             return (
-                React.createElement("div", {className: "form-group", key: i}, 
+                React.createElement("div", {className: "form-group", key: 'url_' + i}, 
                     React.createElement("input", {type: "text", 
                         className: "form-control", 
                         value: this.state.snakeUrls[i], 

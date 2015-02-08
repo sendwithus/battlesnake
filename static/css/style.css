@@ -12,6 +12,7 @@
 
 body{
 	background: #221E1D url('../img/bg-battlesnake.jpg') top center no-repeat;
+    background-size: 100%;
 	font-family: myriad, arial, helvetica;
 }
 
@@ -126,10 +127,6 @@ p.desc{
 	margin-top: 60px;
 }
 
-.col-sm-4{
-	text-align: center;
-}
-
 .col-sm-4 h5{font-size:36px;}
 
 .col-sm-4 p{font-size:18px;}
@@ -151,8 +148,6 @@ p.desc{
 	text-indent: 22px;
 	margin-top: -6px;
 	margin-left: 30px;
-	text-align:center;
-
 }
 
 .box .btn.map:hover{
@@ -165,15 +160,8 @@ p.desc{
     transition: all .25s ease-in;
 }
 
-}
-
-.box h4{
-	text-align:center;
-}
-
 h4{
 	font-size:30px;
-	text-align:center;
 }
 
 h5{
@@ -188,7 +176,6 @@ p{
 }
 
 h4.yellow{
-	text-align: center;
 	margin-top: 40px;
 }
 
@@ -199,13 +186,11 @@ h4.yellow{
 footer{
 	background: #1D1A19;
 	width: 100%;
-	text-align: center;
 	padding: 10px;
 	margin-top: 30px;
 }
 
 .participating{
-    text-align:center;
     opacity: 0.5;
     margin-top:20px;
     -moz-transition: all .25s ease-in;
@@ -220,6 +205,10 @@ footer{
 
 .participating img {
 	max-height: 100px;
+}
+
+.text-center {
+    text-align: center;
 }
 
 
@@ -282,13 +271,8 @@ footer{
 
 	}
 
-	.map-holder{
-		text-align:center;
-	}
-
 	h4 {
 		font-size: 24px;
-		text-align: center;
 	}
 }
 @media(min-width:768px){

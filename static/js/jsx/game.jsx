@@ -77,17 +77,20 @@ var GameSidebar = React.createClass({
 
         if (this.props.latestGameState) {
             var snakes = this.props.latestGameState.snakes.map(function (snake, i) {
-                return <li key={snake.snake_id}>{snake.name} ({snake.coords.length})</li>;
+                return <li key={'a_' + i}>{snake.name} ({snake.coords.length})</li>;
             });
             var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-                return <li key={snake.snake_id}>{snake.name} ({snake.coords.length})</li>;
+                return <li key={'d_' + i}>{snake.name} ({snake.coords.length})</li>;
             });
         }
 
         return (
             <div className="game-sidebar sidebar-inner">
                 <h3>{this.props.gameId}</h3>
+
+                <h4>Alive</h4>
                 <ul>{snakes}</ul>
+                <h4>Dead</h4>
                 <ul>{deadSnakes}</ul>
                 <button className="btn btn-success stretch" onClick={this.props.nextTurn}>
                     Next Turn
@@ -166,7 +169,7 @@ var GameCreate = React.createClass({
     render: function () {
         var snakeUrls = this.state.snakeUrls.map(function (snakeUrl, i) {
             return (
-                <div className="form-group" key={i}>
+                <div className="form-group" key={'url_' + i}>
                     <input type="text"
                         className="form-control"
                         value={this.state.snakeUrls[i]}

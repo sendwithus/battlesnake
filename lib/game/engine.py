@@ -239,5 +239,5 @@ class Engine(object):
             'snake_id': snake_id
         }
 
-        game_state._board[y][x] = tile_state
+        game_state._board[x][y] = tile_state
         game_state._sanity_check()

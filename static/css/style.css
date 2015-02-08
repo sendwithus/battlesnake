@@ -55,11 +55,18 @@ h3{
 	text-align: center;
 }
 
+
+a{
+    color: #666;
+    text-decoration: underline;
+}
+
 .orange{color:#F7931D;}
 
-.btn{
+a.btn{
 	border: none;
 	border-radius: 0;
+    text-decoration: none;
 }
 
 .btn:focus,

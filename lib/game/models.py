@@ -105,10 +105,11 @@ class GameState(Model):
     def __init__(self, game_id):
         self._id = uuid1()
         self._game_id = game_id
+        self._turn = 0
         self._board = []
         self._snakes = []
+        self._dead_snakes = []
         self._food = []
-        self._turn = 0
 
     def _sanity_check(self):
         if not isinstance(self._game_id, basestring):
@@ -146,6 +147,7 @@ class GameState(Model):
             'turn': self._turn,
             'board': self._board[:],
             'snakes': self._snakes[:],
+            'dead_snakes': self._dead_snakes[:],
             'food': self._food[:]
         }
 
@@ -196,6 +198,7 @@ class GameState(Model):
         game_state._turn = obj['turn']
         game_state._board = obj['board']
         game_state._snakes = obj['snakes']
+        game_state._dead_snakes = obj['dead_snakes']
         game_state._food = obj['food']
 
         game_state._sanity_check()

@@ -43,7 +43,7 @@ def games_create():
         return abort(400, 'No request body')
 
     width = data.get('w', 40)
-    height = data.get('h', 40)
+    height = data.get('h', 20)
 
     # try:
     #     snake_urls = data['snakes_urls']

@@ -246,14 +246,7 @@ Board.prototype.getSnake = function (id) {
 };
 
 Board.prototype.getBoardDimensions = function (board) {
-  var height = board.length;
-  var width = 0;
-
-  if (board[0]) {
-    width = board[0].length;
-  }
-
-  return [ width, height ];
+  return this.dimensions;
 };
 
 Board.prototype.fillSquare = function (x, y, color) {
@@ -291,31 +284,3 @@ Board.prototype.fillCircle = function (x, y, color) {
   this.ctx.fillStyle = color;
   this.ctx.fill();
 };
-
-Board.prototype.shouldBeFood = function () {
-  var luckyNumber = (1 / snakewithus.FOOD_PROBABILITY);
-  var couldBeZero = Math.floor(Math.random() * luckyNumber);
-
-  return !couldBeZero;
-};
-
-// Board.prototype.genBoard = function (width, height) {
-//   var board = [ ];
-//
-//   for (var y = 0; y < height; y++) {
-//     var row = [ ];
-//     for (var x = 0; x < width; x++) {
-//       var square = [ ];
-//
-//       if (this.shouldBeFood()) {
-//         square.push({
-//           id: 'ntsir',
-//           type: snakewithus.SQUARE_TYPES.FOOD
-//         });
-//       }
-//       row.push(square);
-//     }
-//     board.push(row);
-//   }
-//   return board;
-// };

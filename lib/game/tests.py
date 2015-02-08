@@ -8,12 +8,22 @@ ROOT_DATA_DIR = 'lib/game/data'
 SNAKES = [
     {
         'id': 'snake_1',
-        'coords': [(1, 1), (1, 1)],
+        'coords': [(1, 1), (1, 1), (1, 1)],
         'status': 'alive'
     },
     {
         'id': 'snake_2',
-        'coords': [(3, 3), (3, 3)],
+        'coords': [(1, 3), (1, 3), (1, 3)],
+        'status': 'alive'
+    },
+    {
+        'id': 'snake_3',
+        'coords': [(1, 5), (1, 5), (1, 5)],
+        'status': 'alive'
+    },
+    {
+        'id': 'snake_4',
+        'coords': [(1, 7), (1, 7), (1, 7)],
         'status': 'alive'
     }
 ]
@@ -25,7 +35,15 @@ MOVES_1 = [
     },
     {
         'snake_id': 'snake_2',
-        'action': 'left'
+        'action': 'right'
+    },
+    {
+        'snake_id': 'snake_3',
+        'action': 'right'
+    },
+    {
+        'snake_id': 'snake_4',
+        'action': 'right'
     }
 ]
 
@@ -37,17 +55,33 @@ MOVES_2 = [
     {
         'snake_id': 'snake_2',
         'action': 'down'
+    },
+    {
+        'snake_id': 'snake_3',
+        'action': 'down'
+    },
+    {
+        'snake_id': 'snake_4',
+        'action': 'down'
     }
 ]
 
 MOVES_3 = [
     {
         'snake_id': 'snake_1',
-        'action': 'down'
+        'action': 'left'
     },
     {
         'snake_id': 'snake_2',
-        'action': 'right'
+        'action': 'left'
+    },
+    {
+        'snake_id': 'snake_3',
+        'action': 'left'
+    },
+    {
+        'snake_id': 'snake_4',
+        'action': 'left'
     }
 ]
 
@@ -58,18 +92,34 @@ MOVES_4 = [
     },
     {
         'snake_id': 'snake_2',
-        'action': 'right'
+        'action': 'up'
+    },
+    {
+        'snake_id': 'snake_3',
+        'action': 'up'
+    },
+    {
+        'snake_id': 'snake_4',
+        'action': 'up'
     }
 ]
 
 MOVES_5 = [
     {
         'snake_id': 'snake_1',
-        'action': 'left'
+        'action': 'right'
     },
     {
         'snake_id': 'snake_2',
-        'action': 'right'
+        'action': 'left'
+    },
+    {
+        'snake_id': 'snake_3',
+        'action': 'left'
+    },
+    {
+        'snake_id': 'snake_4',
+        'action': 'left'
     }
 ]
 
@@ -88,8 +138,13 @@ def check_game_state(test_file):
 
     g = Engine.add_snakes_to_board(g, SNAKES)
     g._sanity_check()
+    print 'Game State Turn[' + str(g._turn) + ']\n'
+    print g.to_string()
 
-    g._sanity_check()
+    g = Engine.resolve_moves(g, MOVES_1)
+    print 'Game State Turn[' + str(g._turn) + ']\n'
+    print g.to_string()
+    g = Engine.resolve_moves(g, MOVES_1)
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()
     g = Engine.resolve_moves(g, MOVES_1)
@@ -104,9 +159,6 @@ def check_game_state(test_file):
     g = Engine.resolve_moves(g, MOVES_2)
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_2)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
     g = Engine.resolve_moves(g, MOVES_3)
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()
@@ -119,22 +171,7 @@ def check_game_state(test_file):
     g = Engine.resolve_moves(g, MOVES_3)
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_1)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_1)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_4)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_4)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_4)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_4)
+    g = Engine.resolve_moves(g, MOVES_3)
     print 'Game State Turn[' + str(g._turn) + ']\n'
     print g.to_string()
     g = Engine.resolve_moves(g, MOVES_4)

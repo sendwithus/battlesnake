@@ -200,8 +200,8 @@ class Engine(object):
                 new_food.remove(food)
 
         # Create new_game_state using new_snakes and new_food
-        import copy
-        new_game_state = copy.deepcopy(game_state)
+        new_game_state = GameState(game_state._game_id)
+        new_game_state._board = Engine.create_board(len(game_state._board), len(game_state._board[0]))
         new_game_state._snakes = new_snakes
         new_game_state._food = new_food
         new_game_state._turn = game_state._turn + 1

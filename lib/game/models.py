@@ -162,8 +162,9 @@ class GameState(Model):
         }
 
         output = ''
-        for y in range(len(self._board)):
-            for x in range(len(self._board[y])):
+
+        for y in range(len(self._board[0])):
+            for x in range(len(self._board)):
                 output += tile_map[self._board[x][y]['state']]
             output += '\n'
         output += '\n'

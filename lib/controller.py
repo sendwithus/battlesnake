@@ -8,6 +8,11 @@ def start_game(game_id, manual):
     if manual:
         game._state = Game.STATE_MANUAL
         game.save()
+    else:
+        # TODO: Worker.work
+        pass
+
+    return game
 
 
 def create_game(snakes, width, height):

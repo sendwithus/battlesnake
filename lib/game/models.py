@@ -37,6 +37,10 @@ class Model(object):
         doc['created'] = doc.get('created', datetime.now())
         self._get_collection().insert(doc)
 
+    def save(self):
+        doc = self.to_dict()
+        self._get_collection().update({'_id': self._id}, doc, True)
+
     @classmethod
     def find(cls, *args, **kwargs):
         results = cls._get_collection().find(*args, **kwargs).sort(
@@ -58,6 +62,7 @@ class Model(object):
 
 class Game(Model):
     STATE_CREATED = 'created'
+    STATE_MANUAL = 'manual'
     STATE_READY = 'ready'
     STATE_PLAYING = 'playing'
     STATE_DONE = 'done'

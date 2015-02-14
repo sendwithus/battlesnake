@@ -25,7 +25,6 @@ var Game = React.createClass({displayName: "Game",
             type: 'GET',
             url: '/api/games/' + this.props.gameId
         }).done(function (response) {
-            console.log('Got Game', response.data);
             this.setState({ game: response.data });
             this.handleClickNextTurn();
         }.bind(this));

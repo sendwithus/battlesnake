@@ -210,9 +210,7 @@ var GameCreate = React.createClass({displayName: "GameCreate",
     handleGameCreate: function (e) {
         e.preventDefault();
 
-        var gameData = {
-            snake_urls: this.state.snakeUrls
-        };
+        var gameData = { snake_urls: this.state.snakeUrls };
 
         $.ajax({
             type: 'POST',
@@ -221,6 +219,8 @@ var GameCreate = React.createClass({displayName: "GameCreate",
             contentType: 'application/json'
         }).done(function (response) {
             navigate('/play/games/' + response.data.game._id);
+        }).error(function (xhr, textStatus, errorThrown) {
+            alert(xhr.responseJSON.message);
         });
     },
     handleAddSnakeUrl: function (e) {
@@ -245,6 +245,8 @@ var GameCreate = React.createClass({displayName: "GameCreate",
                         className: "form-control", 
                         value: this.state.snakeUrls[i], 
                         name: "snake-url", 
+                        id: "snake-url", 
+                        autoComplete: "on", 
                         placeholder: "http://my-snake-url.com/api", 
                         onChange: this.handleSnakeUrlChange.bind(this, i)})
                 )
@@ -252,7 +254,7 @@ var GameCreate = React.createClass({displayName: "GameCreate",
         }.bind(this));
 
         return (
-            React.createElement("form", {onSubmit: this.handleGameCreate}, 
+            React.createElement("form", {onSubmit: this.handleGameCreate, id: "create-game-form"}, 
                 React.createElement("h3", null, "New Game"), 
                 snakeUrls, 
                 React.createElement("div", {className: "form-group"}, 

@@ -43,49 +43,15 @@ def games_create():
     width = data.get('w', 50)
     height = data.get('h', 50)
 
-    # try:
-    #     snake_urls = data['snakes_urls']
-    # except KeyError:
-    #     return abort(400, 'Invalid snakes')
-
-    # # Call each snake endpoint
-    # start_urls = ['%s/%s' % (url, 'start') for url in snake_urls]
-    # responses = call_endpoints_async(
-    #     payload=None,
-    #     urls=start_urls,
-    #     timeout=CLIENT_TIMEOUT_SECONDS
-    # )
-    #
-    # # Attach each snake's URL
-    # for url, snake in responses.iteritems():
-    #     snake['url'] = url
-    #
-    # # Extract the array of snakes
-    # snakes = responses.values()
-
-    snakes = [
-        {
-            'id': 'snake_1',
-            'name': 'Cool Snake',
-            'color': 'green',
-            'coords': [(1, 1), (1, 1)],
-            'status': 'alive',
-            'url': 'http://snake_1.herokuapp.com'
-        },
-        {
-            'id': 'snake_2',
-            'name': 'Stupid Snake',
-            'color': 'red',
-            'coords': [(3, 3), (3, 3)],
-            'status': 'alive',
-            'url': 'http://snake_2.herokuapp.com/mk1'
-        }
-    ]
+    try:
+        snake_urls = data['snake_urls']
+    except KeyError:
+        return abort(400, 'Invalid snakes')
 
     game, game_state = controller.create_game(
         width=width,
         height=height,
-        snakes=snakes
+        snake_urls=snake_urls
     )
 
     return _json_response({

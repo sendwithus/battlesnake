@@ -15,6 +15,19 @@ class BatchTimeout(RuntimeError):
     pass
 
 
+
+
+
+
+
+# GREG: This should be rewritten for threading
+# Also guarantee responses for each URL, None if bad response.
+
+
+
+
+
+
 __results = None
 
 
@@ -29,9 +42,9 @@ def call_endpoint(payload, url, timeout=None):
 
     if timeout:
         with Timeout(timeout, ClientTimeout):
-            req(url, data=payload)
+            req(url, payload=payload)
     else:
-        req(url, data=payload)
+        req(url, payload=payload)
 
     end = time.time()
     print 'DONE IN %s SECONDS: %s' % ((end - start), url)

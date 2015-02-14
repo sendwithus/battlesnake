@@ -1,5 +1,6 @@
 import copy
-from random import randint
+import random
+
 from lib.game.models import GameState
 
 
@@ -33,6 +34,10 @@ class Engine(object):
     def add_snakes_to_board(game_state, snakes):
 
         for snake in snakes:
+            # CURTIS: Fix collisions.
+            x = random.randint(0, len(game_state.board) - 1)
+            y = random.randint(0, len(game_state.board[0]) - 1)
+            snake.coords = [(x, y), (x, y)]
 
             # Add snake to .snakes
             game_state.snakes.append(snake)
@@ -46,8 +51,8 @@ class Engine(object):
     def add_random_food_to_board(game_state):
         found_space = False
         while found_space is False:
-            x = randint(0, len(game_state.board) - 1)
-            y = randint(0, len(game_state.board[0]) - 1)
+            x = random.randint(0, len(game_state.board) - 1)
+            y = random.randint(0, len(game_state.board[0]) - 1)
             coords = (x, y)
             found_space = True
             for snake in game_state.snakes:
@@ -108,8 +113,11 @@ class Engine(object):
             action = cls.MOVE_RIGHT
         elif vector == (-1, 0):
             action = cls.MOVE_LEFT
+        elif vector == (0, 0):
+            # Greg: Run into the wall right away.
+            action = random.choice([cls.MOVE_LEFT, cls.MOVE_RIGHT, cls.MOVE_DOWN, cls.MOVE_UP])
         else:
-            raise Exception('failed to determine default move')
+            raise Exception('failed to determine default move: %s' % str(vector))
 
         return {
             'action': action,
@@ -166,8 +174,6 @@ class Engine(object):
             new_snake['coords'].pop(-1)
 
             new_snakes.append(new_snake)
-
-
 
         # Track Snake Collisions
         kill = []       # [snake_id, snake_id]

@@ -1,6 +1,8 @@
+
 import time
 
 from lib.game.engine import Engine
+from lib.caller import call_endpoints_async
 from lib.game.models import Game, GameState
 
 
@@ -21,8 +23,37 @@ def start_game(game_id, manual):
     return game
 
 
-def create_game(snakes, width, height):
+def create_game(snake_urls, width, height):
     game = Game(width=width, height=height)
+
+    # Fetch snakes
+    start_urls = [('%s/start' % url) for url in snake_urls]
+    responses = call_endpoints_async(
+        payload={
+            'game_id': game.id
+        },
+        urls=start_urls,
+        timeout=game.turn_time
+    )
+
+    snakes = []
+    for snake_url in snake_urls:
+        for url, response in responses.items():
+            if not response or not response.status_code == 200:
+                # FREAK OUT
+                raise Exception('failed to contact snake: %s' % url)
+
+            response_body = response.json()
+
+            if url.startswith(snake_url):
+                snakes.append({
+                    'url': snake_url,
+                    'color': response_body['color'],
+                    'id': response_body['name'],
+                    'name': response_body['name'],
+                    'taunt': response_body['taunt']
+                })
+
     game.insert()
 
     # Create the first GameState

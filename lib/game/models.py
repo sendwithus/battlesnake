@@ -39,7 +39,13 @@ class Model(object):
 
     def save(self):
         doc = self.to_dict()
-        self._get_collection().update({'_id': self._id}, doc, True)
+        doc['modified'] = datetime.now()
+        doc['created'] = self.created
+        self._get_collection().update({'_id': self.id}, doc, True)
+
+    def add_timestamps(self, obj):
+        self.created = obj['created']
+        self.modified = obj['modified']
 
     @classmethod
     def find(cls, *args, **kwargs):
@@ -88,12 +94,14 @@ class Game(Model):
 
     @classmethod
     def from_dict(cls, obj):
-        return cls(
+        instance = cls(
             id=obj['_id'],
             state=obj['state'],
             width=obj['width'],
             height=obj['height']
         )
+        instance.add_timestamps(obj)
+        return instance
 
 
 class GameState(Model):

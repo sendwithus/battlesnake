@@ -22,7 +22,7 @@
 
 import time
 
-import lib.controller as controller
+import lib.game.controller as controller
 from lib.game.models import Game
 
 
@@ -31,11 +31,14 @@ def _log(msg):
 
 
 def maybe_run_game():
-    game_to_run = Game.find_one({'status': Game.STATE_READY})
+    _log('looking for games...')
+    game_to_run = Game.find_one({'state': Game.STATE_READY})
     if game_to_run:
-        _log("running game: %s" % game_to_run._id)
+        _log("running game: %s" % game_to_run.id)
         controller.run_game(game_to_run)
-        _log("finished game: %s" % game_to_run._id)
+        _log("finished game: %s" % game_to_run.id)
+    else:
+        _log('no games to run')
 
 
 

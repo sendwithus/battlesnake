@@ -4,11 +4,15 @@ var App = React.createClass({displayName: "App",
     mixins: [ ReactMiniRouter.RouterMixin ],
     routes: {
         '/': 'games',
-        '/play/watch': 'games',
-        '/play/create': 'create',
-        '/play/watch/:gameId': 'watch'
+        '/play': 'play',
+        '/play/games': 'games',
+        '/play/new': 'create',
+        '/play/games/:gameId': 'game'
     },
-    watch: function (gameId) {
+    play: function () {
+        window.location = '/play/games';
+    },
+    game: function (gameId) {
         return this.wrapPage(
             React.createElement(Game, {gameId: gameId})
         );

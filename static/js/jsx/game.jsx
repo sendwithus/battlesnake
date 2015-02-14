@@ -49,7 +49,7 @@ var Game = React.createClass({
             url: '/api/games/' + this.props.gameId
         }).done(function (response) {
             this.setState({ game: response.data });
-            // this.handleClickNextTurn();
+            this.tick();
         }.bind(this));
     },
     getBoard: function () {
@@ -177,7 +177,7 @@ var GameList = React.createClass({
     },
     render: function () {
         var games = this.state.games.map(function (game, i) {
-            var path = '/play/watch/' + game._id
+            var path = '/play/games/' + game._id
             return (
                 <li key={game._id}><a href={path}>{game._id}</a></li>
             );

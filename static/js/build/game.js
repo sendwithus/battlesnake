@@ -12,10 +12,7 @@ var Game = React.createClass({displayName: "Game",
         }).done(function (response) {
             console.log('Started Game', response.data);
             this.setState({ game: response.data });
-
-            if (!isManual) {
-                this.interval = setInterval(this.tick, 500);
-            }
+            this.checkInterval();
         }.bind(this));
     },
     handleClickNextTurn: function () {
@@ -36,13 +33,23 @@ var Game = React.createClass({displayName: "Game",
     handleClickContinuous: function () {
         this.interval = setInterval(this.handleClickNextTurn, 400);
     },
-    tick: function () {
+    tick: function (callback) {
         $.ajax({
             type: 'GET',
             url: '/api/games/' + this.props.gameId + '/gamestates/latest'
         }).done(function (response) {
             this.handleGameState(response.data);
+            callback && callback();
         }.bind(this));
+    },
+    checkInterval: function () {
+        // Start the ticker if it hasen't already
+        var shouldTick = this.state.game.state === 'playing' ||
+                         this.state.game.state === 'ready';
+
+        if (shouldTick && !this.interval) {
+            this.interval = setInterval(this.tick, 500);
+        }
     },
     componentDidMount: function () {
         var canvas = this.refs.canvas.getDOMNode();
@@ -51,8 +58,21 @@ var Game = React.createClass({displayName: "Game",
             url: '/api/games/' + this.props.gameId
         }).done(function (response) {
             this.setState({ game: response.data });
-            this.tick();
+
+            // Get latest game state
+            this.tick(function () {
+                // See if we need to tick the game
+                this.checkInterval();
+            }.bind(this));
         }.bind(this));
+    },
+    componentDidUpdate: function (prevProps, prevState) {
+        if (!this.state.latestGameState) { return; }
+
+        var board = this.getBoard();
+
+        board.init(this.state.game.width, this.state.game.height);
+        board.update(this.state.latestGameState);
     },
     getBoard: function () {
         if (!this.board) {
@@ -62,14 +82,6 @@ var Game = React.createClass({displayName: "Game",
         }
 
         return this.board;
-    },
-    componentDidUpdate: function (prevProps, prevState) {
-        if (!this.state.latestGameState) { return; }
-
-        var board = this.getBoard();
-
-        board.init(this.state.game.width, this.state.game.height);
-        board.update(this.state.latestGameState);
     },
     getInitialState: function () {
         return {

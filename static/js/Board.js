@@ -21,8 +21,8 @@ var Board = function (ctx, canvas) {
 Board.prototype.resize = function() {
   var board = this.canvas.parentNode;
 
-  var width  = board.clientWidth - 30;
-  var height = window.innerHeight - 95;
+  var width  = board.clientWidth - 40;
+  var height = window.innerHeight - 105;
 
   var size1 = Math.ceil(width / this.dimensions[0]);
   var size2 = Math.ceil(height / this.dimensions[1]);

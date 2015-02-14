@@ -7,10 +7,10 @@ def start_game(game_id, manual):
 
     if manual:
         game._state = Game.STATE_MANUAL
-        game.save()
     else:
-        # TODO: Worker.work
-        pass
+        game._state = Game.STATE_READY
+
+    game.save()
 
     return game
 

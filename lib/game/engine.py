@@ -18,11 +18,10 @@ class Engine(object):
     @staticmethod
     def create_board(width, height):
         board = []
-
-        for x in range(height):
+        for x in range(width):
             board.append([])
 
-            for y in range(width):
+            for y in range(height):
                 board[x].append({
                     'state': GameState.TILE_STATE_EMPTY,
                     'snake_id': None
@@ -238,6 +237,5 @@ class Engine(object):
             'state': state,
             'snake_id': snake_id
         }
-
-        game_state._board[y][x] = tile_state
+        game_state._board[x][y] = tile_state
         game_state._sanity_check()

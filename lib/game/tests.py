@@ -125,12 +125,12 @@ MOVES_5 = [
 
 
 def check_game_state(test_file):
-    game = Game()
+    game = Game(width=8, height=12)
     g = Engine.create_game_state(game._id, game._width, game._height)
-
+    print g.to_string()
     # Load game state
-    with open('%s/%s.in' % (ROOT_DATA_DIR, test_file)) as f:
-        g.from_string(f.read())
+    # with open('%s/%s.in' % (ROOT_DATA_DIR, test_file)) as f:
+    #     g.from_string(f.read())
 
     # Load expected game state
     with open('%s/%s.out' % (ROOT_DATA_DIR, test_file)) as f:

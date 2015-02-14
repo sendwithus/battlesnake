@@ -22,6 +22,8 @@ __Where:__ University of Victoria, Engineering Building
 ## Preparing for Battle
 Everything you need to know before attending BattleSnake.
 
+<br>
+
 #### Coming Prepared
 
 Your team __will be writing code__, come prepared to do so.
@@ -31,12 +33,14 @@ We recommend having the these things ready to go:
 * [GitHub](http://github.com) account
 * [Heroku](http://heroku.com) account
 
-We strongly recommend familiarizing yourself with [Heroku](http://heroku.com) before hand. Deploying your AI with [Heroku](http://heroku.com) will maximize time spent perfecting your AI. All provided code samples and example AIs will be ready-to-deploy to Heroku.
+We strongly recommend familiarizing yourself with [Heroku](http://heroku.com) before hand. Deploying  with [Heroku](http://heroku.com) will maximize time spent developing your AI (and not messing around with servers). All provided code samples and example AIs will be ready-to-deploy to Heroku.
 
 Also see:
 * [Getting Started on Heroku](https://devcenter.heroku.com/start)
 * [Heroku Toolbelt](https://toolbelt.heroku.com/)
 * [Deploying to Heroku with Git](https://devcenter.heroku.com/articles/git)
+
+<br>
 
 #### Registration
 
@@ -47,6 +51,8 @@ To register, you'll need the following:
 * Name of all team members (1-4 suggested)
 
 Individuals may register and compete as a single-person team. We will accommodate anyone to join a team.
+
+<br>
 
 #### Orientation
 

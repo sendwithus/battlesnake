@@ -26,8 +26,8 @@ def start_game(game_id, manual):
     return game
 
 
-def create_game(snake_urls, width, height):
-    game = Game(width=width, height=height)
+def create_game(snake_urls, width, height, turn_time):
+    game = Game(width=width, height=height, turn_time=turn_time)
 
     # Fetch snakes
     start_urls = [('%s/start' % url) for url in snake_urls]
@@ -70,11 +70,43 @@ def create_game(snake_urls, width, height):
     return (game, game_state)
 
 
-def next_turn(game, moves):
+def get_moves(game_state, timeout):
+    urls = []
+    for snake in game_state.snakes:
+        urls.append('%s/move' % snake['url'])
+
+    payload = {
+        'game_id': game_state.game_id,
+        'turn': game_state.turn,
+        'board': game_state.board,
+        'snake': game_state.snakes
+    }
+
+    responses = AsyncCall(payload, urls, timeout).start()
+
+    moves = []
+
+    for snake in game_state.snakes:
+        for url, response in responses.items():
+            if response is None:
+                # Too bad for that snake. Engine should keep it moving
+                # in current direction
+                pass
+
+            if url.startswith(snake['url']):
+                moves.append({
+                    'snake_id': snake['id'],  # Don't trust id from response
+                    'move': response['move']
+                })
+    return moves
+
+
+def next_turn(game):
     game_states = GameState.find({'game_id': game.id})
 
     if len(game_states) > 0:
         game_state = game_states[0]
+        moves = get_moves(game_state, game.turn_time)
         next_game_state = Engine.resolve_moves(game_state, moves)
         next_game_state.insert()
 
@@ -101,9 +133,9 @@ def run_game(game):
         # moves = fetch_moves_async
 
         try:
-            new_game_state = next_turn(game, [])
-        except:
-            _log('failed to insert game state: %s' % new_game_state.id)
+            new_game_state = next_turn(game)
+        except Exception as e:
+            _log('failed to insert game state for %s: %s' % (game.id, e))
             break
 
         _log('finished turn: %s' % new_game_state)

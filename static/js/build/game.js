@@ -10,6 +10,10 @@ var Game = React.createClass({displayName: "Game",
         }).done(function (response) {
             console.log('Started Game', response.data);
             this.setState({ game: response.data });
+
+            if (!isManual) {
+                this.interval = setInterval(this.tick, 500);
+            }
         }.bind(this));
     },
     handleClickNextTurn: function () {
@@ -17,18 +21,26 @@ var Game = React.createClass({displayName: "Game",
             type: 'POST',
             url: '/api/games/' + this.props.gameId + '/turn'
         }).done(function (response) {
-            // console.log('Got GameState', response.data);
-            var gameState = response.data;
-
-            if (gameState.snakes.length === 0) {
-                clearInterval(this.interval);
-            }
-
-            this.setState({ latestGameState: response.data });
+            this.handleGameState(response.data);
         }.bind(this));
+    },
+    handleGameState: function (gameState) {
+        if (gameState.snakes.length === 0) {
+            clearInterval(this.interval);
+        }
+
+        this.setState({ latestGameState: gameState });
     },
     handleClickContinuous: function () {
         this.interval = setInterval(this.handleClickNextTurn, 400);
+    },
+    tick: function () {
+        $.ajax({
+            type: 'GET',
+            url: '/api/games/' + this.props.gameId + '/gamestates/latest'
+        }).done(function (response) {
+            this.handleGameState(response.data);
+        }.bind(this));
     },
     componentDidMount: function () {
         var canvas = this.refs.canvas.getDOMNode();
@@ -37,7 +49,7 @@ var Game = React.createClass({displayName: "Game",
             url: '/api/games/' + this.props.gameId
         }).done(function (response) {
             this.setState({ game: response.data });
-            this.handleClickNextTurn();
+            // this.handleClickNextTurn();
         }.bind(this));
     },
     getBoard: function () {
@@ -214,6 +226,7 @@ var GameCreate = React.createClass({displayName: "GameCreate",
                     React.createElement("input", {type: "text", 
                         className: "form-control", 
                         value: this.state.snakeUrls[i], 
+                        name: "snake-url", 
                         placeholder: "http://my-snake-url.com/api", 
                         onChange: this.handleSnakeUrlChange.bind(this, i)})
                 )

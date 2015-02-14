@@ -106,21 +106,21 @@ class Engine(object):
         vector = (head_coords[0] - next_coords[0], head_coords[1] - next_coords[1])
 
         if vector == (0, -1):
-            action = cls.MOVE_UP
+            move = cls.MOVE_UP
         elif vector == (0, 1):
-            action = cls.MOVE_DOWN
+            move = cls.MOVE_DOWN
         elif vector == (1, 0):
-            action = cls.MOVE_RIGHT
+            move = cls.MOVE_RIGHT
         elif vector == (-1, 0):
-            action = cls.MOVE_LEFT
+            move = cls.MOVE_LEFT
         elif vector == (0, 0):
             # Greg: Run into the wall right away.
-            action = random.choice([cls.MOVE_LEFT, cls.MOVE_RIGHT, cls.MOVE_DOWN, cls.MOVE_UP])
+            move = random.choice([cls.MOVE_LEFT, cls.MOVE_RIGHT, cls.MOVE_DOWN, cls.MOVE_UP])
         else:
             raise Exception('failed to determine default move: %s' % str(vector))
 
         return {
-            'action': action,
+            'move': move,
             'snake_id': snake['id']
         }
 
@@ -143,7 +143,7 @@ class Engine(object):
 
             # Apply move
 
-            action = move['action']
+            action = move['move']
             snake_id = move['snake_id']
 
             # Copy Old Snake

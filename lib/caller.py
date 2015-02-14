@@ -9,6 +9,10 @@ import json
 import time
 
 
+def _log(msg):
+    print "[caller] %s" % str(msg)
+
+
 class ClientTimeout(RuntimeError):
     pass
 
@@ -29,8 +33,6 @@ class AsyncCall(object):
             self._responses[url] = None
 
     def _call_url(self, url):
-        print 'calling url', url, self._payload
-
         start = time.time()
 
         response = requests.post(url, data=self._payload)
@@ -43,11 +45,11 @@ class AsyncCall(object):
             else:
                 self._responses[url] = data
         else:
-            print 'Failed to contact url: %s' % response.status_code
+            _log('Failed to contact url: %s' % response.status_code)
 
         end = time.time()
 
-        print 'Called %s in %.2fs' % (url, end - start)
+        _log('Called %s in %.2fs' % (url, end - start))
 
     def _start_task(self, url):
         # Start a timeout timer if we need to
@@ -58,7 +60,7 @@ class AsyncCall(object):
                     self._call_url(url)
             except ClientTimeout:
                 # Do nothing if the client times out. It's fine
-                print 'Async request timed out for %s' % url
+                _log('Async request timed out for %s' % url)
         else:
             self._call_url(url)
 
@@ -76,7 +78,7 @@ class AsyncCall(object):
         group.join()
 
         end = time.time()
-        print 'Finished %s urls in %.2fs' % (len(self._urls), end - start)
+        _log('Finished %s urls in %.2fs' % (len(self._urls), end - start))
 
         return self._responses
 

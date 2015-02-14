@@ -2,7 +2,7 @@ import bottle
 
 from bottle import request, abort
 
-from lib.game.models import Game
+from lib.game.models import Game, GameState
 from lib.game import controller
 
 
@@ -40,8 +40,9 @@ def games_create():
     if data is None:
         return abort(400, 'No request body')
 
-    width = data.get('w', 50)
-    height = data.get('h', 50)
+    width = data.get('width', 10)
+    height = data.get('height', 10)
+    turn_time = data.get('turn_time', 0.5)
 
     try:
         snake_urls = data['snake_urls']
@@ -51,7 +52,8 @@ def games_create():
     game, game_state = controller.create_game(
         width=width,
         height=height,
-        snake_urls=snake_urls
+        snake_urls=snake_urls,
+        turn_time=turn_time
     )
 
     return _json_response({
@@ -112,6 +114,16 @@ def games_list():
 def game_details(game_id):
     game = Game.find_one({'_id': game_id})
     return _json_response(game.to_dict())
+
+
+@bottle.get('/api/games/:game_id/gamestates/:game_state_id')
+def game_states_list(game_id, game_state_id):
+    if game_state_id == 'latest':
+        game_state = GameState.find({'game_id': game_id})[0]
+    else:
+        game_state = GameState.find_one({'_id': game_state_id})
+
+    return _json_response(game_state.to_dict())
 
 # Expose WSGI app
 application = bottle.default_app()

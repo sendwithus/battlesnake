@@ -37,7 +37,7 @@ var Navbar = React.createClass({
                 <div className="container-fluid">
                     <div className="navbar-header">
                         <a className="navbar-brand" href="/play/watch">
-                            <img src="http://localhost:8080/static/img/logo-battlesnake.png" />
+                            <img src="/static/img/logo-battlesnake.png" />
                         </a>
                         <button type="button"
                                 className="navbar-toggle collapsed"

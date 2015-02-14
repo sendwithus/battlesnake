@@ -42,7 +42,7 @@ def games_create():
 
     width = data.get('width', 10)
     height = data.get('height', 10)
-    turn_time = data.get('turn_time', 0.5)
+    turn_time = data.get('turn_time', 1)
 
     try:
         snake_urls = data['snake_urls']

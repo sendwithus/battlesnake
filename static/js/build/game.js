@@ -206,7 +206,7 @@ var GameCreate = React.createClass({displayName: "GameCreate",
             data: JSON.stringify(gameData),
             contentType: 'application/json'
         }).done(function (response) {
-            window.location = '/play/watch/' + response.data.game._id;
+            window.location = '/play/games/' + response.data.game._id;
         });
     },
     handleAddSnakeUrl: function (e) {

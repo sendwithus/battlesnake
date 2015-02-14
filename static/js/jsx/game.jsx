@@ -1,6 +1,17 @@
 /** @jsx React.DOM */
 
 var Game = React.createClass({
+    handleStart: function (isManual) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/games/' + this.props.gameId + '/start',
+            data: JSON.stringify({ manual: isManual }),
+            contentType: 'application/json',
+        }).done(function (response) {
+            console.log('Started Game', response.data);
+            this.setState({ game: response.data });
+        }.bind(this));
+    },
     handleClickNextTurn: function () {
         $.ajax({
             type: 'POST',
@@ -61,8 +72,11 @@ var Game = React.createClass({
                 <div className="col-md-3 sidebar">
                     <GameSidebar
                         gameId={this.props.gameId}
+                        game={this.state.game}
                         latestGameState={this.state.latestGameState}
                         continueous={this.handleClickContinuous}
+                        startAutomated={this.handleStart.bind(null, false)}
+                        startManual={this.handleStart.bind(null, true)}
                         nextTurn={this.handleClickNextTurn} />
                 </div>
             </div>
@@ -82,6 +96,37 @@ var GameSidebar = React.createClass({
                 return <li key={'d_' + i}>{snake.name} ({snake.coords.length})</li>;
             });
         }
+        var buttons;
+
+        if (!this.props.game) {
+            buttons = ('');
+        } else if (this.props.game.state === 'created') {
+            buttons = (
+                <div>
+                    <button className="btn btn-success stretch" onClick={this.props.startAutomated}>
+                        Start Automated
+                    </button>
+                    <br />
+                    <br />
+                    <button className="btn btn-success stretch" onClick={this.props.startManual}>
+                        Start Debug
+                    </button>
+                </div>
+            );
+        } else {
+            buttons = (
+                <div>
+                    <button className="btn btn-success stretch" onClick={this.props.nextTurn}>
+                        Next Turn
+                    </button>
+                    <br />
+                    <br />
+                    <button className="btn btn-success stretch" onClick={this.props.continueous}>
+                        Continueous
+                    </button>
+                </div>
+            );
+        }
 
         return (
             <div className="game-sidebar sidebar-inner">
@@ -89,17 +134,13 @@ var GameSidebar = React.createClass({
 
                 <p>Living Snakes</p>
                 <ul>{snakes}</ul>
+
                 <p>Dead Snakes</p>
                 <ul>{deadSnakes}</ul>
+
                 <hr />
-                <button className="btn btn-success stretch" onClick={this.props.nextTurn}>
-                    Next Turn
-                </button>
-                <br />
-                <br />
-                <button className="btn btn-success stretch" onClick={this.props.continueous}>
-                    Continueous
-                </button>
+
+                {buttons}
             </div>
         );
     }

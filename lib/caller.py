@@ -3,7 +3,9 @@ import gevent.monkey
 gevent.monkey.patch_all()
 
 from gevent import Timeout, pool as gevent_pool
+
 import requests
+import json
 import time
 
 
@@ -11,67 +13,75 @@ class ClientTimeout(RuntimeError):
     pass
 
 
-class BatchTimeout(RuntimeError):
-    pass
+class AsyncCall(object):
+    def __init__(self, payload, urls, timeout=None):
+        self._payload = payload
+        self._urls = urls
+        self._timeout = timeout
 
+        self._init_responses()
 
+    def _init_responses(self):
+        self._responses = {}
 
+        # Default all responses to None
+        for url in self._urls:
+            self._responses[url] = None
 
+    def _call_url(self, url):
+        print 'calling url', url, self._payload
 
+        start = time.time()
 
+        response = requests.post(url, data=self._payload)
 
-# GREG: This should be rewritten for threading
-# Also guarantee responses for each URL, None if bad response.
+        if response.status_code == 200:
+            try:
+                data = json.loads(response.text)
+            except ValueError:
+                pass
+            else:
+                self.responses[url] = data
 
+        end = time.time()
 
+        print 'Called %s in %.2fs' % (url, end - start)
 
+    def _start_task(self, url):
+        # Start a timeout timer if we need to
 
+        if self._timeout:
+            try:
+                with Timeout(self._timeout, ClientTimeout):
+                    self._call_url(url)
+            except ClientTimeout:
+                # Do nothing if the client times out. It's fine
+                print 'Async request timed out for %s' % url
+        else:
+            self._call_url(url)
 
+    def start(self):
+        start = time.time()
 
-__results = None
+        self._init_responses()
 
-
-def call_endpoint(payload, url, timeout=None):
-    global __results
-
-    def req(url, payload):
-        global __results
-        __results[url] = requests.post(url, data=payload)
-
-    start = time.time()
-
-    if timeout:
-        with Timeout(timeout, ClientTimeout):
-            req(url, payload=payload)
-    else:
-        req(url, payload=payload)
-
-    end = time.time()
-    print 'DONE IN %s SECONDS: %s' % ((end - start), url)
-
-
-def call_endpoints_async(payload, urls, timeout=None):
-    global __results
-    __results = {}
-
-    def req_batch():
         group = gevent_pool.Group()
-        for url in urls:
-            group.spawn(call_endpoint, payload, url)
+
+        # Willem: we whouldn't actually need a BatchTimeout right?
+        for url in self._urls:
+            group.spawn(self._start_task, url)
+
         group.join()
 
-    start = time.time()
+        end = time.time()
+        print 'Finished %s urls in %.2fs' % (len(self._urls), end - start)
 
-    if timeout:
-        with Timeout(timeout, BatchTimeout):
-            req_batch()
-    else:
-        req_batch()
+        return self._responses
 
-    end = time.time()
-    print 'DONE ALL IN %s SECONDS' % (end - start)
-
-    # Clear __results and return
-    results = __results
-    del __results
-    return results
+# # # # # # # # # # # # # # # # # # # # # #
+# Test
+# AsyncCall({'hello': 'world'}, [
+#     'http://requestb.in/u9ti65u9?foo=1',
+#     'http://requestb.in/u9ti65u9?foo=2',
+#     'http://requestb.in/u9ti65u9?foo=3'
+# ], 0.5).start()

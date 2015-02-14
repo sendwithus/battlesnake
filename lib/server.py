@@ -3,8 +3,7 @@ import bottle
 from bottle import request, abort
 
 from lib.game.models import Game
-from lib import controller
-from lib.caller import call_endpoints_async
+from lib.game import controller
 
 
 CLIENT_TIMEOUT_SECONDS = 2
@@ -37,7 +36,6 @@ def server_static(filepath):
 @bottle.post('/api/games')
 def games_create():
     data = request.json
-    print data
 
     if data is None:
         return abort(400, 'No request body')
@@ -94,6 +92,20 @@ def games_create():
         'game': game.to_dict(),
         'game_state': game_state.to_dict()
     })
+
+
+@bottle.post('/api/games/:game_id/start')
+def game_start(game_id):
+    data = request.json
+
+    if data is None:
+        return abort(400, 'No request body')
+
+    manual = data.get('manual')
+
+    game = controller.start_game(game_id, manual)
+
+    return _json_response(game.to_dict())
 
 
 @bottle.post('/api/games/:game_id/turn')

@@ -8,6 +8,11 @@ def start_game(game_id, manual):
     if manual:
         game._state = Game.STATE_MANUAL
         game.save()
+    else:
+        game._state = Game.STATE_READY
+        game.save()
+
+    return game
 
 
 def create_game(snakes, width, height):

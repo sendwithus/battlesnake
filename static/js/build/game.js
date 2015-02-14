@@ -1,6 +1,17 @@
 /** @jsx React.DOM */
 
 var Game = React.createClass({displayName: "Game",
+    handleStart: function (isManual) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/games/' + this.props.gameId + '/start',
+            data: JSON.stringify({ manual: isManual }),
+            contentType: 'application/json',
+        }).done(function (response) {
+            console.log('Started Game', response.data);
+            this.setState({ game: response.data });
+        }.bind(this));
+    },
     handleClickNextTurn: function () {
         $.ajax({
             type: 'POST',
@@ -61,8 +72,11 @@ var Game = React.createClass({displayName: "Game",
                 React.createElement("div", {className: "col-md-3 sidebar"}, 
                     React.createElement(GameSidebar, {
                         gameId: this.props.gameId, 
+                        game: this.state.game, 
                         latestGameState: this.state.latestGameState, 
                         continueous: this.handleClickContinuous, 
+                        startAutomated: this.handleStart.bind(null, false), 
+                        startManual: this.handleStart.bind(null, true), 
                         nextTurn: this.handleClickNextTurn})
                 )
             )
@@ -82,6 +96,37 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
                 return React.createElement("li", {key: 'd_' + i}, snake.name, " (", snake.coords.length, ")");
             });
         }
+        var buttons;
+
+        if (!this.props.game) {
+            buttons = ('');
+        } else if (this.props.game.state === 'created') {
+            buttons = (
+                React.createElement("div", null, 
+                    React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.startAutomated}, 
+                        "Start Automated"
+                    ), 
+                    React.createElement("br", null), 
+                    React.createElement("br", null), 
+                    React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.startManual}, 
+                        "Start Debug"
+                    )
+                )
+            );
+        } else {
+            buttons = (
+                React.createElement("div", null, 
+                    React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.nextTurn}, 
+                        "Next Turn"
+                    ), 
+                    React.createElement("br", null), 
+                    React.createElement("br", null), 
+                    React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.continueous}, 
+                        "Continueous"
+                    )
+                )
+            );
+        }
 
         return (
             React.createElement("div", {className: "game-sidebar sidebar-inner"}, 
@@ -89,17 +134,13 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
 
                 React.createElement("p", null, "Living Snakes"), 
                 React.createElement("ul", null, snakes), 
+
                 React.createElement("p", null, "Dead Snakes"), 
                 React.createElement("ul", null, deadSnakes), 
+
                 React.createElement("hr", null), 
-                React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.nextTurn}, 
-                    "Next Turn"
-                ), 
-                React.createElement("br", null), 
-                React.createElement("br", null), 
-                React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.continueous}, 
-                    "Continueous"
-                )
+
+                buttons
             )
         );
     }

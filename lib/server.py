@@ -41,7 +41,7 @@ def games_create():
         return abort(400, 'No request body')
 
     width = data.get('width', 20)
-    height = data.get('height', 10)
+    height = data.get('height', 20)
     turn_time = data.get('turn_time', 2)
 
     try:

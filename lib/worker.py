@@ -1,31 +1,78 @@
+# import time
+# import os
+
+# from pymongo import MongoClient
+
+# client = MongoClient(os.environ['MONGOLAB_URI'])
+# db = client.get_default_database()
+
+
+# def run_game(game):
+#     print 'Running game %s' % game
+
+
+# def check_for_games():
+#     games = db.games.find({'status': 'waiting'}).sort('-created').limit(1)
+#     if games.count():
+#         run_game(games[0])
+#         return True
+#     else:
+#         print 'No Games'
+#         return False
+
 import time
-import os
 
-from pymongo import MongoClient
-
-from lib.game import GameState
-client = MongoClient(os.environ['MONGOLAB_URI'])
-db = client.get_default_database()
+import lib.controller as controller
+from lib.game.models import Game
 
 
-def run_game(game):
-    print 'Running game %s' % game
+def _log(msg):
+    print "[worker] %s" % str(msg)
 
 
-def check_for_games():
-    games = db.games.find({'status': 'waiting'}).sort('-created').limit(1)
-    if games.count():
-        run_game(games[0])
-        return True
-    else:
-        print 'No Games'
-        return False
+def maybe_run_game():
+    game_to_run = Game.find_one({'status': Game.STATE_READY})
+    if game_to_run:
+        _log("running game: %s" % game_to_run._id)
+        controller.run_game(game_to_run)
+        _log("finished game: %s" % game_to_run._id)
+
+
+
+
+def fake_game():
+    snakes = [
+        {
+            'id': 'snake_1',
+            'name': 'Cool Snake',
+            'color': 'green',
+            'coords': [(1, 1), (1, 1)],
+            'status': 'alive',
+            'url': 'http://battlesnake-go.herokuapp.com'
+        },
+        {
+            'id': 'snake_2',
+            'name': 'Stupid Snake',
+            'color': 'red',
+            'coords': [(3, 3), (3, 3)],
+            'status': 'alive',
+            'url': 'http://battlesnake-go.herokuapp.com/mk1'
+        }
+    ]
+
+    controller.create_game(snakes, 10, 10)
+
+
+
+
 
 
 def main():
+    # fake_game()
     while True:
-        check_for_games()
+        maybe_run_game()
         time.sleep(1)
+
 
 if __name__ == "__main__":
     main()

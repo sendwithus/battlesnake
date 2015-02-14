@@ -16,7 +16,7 @@ db = get_mongodb()
 class Model(object):
 
     def __unicode__(self):
-        return '%s[%s]' % (self.__class__.__name__, self._id)
+        return '%s[%s]' % (self.__class__.__name__, self.id)
 
     def __str__(self):
         if hasattr(self, '__unicode__'):
@@ -53,7 +53,9 @@ class Model(object):
     @classmethod
     def find_one(cls, *args, **kwargs):
         doc = cls._get_collection().find_one(*args, **kwargs)
-        return cls.from_dict(doc)
+        if doc:
+            return cls.from_dict(doc)
+        return None
 
 
 class Game(Model):
@@ -63,20 +65,20 @@ class Game(Model):
     STATE_DONE = 'done'
 
     def __init__(self, id=None, width=10, height=10, state=STATE_CREATED):
-        self._id = id or self._generate_id()
-        self._state = state
-        self._width = width
-        self._height = height
+        self.id = id or self._generate_id()
+        self.state = state
+        self.width = width
+        self.height = height
 
     def _generate_id(self):
         return '%s-%s' % (get_adjective(), get_noun())
 
     def to_dict(self):
         return {
-            '_id': self._id,
-            'state': self._state,
-            'width': self._width,
-            'height': self._height
+            '_id': self.id,
+            'state': self.state,
+            'width': self.width,
+            'height': self.height
         }
 
     @classmethod
@@ -103,25 +105,25 @@ class GameState(Model):
     ]
 
     def __init__(self, game_id):
-        self._id = uuid1()
-        self._game_id = game_id
-        self._turn = 0
-        self._board = []
-        self._snakes = []
-        self._dead_snakes = []
-        self._food = []
+        self.id = uuid1()
+        self.game_id = game_id
+        self.turn = 0
+        self.board = []
+        self.snakes = []
+        self.dead_snakes = []
+        self.food = []
 
-    def _sanity_check(self):
-        if not isinstance(self._game_id, basestring):
-            raise ValueError('Sanity Check Failed: game_id not int, %s' % self._game_id)
-        if not isinstance(self._turn, int):
-            raise ValueError('Sanity Check Failed: turn is not int, %s' % self._turn)
+    def sanity_check(self):
+        if not isinstance(self.game_id, basestring):
+            raise ValueError('Sanity Check Failed: game_id not int, %s' % self.game_id)
+        if not isinstance(self.turn, int):
+            raise ValueError('Sanity Check Failed: turn is not int, %s' % self.turn)
 
         # Board State
-        if not isinstance(self._board, list):
-            raise ValueError('Sanity Check Failed: board is not list, %s' % self._board)
+        if not isinstance(self.board, list):
+            raise ValueError('Sanity Check Failed: board is not list, %s' % self.board)
         row_size = None
-        for tile_row in self._board:
+        for tile_row in self.board:
             if not isinstance(tile_row, list):
                 raise ValueError('Sanity Check Failed: board.tile_row is not list, %s' % (tile_row))
 
@@ -143,16 +145,16 @@ class GameState(Model):
 
     def to_dict(self):
         return {
-            'game_id': self._game_id,
-            'turn': self._turn,
-            'board': self._board[:],
-            'snakes': self._snakes[:],
-            'dead_snakes': self._dead_snakes[:],
-            'food': self._food[:]
+            'game_id': self.game_id,
+            'turn': self.turn,
+            'board': self.board[:],
+            'snakes': self.snakes[:],
+            'dead_snakes': self.dead_snakes[:],
+            'food': self.food[:]
         }
 
     def to_string(self):
-        self._sanity_check()
+        self.sanity_check()
 
         tile_map = {
             GameState.TILE_STATE_EMPTY: '_',
@@ -163,16 +165,16 @@ class GameState(Model):
 
         output = ''
 
-        for y in range(len(self._board[0])):
-            for x in range(len(self._board)):
-                output += tile_map[self._board[x][y]['state']]
+        for y in range(len(self.board[0])):
+            for x in range(len(self.board)):
+                output += tile_map[self.board[x][y]['state']]
             output += '\n'
         output += '\n'
 
         return output
 
     def from_string(self, content):
-        self._board = []
+        self.board = []
 
         tile_map = {
             '_': GameState.TILE_STATE_EMPTY,
@@ -189,19 +191,19 @@ class GameState(Model):
                     'state': tile_map[raw_tile],
                     'snake': None
                 })
-            self._board.append(row)
+            self.board.append(row)
 
-        self._sanity_check()
+        self.sanity_check()
 
     @classmethod
     def from_dict(cls, obj):
         game_state = cls(obj['game_id'])
-        game_state._turn = obj['turn']
-        game_state._board = obj['board']
-        game_state._snakes = obj['snakes']
-        game_state._dead_snakes = obj['dead_snakes']
-        game_state._food = obj['food']
+        game_state.turn = obj['turn']
+        game_state.board = obj['board']
+        game_state.snakes = obj['snakes']
+        game_state.dead_snakes = obj['dead_snakes']
+        game_state.food = obj['food']
 
-        game_state._sanity_check()
+        game_state.sanity_check()
 
         return game_state

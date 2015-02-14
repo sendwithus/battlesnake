@@ -12,7 +12,7 @@ class Engine(object):
     @classmethod
     def create_game_state(cls, game_id, width, height):
         game_state = GameState(game_id=game_id)
-        game_state._board = cls.create_board(width, height)
+        game_state.board = cls.create_board(width, height)
         return game_state
 
     @staticmethod
@@ -34,10 +34,10 @@ class Engine(object):
 
         for snake in snakes:
 
-            # Add snake to ._snakes
-            game_state._snakes.append(snake)
+            # Add snake to .snakes
+            game_state.snakes.append(snake)
 
-            # Add snake to ._board
+            # Add snake to .board
             Engine.update_snakes_on_board(game_state)
 
         return game_state
@@ -46,14 +46,14 @@ class Engine(object):
     def add_random_food_to_board(game_state):
         found_space = False
         while found_space is False:
-            x = randint(0, len(game_state._board) - 1)
-            y = randint(0, len(game_state._board[0]) - 1)
+            x = randint(0, len(game_state.board) - 1)
+            y = randint(0, len(game_state.board[0]) - 1)
             coords = (x, y)
             found_space = True
-            for snake in game_state._snakes:
+            for snake in game_state.snakes:
                 if coords in snake['coords']:
                     found_space = False
-            if coords in game_state._food:
+            if coords in game_state.food:
                 found_space = False
 
         Engine.add_food_to_board(game_state, (x, y))
@@ -61,7 +61,7 @@ class Engine(object):
 
     @staticmethod
     def add_food_to_board(game_state, food):
-        game_state._food.append(food)
+        game_state.food.append(food)
 
         Engine.set_coords(
             game_state=game_state,
@@ -72,7 +72,7 @@ class Engine(object):
 
     @classmethod
     def update_snakes_on_board(cls, game_state):
-        snakes = game_state._snakes
+        snakes = game_state.snakes
         for snake in snakes:
             for coords in snake['coords']:
                 if coords == snake['coords'][0]:
@@ -88,7 +88,7 @@ class Engine(object):
 
     @staticmethod
     def update_food_on_board(game_state):
-        food = game_state._food
+        food = game_state.food
         for coords in food:
             Engine.set_coords(
                 game_state=game_state,
@@ -99,8 +99,8 @@ class Engine(object):
     def resolve_moves(cls, game_state, moves):
         # Determine what snakes and food are left on the board after this turn
         new_snakes = []
-        dead_snakes = copy.deepcopy(game_state._dead_snakes)
-        new_food = list(game_state._food)
+        dead_snakes = copy.deepcopy(game_state.dead_snakes)
+        new_food = list(game_state.food)
 
         # Determine New Snake Positions
         for move in moves:
@@ -153,11 +153,11 @@ class Engine(object):
                 kill.append(snake['id'])
                 continue
 
-            if snake['coords'][0][0] >= len(game_state._board):
+            if snake['coords'][0][0] >= len(game_state.board):
                 kill.append(snake['id'])
                 continue
 
-            if snake['coords'][0][1] >= len(game_state._board[0]):
+            if snake['coords'][0][1] >= len(game_state.board[0]):
                 kill.append(snake['id'])
                 continue
 
@@ -205,14 +205,14 @@ class Engine(object):
                 new_food.remove(food)
 
         # Create new_game_state using new_snakes and new_food
-        new_game_state = cls.create_game_state(game_state._game_id, len(game_state._board), len(game_state._board[0]))
-        new_game_state._snakes = new_snakes
-        new_game_state._dead_snakes = dead_snakes
-        new_game_state._food = new_food
-        new_game_state._turn = game_state._turn + 1
+        new_game_state = cls.create_game_state(game_state.game_id, len(game_state.board), len(game_state.board[0]))
+        new_game_state.snakes = new_snakes
+        new_game_state.dead_snakes = dead_snakes
+        new_game_state.food = new_food
+        new_game_state.turn = game_state.turn + 1
 
         # Add food every 3 turns
-        if new_game_state._turn % 3 == 0:
+        if new_game_state.turn % 3 == 0:
             cls.add_random_food_to_board(new_game_state)
 
         cls.update_snakes_on_board(new_game_state)
@@ -222,7 +222,7 @@ class Engine(object):
 
     @staticmethod
     def copy_snake(game_state, snake_id):
-        for snake in game_state._snakes:
+        for snake in game_state.snakes:
             if snake['id'] == snake_id:
                 return copy.deepcopy(snake)
         return None
@@ -237,5 +237,5 @@ class Engine(object):
             'state': state,
             'snake_id': snake_id
         }
-        game_state._board[x][y] = tile_state
-        game_state._sanity_check()
+        game_state.board[x][y] = tile_state
+        game_state.sanity_check()

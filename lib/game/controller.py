@@ -1,3 +1,5 @@
+import time
+
 from lib.game.engine import Engine
 from lib.game.models import Game, GameState
 
@@ -56,5 +58,32 @@ def run_game(game):
     game.state = Game.STATE_PLAYING
     game.save()
 
+    new_game_state = None
+
     # We have exclusive game access now
-    _log('run game!!!!! %s' % game.id)
+    _log('starting game: %s' % game.id)
+
+    while game.state != Game.STATE_DONE:
+        start_time = time.time()
+
+        ## moves = fetch_moves_async
+
+        try:
+            new_game_state = next_turn(game, [])
+        except:
+            _log('failed to insert game state: %s' % new_game_state.id)
+            break
+
+        _log('finished turn: %s' % new_game_state)
+
+        if new_game_state.is_done():
+            game.state = Game.STATE_DONE
+            game.save()
+        else:
+            # Wait at least
+            elasped_time = time.time() - start_time
+            sleep_for = max(0, float(game.turn_time) - elasped_time)
+            _log('sleeping for %.2f: %s' % (sleep_for, new_game_state.id))
+            time.sleep(sleep_for)
+
+    _log('done: %s' % new_game_state)

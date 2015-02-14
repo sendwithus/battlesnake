@@ -1,7 +1,6 @@
 import logging
 
 from datetime import datetime
-from uuid import uuid1
 
 import pymongo
 
@@ -75,11 +74,12 @@ class Game(Model):
     STATE_PLAYING = 'playing'
     STATE_DONE = 'done'
 
-    def __init__(self, id=None, width=10, height=10, state=STATE_CREATED):
+    def __init__(self, id=None, width=10, height=10, state=STATE_CREATED, turn_time=2.0):
         self.id = id or self._generate_id()
         self.state = state
         self.width = width
         self.height = height
+        self.turn_time = turn_time
 
     def _generate_id(self):
         return '%s-%s' % (get_adjective(), get_noun())
@@ -89,7 +89,8 @@ class Game(Model):
             '_id': self.id,
             'state': self.state,
             'width': self.width,
-            'height': self.height
+            'height': self.height,
+            'turn_time': self.turn_time
         }
 
     @classmethod
@@ -98,7 +99,8 @@ class Game(Model):
             id=obj['_id'],
             state=obj['state'],
             width=obj['width'],
-            height=obj['height']
+            height=obj['height'],
+            turn_time=obj['turn_time']
         )
         instance.add_timestamps(obj)
         return instance
@@ -118,13 +120,18 @@ class GameState(Model):
     ]
 
     def __init__(self, game_id):
-        self.id = uuid1()
+        self.id = None
         self.game_id = game_id
         self.turn = 0
         self.board = []
         self.snakes = []
         self.dead_snakes = []
         self.food = []
+
+    def insert(self):
+        if not self.id:
+            self.id = '%s-%s' % (self.game_id, self.turn)
+        return super(GameState, self).insert()
 
     def sanity_check(self):
         if not isinstance(self.game_id, basestring):
@@ -207,6 +214,9 @@ class GameState(Model):
             self.board.append(row)
 
         self.sanity_check()
+
+    def is_done(self):
+        return (len(self.snakes) == 0)
 
     @classmethod
     def from_dict(cls, obj):

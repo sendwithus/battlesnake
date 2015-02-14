@@ -96,14 +96,45 @@ class Engine(object):
                 state=GameState.TILE_STATE_FOOD)
 
     @classmethod
+    def get_default_move(cls, snake):
+        head_coords, next_coords = snake['coords'][0:2]
+        vector = (head_coords[0] - next_coords[0], head_coords[1] - next_coords[1])
+
+        if vector == (0, -1):
+            action = cls.MOVE_UP
+        elif vector == (0, 1):
+            action = cls.MOVE_DOWN
+        elif vector == (1, 0):
+            action = cls.MOVE_RIGHT
+        elif vector == (-1, 0):
+            action = cls.MOVE_LEFT
+        else:
+            raise Exception('failed to determine default move')
+
+        return {
+            'action': action,
+            'snake_id': snake['id']
+        }
+
+    @classmethod
     def resolve_moves(cls, game_state, moves):
         # Determine what snakes and food are left on the board after this turn
         new_snakes = []
         dead_snakes = copy.deepcopy(game_state.dead_snakes)
         new_food = list(game_state.food)
 
-        # Determine New Snake Positions
-        for move in moves:
+        # Get moves for all snakes
+        for snake in game_state.snakes:
+
+            # Find move for this snake
+            move = cls.get_default_move(snake)
+            for m in moves:
+                if m['snake_id'] == snake['id']:
+                    move = m
+                    break
+
+            # Apply move
+
             action = move['action']
             snake_id = move['snake_id']
 
@@ -135,6 +166,8 @@ class Engine(object):
             new_snake['coords'].pop(-1)
 
             new_snakes.append(new_snake)
+
+
 
         # Track Snake Collisions
         kill = []       # [snake_id, snake_id]

@@ -29,7 +29,10 @@ Everything you need to know before attending BattleSnake.
 Your team __will be writing code__, come prepared to do so.
 
 We recommend having the these things ready to go:
-* Laptop with Git and a Text Editor (Sublime Text, Vim, etc)
+* Laptop with:
+  * Git
+  * Web Language of choice (Node, Python, Ruby, Java, Go, etc)
+  * Text Editor (Sublime Text, Vim, etc)
 * [GitHub](http://github.com) account
 * [Heroku](http://heroku.com) account
 

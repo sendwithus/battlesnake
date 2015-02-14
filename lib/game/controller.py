@@ -110,6 +110,10 @@ def next_turn(game):
         next_game_state = Engine.resolve_moves(game_state, moves)
         next_game_state.insert()
 
+        print '---------------------------------'
+        print next_game_state.to_string()
+        print '---------------------------------'
+
         return next_game_state
     else:
         raise Exception('No GameStates found for %s' % game)

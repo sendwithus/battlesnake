@@ -88,10 +88,10 @@ Board.prototype.beginAnimation = function () {
 
 Board.prototype.animate = function () {
   var boardData = this.gameState.board;
-  for (var y = 0; y < boardData.length; y++) {
-    var row = boardData[y];
-    for (var x = 0; x < row.length; x++) {
-      var square = row[x];
+  for (var x = 0; x < boardData.length; x++) {
+    var col = boardData[x];
+    for (var y = 0; y < col.length; y++) {
+      var square = col[y];
       var color = generateColor();
       color = makeNonGray(color, 150);
       var colorStr = 'rgb(' + color.join(',') + ')';
@@ -167,10 +167,10 @@ Board.prototype.update = function (gameState) {
 
   var boardData = gameState.board;
 
-  for (var y = 0; y < boardData.length; y++) {
-    var row = boardData[y];
-    for (var x = 0; x < row.length; x++) {
-      var square = row[x];
+  for (var x = 0; x < boardData.length; x++) {
+    var col = boardData[x];
+    for (var y = 0; y < col.length; y++) {
+      var square = col[y];
       this.drawSquare(x, y, square);
     }
   }

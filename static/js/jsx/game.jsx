@@ -125,19 +125,23 @@ var GameSidebar = React.createClass({
                     </button>
                 </div>
             );
-        } else {
+        } else if (this.props.game.state === 'manual') {
             buttons = (
                 <div>
                     <button className="btn btn-success stretch" onClick={this.props.nextTurn}>
                         Next Turn
                     </button>
-                    <br />
+                    {
+                    /*<br />
                     <br />
                     <button className="btn btn-success stretch" onClick={this.props.continueous}>
                         Continueous
                     </button>
+                    */}
                 </div>
             );
+        } else {
+            // no buttons for real games
         }
 
         return (

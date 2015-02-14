@@ -37,7 +37,11 @@ class Engine(object):
             # CURTIS: Fix collisions.
             x = random.randint(0, len(game_state.board) - 1)
             y = random.randint(0, len(game_state.board[0]) - 1)
-            snake['coords'] = [(x, y), (x, y)]
+
+            x = int(len(game_state.board) / 2)
+            y = len(game_state.board[0]) - 1
+
+            snake['coords'] = [[x, y], [x, y]]
 
             # Add snake to .snakes
             game_state.snakes.append(snake)
@@ -53,7 +57,7 @@ class Engine(object):
         while found_space is False:
             x = random.randint(0, len(game_state.board) - 1)
             y = random.randint(0, len(game_state.board[0]) - 1)
-            coords = (x, y)
+            coords = [x, y]
             found_space = True
             for snake in game_state.snakes:
                 if coords in snake['coords']:
@@ -61,7 +65,7 @@ class Engine(object):
             if coords in game_state.food:
                 found_space = False
 
-        Engine.add_food_to_board(game_state, (x, y))
+        Engine.add_food_to_board(game_state, [x, y])
         return game_state
 
     @staticmethod
@@ -103,17 +107,17 @@ class Engine(object):
     @classmethod
     def get_default_move(cls, snake):
         head_coords, next_coords = snake['coords'][0:2]
-        vector = (head_coords[0] - next_coords[0], head_coords[1] - next_coords[1])
+        vector = [head_coords[0] - next_coords[0], head_coords[1] - next_coords[1]]
 
-        if vector == (0, -1):
+        if vector == [0, -1]:
             move = cls.MOVE_UP
-        elif vector == (0, 1):
+        elif vector == [0, 1]:
             move = cls.MOVE_DOWN
-        elif vector == (1, 0):
+        elif vector == [1, 0]:
             move = cls.MOVE_RIGHT
-        elif vector == (-1, 0):
+        elif vector == [-1, 0]:
             move = cls.MOVE_LEFT
-        elif vector == (0, 0):
+        elif vector == [0, 0]:
             # Greg: Run into the wall right away.
             move = random.choice([cls.MOVE_LEFT, cls.MOVE_RIGHT, cls.MOVE_DOWN, cls.MOVE_UP])
         else:
@@ -155,19 +159,19 @@ class Engine(object):
 
             # Add New Head
             if action == cls.MOVE_UP:
-                new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (0, -1)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (0, -1)))
                 new_snake['coords'].insert(0, new_head)
 
             if action == cls.MOVE_DOWN:
-                new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (0, 1)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (0, 1)))
                 new_snake['coords'].insert(0, new_head)
 
             if action == cls.MOVE_RIGHT:
-                new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (1, 0)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (1, 0)))
                 new_snake['coords'].insert(0, new_head)
 
             if action == cls.MOVE_LEFT:
-                new_head = tuple(sum(x) for x in zip(new_snake['coords'][0], (-1, 0)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (-1, 0)))
                 new_snake['coords'].insert(0, new_head)
 
             # Remove Tail
@@ -253,6 +257,13 @@ class Engine(object):
         # Add food every 3 turns
         if new_game_state.turn % 3 == 0:
             cls.add_random_food_to_board(new_game_state)
+        cls.add_random_food_to_board(new_game_state)
+        cls.add_random_food_to_board(new_game_state)
+        cls.add_random_food_to_board(new_game_state)
+        cls.add_random_food_to_board(new_game_state)
+        cls.add_random_food_to_board(new_game_state)
+        cls.add_random_food_to_board(new_game_state)
+        cls.add_random_food_to_board(new_game_state)
 
         cls.update_snakes_on_board(new_game_state)
         cls.update_food_on_board(new_game_state)

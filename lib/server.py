@@ -82,19 +82,7 @@ def game_start(game_id):
 @bottle.post('/api/games/:game_id/turn')
 def game_turn(game_id):
     game = Game.find_one({'_id': game_id})
-
-    moves = [
-        {
-            'snake_id': 'snake_1',
-            'action': 'right'
-        },
-        {
-            'snake_id': 'snake_2',
-            'action': 'left'
-        }
-    ]
-
-    game_state = controller.next_turn(game, moves)
+    game_state = controller.next_turn(game)
 
     return _json_response(game_state.to_dict())
 

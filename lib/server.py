@@ -3,8 +3,7 @@ import bottle
 from bottle import request, abort
 
 from lib.game.models import Game
-from lib import controller
-from lib.caller import call_endpoints_async
+from lib.game import controller
 
 
 CLIENT_TIMEOUT_SECONDS = 2

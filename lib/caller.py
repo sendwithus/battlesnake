@@ -41,7 +41,9 @@ class AsyncCall(object):
             except ValueError:
                 pass
             else:
-                self.responses[url] = data
+                self._responses[url] = data
+        else:
+            print 'Failed to contact url: %s' % response.status_code
 
         end = time.time()
 

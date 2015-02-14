@@ -37,7 +37,7 @@ class Engine(object):
             # CURTIS: Fix collisions.
             x = random.randint(0, len(game_state.board) - 1)
             y = random.randint(0, len(game_state.board[0]) - 1)
-            snake.coords = [(x, y), (x, y)]
+            snake['coords'] = [(x, y), (x, y)]
 
             # Add snake to .snakes
             game_state.snakes.append(snake)

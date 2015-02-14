@@ -69,7 +69,10 @@ def game_start(game_id):
 
     manual = data.get('manual')
 
-    game = controller.start_game(game_id, manual)
+    try:
+        game = controller.start_game(game_id, manual)
+    except Exception as e:
+        return abort(400, str(e))
 
     return _json_response(game.to_dict())
 
@@ -77,18 +80,6 @@ def game_start(game_id):
 @bottle.post('/api/games/:game_id/turn')
 def game_turn(game_id):
     game = Game.find_one({'_id': game_id})
-
-    # # Load snake URLs from the game
-    # snake_urls = [snake['url'] for snake in game.snakes]
-    #
-    # # Call each snake endpoint
-    # move_urls = ['%s/%s' % (url, 'move') for url in snake_urls]
-    # responses = call_endpoints_async(
-    #     payload=None,
-    #     urls=move_urls,
-    #     timeout=CLIENT_TIMEOUT_SECONDS
-    # )
-    # moves = responses.values()
 
     moves = [
         {

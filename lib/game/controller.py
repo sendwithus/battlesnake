@@ -2,7 +2,7 @@
 import time
 
 from lib.game.engine import Engine
-from lib.caller import call_endpoints_async
+from lib.caller import AsyncCall
 from lib.game.models import Game, GameState
 
 
@@ -12,6 +12,9 @@ def _log(msg):
 
 def start_game(game_id, manual):
     game = Game.find_one({'_id': game_id})
+
+    if not game:
+        raise Exception('Could not find game %s' % game_id)
 
     if manual:
         game.state = Game.STATE_MANUAL
@@ -28,30 +31,28 @@ def create_game(snake_urls, width, height):
 
     # Fetch snakes
     start_urls = [('%s/start' % url) for url in snake_urls]
-    responses = call_endpoints_async(
+    responses = AsyncCall(
         payload={
             'game_id': game.id
         },
         urls=start_urls,
         timeout=game.turn_time
-    )
+    ).start()
 
     snakes = []
     for snake_url in snake_urls:
         for url, response in responses.items():
-            if not response or not response.status_code == 200:
+            if response is None:
                 # FREAK OUT
                 raise Exception('failed to contact snake: %s' % url)
-
-            response_body = response.json()
 
             if url.startswith(snake_url):
                 snakes.append({
                     'url': snake_url,
-                    'color': response_body['color'],
-                    'id': response_body['name'],
-                    'name': response_body['name'],
-                    'taunt': response_body['taunt']
+                    'color': response['color'],
+                    'id': response['name'],
+                    'name': response['name'],
+                    'taunt': response['taunt']
                 })
 
     game.insert()
@@ -97,7 +98,7 @@ def run_game(game):
     while game.state != Game.STATE_DONE:
         start_time = time.time()
 
-        ## moves = fetch_moves_async
+        # moves = fetch_moves_async
 
         try:
             new_game_state = next_turn(game, [])

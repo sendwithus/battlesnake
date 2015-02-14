@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+var navigate = ReactMiniRouter.navigate;
+
 var Game = React.createClass({displayName: "Game",
     handleStart: function (isManual) {
         $.ajax({
@@ -206,7 +208,7 @@ var GameCreate = React.createClass({displayName: "GameCreate",
             data: JSON.stringify(gameData),
             contentType: 'application/json'
         }).done(function (response) {
-            window.location = '/play/games/' + response.data.game._id;
+            navigate('/play/games/' + response.data.game._id);
         });
     },
     handleAddSnakeUrl: function (e) {

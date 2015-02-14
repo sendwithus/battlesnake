@@ -40,9 +40,9 @@ def games_create():
     if data is None:
         return abort(400, 'No request body')
 
-    width = data.get('width', 10)
+    width = data.get('width', 20)
     height = data.get('height', 10)
-    turn_time = data.get('turn_time', 1)
+    turn_time = data.get('turn_time', 2)
 
     try:
         snake_urls = data['snake_urls']

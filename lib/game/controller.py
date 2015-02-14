@@ -91,7 +91,8 @@ def get_moves(game_state, timeout):
             if response is None:
                 # Too bad for that snake. Engine should keep it moving
                 # in current direction
-                pass
+                _log('%s timed out' % snake['id'])
+                continue
 
             if url.startswith(snake['url']):
                 moves.append({
@@ -109,10 +110,6 @@ def next_turn(game):
         moves = get_moves(game_state, game.turn_time)
         next_game_state = Engine.resolve_moves(game_state, moves)
         next_game_state.insert()
-
-        print '---------------------------------'
-        print next_game_state.to_string()
-        print '---------------------------------'
 
         return next_game_state
     else:

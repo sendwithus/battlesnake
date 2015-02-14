@@ -34,12 +34,9 @@ class Engine(object):
     def add_snakes_to_board(game_state, snakes):
 
         for snake in snakes:
-            # CURTIS: Fix collisions.
+            # TODO CURTIS: Fix collisions.
             x = random.randint(0, len(game_state.board) - 1)
             y = random.randint(0, len(game_state.board[0]) - 1)
-
-            x = int(len(game_state.board) / 2)
-            y = len(game_state.board[0]) - 1
 
             snake['coords'] = [[x, y], [x, y]]
 
@@ -257,13 +254,6 @@ class Engine(object):
         # Add food every 3 turns
         if new_game_state.turn % 3 == 0:
             cls.add_random_food_to_board(new_game_state)
-        cls.add_random_food_to_board(new_game_state)
-        cls.add_random_food_to_board(new_game_state)
-        cls.add_random_food_to_board(new_game_state)
-        cls.add_random_food_to_board(new_game_state)
-        cls.add_random_food_to_board(new_game_state)
-        cls.add_random_food_to_board(new_game_state)
-        cls.add_random_food_to_board(new_game_state)
 
         cls.update_snakes_on_board(new_game_state)
         cls.update_food_on_board(new_game_state)

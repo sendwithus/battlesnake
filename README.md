@@ -41,7 +41,7 @@ __Questions?__ Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.
 
 ## Location and Schedule
 
-__When:__ February 21st, 11:00 am - 8:00 pm
+__When:__ February 21st, 11:00am - 8:00pm
 
 __Where:__ University of Victoria, ECS 123 ([map](https://www.google.ca/maps/place/Engineering+Laboratory+Wing,+University+of+Victoria,+Victoria,+BC+V8P+3E6/@48.4610471,-123.3105421,17z/data=!3m1!4b1!4m6!1m3!3m2!1s0x0:0xc039d0b85e1ede74!2sUniversity+of+Victoria!3m1!1s0x548f71564531ee1b:0xa0671c6aceab37b4))
 
@@ -49,13 +49,13 @@ __Schedule:__
 
 | Time | Event |
 |----------|--------|
-| 11:00 am | Team Registation |
-| 11:30 am | Orientation and Game Rules |
-| 12:00 pm | Hacking Begins! |
-| 12:30 pm | Food |
-| 5:30 pm | More Food! |
-| 6:00 pm | BattleSnake Tournament Starts |
-| 7:30 pm | Drinks @ Felicita's |
+| 11:00am | Team Registation |
+| 11:30am | Orientation and Game Rules |
+| 12:00pm | Hacking Begins! |
+| 12:30pm | Food |
+| 5:30pm | More Food! |
+| 6:00pm | BattleSnake Tournament Starts |
+| 7:30pm | Drinks @ Felicita's |
 
 
 <br>
@@ -81,13 +81,13 @@ Also see:
 
 #### Registration
 
-Team registration opens at 11:00 am in ECS 123.
+Team registration opens at 11:00am in ECS 123.
 
 To register, you'll need the following:
 * Team/Snake Name
 * Name of all team members (1-4 suggested)
 
-Individuals may register and compete as a single-person team. We will accommodate anyone to join a team.
+Individuals may register and compete as a one person team. Anyone looking to join a team will be accommodated.
 
 #### Orientation
 

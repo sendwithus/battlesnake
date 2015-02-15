@@ -1,4 +1,5 @@
 import bottle
+import json
 
 from lib.game.models import Game, GameState
 from lib.game import controller
@@ -7,11 +8,16 @@ from lib.game import controller
 CLIENT_TIMEOUT_SECONDS = 2
 
 
-def _json_response(data):
-    return {
+def _json_response(data={}, msg=None, status=200):
+    body = json.dumps({
         'data': data,
-        'status': 'OK'
-    }
+        'message': msg
+    })
+
+    return bottle.HTTPResponse(
+        body,
+        status=status,
+        headers={'Content-Type': 'application/json'})
 
 
 @bottle.get('/')
@@ -36,7 +42,7 @@ def games_create():
     data = bottle.request.json
 
     if data is None:
-        return bottle.abort(400, 'No request body')
+        return _json_response(msg='Invalid request body', status=400)
 
     width = data.get('width', 20)
     height = data.get('height', 20)
@@ -45,14 +51,17 @@ def games_create():
     try:
         snake_urls = data['snake_urls']
     except KeyError:
-        return bottle.abort(400, 'Invalid snakes')
+        return _json_response(msg='Invalid snakes', status=400)
 
-    game, game_state = controller.create_game(
-        width=width,
-        height=height,
-        snake_urls=snake_urls,
-        turn_time=turn_time
-    )
+    try:
+        game, game_state = controller.create_game(
+            width=width,
+            height=height,
+            snake_urls=snake_urls,
+            turn_time=turn_time
+        )
+    except Exception as e:
+        return _json_response(msg=str(e), status=400)
 
     return _json_response({
         'game': game.to_dict(),

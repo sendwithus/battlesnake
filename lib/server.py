@@ -1,7 +1,5 @@
 import bottle
 
-from bottle import request, abort
-
 from lib.game.models import Game, GameState
 from lib.game import controller
 
@@ -35,10 +33,10 @@ def server_static(filepath):
 
 @bottle.post('/api/games')
 def games_create():
-    data = request.json
+    data = bottle.request.json
 
     if data is None:
-        return abort(400, 'No request body')
+        return bottle.abort(400, 'No request body')
 
     width = data.get('width', 20)
     height = data.get('height', 20)
@@ -47,7 +45,7 @@ def games_create():
     try:
         snake_urls = data['snake_urls']
     except KeyError:
-        return abort(400, 'Invalid snakes')
+        return bottle.abort(400, 'Invalid snakes')
 
     game, game_state = controller.create_game(
         width=width,
@@ -64,17 +62,17 @@ def games_create():
 
 @bottle.post('/api/games/:game_id/start')
 def game_start(game_id):
-    data = request.json
+    data = bottle.request.json
 
     if data is None:
-        return abort(400, 'No request body')
+        return bottle.abort(400, 'No request body')
 
     manual = data.get('manual')
 
     try:
         game = controller.start_game(game_id, manual)
     except Exception as e:
-        return abort(400, str(e))
+        return bottle.abort(400, str(e))
 
     return _json_response(game.to_dict())
 

@@ -63,12 +63,13 @@ __Schedule:__
 ## Preparing for Battle
 Everything you need to know before attending BattleSnake.
 
-#### Coming Prepared
+### Come Prepared
 
-Your team __will be writing code__, come prepared to do so.
-
-You should also have the following:
-* Laptop with Git, Web Language of choice (Node, Python, Ruby, Java, Go, etc), and a Text Editor (Sublime Text, Vim, etc)
+Your team __will be writing code__, come prepared to do so. You should also have the following:
+* Laptop with the following setup:
+  * Git
+  * Programming language of choice (Node, Python, Java, etc)
+  * A text editor (Sublime Text, Vim, etc)
 * A [GitHub](http://github.com) account
 * A free [Heroku](http://heroku.com) account
 
@@ -79,7 +80,7 @@ Also see:
 * [Heroku Toolbelt](https://toolbelt.heroku.com/)
 * [Deploying to Heroku with Git](https://devcenter.heroku.com/articles/git)
 
-#### Registration
+### Registration
 
 Team registration opens at 11:00am in ECS 123.
 
@@ -89,9 +90,9 @@ To register, you'll need the following:
 
 Individuals may register and compete as a one person team. Anyone looking to join a team will be accommodated.
 
-#### Orientation
+### Orientation
 
-Orientation will start __promptly__ at 11:30 am. __Do not be late.__
+Orientation will start __promptly__ at 11:30am. __Do not be late.__
 
 The following will be announced and discussed in detail:
 * Prize details
@@ -100,9 +101,7 @@ The following will be announced and discussed in detail:
 * Sample code for Python, Node, Java, Ruby, and Go
 * Where to find help
 
-Orientation will also be the best time to ask questions.
-
-Hacking will start immediately after orientation.
+Orientation will also be the best time to ask questions. Hacking will start immediately afterwards.
 
 <br>
 
@@ -133,9 +132,7 @@ To be announced.
 
 ## Example Snakes
 
-The sendwithus team has provided basic Snake AIs to get you started. 
-
-Each of these clients can be deployed to [Heroku](http://heroku.com) without additional configuration.
+The sendwithus team has provided basic Snake AIs to get you started. Each of these clients can be deployed to [Heroku](http://heroku.com) without additional configuration.
 
 __Example Clients and Source Code:__
 * [NodeJS](http://github.com/sendwithus/battlesnake-node)

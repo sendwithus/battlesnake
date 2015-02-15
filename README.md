@@ -41,7 +41,7 @@ __Questions?__ Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.
 
 ## Location and Schedule
 
-__When:__ February 28th, 11:00am - 8:00pm
+__When:__ February 21st, 11:00 am - 8:00 pm
 
 __Where:__ University of Victoria, ECS 123 ([map](https://www.google.ca/maps/place/Engineering+Laboratory+Wing,+University+of+Victoria,+Victoria,+BC+V8P+3E6/@48.4610471,-123.3105421,17z/data=!3m1!4b1!4m6!1m3!3m2!1s0x0:0xc039d0b85e1ede74!2sUniversity+of+Victoria!3m1!1s0x548f71564531ee1b:0xa0671c6aceab37b4))
 

@@ -32,6 +32,10 @@ __Questions?__ Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.
 * [Dropbox](http://www.dropbox.com)
 * [VIATeC](http://www.viatec.ca)
 * [OneNet Marketing](http://onenetmarketing.com)
+* [University of Victoria, Department of Computer Science](https://www.csc.uvic.ca/)
+* [Women in Engineering and Computer Science](https://wecs.csc.uvic.ca/)
+* [UVic CSCU](https://onlineacademiccommunity.uvic.ca/cscu/)
+* [UVic Web Development Club](http://uvic.io/)
 
 <br>
 

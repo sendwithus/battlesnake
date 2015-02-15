@@ -26,7 +26,7 @@ __Questions?__ Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.
 
 <br>
 
-#### BattleSnake is Sponsored By:
+#### BattleSnake is Sponsored By
 * [Heroku](http://www.heroku.com)
 * [sendwithus](http://www.sendwithus.com)
 * [Dropbox](http://www.dropbox.com)
@@ -65,7 +65,7 @@ Everything you need to know before attending BattleSnake.
 
 ### Come Prepared
 
-Your team __will be writing code__, come prepared to do so. You should also have the following:
+Your team __will be writing code__, come prepared to do so. You should also have the following ready
 * Laptop with the following setup:
   * Git
   * Programming language of choice (Node, Python, Java, etc)
@@ -77,7 +77,7 @@ Your team __will be writing code__, come prepared to do so. You should also have
 
 For novice and intermediate programmers, we __strongly__ recommend familiarizing yourself with [Heroku](http://heroku.com) before hand. Deploying with [Heroku](http://heroku.com) will maximize time spent developing your AI (and not messing around with servers). All provided code samples and example AIs will be ready-to-deploy to Heroku.
 
-Also see:
+Also see
 * [Getting Started on Heroku](https://devcenter.heroku.com/start)
 * [Heroku Toolbelt](https://toolbelt.heroku.com/)
 * [Deploying to Heroku with Git](https://devcenter.heroku.com/articles/git)
@@ -96,10 +96,9 @@ Individuals may register and compete as a one person team. Anyone looking to joi
 
 Orientation will start __promptly__ at 11:30am. __Do not be late.__
 
-The following will be announced and discussed in detail:
-* Prize details
+Topics covered during orientaion
 * Tournament format and schedule
-* Game rules and documentation
+* Game rules and API documentation
 * Sample code for Python, Node, Java, Ruby, and Go
 * Where to find help
 
@@ -136,7 +135,7 @@ To be announced.
 
 The sendwithus team has provided basic Snake AIs to get you started. Each of these clients can be deployed to [Heroku](http://heroku.com) without additional configuration.
 
-__Example Clients and Source Code:__
+__Example Clients and Source Code__
 * [NodeJS](http://github.com/sendwithus/battlesnake-node)
 * [Python](http://github.com/sendwithus/battlesnake-python)
 * [Java](http://github.com/sendwithus/battlesnake-java)

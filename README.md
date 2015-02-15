@@ -9,7 +9,12 @@ Teams from local schools and tech companies write AI clients for the game Battle
 
 Last snake standing wins, prizes will be awarded to the most successful teams.
 
-Full API details and documentation will be released the morning of the event.
+API details and documentation will be released and discussed the morning of the event.
+
+#### Table of Contents
+* Location and Schedule
+* Preparing for Battle
+* Prizes
 
 <br>
 
@@ -68,7 +73,7 @@ The following will be announced and discussed in detail:
 * Sample code for Python, Node, Java, Ruby, and Go
 * Where to find help
 
-Orientation will also be the best time to ask questions. 
+Orientation will also be the best time to ask questions.
 
 Hacking will start immediately after orientation.
 

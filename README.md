@@ -91,7 +91,7 @@ Individuals may register and compete as a one person team. Anyone looking to joi
 
 #### Orientation
 
-Orientation will start __promptly__ at 11:30 am. You will not want to be late.
+Orientation will start __promptly__ at 11:30 am. __Do not be late.__
 
 The following will be announced and discussed in detail:
 * Prize details

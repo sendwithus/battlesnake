@@ -20,9 +20,9 @@ __Questions?__ Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.
 * [Preparing for Battle](#preparing-for-battle)
 * [Prizes and Awards](#prizes-and-awards)
 * [Game Rules](#game-rules)
-* [Writing Snake AIs](#writing-snake-ais)
-* [Example Clients](#example-clients)
-* [Testing Snake AIs](#testing-snake-ais)
+* [Snake API Documentation](#snake-api-documentation)
+* [Example Snakes](#example-snakes)
+* [Testing Snakes](#testing-snakes)
 
 <br>
 
@@ -125,13 +125,13 @@ To be announced.
 
 <br>
 
-## Writing Snake AIs
+## Snake API Documentation
 
 To be announced.
 
 <br>
 
-## Example AI Clients
+## Example Snakes
 
 The sendwithus team has provided basic Snake AIs to get you started. 
 
@@ -146,7 +146,7 @@ __Example Clients and Source Code:__
 
 <br>
 
-## Testing Snake AIs
+## Testing Snakes
 
 To be announced.
 

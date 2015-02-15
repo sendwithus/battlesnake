@@ -45,7 +45,7 @@ __When__ <br> February 21st, 11:00am - 8:00pm
 
 __Where__ <br> University of Victoria, ECS 123 ([map](https://www.google.ca/maps/place/Engineering+Laboratory+Wing,+University+of+Victoria,+Victoria,+BC+V8P+3E6/@48.4610471,-123.3105421,17z/data=!3m1!4b1!4m6!1m3!3m2!1s0x0:0xc039d0b85e1ede74!2sUniversity+of+Victoria!3m1!1s0x548f71564531ee1b:0xa0671c6aceab37b4))
 
-__Schedule:__
+__Schedule__
 
 | Time | Event |
 |----------|--------|
@@ -73,7 +73,9 @@ Your team __will be writing code__, come prepared to do so. You should also have
 * A [GitHub](http://github.com) account
 * A free [Heroku](http://heroku.com) account
 
-We strongly recommend familiarizing yourself with [Heroku](http://heroku.com) before hand. Deploying with [Heroku](http://heroku.com) will maximize time spent developing your AI (and not messing around with servers). All provided code samples and example AIs will be ready-to-deploy to Heroku.
+### Learning Heroku
+
+For novice and intermediate programmers, we __strongly__ recommend familiarizing yourself with [Heroku](http://heroku.com) before hand. Deploying with [Heroku](http://heroku.com) will maximize time spent developing your AI (and not messing around with servers). All provided code samples and example AIs will be ready-to-deploy to Heroku.
 
 Also see:
 * [Getting Started on Heroku](https://devcenter.heroku.com/start)

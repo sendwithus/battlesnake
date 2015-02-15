@@ -110,11 +110,11 @@ Hacking will start immediately after orientation.
 
 __Grand Prize__ <br> $500, BattleSnake Swag Pack
 
-__Second Placee:__ <br> $300, BattleSnake Swag Pack
+__Second Place__ <br> $300, BattleSnake Swag Pack
 
-__Third Place:__ <br> $200, BattleSnake Swag Pack
+__Third Place__ <br> $200, BattleSnake Swag Pack
 
-__Awards:__
+__Awards__
 * To be announced.
 
 <br>

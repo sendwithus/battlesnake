@@ -9,13 +9,21 @@ Last snake standing wins, prizes will be awarded to the most successful teams.
 
 API details and documentation will be released and discussed the morning of the event.
 
+For more information or to register a team, visit [battlesnake.io](http://www.battlesnake.io).
+
+__Questions?__ Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.com). 
+
+<br>
+
 #### Table of Contents
 * [Location and Schedule](#location-and-schedule)
 * [Preparing for Battle](#preparing-for-battle)
 * [Prizes and Awards](#prizes-and-awards)
 * [Game Rules](#game-rules)
-* [AI Documentation](#ai-documentation)
+* [Writing Snake AIs](#write-snake-ais)
 * [Example Clients](#example-clients)
+
+<br>
 
 ## Location and Schedule
 
@@ -27,8 +35,6 @@ __Where:__ University of Victoria, ECS 123 ([map](https://www.google.ca/maps/pla
 
 ## Preparing for Battle
 Everything you need to know before attending BattleSnake.
-
-<br>
 
 #### Coming Prepared
 
@@ -49,8 +55,6 @@ Also see:
 * [Heroku Toolbelt](https://toolbelt.heroku.com/)
 * [Deploying to Heroku with Git](https://devcenter.heroku.com/articles/git)
 
-<br>
-
 #### Registration
 
 Team registration opens at 11:00 am in ECS 123.
@@ -60,8 +64,6 @@ To register, you'll need the following:
 * Name of all team members (1-4 suggested)
 
 Individuals may register and compete as a single-person team. We will accommodate anyone to join a team.
-
-<br>
 
 #### Orientation
 
@@ -77,6 +79,30 @@ The following will be announced and discussed in detail:
 Orientation will also be the best time to ask questions.
 
 Hacking will start immediately after orientation.
+
+<br>
+
+## Prizes and Awards
+
+To be announced.
+
+<br>
+
+## Game Rules
+
+To be announced.
+
+<br>
+
+## Writing Snake AIs
+
+To be announced.
+
+<br>
+
+## Example AI Clients
+
+To be announced.
 
 <br>
 

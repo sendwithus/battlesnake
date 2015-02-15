@@ -11,8 +11,11 @@ API details and documentation will be released and discussed the morning of the 
 
 #### Table of Contents
 * [Location and Schedule](#location-and-schedule)
-* Preparing for Battle
-* Prizes
+* [Preparing for Battle](#preparing-for-battle)
+* [Prizes and Awards](#prizes-and-awards)
+* [Game Rules](#game-rules)
+* [AI Documentation](#ai-documentation)
+* [Example Clients](#example-clients)
 
 ## Location and Schedule
 

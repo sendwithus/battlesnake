@@ -20,7 +20,7 @@ __Questions?__ Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.
 * [Preparing for Battle](#preparing-for-battle)
 * [Prizes and Awards](#prizes-and-awards)
 * [Game Rules](#game-rules)
-* [Writing Snake AIs](#write-snake-ais)
+* [Writing Snake AIs](#writing-snake-ais)
 * [Example Clients](#example-clients)
 
 <br>

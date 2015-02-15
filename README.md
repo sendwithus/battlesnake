@@ -1,7 +1,5 @@
 # BattleSnake 2015
-#### presented by [sendwithus](https://www.sendwithus.com), powered by [heroku](http://heroku.com)
-
-<br>
+#### presented by [sendwithus](https://www.sendwithus.com), powered by [Heroku](http://heroku.com)
 
 BattleSnake is a RESTful AI competition held in Victoria BC.
 
@@ -12,15 +10,15 @@ Last snake standing wins, prizes will be awarded to the most successful teams.
 API details and documentation will be released and discussed the morning of the event.
 
 #### Table of Contents
-* Location and Schedule
+* [Location and Schedule](#location-and-schedule)
 * Preparing for Battle
 * Prizes
 
-<br>
+## Location and Schedule
 
 __When:__ February 28th, 11:00am - 8:00pm
 
-__Where:__ University of Victoria, Engineering Building
+__Where:__ University of Victoria, ECS 123 ([map](https://www.google.ca/maps/place/Engineering+Laboratory+Wing,+University+of+Victoria,+Victoria,+BC+V8P+3E6/@48.4610471,-123.3105421,17z/data=!3m1!4b1!4m6!1m3!3m2!1s0x0:0xc039d0b85e1ede74!2sUniversity+of+Victoria!3m1!1s0x548f71564531ee1b:0xa0671c6aceab37b4))
 
 <br>
 

@@ -74,12 +74,21 @@ class Game(Model):
     STATE_PLAYING = 'playing'
     STATE_DONE = 'done'
 
-    def __init__(self, id=None, width=10, height=10, state=STATE_CREATED, turn_time=2.0):
+    def __init__(
+            self,
+            id=None,
+            width=10,
+            height=10,
+            state=STATE_CREATED,
+            turn_time=2.0,
+            is_live=True):
+
         self.id = id or self._generate_id()
         self.state = state
         self.width = width
         self.height = height
         self.turn_time = turn_time
+        self.is_live = is_live
 
     def _generate_id(self):
         return '%s-%s' % (get_adjective(), get_noun())
@@ -90,7 +99,8 @@ class Game(Model):
             'state': self.state,
             'width': self.width,
             'height': self.height,
-            'turn_time': self.turn_time
+            'turn_time': self.turn_time,
+            'is_live': self.is_live
         }
 
     @classmethod
@@ -100,8 +110,10 @@ class Game(Model):
             state=obj['state'],
             width=obj['width'],
             height=obj['height'],
-            turn_time=obj['turn_time']
+            turn_time=obj['turn_time'],
+            is_live=obj.get('is_live', False)
         )
+
         instance.add_timestamps(obj)
         return instance
 

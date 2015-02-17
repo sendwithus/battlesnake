@@ -36,7 +36,7 @@ def create_game(snake_urls, width, height, turn_time):
             'game_id': game.id
         },
         urls=start_urls,
-        timeout=game.turn_time
+        timeout=game.turn_time * 4
     ).start()
 
     snakes = []

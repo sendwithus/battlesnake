@@ -256,6 +256,7 @@ var GameCreate = React.createClass({
         });
     },
     handleSubmitSnake: function (e) {
+        e.preventDefault();
         var snakeUrls = this.state.snakeUrls;
         snakeUrls.push(this.state.currentSnakeUrl);
         this.setState({ snakeUrls: snakeUrls });

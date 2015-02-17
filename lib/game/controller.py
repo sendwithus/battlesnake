@@ -79,7 +79,7 @@ def get_moves(game_state, timeout):
         'game_id': game_state.game_id,
         'turn': game_state.turn,
         'board': game_state.board,
-        'snake': game_state.snakes
+        'snakes': game_state.snakes
     }
 
     responses = AsyncCall(payload, urls, timeout).start()

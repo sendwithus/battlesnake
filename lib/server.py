@@ -1,8 +1,6 @@
 import bottle
 import json
 
-from bottle import request, abort, HTTPResponse
-
 from lib.game.models import Game, GameState
 from lib.game import controller
 
@@ -16,7 +14,7 @@ def _json_response(data={}, msg=None, status=200):
         'message': msg
     })
 
-    return HTTPResponse(
+    return bottle.HTTPResponse(
         body,
         status=status,
         headers={'Content-Type': 'application/json'})
@@ -41,7 +39,7 @@ def server_static(filepath):
 
 @bottle.post('/api/games')
 def games_create():
-    data = request.json
+    data = bottle.request.json
 
     if data is None:
         return _json_response(msg='Invalid request body', status=400)
@@ -73,17 +71,17 @@ def games_create():
 
 @bottle.post('/api/games/:game_id/start')
 def game_start(game_id):
-    data = request.json
+    data = bottle.request.json
 
     if data is None:
-        return abort(400, 'No request body')
+        return bottle.abort(400, 'No request body')
 
     manual = data.get('manual')
 
     try:
         game = controller.start_game(game_id, manual)
     except Exception as e:
-        return abort(400, str(e))
+        return bottle.abort(400, str(e))
 
     return _json_response(game.to_dict())
 

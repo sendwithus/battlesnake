@@ -35,7 +35,8 @@ class AsyncCall(object):
     def _call_url(self, url):
         start = time.time()
 
-        response = requests.post(url, data=self._payload)
+        headers = {'content-type': 'application/json'}
+        response = requests.post(url, data=self._payload, headers=headers)
 
         if response.status_code == 200:
             try:

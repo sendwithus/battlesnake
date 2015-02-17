@@ -276,38 +276,32 @@ var GameCreate = React.createClass({
         return (
             <div className="container">
                 <form onSubmit={this.handleGameCreate}>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <h2>Snakes</h2>
-                            <p>Add the endpoints of your snake AIs to this
-                            form.</p>
-                            <hr />
-                            <div>
-                                {snakeUrls}
-                            </div>
-                            <div className="input-group">
-                                <input type="text"
-                                    className="form-control"
-                                    value={this.state.currentSnakeUrl}
-                                    name="snake-url"
-                                    placeholder="http://mysnake.herokuapp.com"
-                                    onChange={this.handleSnakeUrlChange}
-                                />
-                                <span className="input-group-btn">
-                                    <button type="button"
-                                            onClick={this.handleSubmitSnake}
-                                            className="btn btn-info big form-control">
-                                        Add Snake
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <h2>Rules</h2>
-                            <button type="submit" className="btn btn-success btn-lg">
-                                Create Game
+                    <h2>Create Game</h2>
+                    <br />
+                    <div>
+                        {snakeUrls}
+                    </div>
+                    <div className="input-group">
+                        <input type="text"
+                            className="form-control"
+                            value={this.state.currentSnakeUrl}
+                            name="snake-url"
+                            placeholder="http://mysnake.herokuapp.com"
+                            onChange={this.handleSnakeUrlChange}
+                        />
+                        <span className="input-group-btn">
+                            <button type="button"
+                                    onClick={this.handleSubmitSnake}
+                                    disabled={this.state.currentSnakeUrl ? false : 'on'}
+                                    className="btn btn-info big form-control">
+                                Add Snake
                             </button>
-                        </div>
+                        </span>
+                    </div>
+                    <div className="input-group">
+                        <button type="submit" className="btn btn-success">
+                            Start Game
+                        </button>
                     </div>
                 </form>
             </div>

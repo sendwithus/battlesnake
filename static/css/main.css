@@ -9,6 +9,20 @@ canvas {
     display: block;
 }
 
+form {
+    max-width: 500px;
+    margin: auto;
+}
+
+form .input-group {
+    margin-bottom: 20px;
+}
+
+form .input-group,
+form .btn {
+    width: 100%;
+}
+
 p {
     color: #999;
 }

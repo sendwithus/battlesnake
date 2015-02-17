@@ -276,37 +276,31 @@ var GameCreate = React.createClass({displayName: "GameCreate",
         return (
             React.createElement("div", {className: "container"}, 
                 React.createElement("form", {onSubmit: this.handleGameCreate}, 
-                    React.createElement("div", {className: "row"}, 
-                        React.createElement("div", {className: "col-md-6"}, 
-                            React.createElement("h2", null, "Snakes"), 
-                            React.createElement("p", null, "Add the endpoints of your snake AIs to this" + ' ' +
-                            "form."), 
-                            React.createElement("hr", null), 
-                            React.createElement("div", null, 
-                                snakeUrls
-                            ), 
-                            React.createElement("div", {className: "input-group"}, 
-                                React.createElement("input", {type: "text", 
-                                    className: "form-control", 
-                                    value: this.state.currentSnakeUrl, 
-                                    name: "snake-url", 
-                                    placeholder: "http://mysnake.herokuapp.com", 
-                                    onChange: this.handleSnakeUrlChange}
-                                ), 
-                                React.createElement("span", {className: "input-group-btn"}, 
-                                    React.createElement("button", {type: "button", 
-                                            onClick: this.handleSubmitSnake, 
-                                            className: "btn btn-info big form-control"}, 
-                                        "Add Snake"
-                                    )
-                                )
-                            )
+                    React.createElement("h2", null, "Create Game"), 
+                    React.createElement("br", null), 
+                    React.createElement("div", null, 
+                        snakeUrls
+                    ), 
+                    React.createElement("div", {className: "input-group"}, 
+                        React.createElement("input", {type: "text", 
+                            className: "form-control", 
+                            value: this.state.currentSnakeUrl, 
+                            name: "snake-url", 
+                            placeholder: "http://mysnake.herokuapp.com", 
+                            onChange: this.handleSnakeUrlChange}
                         ), 
-                        React.createElement("div", {className: "col-md-6"}, 
-                            React.createElement("h2", null, "Rules"), 
-                            React.createElement("button", {type: "submit", className: "btn btn-success btn-lg"}, 
-                                "Create Game"
+                        React.createElement("span", {className: "input-group-btn"}, 
+                            React.createElement("button", {type: "button", 
+                                    onClick: this.handleSubmitSnake, 
+                                    disabled: this.state.currentSnakeUrl ? false : 'on', 
+                                    className: "btn btn-info big form-control"}, 
+                                "Add Snake"
                             )
+                        )
+                    ), 
+                    React.createElement("div", {className: "input-group"}, 
+                        React.createElement("button", {type: "submit", className: "btn btn-success"}, 
+                            "Start Game"
                         )
                     )
                 )

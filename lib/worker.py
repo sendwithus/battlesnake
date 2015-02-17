@@ -9,14 +9,11 @@ def _log(msg):
 
 
 def maybe_run_game():
-    _log('looking for games...')
     game_to_run = Game.find_one({'state': Game.STATE_READY})
     if game_to_run:
         _log("running game: %s" % game_to_run.id)
         controller.run_game(game_to_run)
         _log("finished game: %s" % game_to_run.id)
-    else:
-        _log('no games to run')
 
 
 def main():

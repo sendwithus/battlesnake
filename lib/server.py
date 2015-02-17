@@ -48,7 +48,7 @@ def games_create():
 
     width = data.get('width', 20)
     height = data.get('height', 20)
-    turn_time = data.get('turn_time', 2)
+    turn_time = data.get('turn_time', 0.5)
 
     try:
         snake_urls = data['snake_urls']
@@ -98,7 +98,7 @@ def game_turn(game_id):
 
 @bottle.get('/api/games')
 def games_list():
-    games = Game.find()
+    games = Game.find({'is_live': True})
     data = []
     for game in games:
         obj = game.to_dict()

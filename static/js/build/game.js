@@ -28,7 +28,12 @@ var Game = React.createClass({displayName: "Game",
             clearInterval(this.interval);
         }
 
-        this.setState({ latestGameState: gameState });
+        if (this.isMounted()) {
+            this.setState({ latestGameState: gameState });
+        } else {
+            // If we're no longer on this page...
+            this.interval = clearInterval(this.interval);
+        }
     },
     handleClickContinuous: function () {
         this.interval = setInterval(this.handleClickNextTurn, 400);

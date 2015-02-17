@@ -1,8 +1,6 @@
 body {
-    /* font-family: 'Orbitron', sans-serif; font-weight: 400; font-size: 16px; */
-    /* background: #221E1D url('/static/img/bg-battlesnake.jpg') top center no-repeat; */
-    /* background-size: cover; */
-    background: #221E1D;
+    background: #221E1D url('/static/img/bg-battlesnake-dark.jpg') top center no-repeat;
+    background-size: cover;
     color: #ddd;
 }
 
@@ -11,9 +9,8 @@ canvas {
     display: block;
 }
 
-form {
-    max-width: 500px;
-    margin: auto;
+p {
+    color: #999;
 }
 
 a {
@@ -41,6 +38,10 @@ a:hover {
 .site-links {
     float: right;
     padding: 0;
+}
+
+.btn:hover {
+    top: 0;
 }
 
 

@@ -240,54 +240,77 @@ var GameCreate = React.createClass({
             alert(xhr.responseJSON.message);
         });
     },
-    handleAddSnakeUrl: function (e) {
+    handleSubmitSnake: function (e) {
         var snakeUrls = this.state.snakeUrls;
-        snakeUrls.push('');
+        snakeUrls.push(this.state.currentSnakeUrl);
         this.setState({ snakeUrls: snakeUrls });
     },
-    handleSnakeUrlChange: function (i, e) {
+    handleSnakeUrlChange: function (e) {
+        this.setState({ currentSnakeUrl: e.target.value });
+    },
+    handleDeleteSnakeUrl: function (i, e) {
         var snakeUrls = this.state.snakeUrls;
-        snakeUrls[i] = e.target.value;
-
+        snakeUrls.splice(i, 1);
         this.setState({ snakeUrls: snakeUrls });
     },
     getInitialState: function () {
-        return { snakeUrls: this._loadPastSnakes() };
-    },
-    componentDidMount: function () {
-        console.log('GameCreate mounted');
+        return {
+            snakeUrls: this._loadPastSnakes(),
+            currentSnakeUrl: ''
+        };
     },
     render: function () {
         var snakeUrls = this.state.snakeUrls.map(function (snakeUrl, i) {
             return (
-                <div className="form-group" key={'url_' + i}>
-                    <input type="text"
-                        className="form-control"
-                        value={this.state.snakeUrls[i]}
-                        name="snake-url"
-                        id="snake-url"
-                        autoComplete="on"
-                        placeholder="http://my-snake-url.com/api"
-                        onChange={this.handleSnakeUrlChange.bind(this, i)} />
+                <div key={'url_' + i}>
+                    <a href="#"
+                        className="pull-right"
+                        onClick={this.handleDeleteSnakeUrl.bind(null, i)}>
+                        X
+                    </a>
+                    <p>{snakeUrl}</p>
                 </div>
             );
         }.bind(this));
 
         return (
-            <form onSubmit={this.handleGameCreate} id="create-game-form">
-                <h3>New Game</h3>
-                {snakeUrls}
-                <div className="form-group">
-                    <button type="button"
-                        onClick={this.handleAddSnakeUrl}
-                        className="btn btn-info form-control">Add Snake</button>
-                </div>
-                <div className="form-group">
-                    <button type="submit" className="btn btn-success form-control">
-                        Create Game
-                    </button>
-                </div>
-            </form>
+            <div className="container">
+                <form onSubmit={this.handleGameCreate}>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <h2>Snakes</h2>
+                            <p>Add the endpoints of your snake AIs to this
+                            form.</p>
+                            <hr />
+                            <div>
+                                {snakeUrls}
+                            </div>
+                            <div className="input-group">
+                                <input type="text"
+                                    className="form-control"
+                                    value={this.state.currentSnakeUrl}
+                                    name="snake-url"
+                                    placeholder="http://mysnake.herokuapp.com"
+                                    onChange={this.handleSnakeUrlChange}
+                                />
+                                <span className="input-group-btn">
+                                    <button type="button"
+                                            onClick={this.handleSubmitSnake}
+                                            className="btn btn-info big form-control">
+                                        Add Snake
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <h2>Rules</h2>
+                            <button type="submit" className="btn btn-success btn-lg">
+                                Create Game
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         );
     }
 });

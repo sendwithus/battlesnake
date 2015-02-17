@@ -21,7 +21,7 @@ window.snakewithus = {
     DEAD: 'dead'
   },
   COLORS: {
-    FOOD: '#F79E53',
+    FOOD: '#E6D560',
     EMPTY: 'rgba(0, 0, 0, 0.2)'
   },
   MAX_COLOR: 255,

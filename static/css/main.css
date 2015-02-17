@@ -2,6 +2,7 @@ body {
     background: #221E1D url('/static/img/bg-battlesnake-dark.jpg') top center no-repeat;
     background-size: cover;
     color: #ddd;
+    font-size: 16px;
 }
 
 canvas {

@@ -177,6 +177,7 @@ class GameState(Model):
 
     def to_dict(self):
         return {
+            '_id': self.id,
             'game_id': self.game_id,
             'turn': self.turn,
             'board': self.board[:],
@@ -233,6 +234,7 @@ class GameState(Model):
     @classmethod
     def from_dict(cls, obj):
         game_state = cls(obj['game_id'])
+        game_state.id = obj['_id']
         game_state.turn = obj['turn']
         game_state.board = obj['board']
         game_state.snakes = obj['snakes']

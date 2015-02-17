@@ -112,7 +112,7 @@ def game_details(game_id):
 
 
 @bottle.get('/api/games/:game_id/gamestates/:game_state_id')
-def game_states_list(game_id, game_state_id):
+def game_states_details(game_id, game_state_id):
     if game_state_id == 'latest':
         game_state = GameState.find({'game_id': game_id})[0]
     else:

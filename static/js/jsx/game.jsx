@@ -15,6 +15,11 @@ var Game = React.createClass({
             this.checkInterval();
         }.bind(this));
     },
+    handleReplay: function () {
+        console.log('Started Replay');
+        this.setState({ currentTurn: 0, isReplay: true });
+        this.interval = setInterval(this.tick, 500);
+    },
     handleClickNextTurn: function () {
         $.ajax({
             type: 'POST',
@@ -39,10 +44,17 @@ var Game = React.createClass({
         this.interval = setInterval(this.handleClickNextTurn, 400);
     },
     tick: function (callback) {
-        $.ajax({
-            type: 'GET',
-            url: '/api/games/' + this.props.gameId + '/gamestates/latest'
-        }).done(function (response) {
+        var url;
+
+        if (this.state.isReplay) {
+            var gameStateId = this.props.gameId + '-' + this.state.currentTurn;
+            var url = '/api/games/' + this.props.gameId + '/gamestates/' + gameStateId;
+            this.setState({ currentTurn: this.state.currentTurn + 1 });
+        } else {
+            var url = '/api/games/' + this.props.gameId + '/gamestates/latest';
+        }
+
+        $.ajax({ type: 'GET', url: url }).done(function (response) {
             this.handleGameState(response.data);
             callback && callback();
         }.bind(this));
@@ -104,9 +116,11 @@ var Game = React.createClass({
                     <GameSidebar
                         gameId={this.props.gameId}
                         game={this.state.game}
+                        isReplay={this.state.isReplay}
                         latestGameState={this.state.latestGameState}
                         continueous={this.handleClickContinuous}
                         startAutomated={this.handleStart.bind(null, false)}
+                        startReplay={this.handleReplay.bind(null, false)}
                         startManual={this.handleStart.bind(null, true)}
                         nextTurn={this.handleClickNextTurn} />
                 </div>
@@ -150,13 +164,14 @@ var GameSidebar = React.createClass({
                     <button className="btn btn-success stretch" onClick={this.props.nextTurn}>
                         Next Turn
                     </button>
-                    {
-                    /*<br />
-                    <br />
-                    <button className="btn btn-success stretch" onClick={this.props.continueous}>
-                        Continueous
+                </div>
+            );
+        } else if (!this.props.isReplay && this.props.game.state === 'done') {
+            buttons = (
+                <div>
+                    <button className="btn btn-success stretch" onClick={this.props.startReplay}>
+                        Replay
                     </button>
-                    */}
                 </div>
             );
         } else {
@@ -198,7 +213,7 @@ var GameList = React.createClass({
         var games = this.state.games.map(function (game, i) {
             var path = '/play/games/' + game._id
             return (
-                <li key={game._id}><a href={path}>{game._id}</a></li>
+                <li key={game._id}><a href={path}>{game._id} ({game.state})</a></li>
             );
         });
 
@@ -275,7 +290,7 @@ var GameCreate = React.createClass({
 
         return (
             <div className="container">
-                <form onSubmit={this.handleGameCreate}>
+                <form onSubmit={this.handleSubmitSnake}>
                     <h2>Create Game</h2>
                     <br />
                     <div>
@@ -290,8 +305,7 @@ var GameCreate = React.createClass({
                             onChange={this.handleSnakeUrlChange}
                         />
                         <span className="input-group-btn">
-                            <button type="button"
-                                    onClick={this.handleSubmitSnake}
+                            <button type="submit"
                                     disabled={this.state.currentSnakeUrl ? false : 'on'}
                                     className="btn btn-info big form-control">
                                 Add Snake
@@ -299,7 +313,7 @@ var GameCreate = React.createClass({
                         </span>
                     </div>
                     <div className="input-group">
-                        <button type="submit" className="btn btn-success">
+                        <button type="button" className="btn btn-success" onClick={this.handleGameCreate}>
                             Start Game
                         </button>
                     </div>

@@ -212,6 +212,17 @@ var GameList = React.createClass({displayName: "GameList",
 });
 
 var GameCreate = React.createClass({displayName: "GameCreate",
+    _loadPastSnakes: function () {
+        try {
+            return JSON.parse(window.localStorage['battlesnake.snake_urls']);
+        } catch (e) {
+            return [ '' ];
+        }
+    },
+    _savePastSnakes: function () {
+        var json = JSON.stringify(this.state.snakeUrls);
+        window.localStorage['battlesnake.snake_urls'] = json;
+    },
     handleGameCreate: function (e) {
         e.preventDefault();
 
@@ -224,7 +235,8 @@ var GameCreate = React.createClass({displayName: "GameCreate",
             contentType: 'application/json'
         }).done(function (response) {
             navigate('/play/games/' + response.data.game._id);
-        }).error(function (xhr, textStatus, errorThrown) {
+            this._savePastSnakes();
+        }.bind(this)).error(function (xhr, textStatus, errorThrown) {
             alert(xhr.responseJSON.message);
         });
     },
@@ -240,7 +252,10 @@ var GameCreate = React.createClass({displayName: "GameCreate",
         this.setState({ snakeUrls: snakeUrls });
     },
     getInitialState: function () {
-        return { snakeUrls: [''] };
+        return { snakeUrls: this._loadPastSnakes() };
+    },
+    componentDidMount: function () {
+        console.log('GameCreate mounted');
     },
     render: function () {
         var snakeUrls = this.state.snakeUrls.map(function (snakeUrl, i) {

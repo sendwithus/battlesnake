@@ -120,5 +120,14 @@ def game_states_details(game_id, game_state_id):
 
     return _json_response(game_state.to_dict())
 
+
+@bottle.get('/api/games/:game_id/gamestates')
+def game_states_list(game_id):
+    game_states = GameState.find({'game_id': game_id})
+    data = []
+    for game_state in game_states:
+        data.append(game_state.to_dict())
+    return _json_response(data)
+
 # Expose WSGI app
 application = bottle.default_app()

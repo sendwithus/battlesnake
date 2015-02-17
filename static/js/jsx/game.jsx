@@ -17,8 +17,23 @@ var Game = React.createClass({
     },
     handleReplay: function () {
         console.log('Started Replay');
-        this.setState({ currentTurn: 0, isReplay: true });
-        this.interval = setInterval(this.tick, 500);
+        var url = '/api/games/' + this.props.gameId + '/gamestates';
+
+        $.ajax({ type: 'GET', url: url }).done(function (response) {
+            var framesCompleted = 0;
+            var gameStates = response.data;
+
+            var next = function () {
+                this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
+                if (++framesCompleted < response.data.length) {
+                    setTimeout(next, 250);
+                }
+            }.bind(this);
+
+            next();
+        }.bind(this));
+
+        this.setState({ isReplay: true });
     },
     handleClickNextTurn: function () {
         $.ajax({
@@ -44,15 +59,7 @@ var Game = React.createClass({
         this.interval = setInterval(this.handleClickNextTurn, 400);
     },
     tick: function (callback) {
-        var url;
-
-        if (this.state.isReplay) {
-            var gameStateId = this.props.gameId + '-' + this.state.currentTurn;
-            var url = '/api/games/' + this.props.gameId + '/gamestates/' + gameStateId;
-            this.setState({ currentTurn: this.state.currentTurn + 1 });
-        } else {
-            var url = '/api/games/' + this.props.gameId + '/gamestates/latest';
-        }
+        var url = '/api/games/' + this.props.gameId + '/gamestates/latest';
 
         $.ajax({ type: 'GET', url: url }).done(function (response) {
             this.handleGameState(response.data);

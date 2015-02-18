@@ -44,7 +44,7 @@ var Game = React.createClass({
 
             var next = function () {
                 this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
-                if (++framesCompleted < response.data.length) {
+                if (++framesCompleted < response.data.length && this.state.isReplay) {
                     setTimeout(next, 250);
                 }
             }.bind(this);
@@ -53,6 +53,9 @@ var Game = React.createClass({
         }.bind(this));
 
         this.setState({ isReplay: true });
+    },
+    handleCancelReplay: function () {
+        this.setState({ isReplay: false });
     },
     handleClickNextTurn: function () {
         $.ajax({
@@ -68,6 +71,7 @@ var Game = React.createClass({
         }
 
         if (this.isMounted()) {
+            console.log('GAME STATE', gameState);
             this.setState({ latestGameState: gameState });
         }
     },
@@ -160,6 +164,7 @@ var Game = React.createClass({
                         startAutomated={this.handleStart.bind(null, false)}
                         startManual={this.handleStart.bind(null, true)}
                         startReplay={this.handleReplay}
+                        cancelReplay={this.handleCancelReplay}
                         pause={this.handlePause}
                         resume={this.handleResume}
                         nextTurn={this.handleClickNextTurn} />
@@ -211,6 +216,14 @@ var GameSidebar = React.createClass({
                 <div>
                     <button className="btn btn-success stretch" onClick={this.props.startReplay}>
                         Replay
+                    </button>
+                </div>
+            );
+        } else if (this.props.isReplay && this.props.game.state === 'done') {
+            buttons = (
+                <div>
+                    <button className="btn btn-info stretch" onClick={this.props.cancelReplay}>
+                        Cancel Replay
                     </button>
                 </div>
             );
@@ -336,9 +349,9 @@ var GameCreate = React.createClass({
             data: JSON.stringify(gameData),
             contentType: 'application/json'
         }).done(function (response) {
-            navigate('/play/games/' + response.data.game._id);
             this._savePastState();
             this.setState({ isLoading: false });
+            navigate('/play/games/' + response.data.game._id);
         }.bind(this)).error(function (xhr, textStatus, errorThrown) {
             alert(xhr.responseJSON.message);
             this.setState({ isLoading: false });

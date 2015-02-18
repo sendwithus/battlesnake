@@ -44,7 +44,7 @@ var Game = React.createClass({displayName: "Game",
 
             var next = function () {
                 this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
-                if (++framesCompleted < response.data.length) {
+                if (++framesCompleted < response.data.length && this.state.isReplay) {
                     setTimeout(next, 250);
                 }
             }.bind(this);
@@ -53,6 +53,9 @@ var Game = React.createClass({displayName: "Game",
         }.bind(this));
 
         this.setState({ isReplay: true });
+    },
+    handleCancelReplay: function () {
+        this.setState({ isReplay: false });
     },
     handleClickNextTurn: function () {
         $.ajax({
@@ -68,6 +71,7 @@ var Game = React.createClass({displayName: "Game",
         }
 
         if (this.isMounted()) {
+            console.log('GAME STATE', gameState);
             this.setState({ latestGameState: gameState });
         }
     },
@@ -160,6 +164,7 @@ var Game = React.createClass({displayName: "Game",
                         startAutomated: this.handleStart.bind(null, false), 
                         startManual: this.handleStart.bind(null, true), 
                         startReplay: this.handleReplay, 
+                        cancelReplay: this.handleCancelReplay, 
                         pause: this.handlePause, 
                         resume: this.handleResume, 
                         nextTurn: this.handleClickNextTurn})
@@ -211,6 +216,14 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
                 React.createElement("div", null, 
                     React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.startReplay}, 
                         "Replay"
+                    )
+                )
+            );
+        } else if (this.props.isReplay && this.props.game.state === 'done') {
+            buttons = (
+                React.createElement("div", null, 
+                    React.createElement("button", {className: "btn btn-info stretch", onClick: this.props.cancelReplay}, 
+                        "Cancel Replay"
                     )
                 )
             );
@@ -336,9 +349,9 @@ var GameCreate = React.createClass({displayName: "GameCreate",
             data: JSON.stringify(gameData),
             contentType: 'application/json'
         }).done(function (response) {
-            navigate('/play/games/' + response.data.game._id);
             this._savePastState();
             this.setState({ isLoading: false });
+            navigate('/play/games/' + response.data.game._id);
         }.bind(this)).error(function (xhr, textStatus, errorThrown) {
             alert(xhr.responseJSON.message);
             this.setState({ isLoading: false });

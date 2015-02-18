@@ -70,8 +70,8 @@ class Engine(object):
 
         starting_coords = [
             [width_quarters[0], height_quarters[0]],  # top left
-            [width_quarters[2], height_quarters[2]],  # top right
-            [width_quarters[2], height_quarters[0]],  # bottom right
+            [width_quarters[2], height_quarters[0]],  # top right
+            [width_quarters[2], height_quarters[2]],  # bottom right
             [width_quarters[0], height_quarters[2]],  # bottom left
             [width_quarters[1], height_quarters[0]],  # mid top
             [width_quarters[2], height_quarters[1]],  # mid right

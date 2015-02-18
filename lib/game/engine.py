@@ -71,7 +71,7 @@ class Engine(object):
         starting_coords = [
             [width_quarters[0], height_quarters[0]],  # top left
             [width_quarters[2], height_quarters[2]],  # top right
-            [width_quarters[2], height_quarters[2]],  # bottom right
+            [width_quarters[2], height_quarters[0]],  # bottom right
             [width_quarters[0], height_quarters[2]],  # bottom left
             [width_quarters[1], height_quarters[0]],  # mid top
             [width_quarters[2], height_quarters[1]],  # mid right
@@ -80,7 +80,7 @@ class Engine(object):
         ]
 
         for snake, coords in zip(snakes, starting_coords):
-            snake['coords'] = [[coords] for i in range(constants.SNAKE_STARTING_LENGTH)]
+            snake['coords'] = [coords for i in range(constants.SNAKE_STARTING_LENGTH)]
 
         Engine.add_snakes_to_board(game_state, snakes)
 
@@ -101,8 +101,8 @@ class Engine(object):
                     smallest = len(snake['coords'])
 
             for snake in copy.deepcopy(game_state.snakes):
-                if len(snake['coords'] == smallest):
-                    game_state.new_snakes.remove(snake)
+                if len(snake['coords']) == smallest:
+                    game_state.snakes.remove(snake)
                     snake['died_on_turn'] = game_state.turn
                     snake['killed_by'] = Engine.SNAKE_SACRIFICE
                     game_state.dead_snakes.append(snake)

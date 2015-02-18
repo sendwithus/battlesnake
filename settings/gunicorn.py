@@ -13,7 +13,7 @@ def max_workers():
 bind = '0.0.0.0:' + environ.get('PORT', '8080')
 
 workers = max_workers()
-worker_class = 'sync'  # 'gevent'  # 'sync'
+worker_class = 'gevent'  # 'sync'
 worker_connections = 1000  # Max active connections at any one time
 
 backlog = 2048  # Max queued connections at any one time

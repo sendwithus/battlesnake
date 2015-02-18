@@ -66,14 +66,13 @@ var Game = React.createClass({
         }.bind(this));
     },
     handleGameState: function (gameState) {
-        if (gameState.snakes.length <= 1) {
-            clearInterval(this.interval);
-        }
-
         if (this.isMounted()) {
             console.log('GAME STATE', gameState);
             this.setState({ latestGameState: gameState });
         }
+
+        // Is done?
+        return gameState.snakes.length <= 1;
     },
     handleClickContinuous: function () {
         this.interval = setInterval(this.handleClickNextTurn, 400);
@@ -83,8 +82,8 @@ var Game = React.createClass({
         var id = Date.now();
 
         $.ajax({ type: 'GET', url: url }).done(function (response) {
-            this.handleGameState(response.data);
-            callback && callback();
+            var isDone = this.handleGameState(response.data);
+            callback && callback(isDone);
         }.bind(this));
     },
     checkInterval: function () {
@@ -94,13 +93,13 @@ var Game = React.createClass({
             if (!shouldTick) { return; }
 
             var startTimestamp = Date.now();
-            this.tick(function () {
+            this.tick(function (isDone) {
                 var endTimestamp = Date.now();
                 var elapsedMillis = endTimestamp - startTimestamp;
 
                 var sleepFor = Math.max(0, this.state.game.turn_time * 1000 - elapsedMillis);
 
-                if (this.isMounted() && shouldTick) {
+                if (this.isMounted() && shouldTick && !isDone) {
                     setTimeout(_, sleepFor);
                 }
             }.bind(this));
@@ -336,9 +335,9 @@ var GameCreate = React.createClass({
 
         var gameData = {
             snake_urls: this.state.snakeUrls,
-            width: this.state.currentWidth,
-            height: this.state.currentHeight,
-            turn_time: this.state.currentTimeout,
+            width: parseInt(this.state.currentWidth),
+            height: parseInt(this.state.currentHeight),
+            turn_time: parseFloat(this.state.currentTimeout),
         };
 
         this.setState({ isLoading: true });
@@ -372,13 +371,13 @@ var GameCreate = React.createClass({
         this.setState({ snakeUrls: snakeUrls });
     },
     handleWidthChange: function (e) {
-        this.setState({ currentWidth: parseInt(e.target.value) });
+        this.setState({ currentWidth: e.target.value });
     },
     handleHeightChange: function (e) {
-        this.setState({ currentHeight: parseInt(e.target.value) });
+        this.setState({ currentHeight: e.target.value });
     },
     handleTimeoutChange: function (e) {
-        this.setState({ currentTimeout: parseFloat(e.target.value) });
+        this.setState({ currentTimeout: e.target.value });
     },
     getInitialState: function () {
         var state = this._loadPastState();

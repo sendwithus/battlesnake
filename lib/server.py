@@ -106,7 +106,7 @@ def game_turn(game_id):
 
 @bottle.get('/api/games')
 def games_list():
-    games = Game.find({'is_live': True})
+    games = Game.find({'is_live': True}, limit=20)
     data = []
     for game in games:
         obj = game.to_dict()

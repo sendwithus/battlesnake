@@ -1,23 +1,23 @@
 import bottle
-# import json
+import json
 
 # from lib.game.models import Game, GameState
-# from lib.game import controller
+from lib.game import controller
 
 
 # CLIENT_TIMEOUT_SECONDS = 2
 
 
-# def _json_response(data={}, msg=None, status=200):
-#     body = json.dumps({
-#         'data': data,
-#         'message': msg
-#     })
+def _json_response(data={}, msg=None, status=200):
+    body = json.dumps({
+        'data': data,
+        'message': msg
+    })
 
-#     return bottle.HTTPResponse(
-#         body,
-#         status=status,
-#         headers={'Content-Type': 'application/json'})
+    return bottle.HTTPResponse(
+        body,
+        status=status,
+        headers={'Content-Type': 'application/json'})
 
 
 @bottle.get('/')
@@ -25,11 +25,11 @@ def index():
     return bottle.static_file('html/index.html', root='static')
 
 
-# @bottle.get('/play<:re:.*>')
-# def page():
-#     # serve play.html for anything that starts with "play/"
-#     # fontend with show the correct route
-#     return bottle.static_file('html/play.html', root='static')
+@bottle.get('/play<:re:.*>')
+def page():
+    # serve play.html for anything that starts with "play/"
+    # fontend with show the correct route
+    return bottle.static_file('html/play.html', root='static')
 
 
 @bottle.get('/static/<filepath:path>')
@@ -37,36 +37,36 @@ def server_static(filepath):
     return bottle.static_file(filepath, root='static')
 
 
-# @bottle.post('/api/games')
-# def games_create():
-#     data = bottle.request.json
+@bottle.post('/api/games')
+def games_create():
+    data = bottle.request.json
 
-#     if data is None:
-#         return _json_response(msg='Invalid request body', status=400)
+    if data is None:
+        return _json_response(msg='Invalid request body', status=400)
 
-#     width = data.get('width', 20)
-#     height = data.get('height', 20)
-#     turn_time = data.get('turn_time', 0.5)
+    width = data.get('width', 20)
+    height = data.get('height', 20)
+    turn_time = data.get('turn_time', 0.5)
 
-#     try:
-#         snake_urls = data['snake_urls']
-#     except KeyError:
-#         return _json_response(msg='Invalid snakes', status=400)
+    try:
+        snake_urls = data['snake_urls']
+    except KeyError:
+        return _json_response(msg='Invalid snakes', status=400)
 
-#     try:
-#         game, game_state = controller.create_game(
-#             width=width,
-#             height=height,
-#             snake_urls=snake_urls,
-#             turn_time=turn_time
-#         )
-#     except Exception as e:
-#         return _json_response(msg=str(e), status=400)
+    try:
+        game, game_state = controller.create_game(
+            width=width,
+            height=height,
+            snake_urls=snake_urls,
+            turn_time=turn_time
+        )
+    except Exception as e:
+        return _json_response(msg=str(e), status=400)
 
-#     return _json_response({
-#         'game': game.to_dict(),
-#         'game_state': game_state.to_dict()
-#     })
+    return _json_response({
+        'game': game.to_dict(),
+        'game_state': game_state.to_dict()
+    })
 
 
 # @bottle.post('/api/games/:game_id/start')

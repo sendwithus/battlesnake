@@ -2,7 +2,7 @@
 import time
 
 from lib.game.engine import Engine
-from lib.caller import AsyncCall
+# from lib.caller import AsyncCall
 from lib.game.models import Game, GameState
 
 
@@ -31,13 +31,14 @@ def create_game(snake_urls, width, height, turn_time):
 
     # Fetch snakes
     start_urls = [('%s/start' % url) for url in snake_urls]
-    responses = AsyncCall(
-        payload={
-            'game_id': game.id
-        },
-        urls=start_urls,
-        timeout=10  # Enough time for Heroku apps to wake up
-    ).start()
+    # responses = AsyncCall(
+    #     payload={
+    #         'game_id': game.id
+    #     },
+    #     urls=start_urls,
+    #     timeout=10  # Enough time for Heroku apps to wake up
+    # ).start()
+    responses = {}
 
     snakes = []
     for snake_url in snake_urls:
@@ -82,7 +83,7 @@ def get_moves(game_state, timeout):
         'snakes': game_state.snakes
     }
 
-    responses = AsyncCall(payload, urls, timeout).start()
+    responses = {}  # AsyncCall(payload, urls, timeout).start()
 
     moves = []
 

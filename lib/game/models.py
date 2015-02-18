@@ -9,7 +9,7 @@ from lib.words import get_noun, get_adjective
 
 logger = logging.getLogger(__name__)
 
-db = get_mongodb()
+## db = get_mongodb()
 
 
 class Model(object):
@@ -28,7 +28,7 @@ class Model(object):
 
     @classmethod
     def _get_collection(cls):
-        return db[cls.__name__.lower()]
+        return get_mongodb()[cls.__name__.lower()]
 
     def insert(self):
         doc = self.to_dict()

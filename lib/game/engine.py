@@ -288,6 +288,7 @@ class Engine(object):
                     kill.append(snake['id'])
                     grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) * constants.EAT_RATIO)
                     snake['killed_by'] = check_snake['id']
+                    check_snake['kills'] = check_snake.get('kills', 0) + 1
                     continue
 
         # Resolve Collisions

@@ -5,9 +5,6 @@ from lib.game.models import Game, GameState
 from lib.game import controller
 
 
-CLIENT_TIMEOUT_SECONDS = 2
-
-
 def _json_response(data={}, msg=None, status=200):
     body = json.dumps({
         'data': data,

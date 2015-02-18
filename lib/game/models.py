@@ -7,9 +7,8 @@ import pymongo
 from lib.mongo import get_mongodb
 from lib.words import get_noun, get_adjective
 
-logger = logging.getLogger(__name__)
 
-db = get_mongodb()
+logger = logging.getLogger(__name__)
 
 
 class Model(object):
@@ -28,7 +27,7 @@ class Model(object):
 
     @classmethod
     def _get_collection(cls):
-        return db[cls.__name__.lower()]
+        return get_mongodb()[cls.__name__.lower()]
 
     def refetch(self):
         return self.find_one({'_id': self.id})
@@ -174,10 +173,26 @@ class GameState(Model):
                 if not isinstance(tile, dict):
                     raise ValueError('Sanity Check Failed: board.tile is not dict' % (tile))
                 if tile['state'] not in GameState.TILE_STATES:
-                    raise ValueError('Sanity Check FaileD: board.tile has invalid state, %s' % (
+                    raise ValueError('Sanity Check Failed: board.tile has invalid state, %s' % (
                         tile['state']))
 
-        # TODO: Sanity check snakes array
+        for snake in self.snakes:
+            for coord in snake['coords']:
+                for check_snake in self.snakes:
+                    if snake['id'] == check_snake['id']:
+                        continue
+                    if coord in check_snake['coords']:
+                        raise ValueError('Sanity Check Failed: board.snakes contains overlapping coords.')
+                if coord in self.food:
+                    raise ValueError('Sanity Check Failed: board.snakes and board.food contain overlapping coords.')
+                if coord[0] > (len(self.board) - 1):
+                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                if coord[0] < 0:
+                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                if coord[1] > (len(self.board[0]) - 1):
+                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                if coord[1] < 0:
+                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
 
     # Serialize/Deserialize
 

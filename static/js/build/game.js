@@ -335,9 +335,9 @@ var GameCreate = React.createClass({displayName: "GameCreate",
 
         var gameData = {
             snake_urls: this.state.snakeUrls,
-            width: this.state.currentWidth,
-            height: this.state.currentHeight,
-            turn_time: this.state.currentTimeout,
+            width: parseInt(this.state.currentWidth),
+            height: parseInt(this.state.currentHeight),
+            turn_time: parseFloat(this.state.currentTimeout),
         };
 
         this.setState({ isLoading: true });
@@ -371,13 +371,13 @@ var GameCreate = React.createClass({displayName: "GameCreate",
         this.setState({ snakeUrls: snakeUrls });
     },
     handleWidthChange: function (e) {
-        this.setState({ currentWidth: parseInt(e.target.value) });
+        this.setState({ currentWidth: e.target.value });
     },
     handleHeightChange: function (e) {
-        this.setState({ currentHeight: parseInt(e.target.value) });
+        this.setState({ currentHeight: e.target.value });
     },
     handleTimeoutChange: function (e) {
-        this.setState({ currentTimeout: parseFloat(e.target.value) });
+        this.setState({ currentTimeout: e.target.value });
     },
     getInitialState: function () {
         var state = this._loadPastState();

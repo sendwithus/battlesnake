@@ -48,8 +48,10 @@ class Model(object):
 
     @classmethod
     def find(cls, *args, **kwargs):
-        results = cls._get_collection().find(*args, **kwargs).sort(
-            'created', pymongo.DESCENDING)
+        results = cls._get_collection().find(
+            *args,
+            sort=[('created', pymongo.DESCENDING)],
+            **kwargs)
 
         objects = []
 

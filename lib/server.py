@@ -43,7 +43,7 @@ def games_create():
 
     width = data.get('width', 20)
     height = data.get('height', 20)
-    turn_time = data.get('turn_time', 0.5)
+    turn_time = data.get('turn_time', 1)
 
     try:
         snake_urls = data['snake_urls']
@@ -83,6 +83,22 @@ def game_start(game_id):
     return _json_response(game.to_dict())
 
 
+@bottle.put('/api/games/:game_id/pause')
+def game_pause(game_id):
+    game = Game.find_one({'_id': game_id})
+    game.state = Game.STATE_PAUSED
+    game.save()
+    return _json_response(game.to_dict())
+
+
+@bottle.put('/api/games/:game_id/resume')
+def game_resume(game_id):
+    game = Game.find_one({'_id': game_id})
+    game.state = Game.STATE_READY
+    game.save()
+    return _json_response(game.to_dict())
+
+
 @bottle.post('/api/games/:game_id/turn')
 def game_turn(game_id):
     game = Game.find_one({'_id': game_id})
@@ -111,7 +127,7 @@ def game_details(game_id):
 @bottle.get('/api/games/:game_id/gamestates/:game_state_id')
 def game_states_details(game_id, game_state_id):
     if game_state_id == 'latest':
-        game_state = GameState.find({'game_id': game_id})[0]
+        game_state = GameState.find({'game_id': game_id}, limit=1)[0]
     else:
         game_state = GameState.find_one({'_id': game_state_id})
 

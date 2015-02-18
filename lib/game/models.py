@@ -29,6 +29,9 @@ class Model(object):
     def _get_collection(cls):
         return get_mongodb()[cls.__name__.lower()]
 
+    def refetch(self):
+        return self.find_one({'_id': self.id})
+
     def insert(self):
         doc = self.to_dict()
         doc['modified'] = datetime.now()
@@ -47,8 +50,10 @@ class Model(object):
 
     @classmethod
     def find(cls, *args, **kwargs):
-        results = cls._get_collection().find(*args, **kwargs).sort(
-            'created', pymongo.DESCENDING)
+        results = cls._get_collection().find(
+            *args,
+            sort=[('created', pymongo.DESCENDING)],
+            **kwargs)
 
         objects = []
 
@@ -68,6 +73,7 @@ class Model(object):
 
 class Game(Model):
     STATE_CREATED = 'created'
+    STATE_PAUSED = 'paused'
     STATE_MANUAL = 'manual'
     STATE_READY = 'ready'
     STATE_PLAYING = 'playing'

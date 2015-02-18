@@ -15,6 +15,25 @@ var Game = React.createClass({
             this.checkInterval();
         }.bind(this));
     },
+    handlePause: function () {
+        $.ajax({
+            type: 'PUT',
+            url: '/api/games/' + this.props.gameId + '/pause'
+        }).done(function (response) {
+            console.log('Paused Game', response.data);
+            this.setState({ game: response.data });
+        }.bind(this));
+    },
+    handleResume: function () {
+        $.ajax({
+            type: 'PUT',
+            url: '/api/games/' + this.props.gameId + '/resume'
+        }).done(function (response) {
+            console.log('Resumed Game', response.data);
+            this.setState({ game: response.data });
+            this.checkInterval();
+        }.bind(this));
+    },
     handleReplay: function () {
         console.log('Started Replay');
         var url = '/api/games/' + this.props.gameId + '/gamestates';
@@ -50,9 +69,6 @@ var Game = React.createClass({
 
         if (this.isMounted()) {
             this.setState({ latestGameState: gameState });
-        } else {
-            // If we're no longer on this page...
-            this.interval = clearInterval(this.interval);
         }
     },
     handleClickContinuous: function () {
@@ -60,6 +76,7 @@ var Game = React.createClass({
     },
     tick: function (callback) {
         var url = '/api/games/' + this.props.gameId + '/gamestates/latest';
+        var id = Date.now();
 
         $.ajax({ type: 'GET', url: url }).done(function (response) {
             this.handleGameState(response.data);
@@ -67,13 +84,25 @@ var Game = React.createClass({
         }.bind(this));
     },
     checkInterval: function () {
-        // Start the ticker if it hasen't already
-        var shouldTick = this.state.game.state === 'playing' ||
-                         this.state.game.state === 'ready';
+        var _ = function () {
+            var shouldTick = this.state.game.state === 'playing' ||
+                             this.state.game.state === 'ready';
+            if (!shouldTick) { return; }
 
-        if (shouldTick && !this.interval) {
-            this.interval = setInterval(this.tick, 500);
-        }
+            var startTimestamp = Date.now();
+            this.tick(function () {
+                var endTimestamp = Date.now();
+                var elapsedMillis = endTimestamp - startTimestamp;
+
+                var sleepFor = Math.max(0, this.state.game.turn_time * 1000 - elapsedMillis);
+
+                if (this.isMounted() && shouldTick) {
+                    setTimeout(_, sleepFor);
+                }
+            }.bind(this));
+        }.bind(this);
+
+        _();
     },
     componentDidMount: function () {
         var canvas = this.refs.canvas.getDOMNode();
@@ -81,7 +110,9 @@ var Game = React.createClass({
             type: 'GET',
             url: '/api/games/' + this.props.gameId
         }).done(function (response) {
-            this.setState({ game: response.data });
+            if (this.isMounted()) {
+                this.setState({ game: response.data });
+            }
 
             // Get latest game state
             this.tick(function () {
@@ -127,8 +158,10 @@ var Game = React.createClass({
                         latestGameState={this.state.latestGameState}
                         continueous={this.handleClickContinuous}
                         startAutomated={this.handleStart.bind(null, false)}
-                        startReplay={this.handleReplay.bind(null, false)}
                         startManual={this.handleStart.bind(null, true)}
+                        startReplay={this.handleReplay}
+                        pause={this.handlePause}
+                        resume={this.handleResume}
                         nextTurn={this.handleClickNextTurn} />
                 </div>
             </div>
@@ -181,18 +214,34 @@ var GameSidebar = React.createClass({
                     </button>
                 </div>
             );
+        } else if (this.props.game.state === 'paused') {
+            buttons = (
+                <div>
+                    <button className="btn btn-success stretch" onClick={this.props.resume}>
+                        Resume
+                    </button>
+                </div>
+            );
         } else {
-            // no buttons for real games
+            // game is playing live
+            buttons = (
+                <div>
+                    <button className="btn btn-info stretch" onClick={this.props.pause}>
+                        Pause
+                    </button>
+                </div>
+            );
         }
 
         return (
             <div className="game-sidebar sidebar-inner">
-                <h3>{this.props.gameId}</h3>
+                <h2>{this.props.gameId}</h2>
+                <p>Turn {this.props.latestGameState ? this.props.latestGameState.turn : '--'}</p>
 
-                <p>Living Snakes</p>
+                <h3>Living Snakes</h3>
                 <ul>{snakes}</ul>
 
-                <p>Dead Snakes</p>
+                <h3>Dead Snakes</h3>
                 <ul>{deadSnakes}</ul>
 
                 <hr />
@@ -210,24 +259,48 @@ var GameList = React.createClass({
             type: 'GET',
             url: '/api/games',
         }).done(function (response) {
-            this.setState({ games: response.data });
+            this.setState({ games: this.categorizeGames(response.data) });
         }.bind(this));
     },
-    getInitialState: function () {
-        return { games: this.props.games || [] };
+    categorizeGames: function (gamesList) {
+        var categories = { };
+
+        for (var i = 0; i < gamesList.length; i++) {
+            var game = gamesList[i];
+
+            // Init the category if it isn't
+            if (!categories[game.state]) {
+                categories[game.state] = [];
+            }
+
+            categories[game.state].push(game);
+        }
+        return categories;
     },
-    render: function () {
-        var games = this.state.games.map(function (game, i) {
+    getInitialState: function () {
+        return {
+            games: this.categorizeGames(this.props.games || [])
+        };
+    },
+    renderGameList: function (games) {
+        return games.map(function (game, i) {
             var path = '/play/games/' + game._id
             return (
-                <li key={game._id}><a href={path}>{game._id} ({game.state})</a></li>
+                <li key={game._id}><a href={path}>{game._id}</a></li>
             );
         });
+    },
+    render: function () {
+        var playingGames = this.renderGameList(this.state.games.playing || [ ])
+        var completedGames = this.renderGameList(this.state.games.done || [ ])
 
         return (
             <div>
-                <h2>Current Games</h2>
-                <ul>{games}</ul>
+                <h2>In Progress</h2>
+                <ul>{playingGames}</ul>
+
+                <h2>Finished Games</h2>
+                <ul>{completedGames}</ul>
             </div>
         );
     }

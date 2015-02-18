@@ -55,6 +55,63 @@ a:hover {
     padding: 0;
 }
 
+.btn{
+	border: none;
+	border-radius: 0;
+}
+
+.btn:focus,
+.btn:active {
+    outline: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+}
+.btn.btn-success{
+	background: #F8F568;
+	color: #000;
+}
+.btn.btn-info {
+	background-color: #9e0000;
+	color: #fff;
+}
+
+.btn.btn-success:hover{
+	background-color: #C7C308;
+}
+.btn.btn-success:active{
+	background-color: #ABA700;
+}
+.btn.btn-info:hover{
+	background-color: #890000;
+	color: #ccc;
+}
+.btn.btn-info:active{
+	background-color: #720000;
+	color: #aaa;
+}
+.btn.btn-lg{
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-top:20px;
+	font-size:24px;
+	padding: 16px 32px;
+}
+
+.btn:hover{
+	cursor:pointer;
+	top:3px;
+    -moz-transition: all 0.25s ease-in;
+    -webkit-transition: all 0.25s ease-in;
+    -o-transition: all 0.25s ease-in;
+    transition: all 0.25s ease-in;
+}
+.btn:active{
+    -moz-transition: all 0s ease-in;
+    -webkit-transition: all 0s ease-in;
+    -o-transition: all 0s ease-in;
+    transition: all 0s ease-in;
+}
+
 .btn:hover {
     top: 0;
 }

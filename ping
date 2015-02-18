@@ -1,1 +1,1 @@
-python lib/ping.py
+python -c "execfile('lib/ping.py')"

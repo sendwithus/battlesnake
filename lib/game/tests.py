@@ -1,197 +1,118 @@
-import os
-
-from models import GameState, Game
+from models import Game
 from engine import Engine
 
+SNAKE_1 = {
+    'id': 'test_snake_1',
+    'coords': [[2, 1], [1, 1]]
+}
 
-ROOT_DATA_DIR = 'lib/game/data'
-SNAKES = [
-    {
-        'id': 'snake_1',
-        'coords': [(1, 1), (1, 1), (1, 1)],
-        'status': 'alive'
-    },
-    {
-        'id': 'snake_2',
-        'coords': [(1, 3), (1, 3), (1, 3)],
-        'status': 'alive'
-    },
-    {
-        'id': 'snake_3',
-        'coords': [(1, 5), (1, 5), (1, 5)],
-        'status': 'alive'
-    },
-    {
-        'id': 'snake_4',
-        'coords': [(1, 7), (1, 7), (1, 7)],
-        'status': 'alive'
-    }
-]
+SNAKE_2 = {
+    'id': 'test_snake_2',
+    'coords': [[4, 1], [5, 1]]
+}
 
-MOVES_1 = [
-    {
-        'snake_id': 'snake_1',
-        'action': 'right'
-    },
-    {
-        'snake_id': 'snake_2',
-        'action': 'right'
-    },
-    {
-        'snake_id': 'snake_3',
-        'action': 'right'
-    },
-    {
-        'snake_id': 'snake_4',
-        'action': 'right'
-    }
-]
+SNAKE_3 = {
+    'id': 'test_snake_3',
+    'coords': [[2, 2], [2, 3]]
+}
 
-MOVES_2 = [
-    {
-        'snake_id': 'snake_1',
-        'action': 'down'
-    },
-    {
-        'snake_id': 'snake_2',
-        'action': 'down'
-    },
-    {
-        'snake_id': 'snake_3',
-        'action': 'down'
-    },
-    {
-        'snake_id': 'snake_4',
-        'action': 'down'
-    }
-]
+MOVE_RIGHT_1 = {
+    'snake_id': 'test_snake_1',
+    'move': Engine.MOVE_RIGHT
+}
 
-MOVES_3 = [
-    {
-        'snake_id': 'snake_1',
-        'action': 'left'
-    },
-    {
-        'snake_id': 'snake_2',
-        'action': 'left'
-    },
-    {
-        'snake_id': 'snake_3',
-        'action': 'left'
-    },
-    {
-        'snake_id': 'snake_4',
-        'action': 'left'
-    }
-]
+MOVE_LEFT_2 = {
+    'snake_id': 'test_snake_2',
+    'move': Engine.MOVE_LEFT
+}
 
-MOVES_4 = [
-    {
-        'snake_id': 'snake_1',
-        'action': 'up'
-    },
-    {
-        'snake_id': 'snake_2',
-        'action': 'up'
-    },
-    {
-        'snake_id': 'snake_3',
-        'action': 'up'
-    },
-    {
-        'snake_id': 'snake_4',
-        'action': 'up'
-    }
-]
-
-MOVES_5 = [
-    {
-        'snake_id': 'snake_1',
-        'action': 'right'
-    },
-    {
-        'snake_id': 'snake_2',
-        'action': 'left'
-    },
-    {
-        'snake_id': 'snake_3',
-        'action': 'left'
-    },
-    {
-        'snake_id': 'snake_4',
-        'action': 'left'
-    }
-]
+MOVE_UP_3 = {
+    'snake_id': 'test_snake_3',
+    'move': Engine.MOVE_UP
+}
 
 
-def check_game_state(test_file):
-    game = Game(width=8, height=12)
-    g = Engine.create_game_state(game._id, game._width, game._height)
-    print g.to_string()
-    # Load game state
-    # with open('%s/%s.in' % (ROOT_DATA_DIR, test_file)) as f:
-    #     g.from_string(f.read())
+def test_move_right():
+    game = Game(width=10, height=10)
+    g = Engine.create_game_state(game.id, game.width, game.height)
+    Engine.add_snakes_to_board(g, [SNAKE_1])
+    g.sanity_check()
 
-    # Load expected game state
-    with open('%s/%s.out' % (ROOT_DATA_DIR, test_file)) as f:
-        expected_output = f.read().strip()
+    with open('lib/game/data/move_right.in') as f:
+        start_state = f.read().strip()
 
-    g = Engine.add_snakes_to_board(g, SNAKES)
-    g._sanity_check()
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
+    assert(g.to_string().strip() == start_state)
 
-    g = Engine.resolve_moves(g, MOVES_1)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_1)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_1)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_1)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_1)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_2)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_3)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_3)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_3)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_3)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_3)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
-    g = Engine.resolve_moves(g, MOVES_4)
-    print 'Game State Turn[' + str(g._turn) + ']\n'
-    print g.to_string()
+    g = Engine.resolve_moves(g, [MOVE_RIGHT_1])
+    g.sanity_check()
 
-    # TODO: APPLY STATE CHANGES
+    with open('lib/game/data/move_right.out') as f:
+        end_state = f.read().strip()
 
-    # Get actual game state
-    actual_output = g.to_string()
-
-    print 'Final Board'
-    print actual_output.strip()
-    print 'Expected Board'
-    print expected_output.strip()
-
-    assert (actual_output.strip() == expected_output.strip())
+    assert(g.to_string().strip() == end_state.strip())
 
 
-def test_game_state():
-    for test_file in os.listdir(ROOT_DATA_DIR):
-        if test_file.startswith('test_') and test_file.endswith('.in'):
-            yield check_game_state, test_file.replace('.in', '')
+def test_head_to_head():
+    game = Game(width=10, height=10)
+    g = Engine.create_game_state(game.id, game.width, game.height)
+    Engine.add_snakes_to_board(g, [SNAKE_1, SNAKE_2])
+    g.sanity_check()
+
+    with open('lib/game/data/head_to_head.in') as f:
+        start_state = f.read().strip()
+
+    assert(g.to_string().strip() == start_state)
+
+    g = Engine.resolve_moves(g, [MOVE_RIGHT_1, MOVE_LEFT_2])
+    g.sanity_check()
+
+    with open('lib/game/data/head_to_head.out') as f:
+        end_state = f.read().strip()
+
+    assert(g.to_string().strip() == end_state.strip())
+
+
+def test_head_to_body():
+    game = Game(width=10, height=10)
+    g = Engine.create_game_state(game.id, game.width, game.height)
+    Engine.add_snakes_to_board(g, [SNAKE_1, SNAKE_3])
+    g.sanity_check()
+
+    with open('lib/game/data/head_to_body.in') as f:
+        start_state = f.read().strip()
+
+    assert(g.to_string().strip() == start_state)
+
+    g = Engine.resolve_moves(g, [MOVE_RIGHT_1, MOVE_UP_3])
+    g.sanity_check()
+    g = Engine.resolve_moves(g, [MOVE_RIGHT_1])
+    g.sanity_check()
+
+    with open('lib/game/data/head_to_body.out') as f:
+        end_state = f.read().strip()
+
+    assert(g.to_string().strip() == end_state.strip())
+
+
+def test_eat_food():
+    game = Game(width=10, height=10)
+    g = Engine.create_game_state(game.id, game.width, game.height)
+    Engine.add_snakes_to_board(g, [SNAKE_1])
+    Engine.add_food_to_board(g, [3, 1])
+    g.sanity_check()
+
+    with open('lib/game/data/eat_food.in') as f:
+        start_state = f.read().strip()
+
+    assert(g.to_string().strip() == start_state)
+
+    g = Engine.resolve_moves(g, [MOVE_RIGHT_1])
+    g.sanity_check()
+    g = Engine.resolve_moves(g, [MOVE_RIGHT_1])
+    g.sanity_check()
+
+    with open('lib/game/data/eat_food.out') as f:
+        end_state = f.read().strip()
+
+    assert(g.to_string().strip() == end_state.strip())
+    assert(len(g.food) == 0)

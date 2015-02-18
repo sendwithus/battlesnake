@@ -32,37 +32,52 @@ class Engine(object):
 
     @staticmethod
     def add_snakes_to_board(game_state, snakes):
+        # Add snakes to .snakes
+        game_state.snakes = snakes
 
-        for snake in snakes:
+        # Add snakes to .board
+        Engine.update_snakes_on_board(game_state)
+
+        return game_state
+
+    @staticmethod
+    def add_random_snakes_to_board(game_state, snake_ids):
+        snakes = []
+        for snake_id in snake_ids:
+
             # TODO CURTIS: Fix collisions.
             x = random.randint(0, len(game_state.board) - 1)
             y = random.randint(0, len(game_state.board[0]) - 1)
 
-            snake['coords'] = [[x, y], [x, y]]
+            coords = [[x, y], [x, y]]
 
-            # Add snake to .snakes
-            game_state.snakes.append(snake)
+            snake = {
+                'id': snake_id,
+                'coords': coords
+            }
 
-            # Add snake to .board
-            Engine.update_snakes_on_board(game_state)
+            snakes.append(snake)
+
+        Engine.add_snakes_to_board(game_state, snakes)
 
         return game_state
 
     @staticmethod
     def add_random_food_to_board(game_state):
-        found_space = False
-        while found_space is False:
-            x = random.randint(0, len(game_state.board) - 1)
-            y = random.randint(0, len(game_state.board[0]) - 1)
-            coords = [x, y]
-            found_space = True
-            for snake in game_state.snakes:
-                if coords in snake['coords']:
+        if len(game_state.food < 20):
+            found_space = False
+            while found_space is False:
+                x = random.randint(0, len(game_state.board) - 1)
+                y = random.randint(0, len(game_state.board[0]) - 1)
+                coords = [x, y]
+                found_space = True
+                for snake in game_state.snakes:
+                    if coords in snake['coords']:
+                        found_space = False
+                if coords in game_state.food:
                     found_space = False
-            if coords in game_state.food:
-                found_space = False
 
-        Engine.add_food_to_board(game_state, [x, y])
+            Engine.add_food_to_board(game_state, [x, y])
         return game_state
 
     @staticmethod

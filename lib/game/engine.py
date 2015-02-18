@@ -3,11 +3,6 @@ import random
 
 import lib.game.constants as constants
 from lib.game.models import GameState
-from lib.game.constants import \
-    MAX_FOOD_ON_BOARD, \
-    EAT_RATIO, \
-    TURNS_PER_FOOD, \
-    SACRIFICE_INTERVAL
 
 
 def _board_iterator(board, state_filter=None):
@@ -98,7 +93,7 @@ class Engine(object):
             if dead_snake['died_on_turn'] > recent_death:
                 recent_death = dead_snake['died_on_turn']
 
-        if (game_state.turn - recent_death) > SACRIFICE_INTERVAL:
+        if (game_state.turn - recent_death) > constants.SACRIFICE_INTERVAL:
             smallest = Engine.LARGE_NUMBER
 
             for snake in game_state.snakes:
@@ -291,7 +286,7 @@ class Engine(object):
                 # Head to Body Collision
                 if snake['coords'][0] in check_snake['coords']:
                     kill.append(snake['id'])
-                    grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) * EAT_RATIO)
+                    grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) * constants.EAT_RATIO)
                     snake['killed_by'] = check_snake['id']
                     continue
 
@@ -324,7 +319,7 @@ class Engine(object):
         cls.check_snake_sacrifices(new_game_state)
 
         # Add food every 3 turns
-        if new_game_state.turn % TURNS_PER_FOOD == 0:
+        if new_game_state.turn % constants.TURNS_PER_FOOD == 0:
             cls.add_random_food_to_board(new_game_state)
 
         cls.update_snakes_on_board(new_game_state)

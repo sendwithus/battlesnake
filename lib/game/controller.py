@@ -36,7 +36,7 @@ def create_game(snake_urls, width, height, turn_time):
             'game_id': game.id
         },
         urls=start_urls,
-        timeout=game.turn_time * 4
+        timeout=10  # Enough time for Heroku apps to wake up
     ).start()
 
     snakes = []

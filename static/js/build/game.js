@@ -160,7 +160,7 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
                     ), 
                     React.createElement("br", null), 
                     React.createElement("br", null), 
-                    React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.startManual}, 
+                    React.createElement("button", {className: "btn btn-info stretch", onClick: this.props.startManual}, 
                         "Start Debug"
                     )
                 )
@@ -249,6 +249,7 @@ var GameCreate = React.createClass({displayName: "GameCreate",
         e.preventDefault();
 
         var gameData = { snake_urls: this.state.snakeUrls };
+        this.setState({ isLoading: true });
 
         $.ajax({
             type: 'POST',
@@ -258,8 +259,10 @@ var GameCreate = React.createClass({displayName: "GameCreate",
         }).done(function (response) {
             navigate('/play/games/' + response.data.game._id);
             this._savePastSnakes();
+            this.setState({ isLoading: false });
         }.bind(this)).error(function (xhr, textStatus, errorThrown) {
             alert(xhr.responseJSON.message);
+            this.setState({ isLoading: false });
         });
     },
     handleSubmitSnake: function (e) {
@@ -279,7 +282,8 @@ var GameCreate = React.createClass({displayName: "GameCreate",
     getInitialState: function () {
         return {
             snakeUrls: this._loadPastSnakes(),
-            currentSnakeUrl: ''
+            currentSnakeUrl: '',
+            isLoading: false
         };
     },
     render: function () {
@@ -321,8 +325,8 @@ var GameCreate = React.createClass({displayName: "GameCreate",
                         )
                     ), 
                     React.createElement("div", {className: "input-group"}, 
-                        React.createElement("button", {type: "button", className: "btn btn-success", onClick: this.handleGameCreate}, 
-                            "Start Game"
+                        React.createElement("button", {type: "button", className: "btn btn-success", onClick: this.handleGameCreate, disabled: this.state.isLoading}, 
+                            this.state.isLoading ? 'Contacting snakes...' : 'Start Game'
                         )
                     )
                 )

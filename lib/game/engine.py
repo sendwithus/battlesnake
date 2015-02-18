@@ -54,15 +54,29 @@ class Engine(object):
 
     @staticmethod
     def add_random_snakes_to_board(game_state, snakes):
-        for snake in snakes:
 
-            # TODO CURTIS: Fix collisions.
-            x = random.randint(0, len(game_state.board) - 1)
-            y = random.randint(0, len(game_state.board[0]) - 1)
+        # Generate starting positions
+        def get_quarter_dimensions(dimension):
+            mid = (dimension - 1) / 2
+            diff = (mid / 2) + 1
+            return [mid - diff, mid, mid + diff]
 
-            coords = [[x, y], [x, y]]
+        width_quarters = get_quarter_dimensions(len(game_state.board))
+        height_quarters = get_quarter_dimensions(len(game_state.board[0]))
 
-            snake['coords'] = coords
+        starting_coords = [
+            [width_quarters[0], height_quarters[0]],  # top left
+            [width_quarters[2], height_quarters[2]],  # top right
+            [width_quarters[2], height_quarters[2]],  # bottom right
+            [width_quarters[0], height_quarters[2]],  # bottom left
+            [width_quarters[1], height_quarters[0]],  # mid top
+            [width_quarters[2], height_quarters[1]],  # mid right
+            [width_quarters[1], height_quarters[2]],  # mid bottom
+            [width_quarters[0], height_quarters[1]],  # mid left
+        ]
+
+        for snake, coords in zip(snakes, starting_coords):
+            snake['coords'] = [[coords] for i in range(constants.SNAKE_STARTING_LENGTH)]
 
         Engine.add_snakes_to_board(game_state, snakes)
 

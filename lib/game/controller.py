@@ -53,6 +53,7 @@ def create_game(snake_urls, width, height, turn_time):
                 if response is None:
                     # FREAK OUT
                     raise Exception('failed to contact snake: %s' % url)
+
                 snakes.append({
                     'url': snake_url,
                     'color': response['color'],
@@ -67,7 +68,7 @@ def create_game(snake_urls, width, height, turn_time):
     game_state = Engine.create_game_state(game.id, game.width, game.height)
 
     # Init the first GameState
-    Engine.add_snakes_to_board(game_state, snakes)
+    Engine.add_random_snakes_to_board(game_state, snakes)
     Engine.add_random_food_to_board(game_state)
 
     # Save the first GameState

@@ -41,9 +41,8 @@ class Engine(object):
         return game_state
 
     @staticmethod
-    def add_random_snakes_to_board(game_state, snake_ids):
-        snakes = []
-        for snake_id in snake_ids:
+    def add_random_snakes_to_board(game_state, snakes):
+        for snake in snakes:
 
             # TODO CURTIS: Fix collisions.
             x = random.randint(0, len(game_state.board) - 1)
@@ -51,12 +50,7 @@ class Engine(object):
 
             coords = [[x, y], [x, y]]
 
-            snake = {
-                'id': snake_id,
-                'coords': coords
-            }
-
-            snakes.append(snake)
+            snake['coords'] = coords
 
         Engine.add_snakes_to_board(game_state, snakes)
 
@@ -64,7 +58,7 @@ class Engine(object):
 
     @staticmethod
     def add_random_food_to_board(game_state):
-        if len(game_state.food < 20):
+        if len(game_state.food) < 20:
             found_space = False
             while found_space is False:
                 x = random.randint(0, len(game_state.board) - 1)

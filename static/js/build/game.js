@@ -336,7 +336,7 @@ var GameCreate = React.createClass({displayName: "GameCreate",
         }.bind(this)).error(function (xhr, textStatus, errorThrown) {
             alert(xhr.responseJSON.message);
             this.setState({ isLoading: false });
-        });
+        }.bind(this));
     },
     handleSubmitSnake: function (e) {
         e.preventDefault();

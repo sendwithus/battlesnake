@@ -307,21 +307,27 @@ var GameList = React.createClass({
 });
 
 var GameCreate = React.createClass({
-    _loadPastSnakes: function () {
+    _loadPastState: function () {
         try {
-            return JSON.parse(window.localStorage['battlesnake.snake_urls']);
+            return JSON.parse(window.localStorage['battlesnake.new_game_state']);
         } catch (e) {
-            return [ '' ];
+            return null;
         }
     },
-    _savePastSnakes: function () {
-        var json = JSON.stringify(this.state.snakeUrls);
-        window.localStorage['battlesnake.snake_urls'] = json;
+    _savePastState: function () {
+        var json = JSON.stringify(this.state);
+        window.localStorage['battlesnake.new_game_state'] = json;
     },
     handleGameCreate: function (e) {
         e.preventDefault();
 
-        var gameData = { snake_urls: this.state.snakeUrls };
+        var gameData = {
+            snake_urls: this.state.snakeUrls,
+            width: this.state.currentWidth,
+            height: this.state.currentHeight,
+            turn_time: this.state.currentTimeout,
+        };
+
         this.setState({ isLoading: true });
 
         $.ajax({
@@ -331,7 +337,7 @@ var GameCreate = React.createClass({
             contentType: 'application/json'
         }).done(function (response) {
             navigate('/play/games/' + response.data.game._id);
-            this._savePastSnakes();
+            this._savePastState();
             this.setState({ isLoading: false });
         }.bind(this)).error(function (xhr, textStatus, errorThrown) {
             alert(xhr.responseJSON.message);
@@ -342,7 +348,7 @@ var GameCreate = React.createClass({
         e.preventDefault();
         var snakeUrls = this.state.snakeUrls;
         snakeUrls.push(this.state.currentSnakeUrl);
-        this.setState({ snakeUrls: snakeUrls });
+        this.setState({ snakeUrls: snakeUrls, currentSnakeUrl: '' });
     },
     handleSnakeUrlChange: function (e) {
         this.setState({ currentSnakeUrl: e.target.value });
@@ -352,10 +358,28 @@ var GameCreate = React.createClass({
         snakeUrls.splice(i, 1);
         this.setState({ snakeUrls: snakeUrls });
     },
+    handleWidthChange: function (e) {
+        this.setState({ currentWidth: parseInt(e.target.value) });
+    },
+    handleHeightChange: function (e) {
+        this.setState({ currentHeight: parseInt(e.target.value) });
+    },
+    handleTimeoutChange: function (e) {
+        this.setState({ currentTimeout: parseFloat(e.target.value) });
+    },
     getInitialState: function () {
+        var state = this._loadPastState();
+        if (state) {
+            state.isLoading = false;
+            return state;
+        }
+
         return {
-            snakeUrls: this._loadPastSnakes(),
+            snakeUrls: [ ],
             currentSnakeUrl: '',
+            currentWidth: 20,
+            currentHeight: 20,
+            currentTimeout: 1,
             isLoading: false
         };
     },
@@ -373,11 +397,18 @@ var GameCreate = React.createClass({
             );
         }.bind(this));
 
+        var noSnakesMessage = '';
+        if (!this.state.snakeUrls.length) {
+            noSnakesMessage = (
+                <p>You have no snake added. Input your snake url in the box below...</p>
+            );
+        }
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmitSnake}>
                     <h2>Create Game</h2>
                     <br />
+                    {noSnakesMessage}
                     <div>
                         {snakeUrls}
                     </div>
@@ -397,8 +428,42 @@ var GameCreate = React.createClass({
                             </button>
                         </span>
                     </div>
+                    <div className="row">
+                        <div className="col-md-4">
+                            <label>width</label>
+                            <input type="number"
+                                className="form-control"
+                                placeholder="width"
+                                min="10"
+                                max="50"
+                                value={this.state.currentWidth}
+                                onChange={this.handleWidthChange}/>
+                        </div>
+                        <div className="col-md-4">
+                            <label>height</label>
+                            <input type="number"
+                                className="form-control"
+                                placeholder="height"
+                                min="10"
+                                max="50"
+                                value={this.state.currentHeight}
+                                onChange={this.handleHeightChange}
+                            />
+                        </div>
+                        <div className="col-md-4">
+                            <label>turn time</label>
+                            <input type="number"
+                                step="0.1"
+                                min="0"
+                                className="form-control"
+                                placeholder="1.0 (seconds)"
+                                value={this.state.currentTimeout}
+                                onChange={this.handleTimeoutChange}
+                            />
+                        </div>
+                    </div>
                     <div className="input-group">
-                        <button type="button" className="btn btn-success" onClick={this.handleGameCreate} disabled={this.state.isLoading}>
+                        <button type="button" className="btn btn-big btn-success" onClick={this.handleGameCreate} disabled={this.state.isLoading}>
                             {this.state.isLoading ? 'Contacting snakes...' : 'Start Game'}
                         </button>
                     </div>

@@ -3,6 +3,11 @@ import random
 
 import lib.game.constants as constants
 from lib.game.models import GameState
+from lib.game.constants import \
+    MAX_FOOD_ON_BOARD, \
+    EAT_RATIO, \
+    TURNS_PER_FOOD, \
+    SACRIFICE_INTERVAL
 
 
 def _board_iterator(board, state_filter=None):
@@ -21,6 +26,10 @@ class Engine(object):
     MOVE_DOWN = 'down'
     MOVE_LEFT = 'left'
     MOVE_RIGHT = 'right'
+
+    SNAKE_SACRIFICE = 'snake_sacrifice'
+    WALL = 'wall'
+    LARGE_NUMBER = 999
 
     @classmethod
     def create_game_state(cls, game_id, width, height):
@@ -83,6 +92,27 @@ class Engine(object):
         return game_state
 
     @staticmethod
+    def check_snake_sacrifices(game_state):
+        recent_death = 0
+        for dead_snake in game_state.dead_snakes:
+            if dead_snake['died_on_turn'] > recent_death:
+                recent_death = dead_snake['died_on_turn']
+
+        if (game_state.turn - recent_death) > SACRIFICE_INTERVAL:
+            smallest = Engine.LARGE_NUMBER
+
+            for snake in game_state.snakes:
+                if (len(snake['coords']) < smallest):
+                    smallest = len(snake['coords'])
+
+            for snake in copy.deepcopy(game_state.snakes):
+                if len(snake['coords'] == smallest):
+                    game_state.new_snakes.remove(snake)
+                    snake['died_on_turn'] = game_state.turn
+                    snake['killed_by'] = Engine.SNAKE_SACRIFICE
+                    game_state.dead_snakes.append(snake)
+
+    @staticmethod
     def add_random_food_to_board(game_state):
         if len(game_state.food) < constants.MAX_FOOD_ON_BOARD:
             empty_tile_coords = [
@@ -93,6 +123,7 @@ class Engine(object):
                 )
             ]
             Engine.add_food_to_board(game_state, random.choice(empty_tile_coords))
+
         return game_state
 
     @staticmethod
@@ -217,18 +248,22 @@ class Engine(object):
             # Check for wall collisions
             if snake['coords'][0][0] < 0:
                 kill.append(snake['id'])
+                snake['killed_by'] = Engine.WALL
                 continue
 
             if snake['coords'][0][1] < 0:
                 kill.append(snake['id'])
+                snake['killed_by'] = Engine.WALL
                 continue
 
             if snake['coords'][0][0] >= len(game_state.board):
                 kill.append(snake['id'])
+                snake['killed_by'] = Engine.WALL
                 continue
 
             if snake['coords'][0][1] >= len(game_state.board[0]):
                 kill.append(snake['id'])
+                snake['killed_by'] = Engine.WALL
                 continue
 
             if snake['coords'][0] in new_food:
@@ -242,6 +277,7 @@ class Engine(object):
                 if snake['id'] == check_snake['id']:
                     if snake['coords'][0] in check_snake['coords'][1:]:
                         kill.append(snake['id'])
+                        snake['killed_by'] = check_snake['id']
                         continue
                     else:
                         continue
@@ -249,20 +285,23 @@ class Engine(object):
                 # Head to Head Collision
                 if snake['coords'][0] == check_snake['coords'][0]:
                     kill.append(snake['id'])
+                    snake['killed_by'] = check_snake['id']
                     continue
 
                 # Head to Body Collision
                 if snake['coords'][0] in check_snake['coords']:
                     kill.append(snake['id'])
-                    grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) / 2)
+                    grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) * EAT_RATIO)
+                    snake['killed_by'] = check_snake['id']
                     continue
 
         # Resolve Collisions
         for snake in copy.deepcopy(new_snakes):
 
             if snake['id'] in kill:
-                dead_snakes.append(snake)
                 new_snakes.remove(snake)
+                snake['died_on_turn'] = game_state.turn
+                dead_snakes.append(snake)
 
         for snake_id, grow_by in grow.iteritems():
             for snake in new_snakes:
@@ -279,10 +318,13 @@ class Engine(object):
         new_game_state.snakes = new_snakes
         new_game_state.dead_snakes = dead_snakes
         new_game_state.food = new_food
+
         new_game_state.turn = game_state.turn + 1
 
+        cls.check_snake_sacrifices(new_game_state)
+
         # Add food every 3 turns
-        if new_game_state.turn % 3 == 0:
+        if new_game_state.turn % TURNS_PER_FOOD == 0:
             cls.add_random_food_to_board(new_game_state)
 
         cls.update_snakes_on_board(new_game_state)

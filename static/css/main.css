@@ -24,6 +24,14 @@ form .btn {
     width: 100%;
 }
 
+.form-control {
+    border-radius: 0;
+    margin-bottom: 15px;
+}
+.form-control:focus {
+	border-color: #F8F568;
+}
+
 p {
     color: #999;
 }
@@ -58,6 +66,11 @@ a:hover {
 .btn{
 	border: none;
 	border-radius: 0;
+}
+
+.btn-big {
+    padding: 10px;
+    font-size: 16px;
 }
 
 .btn:focus,

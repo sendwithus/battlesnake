@@ -24,7 +24,7 @@ class Engine(object):
 
     SNAKE_SACRIFICE = 'snake_sacrifice'
     WALL = 'wall'
-    LARGE_NUMBER = 999
+    LARGE_NUMBER = 999999
 
     @classmethod
     def create_game_state(cls, game_id, width, height):
@@ -117,7 +117,25 @@ class Engine(object):
                     state_filter=GameState.TILE_STATE_EMPTY
                 )
             ]
-            Engine.add_food_to_board(game_state, random.choice(empty_tile_coords))
+            if empty_tile_coords:
+                Engine.add_food_to_board(game_state, random.choice(empty_tile_coords))
+
+        return game_state
+
+    @staticmethod
+    def add_starting_food_to_board(game_state):
+        def get_mid_coords(dimension):
+            half = (dimension - 1) / 2
+            if (dimension % 2) == 0:
+                return [half, half+1]
+            return [half]
+
+        width = len(game_state.board)
+        height = len(game_state.board[0])
+
+        for x in get_mid_coords(width):
+            for y in get_mid_coords(height):
+                Engine.add_food_to_board(game_state, [x, y])
 
         return game_state
 
@@ -319,7 +337,7 @@ class Engine(object):
 
         cls.check_snake_sacrifices(new_game_state)
 
-        # Add food every 3 turns
+        # Add food every X turns
         if new_game_state.turn % constants.TURNS_PER_FOOD == 0:
             cls.add_random_food_to_board(new_game_state)
 

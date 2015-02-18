@@ -5,6 +5,17 @@ import lib.game.constants as constants
 from lib.game.models import GameState
 
 
+def _board_iterator(board, state_filter=None):
+    for x, col in enumerate(board):
+        for y, tile in enumerate(col):
+            yield_it = True
+            if state_filter:
+                yield_it = (tile['state'] == state_filter)
+
+            if yield_it:
+                yield (x, y, tile)
+
+
 class Engine(object):
     MOVE_UP = 'up'
     MOVE_DOWN = 'down'
@@ -60,19 +71,14 @@ class Engine(object):
     @staticmethod
     def add_random_food_to_board(game_state):
         if len(game_state.food) < constants.MAX_FOOD_ON_BOARD:
-            found_space = False
-            while found_space is False:
-                x = random.randint(0, len(game_state.board) - 1)
-                y = random.randint(0, len(game_state.board[0]) - 1)
-                coords = [x, y]
-                found_space = True
-                for snake in game_state.snakes:
-                    if coords in snake['coords']:
-                        found_space = False
-                if coords in game_state.food:
-                    found_space = False
-
-            Engine.add_food_to_board(game_state, [x, y])
+            empty_tile_coords = [
+                [x, y]
+                for (x, y, tile) in _board_iterator(
+                    game_state.board,
+                    state_filter=GameState.TILE_STATE_EMPTY
+                )
+            ]
+            Engine.add_food_to_board(game_state, random.choice(empty_tile_coords))
         return game_state
 
     @staticmethod

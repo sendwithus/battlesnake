@@ -10,6 +10,11 @@ class Engine(object):
     MOVE_LEFT = 'left'
     MOVE_RIGHT = 'right'
 
+    MAX_FOOD = 20  # Max food on board
+    EAT_RATIO = 0.50  # Ammount of snake length absorbed
+    TURNS_PER_FOOD = 3  # Turns between food spawning
+    SACRIFICE_INTERVAL = 30  # Turns of inactivity before snake sacrifice
+
     @classmethod
     def create_game_state(cls, game_id, width, height):
         game_state = GameState(game_id=game_id)
@@ -64,7 +69,7 @@ class Engine(object):
 
     @staticmethod
     def add_random_food_to_board(game_state):
-        if len(game_state.food < 20):
+        if len(game_state.food < Engine.MAX_FOOD):
             found_space = False
             while found_space is False:
                 x = random.randint(0, len(game_state.board) - 1)
@@ -239,7 +244,8 @@ class Engine(object):
                 # Head to Body Collision
                 if snake['coords'][0] in check_snake['coords']:
                     kill.append(snake['id'])
-                    grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) / 2)
+                    grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) * Engine.EAT_RATIO)
+                    snake['killed_by'] = check_snake['id']
                     continue
 
         # Resolve Collisions
@@ -267,7 +273,7 @@ class Engine(object):
         new_game_state.turn = game_state.turn + 1
 
         # Add food every 3 turns
-        if new_game_state.turn % 3 == 0:
+        if new_game_state.turn % Engine.TURNS_PER_FOOD == 0:
             cls.add_random_food_to_board(new_game_state)
 
         cls.update_snakes_on_board(new_game_state)

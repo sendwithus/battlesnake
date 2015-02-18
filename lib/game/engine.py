@@ -88,7 +88,7 @@ class Engine(object):
             smallest = Engine.LARGE_NUMBER
 
             for snake in game_state.snakes:
-                if len(snake['coords'] < smallest):
+                if (len(snake['coords']) < smallest):
                     smallest = len(snake['coords'])
 
             for snake in copy.deepcopy(game_state.snakes):

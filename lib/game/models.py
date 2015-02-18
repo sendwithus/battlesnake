@@ -7,9 +7,8 @@ import pymongo
 from lib.mongo import get_mongodb
 from lib.words import get_noun, get_adjective
 
-logger = logging.getLogger(__name__)
 
-## db = get_mongodb()
+logger = logging.getLogger(__name__)
 
 
 class Model(object):

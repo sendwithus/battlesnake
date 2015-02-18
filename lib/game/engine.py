@@ -3,11 +3,6 @@ import random
 
 import lib.game.constants as constants
 from lib.game.models import GameState
-from lib.game.constants import \
-    MAX_FOOD_ON_BOARD, \
-    EAT_RATIO, \
-    TURNS_PER_FOOD, \
-    SACRIFICE_INTERVAL
 
 
 def _board_iterator(board, state_filter=None):
@@ -63,15 +58,29 @@ class Engine(object):
 
     @staticmethod
     def add_random_snakes_to_board(game_state, snakes):
-        for snake in snakes:
 
-            # TODO CURTIS: Fix collisions.
-            x = random.randint(0, len(game_state.board) - 1)
-            y = random.randint(0, len(game_state.board[0]) - 1)
+        # Generate starting positions
+        def get_quarter_dimensions(dimension):
+            mid = (dimension - 1) / 2
+            diff = (mid / 2) + 1
+            return [mid - diff, mid, mid + diff]
 
-            coords = [[x, y], [x, y]]
+        width_quarters = get_quarter_dimensions(len(game_state.board))
+        height_quarters = get_quarter_dimensions(len(game_state.board[0]))
 
-            snake['coords'] = coords
+        starting_coords = [
+            [width_quarters[0], height_quarters[0]],  # top left
+            [width_quarters[2], height_quarters[2]],  # top right
+            [width_quarters[2], height_quarters[2]],  # bottom right
+            [width_quarters[0], height_quarters[2]],  # bottom left
+            [width_quarters[1], height_quarters[0]],  # mid top
+            [width_quarters[2], height_quarters[1]],  # mid right
+            [width_quarters[1], height_quarters[2]],  # mid bottom
+            [width_quarters[0], height_quarters[1]],  # mid left
+        ]
+
+        for snake, coords in zip(snakes, starting_coords):
+            snake['coords'] = [[coords] for i in range(constants.SNAKE_STARTING_LENGTH)]
 
         Engine.add_snakes_to_board(game_state, snakes)
 
@@ -84,7 +93,7 @@ class Engine(object):
             if dead_snake['died_on_turn'] > recent_death:
                 recent_death = dead_snake['died_on_turn']
 
-        if (game_state.turn - recent_death) > SACRIFICE_INTERVAL:
+        if (game_state.turn - recent_death) > constants.SACRIFICE_INTERVAL:
             smallest = Engine.LARGE_NUMBER
 
             for snake in game_state.snakes:
@@ -277,7 +286,7 @@ class Engine(object):
                 # Head to Body Collision
                 if snake['coords'][0] in check_snake['coords']:
                     kill.append(snake['id'])
-                    grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) * EAT_RATIO)
+                    grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) * constants.EAT_RATIO)
                     snake['killed_by'] = check_snake['id']
                     continue
 
@@ -310,7 +319,7 @@ class Engine(object):
         cls.check_snake_sacrifices(new_game_state)
 
         # Add food every 3 turns
-        if new_game_state.turn % TURNS_PER_FOOD == 0:
+        if new_game_state.turn % constants.TURNS_PER_FOOD == 0:
             cls.add_random_food_to_board(new_game_state)
 
         cls.update_snakes_on_board(new_game_state)

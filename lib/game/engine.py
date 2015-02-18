@@ -4,7 +4,7 @@ import random
 import lib.game.constants as constants
 from lib.game.models import GameState
 from lib.game.constants import \
-    MAX_FOOD, \
+    MAX_FOOD_ON_BOARD, \
     EAT_RATIO, \
     TURNS_PER_FOOD, \
     SACRIFICE_INTERVAL

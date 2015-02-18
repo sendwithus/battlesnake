@@ -5,9 +5,7 @@ from os import environ
 
 
 def max_workers():
-    # Gunicorn suggests (1-4 x $CORES) + 1
-    # We can tweak this if we need.
-    return (cpu_count() * 2) + 1
+    return environ.get('WEB_CONCURRENCY', 1)
 
 
 bind = '0.0.0.0:' + environ.get('PORT', '8080')

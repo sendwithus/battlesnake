@@ -2,7 +2,9 @@ import bottle
 import json
 
 from lib.game.models import Game, GameState
-from lib.game import controller
+# from lib.game import controller
+
+controller = {}
 
 
 # CLIENT_TIMEOUT_SECONDS = 2

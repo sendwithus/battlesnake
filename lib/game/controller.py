@@ -40,13 +40,20 @@ def create_game(snake_urls, width, height, turn_time):
     ).start()
 
     snakes = []
-    for snake_url in snake_urls:
-        for url, response in responses.items():
-            if response is None:
-                # FREAK OUT
-                raise Exception('failed to contact snake: %s' % url)
 
+    # For all snakes
+    for snake_url in snake_urls:
+
+        # Find the response for that snake
+        for url, response in responses.items():
+
+            # We matched! Now handle the response
             if url.startswith(snake_url):
+
+                if response is None:
+                    # FREAK OUT
+                    raise Exception('failed to contact snake: %s' % url)
+
                 snakes.append({
                     'url': snake_url,
                     'color': response['color'],
@@ -61,7 +68,7 @@ def create_game(snake_urls, width, height, turn_time):
     game_state = Engine.create_game_state(game.id, game.width, game.height)
 
     # Init the first GameState
-    Engine.add_snakes_to_board(game_state, snakes)
+    Engine.add_random_snakes_to_board(game_state, snakes)
     Engine.add_random_food_to_board(game_state)
 
     # Save the first GameState
@@ -86,15 +93,19 @@ def get_moves(game_state, timeout):
 
     moves = []
 
+    # For all snakes
     for snake in game_state.snakes:
-        for url, response in responses.items():
-            if response is None:
-                # Too bad for that snake. Engine should keep it moving
-                # in current direction
-                _log('%s timed out' % snake['id'])
-                continue
 
+        # Find the response for that snake
+        for url, response in responses.items():
+
+            # We matched! Now handle the response
             if url.startswith(snake['url']):
+                if response is None:
+                    # Too bad for that snake. Engine should keep it moving
+                    # in current direction
+                    _log('%s timed out' % snake['id'])
+                    continue
                 moves.append({
                     'snake_id': snake['id'],  # Don't trust id from response
                     'move': response['move']
@@ -107,7 +118,7 @@ def next_turn(game):
 
     if len(game_states) > 0:
         game_state = game_states[0]
-        moves = get_moves(game_state, game.turn_time)
+        moves = get_moves(game_state, game.turn_time * 4)
         next_game_state = Engine.resolve_moves(game_state, moves)
         next_game_state.insert()
 
@@ -132,6 +143,15 @@ def run_game(game):
         start_time = time.time()
 
         # moves = fetch_moves_async
+        game = game.refetch()
+
+        if game.state == Game.STATE_PAUSED:
+            _log('paused: %s' % game)
+            break
+
+        if game.state != Game.STATE_PLAYING:
+            _log('aborted: %s' % new_game_state)
+            break
 
         try:
             new_game_state = next_turn(game)

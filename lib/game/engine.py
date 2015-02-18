@@ -46,9 +46,8 @@ class Engine(object):
         return game_state
 
     @staticmethod
-    def add_random_snakes_to_board(game_state, snake_ids):
-        snakes = []
-        for snake_id in snake_ids:
+    def add_random_snakes_to_board(game_state, snakes):
+        for snake in snakes:
 
             # TODO CURTIS: Fix collisions.
             x = random.randint(0, len(game_state.board) - 1)
@@ -56,12 +55,7 @@ class Engine(object):
 
             coords = [[x, y], [x, y]]
 
-            snake = {
-                'id': snake_id,
-                'coords': coords
-            }
-
-            snakes.append(snake)
+            snake['coords'] = coords
 
         Engine.add_snakes_to_board(game_state, snakes)
 
@@ -232,6 +226,7 @@ class Engine(object):
                 if snake['id'] == check_snake['id']:
                     if snake['coords'][0] in check_snake['coords'][1:]:
                         kill.append(snake['id'])
+                        snake['killed_by'].append(check_snake['id'])
                         continue
                     else:
                         continue
@@ -239,19 +234,21 @@ class Engine(object):
                 # Head to Head Collision
                 if snake['coords'][0] == check_snake['coords'][0]:
                     kill.append(snake['id'])
+                    snake['killed_by'].append(check_snake['id'])
                     continue
 
                 # Head to Body Collision
                 if snake['coords'][0] in check_snake['coords']:
                     kill.append(snake['id'])
                     grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) * Engine.EAT_RATIO)
-                    snake['killed_by'] = check_snake['id']
+                    snake['killed_by'].append(check_snake['id'])
                     continue
 
         # Resolve Collisions
         for snake in copy.deepcopy(new_snakes):
 
             if snake['id'] in kill:
+                snake['died_on_turn'] = game_state.turn
                 dead_snakes.append(snake)
                 new_snakes.remove(snake)
 

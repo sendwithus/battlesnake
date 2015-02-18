@@ -38,7 +38,7 @@ def ping_snakes():
 def main():
     while True:
         ping_snakes()
-        time.sleep(30)
+        time.sleep(60)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import bottle
 import json
 
-# from lib.game.models import Game, GameState
+from lib.game.models import Game, GameState
 # from lib.game import controller
 
 

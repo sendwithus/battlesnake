@@ -1,0 +1,2 @@
+
+MAX_FOOD_ON_BOARD = 20

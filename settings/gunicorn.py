@@ -1,11 +1,14 @@
 """ gunicorn WSGI server configuration. """
 
-from multiprocessing import cpu_count
+# from multiprocessing import cpu_count
 from os import environ
 
 
 def max_workers():
-    return 1  # environ.get('WEB_CONCURRENCY', 1)
+    # Gunicorn suggests (1-4 x $CORES) + 1
+    # We can tweak this if we need.
+    # (cpu_count() * 2) + 1
+    return environ.get('WEB_CONCURRENCY', 1)
 
 
 bind = '0.0.0.0:' + environ.get('PORT', '8080')

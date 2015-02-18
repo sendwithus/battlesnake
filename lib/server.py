@@ -32,9 +32,9 @@ def index():
 #     return bottle.static_file('html/play.html', root='static')
 
 
-# @bottle.get('/static/<filepath:path>')
-# def server_static(filepath):
-#     return bottle.static_file(filepath, root='static')
+@bottle.get('/static/<filepath:path>')
+def server_static(filepath):
+    return bottle.static_file(filepath, root='static')
 
 
 # @bottle.post('/api/games')

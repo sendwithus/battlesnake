@@ -66,7 +66,7 @@ var Game = React.createClass({
         }.bind(this));
     },
     handleGameState: function (gameState) {
-        if (gameState.snakes.length === 0) {
+        if (gameState.snakes.length <= 1) {
             clearInterval(this.interval);
         }
 

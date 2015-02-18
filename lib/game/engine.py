@@ -68,16 +68,25 @@ class Engine(object):
         width_quarters = get_quarter_dimensions(len(game_state.board))
         height_quarters = get_quarter_dimensions(len(game_state.board[0]))
 
-        starting_coords = [
+        first_four = [
             [width_quarters[0], height_quarters[0]],  # top left
             [width_quarters[2], height_quarters[0]],  # top right
             [width_quarters[2], height_quarters[2]],  # bottom right
-            [width_quarters[0], height_quarters[2]],  # bottom left
+            [width_quarters[0], height_quarters[2]]  # bottom left
+        ]
+        second_four = [
             [width_quarters[1], height_quarters[0]],  # mid top
             [width_quarters[2], height_quarters[1]],  # mid right
             [width_quarters[1], height_quarters[2]],  # mid bottom
             [width_quarters[0], height_quarters[1]],  # mid left
         ]
+
+        random.shuffle(first_four)
+        random.shuffle(second_four)
+
+        starting_coords = (first_four + second_four)
+
+        # Place snakes
 
         for snake, coords in zip(snakes, starting_coords):
             snake['coords'] = [coords for i in range(constants.SNAKE_STARTING_LENGTH)]

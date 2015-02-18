@@ -66,14 +66,13 @@ var Game = React.createClass({displayName: "Game",
         }.bind(this));
     },
     handleGameState: function (gameState) {
-        if (gameState.snakes.length <= 1) {
-            clearInterval(this.interval);
-        }
-
         if (this.isMounted()) {
             console.log('GAME STATE', gameState);
             this.setState({ latestGameState: gameState });
         }
+
+        // Is done?
+        return gameState.snakes.length <= 1;
     },
     handleClickContinuous: function () {
         this.interval = setInterval(this.handleClickNextTurn, 400);
@@ -83,8 +82,8 @@ var Game = React.createClass({displayName: "Game",
         var id = Date.now();
 
         $.ajax({ type: 'GET', url: url }).done(function (response) {
-            this.handleGameState(response.data);
-            callback && callback();
+            var isDone = this.handleGameState(response.data);
+            callback && callback(isDone);
         }.bind(this));
     },
     checkInterval: function () {
@@ -94,13 +93,13 @@ var Game = React.createClass({displayName: "Game",
             if (!shouldTick) { return; }
 
             var startTimestamp = Date.now();
-            this.tick(function () {
+            this.tick(function (isDone) {
                 var endTimestamp = Date.now();
                 var elapsedMillis = endTimestamp - startTimestamp;
 
                 var sleepFor = Math.max(0, this.state.game.turn_time * 1000 - elapsedMillis);
 
-                if (this.isMounted() && shouldTick) {
+                if (this.isMounted() && shouldTick && !isDone) {
                     setTimeout(_, sleepFor);
                 }
             }.bind(this));

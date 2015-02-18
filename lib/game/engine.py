@@ -1,6 +1,7 @@
 import copy
 import random
 
+import lib.game.constants as constants
 from lib.game.models import GameState
 
 
@@ -58,7 +59,7 @@ class Engine(object):
 
     @staticmethod
     def add_random_food_to_board(game_state):
-        if len(game_state.food) < 20:
+        if len(game_state.food) < constants.MAX_FOOD_ON_BOARD:
             found_space = False
             while found_space is False:
                 x = random.randint(0, len(game_state.board) - 1)

@@ -5,7 +5,7 @@ from os import environ
 
 
 def max_workers():
-    return environ.get('WEB_CONCURRENCY', 1)
+    return 1  # environ.get('WEB_CONCURRENCY', 1)
 
 
 bind = '0.0.0.0:' + environ.get('PORT', '8080')

@@ -250,7 +250,7 @@ class GameState(Model):
         self.sanity_check()
 
     def is_done(self):
-        return (len(self.snakes) == 0)
+        return (len(self.snakes) <= 1)
 
     @classmethod
     def from_dict(cls, obj):

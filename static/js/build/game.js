@@ -65,14 +65,15 @@ var Game = React.createClass({displayName: "Game",
             this.handleGameState(response.data);
         }.bind(this));
     },
-    handleGameState: function (gameState) {
+    handleGameState: function (gameState, ignoreEnd) {
         if (this.isMounted()) {
             console.log('GAME STATE', gameState);
             this.setState({ latestGameState: gameState });
-        }
 
-        // Is done?
-        return gameState.snakes.length <= 1;
+            if (gameState.is_done) {
+                $('#game-summary-modal').modal('show');
+            }
+        }
     },
     handleClickContinuous: function () {
         this.interval = setInterval(this.handleClickNextTurn, 400);
@@ -82,8 +83,8 @@ var Game = React.createClass({displayName: "Game",
         var id = Date.now();
 
         $.ajax({ type: 'GET', url: url }).done(function (response) {
-            var isDone = this.handleGameState(response.data);
-            callback && callback(isDone);
+            this.handleGameState(response.data);
+            callback && callback(response.data);
         }.bind(this));
     },
     checkInterval: function () {
@@ -93,13 +94,13 @@ var Game = React.createClass({displayName: "Game",
             if (!shouldTick) { return; }
 
             var startTimestamp = Date.now();
-            this.tick(function (isDone) {
+            this.tick(function (gameState) {
                 var endTimestamp = Date.now();
                 var elapsedMillis = endTimestamp - startTimestamp;
 
                 var sleepFor = Math.max(0, this.state.game.turn_time * 1000 - elapsedMillis);
 
-                if (this.isMounted() && shouldTick && !isDone) {
+                if (this.isMounted() && shouldTick && !gameState.is_done) {
                     setTimeout(_, sleepFor);
                 }
             }.bind(this));
@@ -131,6 +132,7 @@ var Game = React.createClass({displayName: "Game",
 
         board.init(this.state.game.width, this.state.game.height);
         board.update(this.state.latestGameState);
+        // $('#game-summary-modal').modal('show');
     },
     getBoard: function () {
         if (!this.board) {
@@ -167,6 +169,10 @@ var Game = React.createClass({displayName: "Game",
                         pause: this.handlePause, 
                         resume: this.handleResume, 
                         nextTurn: this.handleClickNextTurn})
+                ), 
+                React.createElement(GameOverModal, {
+                    game: this.state.game, 
+                    latestGameState: this.state.latestGameState}
                 )
             )
         );
@@ -485,3 +491,39 @@ var GameCreate = React.createClass({displayName: "GameCreate",
     }
 });
 
+var GameOverModal = React.createClass({displayName: "GameOverModal",
+    render: function () {
+        if (!this.props.game || !this.props.latestGameState) {
+            return React.createElement("div", null);
+        }
+
+        var winningSnake;
+
+        if (this.props.latestGameState.snakes.length === 1) {
+            winningSnake = this.props.latestGameState.snakes[0].name;
+        } else {
+            winningSnake = 'N/A';
+        }
+
+        return (
+            React.createElement("div", {className: "modal fade", id: "game-summary-modal", tabIndex: "-1", role: "dialog", "aria-labelledby": "myModalLabel", "aria-hidden": "true"}, 
+                React.createElement("div", {className: "modal-dialog"}, 
+                    React.createElement("div", {className: "modal-content"}, 
+                        React.createElement("div", {className: "modal-header"}, 
+                            React.createElement("button", {type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close"}, React.createElement("span", {"aria-hidden": "true"}, "×")), 
+                            React.createElement("h4", {className: "modal-title"}, 
+                                "Finished ", this.props.game.id
+                            )
+                        ), 
+                        React.createElement("div", {className: "modal-body"}, 
+                            "Winner: ", winningSnake
+                        ), 
+                        React.createElement("div", {className: "modal-footer"}, 
+                            React.createElement("button", {type: "button", className: "btn btn-success"}, "Continue")
+                        )
+                    )
+                )
+            )
+        );
+    }
+});

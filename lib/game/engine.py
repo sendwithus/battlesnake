@@ -354,7 +354,13 @@ class Engine(object):
         cls.update_food_on_board(new_game_state)
 
         # Check if the game is over
-        if len(new_game_state.snakes) <= 1:
+        total_snakes = len(new_game_state.snakes) + len(new_game_state.dead_snakes)
+        if total_snakes == 1 and len(new_game_state.snakes) == 0:
+            # Single snake games go until the end
+            new_game_state.is_done = True
+
+        elif total_snakes > 1 and len(new_game_state.snakes) <= 1:
+            # Multi snake games go until one snake left
             new_game_state.is_done = True
 
         return new_game_state

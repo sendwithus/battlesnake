@@ -129,6 +129,19 @@ a:hover {
     top: 0;
 }
 
+.modal-content {
+    background-color: #221E1D;
+    color: #ccc;
+}
+
+.modal-header, .modal-footer {
+    border-color: #444;
+}
+.modal .close {
+    color: #fff;
+    text-shadow: none;
+}
+
 
 /** HELPERS **/
 

@@ -161,7 +161,7 @@ def run_game(game):
 
         _log('finished turn: %s' % new_game_state)
 
-        if new_game_state.is_done():
+        if new_game_state.is_done:
             game.state = Game.STATE_DONE
             game.save()
         else:

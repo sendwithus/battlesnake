@@ -326,6 +326,10 @@ class Engine(object):
         cls.update_snakes_on_board(new_game_state)
         cls.update_food_on_board(new_game_state)
 
+        # Check if the game is over
+        if len(new_game_state.snakes) <= 1:
+            new_game_state.is_done = True
+
         return new_game_state
 
     @staticmethod

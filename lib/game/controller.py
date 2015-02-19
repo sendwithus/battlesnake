@@ -69,7 +69,7 @@ def create_game(snake_urls, width, height, turn_time):
 
     # Init the first GameState
     Engine.add_random_snakes_to_board(game_state, snakes)
-    Engine.add_random_food_to_board(game_state)
+    Engine.add_starting_food_to_board(game_state)
 
     # Save the first GameState
     game_state.insert()

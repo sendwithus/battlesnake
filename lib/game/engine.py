@@ -24,7 +24,7 @@ class Engine(object):
 
     SNAKE_SACRIFICE = 'snake_sacrifice'
     WALL = 'wall'
-    LARGE_NUMBER = 999
+    LARGE_NUMBER = 999999
 
     @classmethod
     def create_game_state(cls, game_id, width, height):
@@ -68,16 +68,25 @@ class Engine(object):
         width_quarters = get_quarter_dimensions(len(game_state.board))
         height_quarters = get_quarter_dimensions(len(game_state.board[0]))
 
-        starting_coords = [
+        first_four = [
             [width_quarters[0], height_quarters[0]],  # top left
-            [width_quarters[2], height_quarters[2]],  # top right
-            [width_quarters[2], height_quarters[0]],  # bottom right
-            [width_quarters[0], height_quarters[2]],  # bottom left
+            [width_quarters[2], height_quarters[0]],  # top right
+            [width_quarters[2], height_quarters[2]],  # bottom right
+            [width_quarters[0], height_quarters[2]]  # bottom left
+        ]
+        second_four = [
             [width_quarters[1], height_quarters[0]],  # mid top
             [width_quarters[2], height_quarters[1]],  # mid right
             [width_quarters[1], height_quarters[2]],  # mid bottom
             [width_quarters[0], height_quarters[1]],  # mid left
         ]
+
+        random.shuffle(first_four)
+        random.shuffle(second_four)
+
+        starting_coords = (first_four + second_four)
+
+        # Place snakes
 
         for snake, coords in zip(snakes, starting_coords):
             snake['coords'] = [coords for i in range(constants.SNAKE_STARTING_LENGTH)]
@@ -117,7 +126,25 @@ class Engine(object):
                     state_filter=GameState.TILE_STATE_EMPTY
                 )
             ]
-            Engine.add_food_to_board(game_state, random.choice(empty_tile_coords))
+            if empty_tile_coords:
+                Engine.add_food_to_board(game_state, random.choice(empty_tile_coords))
+
+        return game_state
+
+    @staticmethod
+    def add_starting_food_to_board(game_state):
+        def get_mid_coords(dimension):
+            half = (dimension - 1) / 2
+            if (dimension % 2) == 0:
+                return [half, half+1]
+            return [half]
+
+        width = len(game_state.board)
+        height = len(game_state.board[0])
+
+        for x in get_mid_coords(width):
+            for y in get_mid_coords(height):
+                Engine.add_food_to_board(game_state, [x, y])
 
         return game_state
 
@@ -319,7 +346,7 @@ class Engine(object):
 
         cls.check_snake_sacrifices(new_game_state)
 
-        # Add food every 3 turns
+        # Add food every X turns
         if new_game_state.turn % constants.TURNS_PER_FOOD == 0:
             cls.add_random_food_to_board(new_game_state)
 

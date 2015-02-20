@@ -86,6 +86,7 @@ def get_moves(game_state, timeout):
         'game_id': game_state.game_id,
         'turn': game_state.turn,
         'board': game_state.board,
+        'food': game_state.food,
         'snakes': game_state.snakes
     }
 

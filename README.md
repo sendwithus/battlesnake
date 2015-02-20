@@ -120,7 +120,7 @@ __Heroku Award__ <br> Heroku Longboard
 
 __Dropbox Award__ <br> 1TB Dropbox Space (each)
 
-__Awards__
+__Awards__ (BattleSnake Swag Pack)
 * Hungriest Snake (most food eaten)
 * Killer Instinct Snake (most kills)
 * Elder Snake (longest)
@@ -143,18 +143,23 @@ To be announced.
 
 The sendwithus team has provided basic Snake AIs to get you started. Each of these clients can be deployed to [Heroku](http://heroku.com) without additional configuration.
 
-__Example Clients and Source Code__
+__Starter Snakes__
 * [NodeJS](http://github.com/sendwithus/battlesnake-node)
 * [Python](http://github.com/sendwithus/battlesnake-python)
 * [Java](http://github.com/sendwithus/battlesnake-java)
 * [Ruby](http://github.com/sendwithus/battlesnake-ruby)
 * [Go](http://github.com/sendwithus/battlesnake-go)
 
+__Example Snakes (that suck)__
+* FILL THIS IN
+
 <br>
 
 ## Testing Snakes
 
-To be announced.
+* Mention ngrok.
+* Mention debug mode.
+* Mention papertrail.
 
 <br>
 

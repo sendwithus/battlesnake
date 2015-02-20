@@ -1,7 +1,7 @@
 var Snake = function(config_data) {
   this.id = config_data.id;
   this.name = config_data.name;
-  this.headImg = config_data.headImg;
+  this.headImg = config_data.head_url;
   this.color = config_data.color || 'red';
   this.img = null;
   this._loadImg();

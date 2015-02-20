@@ -1,5 +1,8 @@
-
 import time
+import signal
+import sys
+
+from gevent import signal as gevent_signal
 
 from lib.game.engine import Engine
 from lib.caller import AsyncCall
@@ -58,6 +61,7 @@ def create_game(snake_urls, width, height, turn_time):
                     'url': snake_url,
                     'color': response['color'],
                     'id': response['name'],
+                    'head_url': response.get('head_url', 'http://screenshots.en.sftcdn.net/en/scrn/3332000/3332933/snake-iii-3d-01-100x100.png'),
                     'name': response['name'],
                     'taunt': response['taunt']
                 })
@@ -129,6 +133,15 @@ def next_turn(game):
 
 
 def run_game(game):
+
+    def sigterm_handler(*args, **kwargs):
+        game.state = Game.STATE_READY
+        game.save()
+        _log('Handled SIGTERM for %s' % game)
+        sys.exit(0)
+
+    gevent_signal(signal.SIGTERM, sigterm_handler)
+
     if game.state != Game.STATE_READY:
         raise Exception("Controller tried to run game that wasn't ready")
 

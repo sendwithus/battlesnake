@@ -63,6 +63,7 @@ if invalid response, snake moves forward
 * **turn** - turn number being played
 * **board** - current board state (see [Board State Objects](#board-state-objects))
 * **snakes** - array of snakes in play (see [Snake Objects](#snake-objects))
+* **food** - array of food coordinates (see [Food Arrays](#food-arrays)
 
 ```javascript
 {
@@ -179,4 +180,16 @@ Describes the state of a single snake in a particular game.
   "head_url": "http://img.server.com/snake_head.png",
   "taunt": "I'm one slippery noodle"
 }
+```
+
+## Food Arrays
+
+An array of coordinate tuples representing food locations.
+
+##### Example
+
+```javascript
+[
+  [1, 4], [3, 0], [5, 2]
+]
 ```

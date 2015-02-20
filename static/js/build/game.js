@@ -179,18 +179,50 @@ var Game = React.createClass({displayName: "Game",
     }
 });
 
+var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
+    render: function () {
+        var snakeStyles = {
+            'background-color': this.props.snake.color || 'red'
+        };
+
+        return (
+            React.createElement("div", {className: "snake-block"}, 
+                React.createElement("img", {src: this.props.snake.head_url, style: snakeStyles}), 
+                React.createElement("h3", null, this.props.snake.name), 
+                React.createElement("div", {className: "row meta"}, 
+                    React.createElement("div", {className: "col-md-3"}, 
+                        "score: ", this.props.snake.coords.length
+                    ), 
+                    React.createElement("div", {className: "col-md-3"}, 
+                        "score: ", this.props.snake.coords.length
+                    ), 
+                    React.createElement("div", {className: "col-md-3"}, 
+                        "score: ", this.props.snake.coords.length
+                    )
+                )
+            )
+        )
+    }
+});
+
 var GameSidebar = React.createClass({displayName: "GameSidebar",
     render: function () {
         var snakes = '';
 
         if (this.props.latestGameState) {
-            var snakes = this.props.latestGameState.snakes.map(function (snake, i) {
-                return React.createElement("li", {key: 'a_' + i}, snake.name, " (", snake.coords.length, ")");
+            var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
+                return React.createElement(GameSidebarSnake, {key: 'a_' + i, snake: snake})
             });
+
             var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-                return React.createElement("li", {key: 'd_' + i}, snake.name, " (", snake.coords.length, ")");
+                return React.createElement(GameSidebarSnake, {key: 'd_' + i, snake: snake})
             });
+            if (!deadSnakes.length) {
+                deadSnakes = React.createElement("p", null, "None Yet");
+            }
         }
+
+
         var buttons;
 
         if (!this.props.game) {
@@ -253,14 +285,14 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
 
         return (
             React.createElement("div", {className: "game-sidebar sidebar-inner"}, 
-                React.createElement("h2", null, this.props.gameId), 
+                React.createElement("h1", null, this.props.gameId), 
                 React.createElement("p", null, "Turn ", this.props.latestGameState ? this.props.latestGameState.turn : '--'), 
 
-                React.createElement("h3", null, "Living Snakes"), 
-                React.createElement("ul", null, snakes), 
+                React.createElement("h2", null, "Living Snakes"), 
+                aliveSnakes, 
 
-                React.createElement("h3", null, "Dead Snakes"), 
-                React.createElement("ul", null, deadSnakes), 
+                React.createElement("h2", null, "Dead Snakes"), 
+                deadSnakes, 
 
                 React.createElement("hr", null), 
 

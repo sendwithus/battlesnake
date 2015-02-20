@@ -142,6 +142,43 @@ a:hover {
     text-shadow: none;
 }
 
+.sidebar h1 {
+    text-transform: uppercase;
+    font-size: 30px;
+}
+
+.sidebar h2 {
+    margin-top: 25px;
+    font-size: 20px;
+    background: #333;
+    padding: 5px;
+}
+
+.sidebar h3 {
+    font-size: 18px;
+}
+
+.snake-block {
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 60px;
+    height: 50px;
+}
+
+.snake-block img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    padding: 4px;
+}
+
+.snake-block .meta {
+    color: #999;
+}
+
 
 /** HELPERS **/
 

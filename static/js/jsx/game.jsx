@@ -179,18 +179,50 @@ var Game = React.createClass({
     }
 });
 
+var GameSidebarSnake = React.createClass({
+    render: function () {
+        var snakeStyles = {
+            'background-color': this.props.snake.color || 'red'
+        };
+
+        return (
+            <div className="snake-block">
+                <img src={this.props.snake.head_url} style={snakeStyles} />
+                <h3>{this.props.snake.name}</h3>
+                <div className="row meta">
+                    <div className="col-md-3">
+                        score: {this.props.snake.coords.length}
+                    </div>
+                    <div className="col-md-3">
+                        score: {this.props.snake.coords.length}
+                    </div>
+                    <div className="col-md-3">
+                        score: {this.props.snake.coords.length}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+});
+
 var GameSidebar = React.createClass({
     render: function () {
         var snakes = '';
 
         if (this.props.latestGameState) {
-            var snakes = this.props.latestGameState.snakes.map(function (snake, i) {
-                return <li key={'a_' + i}>{snake.name} ({snake.coords.length})</li>;
+            var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
+                return <GameSidebarSnake key={'a_' + i} snake={snake} />
             });
+
             var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-                return <li key={'d_' + i}>{snake.name} ({snake.coords.length})</li>;
+                return <GameSidebarSnake key={'d_' + i} snake={snake} />
             });
+            if (!deadSnakes.length) {
+                deadSnakes = <p>None Yet</p>;
+            }
         }
+
+
         var buttons;
 
         if (!this.props.game) {
@@ -253,14 +285,14 @@ var GameSidebar = React.createClass({
 
         return (
             <div className="game-sidebar sidebar-inner">
-                <h2>{this.props.gameId}</h2>
+                <h1>{this.props.gameId}</h1>
                 <p>Turn {this.props.latestGameState ? this.props.latestGameState.turn : '--'}</p>
 
-                <h3>Living Snakes</h3>
-                <ul>{snakes}</ul>
+                <h2>Living Snakes</h2>
+                {aliveSnakes}
 
-                <h3>Dead Snakes</h3>
-                <ul>{deadSnakes}</ul>
+                <h2>Dead Snakes</h2>
+                {deadSnakes}
 
                 <hr />
 

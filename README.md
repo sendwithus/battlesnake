@@ -82,6 +82,7 @@ Also see
 * [Getting Started on Heroku](https://devcenter.heroku.com/start)
 * [Heroku Toolbelt](https://toolbelt.heroku.com/)
 * [Deploying to Heroku with Git](https://devcenter.heroku.com/articles/git)
+* [Deploying to Heroku with Dropbox](https://devcenter.heroku.com/articles/dropbox-sync)
 
 ### Registration
 

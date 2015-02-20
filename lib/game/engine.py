@@ -288,11 +288,6 @@ class Engine(object):
                 snake['killed_by'] = Engine.WALL
                 continue
 
-            if snake['coords'][0] in new_food:
-                eaten.append(snake['coords'][0])
-                grow[snake['id']] = grow.get(snake['id'], 0) + 1
-                continue
-
             for check_snake in new_snakes:
 
                 # Self Collision or Ignore Self
@@ -318,9 +313,14 @@ class Engine(object):
                     check_snake['kills'] = check_snake.get('kills', 0) + 1
                     continue
 
+            if snake['coords'][0] in new_food:
+                if snake['id'] not in kill:
+                    eaten.append(snake['coords'][0])
+                    grow[snake['id']] = grow.get(snake['id'], 0) + 1
+                    continue
+
         # Resolve Collisions
         for snake in copy.deepcopy(new_snakes):
-
             if snake['id'] in kill:
                 new_snakes.remove(snake)
                 snake['died_on_turn'] = game_state.turn

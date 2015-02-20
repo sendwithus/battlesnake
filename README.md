@@ -116,8 +116,14 @@ __Second Place__ <br> $300, BattleSnake Swag Pack
 
 __Third Place__ <br> $200, BattleSnake Swag Pack
 
+__Heroku Award__ <br> Heroku Longboard
+
+__Dropbox Award__ <br> 1TB Dropbox Space (each)
+
 __Awards__
-* To be announced.
+* Hungriest Snake (most food eaten)
+* Killer Instinct Snake (most kills)
+* Elder Snake (longest)
 
 <br>
 

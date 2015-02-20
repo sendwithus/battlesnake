@@ -63,7 +63,7 @@ if invalid response, snake moves forward
 * **turn** - turn number being played
 * **board** - current board state (see [Board State Objects](#board-state-objects))
 * **snakes** - array of snakes in play (see [Snake Objects](#snake-objects))
-* **food** - array of food coordinates (see [Food Arrays](#food-arrays)
+* **food** - array of food coordinates (see [Food Arrays](#food-arrays))
 
 ```javascript
 {
@@ -74,7 +74,8 @@ if invalid response, snake moves forward
     [<BoardTile>, <BoardTile>, ...],
     ...
   ],
-  "snakes":[<Snake>, <Snake>, ...]
+  "snakes":[<Snake>, <Snake>, ...],
+  "food": [[1, 4], [3, 0], [5, 2]]
 }
 ```
 

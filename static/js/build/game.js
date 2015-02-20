@@ -519,7 +519,7 @@ var GameOverModal = React.createClass({displayName: "GameOverModal",
                             "Winner: ", winningSnake
                         ), 
                         React.createElement("div", {className: "modal-footer"}, 
-                            React.createElement("button", {type: "button", className: "btn btn-success"}, "Continue")
+                            React.createElement("button", {type: "button", className: "btn btn-success", "data-dismiss": "modal"}, "Continue")
                         )
                     )
                 )

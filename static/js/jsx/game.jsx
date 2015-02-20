@@ -271,6 +271,10 @@ var GameSidebar = React.createClass({
 });
 
 
+// var GameListItem = React.createClass({
+// });
+
+
 var GameList = React.createClass({
     componentDidMount: function () {
         $.ajax({

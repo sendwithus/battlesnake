@@ -1,7 +1,7 @@
 var Snake = function(config_data) {
   this.id = config_data.id;
   this.name = config_data.name;
-  this.headImg = 'http://screenshots.en.sftcdn.net/en/scrn/3332000/3332933/snake-iii-3d-01-100x100.png';
+  this.headImg = config_data.headImg;
   this.color = config_data.color || 'red';
   this.img = null;
   this._loadImg();

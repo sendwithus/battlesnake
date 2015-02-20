@@ -45,7 +45,7 @@ var Game = React.createClass({displayName: "Game",
             var next = function () {
                 this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
                 if (++framesCompleted < response.data.length && this.state.isReplay) {
-                    setTimeout(next, 250);
+                    setTimeout(next, 350);
                 }
             }.bind(this);
 
@@ -58,6 +58,7 @@ var Game = React.createClass({displayName: "Game",
         this.setState({ isReplay: false });
     },
     handleClickNextTurn: function () {
+        this.setState({ isLoading: true });
         $.ajax({
             type: 'POST',
             url: '/api/games/' + this.props.gameId + '/turn'
@@ -68,11 +69,16 @@ var Game = React.createClass({displayName: "Game",
     handleGameState: function (gameState, ignoreEnd) {
         if (this.isMounted()) {
             console.log('GAME STATE', gameState);
-            this.setState({ latestGameState: gameState });
+            this.state.latestGameState = gameState;
+            this.state.isLoading = false;
 
             if (gameState.is_done) {
                 $('#game-summary-modal').modal('show');
+                this.state.isReplay = false;
+                this.state.game.state = 'done';
             }
+
+            this.setState(this.state);
         }
     },
     handleClickContinuous: function () {
@@ -102,6 +108,11 @@ var Game = React.createClass({displayName: "Game",
 
                 if (this.isMounted() && shouldTick && !gameState.is_done) {
                     setTimeout(_, sleepFor);
+                }
+
+                if (gameState.is_done) {
+                    this.state.game.state = 'done';
+                    this.setState({ game: this.state.game });
                 }
             }.bind(this));
         }.bind(this);
@@ -146,6 +157,8 @@ var Game = React.createClass({displayName: "Game",
     getInitialState: function () {
         return {
             game: null,
+            isReplay: false,
+            isLoading: false,
             latestGameState: null
         };
     },
@@ -160,6 +173,7 @@ var Game = React.createClass({displayName: "Game",
                         gameId: this.props.gameId, 
                         game: this.state.game, 
                         isReplay: this.state.isReplay, 
+                        isLoading: this.state.isLoading, 
                         latestGameState: this.state.latestGameState, 
                         continueous: this.handleClickContinuous, 
                         startAutomated: this.handleStart.bind(null, false), 
@@ -182,7 +196,7 @@ var Game = React.createClass({displayName: "Game",
 var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
     render: function () {
         var snakeStyles = {
-            'background-color': this.props.snake.color || 'red'
+            backgroundColor: this.props.snake.color || 'red'
         };
 
         return (
@@ -209,17 +223,20 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
     render: function () {
         var snakes = '';
 
-        if (this.props.latestGameState) {
-            var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-                return React.createElement(GameSidebarSnake, {key: 'a_' + i, snake: snake})
-            });
+        if (!this.props.latestGameState) {
+            return React.createElement("div", null);
+        }
 
-            var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-                return React.createElement(GameSidebarSnake, {key: 'd_' + i, snake: snake})
-            });
-            if (!deadSnakes.length) {
-                deadSnakes = React.createElement("p", null, "None Yet");
-            }
+        var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
+            return React.createElement(GameSidebarSnake, {key: 'a_' + i, snake: snake})
+        });
+
+        var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
+            return React.createElement(GameSidebarSnake, {key: 'd_' + i, snake: snake})
+        });
+
+        if (!deadSnakes.length) {
+            deadSnakes = React.createElement("p", null, "None Yet");
         }
 
 
@@ -236,15 +253,15 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
                     React.createElement("br", null), 
                     React.createElement("br", null), 
                     React.createElement("button", {className: "btn btn-info stretch", onClick: this.props.startManual}, 
-                        "Start Debug"
+                        "Start Debug (Step Through)"
                     )
                 )
             );
         } else if (this.props.game.state === 'manual') {
             buttons = (
                 React.createElement("div", null, 
-                    React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.nextTurn}, 
-                        "Next Turn"
+                    React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.nextTurn, disabled: this.props.isLoading}, 
+                        this.props.isLoading ? '...' : 'Play Turn ' + (this.props.latestGameState.turn + 1)
                     )
                 )
             );
@@ -252,7 +269,7 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
             buttons = (
                 React.createElement("div", null, 
                     React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.startReplay}, 
-                        "Replay"
+                        "View Replay"
                     )
                 )
             );
@@ -268,7 +285,7 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
             buttons = (
                 React.createElement("div", null, 
                     React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.resume}, 
-                        "Resume"
+                        "Resume Game"
                     )
                 )
             );
@@ -277,7 +294,7 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
             buttons = (
                 React.createElement("div", null, 
                     React.createElement("button", {className: "btn btn-info stretch", onClick: this.props.pause}, 
-                        "Pause"
+                        "Pause Game"
                     )
                 )
             );
@@ -444,7 +461,7 @@ var GameCreate = React.createClass({displayName: "GameCreate",
                     React.createElement("a", {href: "#", 
                         className: "pull-right", 
                         onClick: this.handleDeleteSnakeUrl.bind(null, i)}, 
-                        "X"
+                        "×"
                     ), 
                     React.createElement("p", null, snakeUrl)
                 )
@@ -508,7 +525,7 @@ var GameCreate = React.createClass({displayName: "GameCreate",
                             React.createElement("label", null, "turn time"), 
                             React.createElement("input", {type: "number", 
                                 step: "0.1", 
-                                min: "0", 
+                                min: "0.6", 
                                 className: "form-control", 
                                 placeholder: "1.0 (seconds)", 
                                 value: this.state.currentTimeout, 

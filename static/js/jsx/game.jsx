@@ -65,14 +65,15 @@ var Game = React.createClass({
             this.handleGameState(response.data);
         }.bind(this));
     },
-    handleGameState: function (gameState) {
+    handleGameState: function (gameState, ignoreEnd) {
         if (this.isMounted()) {
             console.log('GAME STATE', gameState);
             this.setState({ latestGameState: gameState });
-        }
 
-        // Is done?
-        return gameState.snakes.length <= 1;
+            if (gameState.is_done) {
+                $('#game-summary-modal').modal('show');
+            }
+        }
     },
     handleClickContinuous: function () {
         this.interval = setInterval(this.handleClickNextTurn, 400);
@@ -82,8 +83,8 @@ var Game = React.createClass({
         var id = Date.now();
 
         $.ajax({ type: 'GET', url: url }).done(function (response) {
-            var isDone = this.handleGameState(response.data);
-            callback && callback(isDone);
+            this.handleGameState(response.data);
+            callback && callback(response.data);
         }.bind(this));
     },
     checkInterval: function () {
@@ -93,13 +94,13 @@ var Game = React.createClass({
             if (!shouldTick) { return; }
 
             var startTimestamp = Date.now();
-            this.tick(function (isDone) {
+            this.tick(function (gameState) {
                 var endTimestamp = Date.now();
                 var elapsedMillis = endTimestamp - startTimestamp;
 
                 var sleepFor = Math.max(0, this.state.game.turn_time * 1000 - elapsedMillis);
 
-                if (this.isMounted() && shouldTick && !isDone) {
+                if (this.isMounted() && shouldTick && !gameState.is_done) {
                     setTimeout(_, sleepFor);
                 }
             }.bind(this));
@@ -131,6 +132,7 @@ var Game = React.createClass({
 
         board.init(this.state.game.width, this.state.game.height);
         board.update(this.state.latestGameState);
+        // $('#game-summary-modal').modal('show');
     },
     getBoard: function () {
         if (!this.board) {
@@ -168,8 +170,38 @@ var Game = React.createClass({
                         resume={this.handleResume}
                         nextTurn={this.handleClickNextTurn} />
                 </div>
+                <GameOverModal
+                    game={this.state.game}
+                    latestGameState={this.state.latestGameState}
+                />
             </div>
         );
+    }
+});
+
+var GameSidebarSnake = React.createClass({
+    render: function () {
+        var snakeStyles = {
+            'background-color': this.props.snake.color || 'red'
+        };
+
+        return (
+            <div className="snake-block">
+                <img src={this.props.snake.head_url} style={snakeStyles} />
+                <h3>{this.props.snake.name}</h3>
+                <div className="row meta">
+                    <div className="col-md-3">
+                        score: {this.props.snake.coords.length}
+                    </div>
+                    <div className="col-md-3">
+                        score: {this.props.snake.coords.length}
+                    </div>
+                    <div className="col-md-3">
+                        score: {this.props.snake.coords.length}
+                    </div>
+                </div>
+            </div>
+        )
     }
 });
 
@@ -178,13 +210,19 @@ var GameSidebar = React.createClass({
         var snakes = '';
 
         if (this.props.latestGameState) {
-            var snakes = this.props.latestGameState.snakes.map(function (snake, i) {
-                return <li key={'a_' + i}>{snake.name} ({snake.coords.length})</li>;
+            var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
+                return <GameSidebarSnake key={'a_' + i} snake={snake} />
             });
+
             var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-                return <li key={'d_' + i}>{snake.name} ({snake.coords.length})</li>;
+                return <GameSidebarSnake key={'d_' + i} snake={snake} />
             });
+            if (!deadSnakes.length) {
+                deadSnakes = <p>None Yet</p>;
+            }
         }
+
+
         var buttons;
 
         if (!this.props.game) {
@@ -247,14 +285,14 @@ var GameSidebar = React.createClass({
 
         return (
             <div className="game-sidebar sidebar-inner">
-                <h2>{this.props.gameId}</h2>
+                <h1>{this.props.gameId}</h1>
                 <p>Turn {this.props.latestGameState ? this.props.latestGameState.turn : '--'}</p>
 
-                <h3>Living Snakes</h3>
-                <ul>{snakes}</ul>
+                <h2>Living Snakes</h2>
+                {aliveSnakes}
 
-                <h3>Dead Snakes</h3>
-                <ul>{deadSnakes}</ul>
+                <h2>Dead Snakes</h2>
+                {deadSnakes}
 
                 <hr />
 
@@ -263,6 +301,10 @@ var GameSidebar = React.createClass({
         );
     }
 });
+
+
+// var GameListItem = React.createClass({
+// });
 
 
 var GameList = React.createClass({
@@ -485,3 +527,39 @@ var GameCreate = React.createClass({
     }
 });
 
+var GameOverModal = React.createClass({
+    render: function () {
+        if (!this.props.game || !this.props.latestGameState) {
+            return <div></div>;
+        }
+
+        var winningSnake;
+
+        if (this.props.latestGameState.snakes.length === 1) {
+            winningSnake = this.props.latestGameState.snakes[0].name;
+        } else {
+            winningSnake = 'N/A';
+        }
+
+        return (
+            <div className="modal fade" id="game-summary-modal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 className="modal-title">
+                                Finished {this.props.game.id}
+                            </h4>
+                        </div>
+                        <div className="modal-body">
+                            Winner: {winningSnake}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-success" data-dismiss="modal">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+});

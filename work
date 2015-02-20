@@ -7,7 +7,10 @@ NUM_PROCS=${1-1} # use $1 or default to 1
 trap exiting SIGINT SIGTERM
 function exiting() {
     # kill all pids
-    for i in "${PIDS[@]}"; do kill $i; done
+    for i in "${PIDS[@]}"; do
+        kill -TERM $i;
+        wait $i
+    done
     exit 0
 }
 

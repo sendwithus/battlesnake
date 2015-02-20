@@ -16,6 +16,11 @@ SNAKE_3 = {
     'coords': [[2, 2], [2, 3]]
 }
 
+SNAKE_4 = {
+    'id': 'test_snake_4',
+    'coords': [[4, 4], [4, 5], [5, 5], [5, 4], [5, 3], [4, 3], [3, 3], [3, 4], [3, 5]]
+}
+
 MOVE_RIGHT_1 = {
     'snake_id': 'test_snake_1',
     'move': Engine.MOVE_RIGHT
@@ -29,6 +34,11 @@ MOVE_LEFT_2 = {
 MOVE_UP_3 = {
     'snake_id': 'test_snake_3',
     'move': Engine.MOVE_UP
+}
+
+MOVE_RIGHT_4 = {
+    'snake_id': 'test_snake_4',
+    'move': Engine.MOVE_RIGHT
 }
 
 
@@ -66,7 +76,7 @@ def test_head_to_head():
     g = Engine.resolve_moves(g, [MOVE_RIGHT_1, MOVE_LEFT_2])
     g.sanity_check()
 
-    with open('lib/game/data/head_to_head.out') as f:
+    with open('lib/game/data/empty.out') as f:
         end_state = f.read().strip()
 
     assert(g.to_string().strip() == end_state.strip())
@@ -137,3 +147,23 @@ def test_eat_food():
 
     assert(g.to_string().strip() == end_state.strip())
     assert(len(g.food) == 0)
+
+
+def test_trap_self():
+    game = Game(width=10, height=10)
+    g = Engine.create_game_state(game.id, game.width, game.height)
+    Engine.add_snakes_to_board(g, [SNAKE_4])
+    g.sanity_check()
+
+    with open('lib/game/data/trap_self.in') as f:
+        start_state = f.read().strip()
+
+    assert(g.to_string().strip() == start_state)
+
+    g = Engine.resolve_moves(g, [MOVE_RIGHT_4])
+    g.sanity_check()
+
+    with open('lib/game/data/empty.out') as f:
+        end_state = f.read().strip()
+
+    assert(g.to_string().strip() == end_state.strip())

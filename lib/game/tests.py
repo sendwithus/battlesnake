@@ -27,7 +27,7 @@ MOVE_RIGHT_1 = {
 }
 
 MOVE_LEFT_1 = {
-    'snake_id': 'test_snake_1',
+    'snake_name': 'test_snake_1',
     'move': Engine.MOVE_LEFT
 }
 
@@ -42,7 +42,7 @@ MOVE_UP_3 = {
 }
 
 MOVE_UP_4 = {
-    'snake_id': 'test_snake_4',
+    'snake_name': 'test_snake_4',
     'move': Engine.MOVE_UP
 }
 

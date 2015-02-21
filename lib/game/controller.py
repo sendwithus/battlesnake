@@ -260,9 +260,15 @@ def generate_stats_object(game, game_state):
         stats['snake_names'].append(snake['name'])
 
     stats['snakes'] = all_snakes
-    stats['longest'] = longest['name']
-    stats['deadliest'] = longest['name']
-    stats['hungriest'] = hungriest['name']
+
+    if longest:
+        stats['longest'] = longest['name']
+
+    if deadliest:
+        stats['deadliest'] = longest['name']
+
+    if hungriest:
+        stats['hungriest'] = hungriest['name']
 
     # Find the winner
     if len(game_state.snakes) == 1:

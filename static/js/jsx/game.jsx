@@ -249,7 +249,7 @@ var GameSidebarSnake = React.createClass({
             borderColor: this.props.isDead ? '#9e0000' : '#ABA700'
         };
 
-        var life = 100 - (this.props.turn - (this.props.snake.last_eaten || 0))
+        var life = 101 - (this.props.turn - (this.props.snake.last_eaten || 0))
 
         if (life < 0) {
             life = 0;

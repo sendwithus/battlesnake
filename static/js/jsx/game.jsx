@@ -548,8 +548,8 @@ var GameCreate = React.createClass({
             data: JSON.stringify(gameData),
             contentType: 'application/json'
         }).done(function (response) {
-            if (response.error) {
-                alert(response.message);
+            if (response.data.error) {
+                alert(response.data.message);
             } else {
                 this._savePastState();
                 this.setState({ isLoading: false });

@@ -42,18 +42,19 @@ Board.prototype.resize = function() {
 };
 
 Board.prototype.init = function (width, height) {
+  console.log('INIT BOARD', width, height);
   this.gameState = null;
   this.dimensions = [ width, height ];
 
   this.resize();
 
   // <RENDER_IMAGES_HACK>
-  var timeout = setInterval(function () {
+  var interval = setInterval(function () {
       this.update(this.gameState);
-  }.bind(this), 30);
+  }.bind(this), 50);
 
   setTimeout(function () {
-      clearTimeout(timeout);
+      clearInterval(interval);
   }.bind(this), 5000);
   // </RENDER_IMAGES_HACK>
 

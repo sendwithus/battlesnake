@@ -139,20 +139,17 @@ var Game = React.createClass({displayName: "Game",
     componentDidUpdate: function (prevProps, prevState) {
         if (!this.state.latestGameState) { return; }
 
-        var board = this.getBoard();
-
-        board.init(this.state.game.width, this.state.game.height);
-        board.update(this.state.latestGameState);
-        // $('#game-summary-modal').modal('show');
-    },
-    getBoard: function () {
         if (!this.board) {
-            var canvas = this.refs.canvas.getDOMNode();
-            var ctx = canvas.getContext('2d');
-            this.board = new Board(ctx, canvas);
+            this.board = this.getBoard();
+            this.board.init(this.state.game.width, this.state.game.height);
         }
 
-        return this.board;
+        this.board.update(this.state.latestGameState );
+    },
+    getBoard: function () {
+        var canvas = this.refs.canvas.getDOMNode();
+        var ctx = canvas.getContext('2d');
+        return new Board(ctx, canvas);
     },
     getInitialState: function () {
         return {
@@ -211,6 +208,7 @@ var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
         var img = this.refs.head_img.getDOMNode();
         img.onerror = function () {
             this.setAttribute('src', 'http://www.battlesnake.io/static/img/default_head.gif');
+            this.onerror = undefined;
         }
     },
     handleTaunt: function (state, props) {

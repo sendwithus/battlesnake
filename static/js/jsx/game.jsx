@@ -231,16 +231,16 @@ var GameSidebarSnake = React.createClass({
         return (
             <div className="snake-block">
                 <img src={this.props.snake.head_url} style={snakeStyles} />
-                <h3>{this.props.snake.name}</h3>
+                <h3>{this.props.snake.name} <span className="kill-reason">{this.props.snake.killReason}</span></h3>
                 <div className="row meta">
                     <div className="col-md-3">
-                        score: {this.props.snake.coords.length}
+                        length: {this.props.snake.coords.length}
                     </div>
                     <div className="col-md-3">
-                        score: {this.props.snake.coords.length}
+                        kills: {this.props.snake.kills || 0}
                     </div>
                     <div className="col-md-3">
-                        score: {this.props.snake.coords.length}
+                        food: {this.props.snake.food_eaten || 0}
                     </div>
                 </div>
                 <div className="taunt" style={tauntStyles}>{this.state.tauntToShow}</div>
@@ -258,11 +258,11 @@ var GameSidebar = React.createClass({
         }
 
         var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-            return <GameSidebarSnake key={'a_' + snake.id} snake={snake} />
+            return <GameSidebarSnake key={snake.id} snake={snake} />
         });
 
         var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-            return <GameSidebarSnake key={'d_' + snake.id} snake={snake} />
+            return <GameSidebarSnake key={snake.id} snake={snake} />
         });
 
         if (!deadSnakes.length) {

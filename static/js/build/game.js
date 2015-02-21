@@ -231,16 +231,16 @@ var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
         return (
             React.createElement("div", {className: "snake-block"}, 
                 React.createElement("img", {src: this.props.snake.head_url, style: snakeStyles}), 
-                React.createElement("h3", null, this.props.snake.name), 
+                React.createElement("h3", null, this.props.snake.name, " ", React.createElement("span", {className: "kill-reason"}, this.props.snake.killReason)), 
                 React.createElement("div", {className: "row meta"}, 
                     React.createElement("div", {className: "col-md-3"}, 
-                        "score: ", this.props.snake.coords.length
+                        "length: ", this.props.snake.coords.length
                     ), 
                     React.createElement("div", {className: "col-md-3"}, 
-                        "score: ", this.props.snake.coords.length
+                        "kills: ", this.props.snake.kills || 0
                     ), 
                     React.createElement("div", {className: "col-md-3"}, 
-                        "score: ", this.props.snake.coords.length
+                        "food: ", this.props.snake.food_eaten || 0
                     )
                 ), 
                 React.createElement("div", {className: "taunt", style: tauntStyles}, this.state.tauntToShow)
@@ -258,11 +258,11 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
         }
 
         var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-            return React.createElement(GameSidebarSnake, {key: 'a_' + snake.id, snake: snake})
+            return React.createElement(GameSidebarSnake, {key: snake.id, snake: snake})
         });
 
         var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-            return React.createElement(GameSidebarSnake, {key: 'd_' + snake.id, snake: snake})
+            return React.createElement(GameSidebarSnake, {key: snake.id, snake: snake})
         });
 
         if (!deadSnakes.length) {

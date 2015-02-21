@@ -33,6 +33,10 @@ table.game-summary th {
     background-color: #333;
 }
 
+table.game-summary .snakes-heading {
+    background-color: #282828;
+}
+
 .form-control {
     border-radius: 0;
     margin-bottom: 15px;

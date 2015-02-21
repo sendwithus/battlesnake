@@ -158,7 +158,7 @@ Since game IDs may be re-used, this endpoint may be called multiple times with t
 
 * **game_id** - ID of the game about to start
 * **width** - The width of the game board (the x axis)
-* **height** - The height of the game board (the y axis)s
+* **height** - The height of the game board (the y axis)
 
 ```javascript
 {
@@ -172,7 +172,7 @@ Since game IDs may be re-used, this endpoint may be called multiple times with t
 
 * **name** - friendly name of this snake
 * **color** - display color for this snake (must be CSS compatible)
-* **head_url** _(optional)_ - full URL for a 20x20 snake head image
+* **head_url** _(optional)_ - full URL for a 100x100 snake head image
 * **taunt** _(optional)_ - string message for other snakes
 
 ```js

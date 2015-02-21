@@ -16,6 +16,7 @@ var Board = function (ctx, canvas) {
   this.testPlayer = false;
   this.isStarted = false;
   this.lastTick = 0;
+  this.devicePixelRatio = 1.25;
 };
 
 Board.prototype.resize = function() {
@@ -29,12 +30,16 @@ Board.prototype.resize = function() {
 
   this.SQUARE_SIZE = Math.min(size1, size2);
 
+  if (window.devicePixelRatio > this.devicePixelRatio) {
+    this.SQUARE_SIZE = this.SQUARE_SIZE * 2;
+  }
+
   this.canvas.width  = this.SQUARE_SIZE * this.dimensions[0];
   this.canvas.height = this.SQUARE_SIZE * this.dimensions[1];
   this.canvas.style.width = (this.canvas.width / 2) + 'px';
   this.canvas.style.height = (this.canvas.height / 2) + 'px';
 
-  if (window.devicePixelRatio > 1.25) {
+  if (window.devicePixelRatio > this.devicePixelRatio) {
     this.ctx.scale(2,2); // fix blurry board on retina screens
   }
 
@@ -199,7 +204,6 @@ Board.prototype.drawSquare = function (x, y, square) {
   }
 
   // console.log('DRAWING SQUARE', x, y, square.state);
-
   var snake;
   var head;
 
@@ -211,16 +215,19 @@ Board.prototype.drawSquare = function (x, y, square) {
 
   // Draw body
   else if (square.state === snakewithus.SQUARE_TYPES.SNAKE) {
-    snake = this.getSnake(square.snake);
+    snake = this.getSnake(square.snake_id);
     this.fillSquare(x, y, snake.getColor());
   }
 
   // Draw head
   else if (square.state === snakewithus.SQUARE_TYPES.SNAKE_HEAD) {
-    snake = this.getSnake(square.snake);
+    snake = this.getSnake(square.snake_id);
     head = snake.getHeadImage();
-    if (head) { this.drawImage(x, y, head); }
-    else { this.fillSquare(x, y, snake.getHeadColor()); }
+    if (head) {
+      this.drawImage(x, y, head);
+    } else {
+      this.fillSquare(x, y, snake.getHeadColor());
+    }
   }
 
   // Draw food
@@ -240,7 +247,7 @@ Board.prototype.getSnake = function (id) {
 
   for (var i = 0; i < this.gameState.snakes.length; i++) {
     var s = this.gameState.snakes[i];
-    if (s.name === id) {
+    if (s.id === id) {
       snake_data = s;
       break;
     }

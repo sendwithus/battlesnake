@@ -146,12 +146,12 @@ Describes the state of the board for a specific game. Board State Objects are co
   * _body_ - occupied by snake body (see snake attribute)
   * _food_ - contains an uneaten piece of food
   * _empty_ - an empty tile
-* **snake_id** _(optional)_ - snake id of occupying snake (if applicable)
+* **snake** _(optional)_ - name of occupying snake (if applicable)
 
 ```javascript
 {
   "state": "head",
-  "snake_id": "snake_19283"
+  "snake": "Noodlez"
 }
 ```
 
@@ -163,8 +163,7 @@ Describes the state of a single snake in a particular game.
 
 ##### Attributes
 
-* **id** - unique id for this snake in the current game
-* **name** - friendly name of this snake
+* **name** - friendly name of this snake (must be unique)
 * **state** - snake state, one of ["alive", "dead"]
 * **coords** - ordered array of coordinates indicating location of this snake on the board (from head to tail)
 * **score** - current score
@@ -174,7 +173,6 @@ Describes the state of a single snake in a particular game.
 
 ```javascript
 {
-  "id": "snake_19283",
   "name": "Noodlez",
   "state": "alive",
   "coords": [[0, 0], [0, 1], [0, 2], [1, 2]],

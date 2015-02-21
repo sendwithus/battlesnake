@@ -209,12 +209,16 @@ class Engine(object):
         # Get moves for all snakes
         for snake in game_state.snakes:
             move = cls.get_default_move(snake)
+            action = move['move']
 
             # Find move for this snake
             for m in moves:
-                if m['snake_name'] == snake['name'] and m['move'] in cls.VALID_MOVES:
+                if m['snake_name'] == snake['name']:
                     move = m
-                    break
+
+                    # If action is not valid, override it
+                    if m['move'] not in cls.VALID_MOVES:
+                        move['move'] = action
 
             action = move['move']
             snake_name = move['snake_name']

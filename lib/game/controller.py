@@ -119,14 +119,18 @@ def get_moves(game_state, timeout):
                 if response is None:
                     # Too bad for that snake. Engine should keep it moving
                     # in current direction
+                    moves.append({
+                        'snake_name': snake['name'],  # Don't trust id from response
+                        'move': None,
+                        'taunt': '...zzz...'
+                    })
                     _log('%s timed out' % snake['name'])
-                    continue
-
-                moves.append({
-                    'snake_name': snake['name'],  # Don't trust id from response
-                    'move': response['move'],
-                    'taunt': response.get('taunt', '')
-                })
+                else:
+                    moves.append({
+                        'snake_name': snake['name'],  # Don't trust id from response
+                        'move': response['move'],
+                        'taunt': response.get('taunt', '')
+                    })
 
     return moves
 

@@ -234,7 +234,7 @@ var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
                 React.createElement("h3", null, this.props.snake.name, " ", React.createElement("span", {className: "kill-reason"}, this.props.snake.killReason)), 
                 React.createElement("div", {className: "row meta"}, 
                     React.createElement("div", {className: "col-md-3"}, 
-                        "length: ", this.props.snake.coords.length
+                        "len: ", this.props.snake.coords.length
                     ), 
                     React.createElement("div", {className: "col-md-3"}, 
                         "kills: ", this.props.snake.kills || 0
@@ -258,11 +258,11 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
         }
 
         var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-            return React.createElement(GameSidebarSnake, {key: snake.id, snake: snake})
+            return React.createElement(GameSidebarSnake, {key: snake.name, snake: snake})
         });
 
         var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-            return React.createElement(GameSidebarSnake, {key: snake.id, snake: snake})
+            return React.createElement(GameSidebarSnake, {key: snake.name, snake: snake})
         });
 
         if (!deadSnakes.length) {

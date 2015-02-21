@@ -234,7 +234,7 @@ var GameSidebarSnake = React.createClass({
                 <h3>{this.props.snake.name} <span className="kill-reason">{this.props.snake.killReason}</span></h3>
                 <div className="row meta">
                     <div className="col-md-3">
-                        length: {this.props.snake.coords.length}
+                        len: {this.props.snake.coords.length}
                     </div>
                     <div className="col-md-3">
                         kills: {this.props.snake.kills || 0}
@@ -258,11 +258,11 @@ var GameSidebar = React.createClass({
         }
 
         var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-            return <GameSidebarSnake key={snake.id} snake={snake} />
+            return <GameSidebarSnake key={snake.name} snake={snake} />
         });
 
         var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-            return <GameSidebarSnake key={snake.id} snake={snake} />
+            return <GameSidebarSnake key={snake.name} snake={snake} />
         });
 
         if (!deadSnakes.length) {

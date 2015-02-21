@@ -378,9 +378,14 @@ var GameListItem = React.createClass({displayName: "GameListItem",
         var tbody = React.createElement("tr", null);
 
         if (this.props.game.state === 'done') {
-            console.log(this.props.game.stats);
+            var snakeHeader = (
+                React.createElement("tr", {className: "snakes-heading"}, 
+                    React.createElement("td", {colSpan: "4"}, 
+                        "Snake Stats"
+                    )
+                )
+            );
             var snakeRows = this.props.game.stats.snakes.map(function (snake, i) {
-                console.log(snake);
                 return (
                     React.createElement("tr", {key: this.props.game.id + snake.name}, 
                         React.createElement("td", null, React.createElement("strong", null, snake.name)), 
@@ -411,16 +416,27 @@ var GameListItem = React.createClass({displayName: "GameListItem",
                             React.createElement("p", null, this.props.game.stats.longest || '--')
                         )
                     ), 
+                    snakeHeader, 
                     snakeRows
                 )
             );
+        }
+
+        var watchLink;
+        if (this.props.game.state === 'done') {
+            watchLink = React.createElement("a", {href: path, className: "btn btn-info pull-right"}, "Watch Replay")
+        } else {
+            watchLink = React.createElement("a", {href: path, className: "btn btn-success pull-right"}, "View Live")
         }
 
         return (
             React.createElement("table", {className: "table table-bordered game-summary"}, 
                 React.createElement("thead", null, 
                     React.createElement("tr", null, 
-                        React.createElement("th", {colSpan: "4"}, React.createElement("h1", null, React.createElement("a", {href: path}, this.props.game._id)))
+                        React.createElement("th", {colSpan: "4"}, 
+                            watchLink, 
+                            React.createElement("h1", null, React.createElement("a", {href: path}, this.props.game._id))
+                        )
                     )
                 ), 
                 tbody

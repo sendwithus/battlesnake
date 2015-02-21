@@ -123,7 +123,7 @@ def next_turn(game):
 
     if len(game_states) > 0:
         game_state = game_states[0]
-        moves = get_moves(game_state, game.turn_time * 4)
+        moves = get_moves(game_state, game.turn_time * 5)
         next_game_state = Engine.resolve_moves(game_state, moves)
         next_game_state.insert()
 

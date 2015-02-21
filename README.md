@@ -155,7 +155,7 @@ __Example Snakes (that work, but suck)__
 * Solid BattleSnake - [http://battlesnake-dylan.herokuapp.com](http://battlesnake-dylan.herokuapp.com)
 * Liam Neeson - [http://battlesnake-greedy.herokuapp.com](http://battlesnake-greedy.herokuapp.com)
 * Trouser Basilisk - [http://battlesnake-will.herokuapp.com](http://battlesnake-will.herokuapp.com)
-* faroutsnakee - [http://mattsnake.herokuapp.com/](http://mattsnake.herokuapp.com)
+* faroutsnake - [http://mattsnake.herokuapp.com/](http://mattsnake.herokuapp.com)
 * Swift Snake - [http://battlesnake-jer2.herokuapp.com](http://battlesnake-jer2.herokuapp.com)
 * Randosnake - [http://battlesnake-rando.herokuapp.com](http://battlesnake-rando.herokuapp.com)
 * Coward Snake - [battlesnake-coward.herokuapp.com](http://battlesnake-coward.herokuapp.com)

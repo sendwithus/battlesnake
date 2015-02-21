@@ -239,19 +239,19 @@ class Engine(object):
 
             # Add New Head
             if action == cls.MOVE_UP:
-                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (0, -1)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], [0, -1]))
                 new_snake['coords'].insert(0, new_head)
 
             if action == cls.MOVE_DOWN:
-                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (0, 1)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], [0, 1]))
                 new_snake['coords'].insert(0, new_head)
 
             if action == cls.MOVE_RIGHT:
-                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (1, 0)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], [1, 0]))
                 new_snake['coords'].insert(0, new_head)
 
             if action == cls.MOVE_LEFT:
-                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (-1, 0)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], [-1, 0]))
                 new_snake['coords'].insert(0, new_head)
 
             # Remove Tail

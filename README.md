@@ -110,15 +110,20 @@ Orientation will also be the best time to ask questions. Hacking will start imme
 
 ## Prizes and Awards
 
-__Grand Prize__ <br> $500 Cash <br> BattleSnake Swag Pack
+#### Grand Prize 
+$500 Cash, Swag Pack
 
-__Second Place__ <br> $300 Cash <br> BattleSnake Swag Pack
+#### Second Place
+$300 Cash, Swag Pack
 
-__Third Place__ <br> $200 <br> BattleSnake Swag Pack
+#### Third Place
+$200, Swag Pack
 
-__Heroku Award__ <br> Heroku Longboard
+#### Heroku Award 
+Heroku Longboard (Register Here)[heroku.getfeedback.com/battlesnake]
 
-__Dropbox Award__ <br> 1TB Dropbox Space
+#### Dropbox Award
+1TB Dropbox Space (Register Here)[http://bit.ly/dropbox-battlesnake]
 
 __Swag Pack Awards__
 * Hunger Games Snake (most food eaten)

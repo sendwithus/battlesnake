@@ -22,6 +22,8 @@ class Engine(object):
     MOVE_LEFT = 'left'
     MOVE_RIGHT = 'right'
 
+    VALID_MOVES = [MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT]
+
     SNAKE_SACRIFICE = 'snake_sacrifice'
     WALL = 'wall'
     LARGE_NUMBER = 999999
@@ -217,15 +219,13 @@ class Engine(object):
 
         # Get moves for all snakes
         for snake in game_state.snakes:
+            move = cls.get_default_move(snake)
 
             # Find move for this snake
-            move = cls.get_default_move(snake)
             for m in moves:
-                if m['snake_name'] == snake['name']:
+                if m['snake_name'] == snake['name'] and m['move'] in cls.VALID_MOVES:
                     move = m
                     break
-
-            # Apply move
 
             action = move['move']
             snake_name = move['snake_name']
@@ -239,19 +239,19 @@ class Engine(object):
 
             # Add New Head
             if action == cls.MOVE_UP:
-                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (0, -1)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], [0, -1]))
                 new_snake['coords'].insert(0, new_head)
 
             if action == cls.MOVE_DOWN:
-                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (0, 1)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], [0, 1]))
                 new_snake['coords'].insert(0, new_head)
 
             if action == cls.MOVE_RIGHT:
-                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (1, 0)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], [1, 0]))
                 new_snake['coords'].insert(0, new_head)
 
             if action == cls.MOVE_LEFT:
-                new_head = list(sum(x) for x in zip(new_snake['coords'][0], (-1, 0)))
+                new_head = list(sum(x) for x in zip(new_snake['coords'][0], [-1, 0]))
                 new_snake['coords'].insert(0, new_head)
 
             # Remove Tail
@@ -316,7 +316,10 @@ class Engine(object):
             if snake['coords'][0] in new_food:
                 if snake['name'] not in kill:
                     eaten.append(snake['coords'][0])
+
                     grow[snake['name']] = grow.get(snake['name'], 0) + 1
+                    snake['food_eaten'] = snake.get('food_eaten', 0) + 1
+
                     continue
 
         # Resolve Collisions

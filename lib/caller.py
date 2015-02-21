@@ -46,7 +46,7 @@ class AsyncCall(object):
             else:
                 self._responses[url] = data
         else:
-            _log('Failed to contact url: %s' % response.status_code)
+            _log('Failed to contact %s: %s' % (url, response.status_code))
 
         end = time.time()
 

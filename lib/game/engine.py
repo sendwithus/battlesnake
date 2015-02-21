@@ -41,7 +41,7 @@ class Engine(object):
             for y in range(height):
                 board[x].append({
                     'state': GameState.TILE_STATE_EMPTY,
-                    'snake_id': None
+                    'snake': None
                 })
 
         return board
@@ -173,7 +173,7 @@ class Engine(object):
                     game_state=game_state,
                     coords=coords,
                     state=state,
-                    snake_id=snake['id'])
+                    snake=snake['name'])
 
     @staticmethod
     def update_food_on_board(game_state):
@@ -205,7 +205,7 @@ class Engine(object):
 
         return {
             'move': move,
-            'snake_id': snake['id']
+            'snake_name': snake['name']
         }
 
     @classmethod
@@ -221,17 +221,17 @@ class Engine(object):
             # Find move for this snake
             move = cls.get_default_move(snake)
             for m in moves:
-                if m['snake_id'] == snake['id']:
+                if m['snake_name'] == snake['name']:
                     move = m
                     break
 
             # Apply move
 
             action = move['move']
-            snake_id = move['snake_id']
+            snake_name = move['snake_name']
 
             # Copy Old Snake
-            new_snake = cls.copy_snake(game_state, snake_id)
+            new_snake = cls.copy_snake(game_state, snake_name)
 
             # If the snake is dead, ignore this move
             if not new_snake:
@@ -260,8 +260,8 @@ class Engine(object):
             new_snakes.append(new_snake)
 
         # Track Snake Collisions
-        kill = []       # [snake_id, snake_id]
-        grow = {}       # {snake_id: grow_by, snake_id: grow_by}
+        kill = []       # [snake_name, snake_name]
+        grow = {}       # {snake_name: grow_by, snake_name: grow_by}
         eaten = []      # [(food, coords)]
 
         # Check Collisions
@@ -269,66 +269,66 @@ class Engine(object):
 
             # Check for wall collisions
             if snake['coords'][0][0] < 0:
-                kill.append(snake['id'])
+                kill.append(snake['name'])
                 snake['killed_by'] = Engine.WALL
                 continue
 
             if snake['coords'][0][1] < 0:
-                kill.append(snake['id'])
+                kill.append(snake['name'])
                 snake['killed_by'] = Engine.WALL
                 continue
 
             if snake['coords'][0][0] >= len(game_state.board):
-                kill.append(snake['id'])
+                kill.append(snake['name'])
                 snake['killed_by'] = Engine.WALL
                 continue
 
             if snake['coords'][0][1] >= len(game_state.board[0]):
-                kill.append(snake['id'])
+                kill.append(snake['name'])
                 snake['killed_by'] = Engine.WALL
                 continue
 
             for check_snake in new_snakes:
 
                 # Self Collision or Ignore Self
-                if snake['id'] == check_snake['id']:
+                if snake['name'] == check_snake['name']:
                     if snake['coords'][0] in check_snake['coords'][1:]:
-                        kill.append(snake['id'])
-                        snake['killed_by'] = check_snake['id']
+                        kill.append(snake['name'])
+                        snake['killed_by'] = check_snake['name']
                         continue
                     else:
                         continue
 
                 # Head to Head Collision
                 if snake['coords'][0] == check_snake['coords'][0]:
-                    kill.append(snake['id'])
-                    snake['killed_by'] = check_snake['id']
+                    kill.append(snake['name'])
+                    snake['killed_by'] = check_snake['name']
                     continue
 
                 # Head to Body Collision
                 if snake['coords'][0] in check_snake['coords']:
-                    kill.append(snake['id'])
-                    grow[check_snake['id']] = grow.get(snake['id'], 0) + int(len(snake['coords']) * constants.EAT_RATIO)
-                    snake['killed_by'] = check_snake['id']
+                    kill.append(snake['name'])
+                    grow[check_snake['name']] = grow.get(snake['name'], 0) + int(len(snake['coords']) * constants.EAT_RATIO)
+                    snake['killed_by'] = check_snake['name']
                     check_snake['kills'] = check_snake.get('kills', 0) + 1
                     continue
 
             if snake['coords'][0] in new_food:
-                if snake['id'] not in kill:
+                if snake['name'] not in kill:
                     eaten.append(snake['coords'][0])
-                    grow[snake['id']] = grow.get(snake['id'], 0) + 1
+                    grow[snake['name']] = grow.get(snake['name'], 0) + 1
                     continue
 
         # Resolve Collisions
         for snake in copy.deepcopy(new_snakes):
-            if snake['id'] in kill:
+            if snake['name'] in kill:
                 new_snakes.remove(snake)
                 snake['died_on_turn'] = game_state.turn
                 dead_snakes.append(snake)
 
-        for snake_id, grow_by in grow.iteritems():
+        for snake_name, grow_by in grow.iteritems():
             for snake in new_snakes:
-                if snake['id'] == snake_id:
+                if snake['name'] == snake_name:
                     for x in range(0, grow_by):
                         snake['coords'].append(snake['coords'][-1])
 
@@ -366,21 +366,21 @@ class Engine(object):
         return new_game_state
 
     @staticmethod
-    def copy_snake(game_state, snake_id):
+    def copy_snake(game_state, snake_name):
         for snake in game_state.snakes:
-            if snake['id'] == snake_id:
+            if snake['name'] == snake_name:
                 return copy.deepcopy(snake)
         return None
 
     # Set Coords (x, y) to State
     @staticmethod
-    def set_coords(game_state, coords, state, snake_id=None):
+    def set_coords(game_state, coords, state, snake=None):
         x = coords[0]
         y = coords[1]
 
         tile_state = {
             'state': state,
-            'snake_id': snake_id
+            'snake': snake
         }
         game_state.board[x][y] = tile_state
         game_state.sanity_check()

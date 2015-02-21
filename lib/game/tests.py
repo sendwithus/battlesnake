@@ -2,42 +2,42 @@ from models import Game
 from engine import Engine
 
 SNAKE_1 = {
-    'id': 'test_snake_1',
+    'name': 'test_snake_1',
     'coords': [[2, 1], [1, 1]]
 }
 
 SNAKE_2 = {
-    'id': 'test_snake_2',
+    'name': 'test_snake_2',
     'coords': [[4, 1], [5, 1]]
 }
 
 SNAKE_3 = {
-    'id': 'test_snake_3',
+    'name': 'test_snake_3',
     'coords': [[2, 2], [2, 3]]
 }
 
 SNAKE_4 = {
-    'id': 'test_snake_4',
+    'name': 'test_snake_4',
     'coords': [[4, 4], [4, 5], [5, 5], [5, 4], [5, 3], [4, 3], [3, 3], [3, 4], [3, 5]]
 }
 
 MOVE_RIGHT_1 = {
-    'snake_id': 'test_snake_1',
+    'snake_name': 'test_snake_1',
     'move': Engine.MOVE_RIGHT
 }
 
 MOVE_LEFT_2 = {
-    'snake_id': 'test_snake_2',
+    'snake_name': 'test_snake_2',
     'move': Engine.MOVE_LEFT
 }
 
 MOVE_UP_3 = {
-    'snake_id': 'test_snake_3',
+    'snake_name': 'test_snake_3',
     'move': Engine.MOVE_UP
 }
 
 MOVE_RIGHT_4 = {
-    'snake_id': 'test_snake_4',
+    'snake_name': 'test_snake_4',
     'move': Engine.MOVE_RIGHT
 }
 

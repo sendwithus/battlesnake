@@ -60,7 +60,6 @@ def create_game(snake_urls, width, height, turn_time):
                 snakes.append({
                     'url': snake_url,
                     'color': response['color'],
-                    'id': response['name'],
                     'head_url': response.get('head_url', 'http://screenshots.en.sftcdn.net/en/scrn/3332000/3332933/snake-iii-3d-01-100x100.png'),
                     'name': response['name'],
                     'taunt': response['taunt']
@@ -109,10 +108,10 @@ def get_moves(game_state, timeout):
                 if response is None:
                     # Too bad for that snake. Engine should keep it moving
                     # in current direction
-                    _log('%s timed out' % snake['id'])
+                    _log('%s timed out' % snake['name'])
                     continue
                 moves.append({
-                    'snake_id': snake['id'],  # Don't trust id from response
+                    'snake_name': snake['name'],  # Don't trust id from response
                     'move': response['move']
                 })
     return moves

@@ -31,6 +31,12 @@ Board.prototype.resize = function() {
 
   this.canvas.width  = this.SQUARE_SIZE * this.dimensions[0];
   this.canvas.height = this.SQUARE_SIZE * this.dimensions[1];
+  this.canvas.style.width = (this.canvas.width / 2) + 'px';
+  this.canvas.style.height = (this.canvas.height / 2) + 'px';
+
+  if (window.devicePixelRatio > 1.25) {
+    this.ctx.scale(2,2); // fix blurry board on retina screens
+  }
 
   if (this.gameState) { this.update(this.gameState); }
 };

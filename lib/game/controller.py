@@ -44,9 +44,18 @@ def create_game(snake_urls, width, height, turn_time):
         timeout=10  # Enough time for Heroku apps to wake up
     ).start()
 
-    snakes = []
+    # Any errors?
+    for url, response in responses.items():
+        if not response:
+            raise Exception('%s failed to respond' % url)
 
-    # For all snakes
+        params = ['name', 'color']
+        for param in params:
+            if param not in response:
+                raise Exception('%s missing %s' % (url, param))
+
+    # Build snakes
+    snakes = []
     for snake_url in snake_urls:
 
         # Find the response for that snake

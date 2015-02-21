@@ -50,12 +50,18 @@ def games_create():
     except KeyError:
         return _json_response(msg='Invalid snakes', status=400)
 
-    game, game_state = controller.create_game(
-        width=width,
-        height=height,
-        snake_urls=snake_urls,
-        turn_time=turn_time
-    )
+    try:
+        game, game_state = controller.create_game(
+            width=width,
+            height=height,
+            snake_urls=snake_urls,
+            turn_time=turn_time
+        )
+    except Exception as e:
+        return _json_response({
+            'error': True,
+            'message': str(e)
+        })
 
     return _json_response({
         'game': game.to_dict(),

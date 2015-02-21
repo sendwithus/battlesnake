@@ -1,7 +1,7 @@
 # BattleSnake 2015
 #### presented by [sendwithus](https://www.sendwithus.com), powered by [Heroku](http://heroku.com)
 
-BattleSnake is a RESTful AI competition held in Victoria BC.
+BattleSnake is a programming competition held in Victoria BC.
 
 Teams from local schools and tech companies write AI clients for the game BattleSnake.
 
@@ -110,20 +110,25 @@ Orientation will also be the best time to ask questions. Hacking will start imme
 
 ## Prizes and Awards
 
-__Grand Prize__ <br> $500, BattleSnake Swag Pack
+#### Grand Prize 
+$500 Cash, Swag Pack
 
-__Second Place__ <br> $300, BattleSnake Swag Pack
+#### Second Place
+$300 Cash, Swag Pack
 
-__Third Place__ <br> $200, BattleSnake Swag Pack
+#### Third Place
+$200, Swag Pack
 
-__Heroku Award__ <br> Heroku Longboard
+#### Heroku Award 
+Heroku Longboard [Register Here](heroku.getfeedback.com/battlesnake)
 
-__Dropbox Award__ <br> 1TB Dropbox Space (each)
+#### Dropbox Award
+1TB Dropbox Space [Register Here](http://bit.ly/dropbox-battlesnake)
 
-__Awards__ (BattleSnake Swag Pack)
-* Hungriest Snake (most food eaten)
-* Killer Instinct Snake (most kills)
-* Elder Snake (longest)
+__Swag Pack Awards__
+* Hunger Games Snake (most food eaten)
+* Predator Snake (most kills)
+* Never Surrender Snake (longest)
 
 <br>
 
@@ -149,10 +154,16 @@ __Starter Snakes__
 * [Java](http://github.com/sendwithus/battlesnake-java)
 * [Ruby](http://github.com/sendwithus/battlesnake-ruby)
 * [Go](http://github.com/sendwithus/battlesnake-go)
-* [Clojure] (https://github.com/sendwithus/battlesnake-clojure)
+* [Clojure](https://github.com/sendwithus/battlesnake-clojure)
 
-__Example Snakes (that suck)__
-* FILL THIS IN
+__Example Snakes (that work, but suck)__
+* Solid BattleSnake - [http://battlesnake-dylan.herokuapp.com](http://battlesnake-dylan.herokuapp.com)
+* Liam Neeson - [http://battlesnake-greedy.herokuapp.com](http://battlesnake-greedy.herokuapp.com)
+* Trouser Basilisk - [http://battlesnake-will.herokuapp.com](http://battlesnake-will.herokuapp.com)
+* faroutsnake - [http://mattsnake.herokuapp.com/](http://mattsnake.herokuapp.com)
+* Swift Snake - [http://battlesnake-jer2.herokuapp.com](http://battlesnake-jer2.herokuapp.com)
+* Randosnake - [http://battlesnake-rando.herokuapp.com](http://battlesnake-rando.herokuapp.com)
+* Coward Snake - [battlesnake-coward.herokuapp.com](http://battlesnake-coward.herokuapp.com)
 
 <br>
 

@@ -23,12 +23,14 @@ Since game IDs may be re-used, this endpoint may be called multiple times with t
 ##### Request
 
 * **game_id** - ID of the game about to start
+* **width** - The width of the game board (the x axis)
+* **height** - The height of the game board (the y axis)s
 
 ```javascript
 {
   "game_id": "hairy-cheese",
-  "width: X,
-  "height: Y
+  "width": 20,
+  "height": 20
 }
 ```
 

@@ -225,7 +225,7 @@ def generate_stats_object(game, game_state):
         # Group all the snake names
         stats['snake_names'].append(snake['name'])
 
-    stats['snakes'].append(all_snakes)
+    stats['snakes'] = all_snakes
     stats['longest'] = longest['name']
     stats['hungriest'] = hungriest['name']
 

@@ -24,6 +24,15 @@ form .btn {
     width: 100%;
 }
 
+table.game-summary,
+table.game-summary td,
+table.game-summary th {
+    border-color: #333 !important;
+}
+table.game-summary th {
+    background-color: #333;
+}
+
 .form-control {
     border-radius: 0;
     margin-bottom: 15px;

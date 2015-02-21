@@ -374,20 +374,56 @@ var GameSidebar = React.createClass({
 var GameListItem = React.createClass({
     render: function () {
         var path = '/play/games/' + this.props.game._id
+        var tdStyles = { width: '25%' };
+        var tbody = <tr></tr>;
+
+        if (this.props.game.state === 'done') {
+            console.log(this.props.game.stats);
+            var snakeRows = this.props.game.stats.snakes.map(function (snake, i) {
+                console.log(snake);
+                return (
+                    <tr key={this.props.game.id + snake.name}>
+                        <td><strong>{snake.name}</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                )
+            }.bind(this));
+
+            tbody = (
+                <tbody>
+                    <tr>
+                        <td style={tdStyles}>
+                            <h4>Winner</h4>
+                            <p>{this.props.game.stats.winner || '--'}</p>
+                        </td>
+                        <td style={tdStyles}>
+                            <h4>Hungriest</h4>
+                            <p>{this.props.game.stats.hungriest || '--'}</p>
+                        </td>
+                        <td style={tdStyles}>
+                            <h4>Deadliest</h4>
+                            <p>{this.props.game.stats.deadliest || '--'}</p>
+                        </td>
+                        <td style={tdStyles}>
+                            <h4>Longest</h4>
+                            <p>{this.props.game.stats.longest || '--'}</p>
+                        </td>
+                    </tr>
+                    {snakeRows}
+                </tbody>
+            );
+        }
 
         return (
             <table className="table table-bordered game-summary">
                 <thead>
                     <tr>
-                    <th><h1><a href={path}>{this.props.game._id}</a></h1></th>
+                        <th colSpan="4"><h1><a href={path}>{this.props.game._id}</a></h1></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                        </td>
-                    </tr>
-                </tbody>
+                {tbody}
             </table>
         )
     }
@@ -442,11 +478,14 @@ var GameList = React.createClass({
 
         return (
             <div>
+                <br />
                 <h2>In Progress</h2>
                 <div className="games-list playing-games">
                     {playingGames}
                 </div>
 
+                <br />
+                <br />
                 <h2>Finished Games</h2>
                 <div className="games-list finished-games">
                     {completedGames}

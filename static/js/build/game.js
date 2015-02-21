@@ -374,20 +374,56 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
 var GameListItem = React.createClass({displayName: "GameListItem",
     render: function () {
         var path = '/play/games/' + this.props.game._id
+        var tdStyles = { width: '25%' };
+        var tbody = React.createElement("tr", null);
+
+        if (this.props.game.state === 'done') {
+            console.log(this.props.game.stats);
+            var snakeRows = this.props.game.stats.snakes.map(function (snake, i) {
+                console.log(snake);
+                return (
+                    React.createElement("tr", {key: this.props.game.id + snake.name}, 
+                        React.createElement("td", null, React.createElement("strong", null, snake.name)), 
+                        React.createElement("td", null), 
+                        React.createElement("td", null), 
+                        React.createElement("td", null)
+                    )
+                )
+            }.bind(this));
+
+            tbody = (
+                React.createElement("tbody", null, 
+                    React.createElement("tr", null, 
+                        React.createElement("td", {style: tdStyles}, 
+                            React.createElement("h4", null, "Winner"), 
+                            React.createElement("p", null, this.props.game.stats.winner || '--')
+                        ), 
+                        React.createElement("td", {style: tdStyles}, 
+                            React.createElement("h4", null, "Hungriest"), 
+                            React.createElement("p", null, this.props.game.stats.hungriest || '--')
+                        ), 
+                        React.createElement("td", {style: tdStyles}, 
+                            React.createElement("h4", null, "Deadliest"), 
+                            React.createElement("p", null, this.props.game.stats.deadliest || '--')
+                        ), 
+                        React.createElement("td", {style: tdStyles}, 
+                            React.createElement("h4", null, "Longest"), 
+                            React.createElement("p", null, this.props.game.stats.longest || '--')
+                        )
+                    ), 
+                    snakeRows
+                )
+            );
+        }
 
         return (
             React.createElement("table", {className: "table table-bordered game-summary"}, 
                 React.createElement("thead", null, 
                     React.createElement("tr", null, 
-                    React.createElement("th", null, React.createElement("h1", null, React.createElement("a", {href: path}, this.props.game._id)))
+                        React.createElement("th", {colSpan: "4"}, React.createElement("h1", null, React.createElement("a", {href: path}, this.props.game._id)))
                     )
                 ), 
-                React.createElement("tbody", null, 
-                    React.createElement("tr", null, 
-                        React.createElement("td", null
-                        )
-                    )
-                )
+                tbody
             )
         )
     }
@@ -442,11 +478,14 @@ var GameList = React.createClass({displayName: "GameList",
 
         return (
             React.createElement("div", null, 
+                React.createElement("br", null), 
                 React.createElement("h2", null, "In Progress"), 
                 React.createElement("div", {className: "games-list playing-games"}, 
                     playingGames
                 ), 
 
+                React.createElement("br", null), 
+                React.createElement("br", null), 
                 React.createElement("h2", null, "Finished Games"), 
                 React.createElement("div", {className: "games-list finished-games"}, 
                     completedGames

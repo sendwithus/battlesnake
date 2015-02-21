@@ -24,6 +24,10 @@ form .btn {
     width: 100%;
 }
 
+table.game-summary {
+    margin-bottom: 70px;
+}
+
 table.game-summary,
 table.game-summary td,
 table.game-summary th {

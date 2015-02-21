@@ -247,7 +247,7 @@ def generate_stats_object(game, game_state):
         food_eaten = snake.get('food_eaten', 0)
         length = len(snake['coords'])
 
-        if not longest or length > longest['coords']:
+        if not longest or length > len(longest['coords']):
             longest = snake
 
         if food_eaten > 0 and (not hungriest or food_eaten > hungriest.get('food_eaten', 0)):

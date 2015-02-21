@@ -411,16 +411,16 @@ var GameListItem = React.createClass({
                             <p>{this.props.game.stats.winner || '--'}</p>
                         </td>
                         <td style={tdStyles}>
+                            <h4>Longest</h4>
+                            <p>{this.props.game.stats.longest || '--'}</p>
+                        </td>
+                        <td style={tdStyles}>
                             <h4>Hungriest</h4>
                             <p>{this.props.game.stats.hungriest || '--'}</p>
                         </td>
                         <td style={tdStyles}>
                             <h4>Deadliest</h4>
                             <p>{this.props.game.stats.deadliest || '--'}</p>
-                        </td>
-                        <td style={tdStyles}>
-                            <h4>Longest</h4>
-                            <p>{this.props.game.stats.longest || '--'}</p>
                         </td>
                     </tr>
                     {snakeHeader}

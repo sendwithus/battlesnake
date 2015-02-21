@@ -411,16 +411,16 @@ var GameListItem = React.createClass({displayName: "GameListItem",
                             React.createElement("p", null, this.props.game.stats.winner || '--')
                         ), 
                         React.createElement("td", {style: tdStyles}, 
+                            React.createElement("h4", null, "Longest"), 
+                            React.createElement("p", null, this.props.game.stats.longest || '--')
+                        ), 
+                        React.createElement("td", {style: tdStyles}, 
                             React.createElement("h4", null, "Hungriest"), 
                             React.createElement("p", null, this.props.game.stats.hungriest || '--')
                         ), 
                         React.createElement("td", {style: tdStyles}, 
                             React.createElement("h4", null, "Deadliest"), 
                             React.createElement("p", null, this.props.game.stats.deadliest || '--')
-                        ), 
-                        React.createElement("td", {style: tdStyles}, 
-                            React.createElement("h4", null, "Longest"), 
-                            React.createElement("p", null, this.props.game.stats.longest || '--')
                         )
                     ), 
                     snakeHeader, 

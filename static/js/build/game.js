@@ -386,18 +386,19 @@ var GameListItem = React.createClass({displayName: "GameListItem",
         if (this.props.game.state === 'done') {
             var snakeHeader = (
                 React.createElement("tr", {className: "snakes-heading"}, 
-                    React.createElement("td", {colSpan: "4"}, 
-                        "Snake Stats"
-                    )
+                    React.createElement("td", null, "Snake Stats"), 
+                    React.createElement("td", null, "length"), 
+                    React.createElement("td", null, "food"), 
+                    React.createElement("td", null, "kills")
                 )
             );
             var snakeRows = this.props.game.stats.snakes.map(function (snake, i) {
                 return (
                     React.createElement("tr", {key: this.props.game.id + snake.name}, 
-                        React.createElement("td", null, React.createElement("strong", null, snake.name)), 
-                        React.createElement("td", null), 
-                        React.createElement("td", null), 
-                        React.createElement("td", null)
+                        React.createElement("td", null, snake.name), 
+                        React.createElement("td", {className: "text-center"}, snake.coords.length), 
+                        React.createElement("td", {className: "text-center"}, snake.food_eaten || 0), 
+                        React.createElement("td", {className: "text-center"}, snake.kills || 0)
                     )
                 )
             }.bind(this));

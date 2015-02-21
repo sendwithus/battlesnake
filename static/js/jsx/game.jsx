@@ -386,18 +386,19 @@ var GameListItem = React.createClass({
         if (this.props.game.state === 'done') {
             var snakeHeader = (
                 <tr className="snakes-heading">
-                    <td colSpan="4">
-                        Snake Stats
-                    </td>
+                    <td>Snake Stats</td>
+                    <td>length</td>
+                    <td>food</td>
+                    <td>kills</td>
                 </tr>
             );
             var snakeRows = this.props.game.stats.snakes.map(function (snake, i) {
                 return (
                     <tr key={this.props.game.id + snake.name}>
-                        <td><strong>{snake.name}</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{snake.name}</td>
+                        <td className="text-center">{snake.coords.length}</td>
+                        <td className="text-center">{snake.food_eaten || 0}</td>
+                        <td className="text-center">{snake.kills || 0}</td>
                     </tr>
                 )
             }.bind(this));

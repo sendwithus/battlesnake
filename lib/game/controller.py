@@ -250,10 +250,10 @@ def generate_stats_object(game, game_state):
         if not longest or length > longest['coords']:
             longest = snake
 
-        if not hungriest or (food_eaten > 0 and food_eaten > hungriest.get('food_eaten', 0)):
+        if food_eaten > 0 and (not hungriest or food_eaten > hungriest.get('food_eaten', 0)):
             hungriest = snake
 
-        if not deadliest or (kills > 0 and kills > deadliest.get('kills', 0)):
+        if kills > 0 and (not deadliest or kills > deadliest.get('kills', 0)):
             deadliest = snake
 
         # Group all the snake names

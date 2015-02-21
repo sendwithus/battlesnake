@@ -194,26 +194,56 @@ var Game = React.createClass({displayName: "Game",
 });
 
 var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
+    getInitialState: function () {
+        return {
+            lastTaunt: this.props.snake.taunt,
+            tauntToShow: this.props.snake.taunt,
+            tauntCount: 0,
+        };
+    },
+    componentWillReceiveProps: function (nextProps) {
+        if (this.state.lastTaunt === nextProps.snake.taunt) {
+            // Taunt is the same
+            this.state.tauntCount++;
+        } else {
+            this.state.tauntCount = 0;
+            this.state.lastTaunt = nextProps.snake.taunt;
+        }
+
+        if (this.state.tauntCount > 5) {
+            this.state.tauntToShow = '';
+        } else {
+            this.state.tauntToShow = nextProps.snake.taunt;
+        }
+
+        this.setState(this.state);
+    },
     render: function () {
         var snakeStyles = {
             backgroundColor: this.props.snake.color || 'red'
         };
 
+        var tauntStyles = {
+            display: this.state.tauntToShow ? 'block' : 'none',
+            opacity: 1.3 - (this.state.tauntCount / 10)
+        };
+
         return (
             React.createElement("div", {className: "snake-block"}, 
                 React.createElement("img", {src: this.props.snake.head_url, style: snakeStyles}), 
-                React.createElement("h3", null, this.props.snake.name), 
+                React.createElement("h3", null, this.props.snake.name, " ", React.createElement("span", {className: "kill-reason"}, this.props.snake.killReason)), 
                 React.createElement("div", {className: "row meta"}, 
                     React.createElement("div", {className: "col-md-3"}, 
-                        "score: ", this.props.snake.coords.length
+                        "len: ", this.props.snake.coords.length
                     ), 
                     React.createElement("div", {className: "col-md-3"}, 
-                        "score: ", this.props.snake.coords.length
+                        "kills: ", this.props.snake.kills || 0
                     ), 
                     React.createElement("div", {className: "col-md-3"}, 
-                        "score: ", this.props.snake.coords.length
+                        "food: ", this.props.snake.food_eaten || 0
                     )
-                )
+                ), 
+                React.createElement("div", {className: "taunt", style: tauntStyles}, this.state.tauntToShow)
             )
         )
     }
@@ -228,11 +258,11 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
         }
 
         var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-            return React.createElement(GameSidebarSnake, {key: 'a_' + i, snake: snake})
+            return React.createElement(GameSidebarSnake, {key: snake.name, snake: snake})
         });
 
         var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-            return React.createElement(GameSidebarSnake, {key: 'd_' + i, snake: snake})
+            return React.createElement(GameSidebarSnake, {key: snake.name, snake: snake})
         });
 
         if (!deadSnakes.length) {
@@ -320,8 +350,15 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
 });
 
 
-// var GameListItem = React.createClass({
-// });
+var GameListItem = React.createClass({displayName: "GameListItem",
+    render: function () {
+        return (
+            React.createElement("div", {className: "game-summary"}
+
+            )
+        )
+    }
+});
 
 
 var GameList = React.createClass({displayName: "GameList",

@@ -180,7 +180,7 @@ class GameState(Model):
         for snake in self.snakes:
             for coord in snake['coords']:
                 for check_snake in self.snakes:
-                    if snake['id'] == check_snake['id']:
+                    if snake['name'] == check_snake['name']:
                         continue
                     if coord in check_snake['coords']:
                         raise ValueError('Sanity Check Failed: board.snakes contains overlapping coords.')

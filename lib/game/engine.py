@@ -317,6 +317,7 @@ class Engine(object):
                 if snake['id'] not in kill:
                     eaten.append(snake['coords'][0])
                     grow[snake['id']] = grow.get(snake['id'], 0) + 1
+                    snake['food_eaten'] = snake.get('food_eaten', 0) + 1
                     continue
 
         # Resolve Collisions

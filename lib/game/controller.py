@@ -36,7 +36,9 @@ def create_game(snake_urls, width, height, turn_time):
     start_urls = [('%s/start' % url) for url in snake_urls]
     responses = AsyncCall(
         payload={
-            'game_id': game.id
+            'game_id': game.id,
+            'width': width,
+            'height': height
         },
         urls=start_urls,
         timeout=10  # Enough time for Heroku apps to wake up

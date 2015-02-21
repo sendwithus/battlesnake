@@ -483,6 +483,9 @@ var GameCreate = React.createClass({
         if (!snakeUrl.match(/^[a-zA-Z]+:\/\//)) {
             snakeUrl = 'http://' + snakeUrl;
         }
+        if(snakeUrl.substr(-1) === '/') {
+            snakeUrl = snakeUrl.substr(0, snakeUrl.length - 1);
+        }
         snakeUrls.push(snakeUrl.toLowerCase());
         this.setState({ snakeUrls: snakeUrls, currentSnakeUrl: '' });
     },

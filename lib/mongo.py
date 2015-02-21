@@ -28,4 +28,4 @@ def get_mongodb():
     if __mongo is None:
         __mongo = __init_connection()
 
-    return __mongo['battlesnake']
+    return __mongo

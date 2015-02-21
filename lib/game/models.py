@@ -140,6 +140,7 @@ class GameState(Model):
         self.id = None
         self.game_id = game_id
         self.turn = 0
+        self.is_done = False
         self.board = []
         self.snakes = []
         self.dead_snakes = []
@@ -200,6 +201,7 @@ class GameState(Model):
         return {
             '_id': self.id,
             'game_id': self.game_id,
+            'is_done': self.is_done,
             'turn': self.turn,
             'board': self.board[:],
             'snakes': self.snakes[:],
@@ -249,14 +251,12 @@ class GameState(Model):
 
         self.sanity_check()
 
-    def is_done(self):
-        return (len(self.snakes) <= 1)
-
     @classmethod
     def from_dict(cls, obj):
         game_state = cls(obj['game_id'])
         game_state.id = obj['_id']
         game_state.turn = obj['turn']
+        game_state.is_done = obj['is_done']
         game_state.board = obj['board']
         game_state.snakes = obj['snakes']
         game_state.dead_snakes = obj['dead_snakes']

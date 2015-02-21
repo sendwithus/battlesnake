@@ -136,7 +136,7 @@ class Engine(object):
         def get_mid_coords(dimension):
             half = (dimension - 1) / 2
             if (dimension % 2) == 0:
-                return [half, half+1]
+                return [half, half + 1]
             return [half]
 
         width = len(game_state.board)
@@ -288,11 +288,6 @@ class Engine(object):
                 snake['killed_by'] = Engine.WALL
                 continue
 
-            if snake['coords'][0] in new_food:
-                eaten.append(snake['coords'][0])
-                grow[snake['id']] = grow.get(snake['id'], 0) + 1
-                continue
-
             for check_snake in new_snakes:
 
                 # Self Collision or Ignore Self
@@ -318,9 +313,14 @@ class Engine(object):
                     check_snake['kills'] = check_snake.get('kills', 0) + 1
                     continue
 
+            if snake['coords'][0] in new_food:
+                if snake['id'] not in kill:
+                    eaten.append(snake['coords'][0])
+                    grow[snake['id']] = grow.get(snake['id'], 0) + 1
+                    continue
+
         # Resolve Collisions
         for snake in copy.deepcopy(new_snakes):
-
             if snake['id'] in kill:
                 new_snakes.remove(snake)
                 snake['died_on_turn'] = game_state.turn
@@ -346,12 +346,22 @@ class Engine(object):
 
         cls.check_snake_sacrifices(new_game_state)
 
+        cls.update_food_on_board(new_game_state)
+        cls.update_snakes_on_board(new_game_state)
+
         # Add food every X turns
         if new_game_state.turn % constants.TURNS_PER_FOOD == 0:
             cls.add_random_food_to_board(new_game_state)
 
-        cls.update_snakes_on_board(new_game_state)
-        cls.update_food_on_board(new_game_state)
+        # Check if the game is over
+        total_snakes = len(new_game_state.snakes) + len(new_game_state.dead_snakes)
+        if total_snakes == 1 and len(new_game_state.snakes) == 0:
+            # Single snake games go until the end
+            new_game_state.is_done = True
+
+        elif total_snakes > 1 and len(new_game_state.snakes) <= 1:
+            # Multi snake games go until one snake left
+            new_game_state.is_done = True
 
         return new_game_state
 

@@ -12,6 +12,7 @@ def maybe_run_game():
     game_to_run = Game.find_one({'state': Game.STATE_READY})
 
     if game_to_run:
+        print game_to_run.to_dict()
         _log("running game: %s" % game_to_run.id)
         controller.run_game(game_to_run)
         _log("finished game: %s" % game_to_run.id)

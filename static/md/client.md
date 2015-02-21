@@ -26,7 +26,9 @@ Since game IDs may be re-used, this endpoint may be called multiple times with t
 
 ```javascript
 {
-  "game_id": "hairy-cheese"
+  "game_id": "hairy-cheese",
+  "width: X,
+  "height: Y
 }
 ```
 
@@ -121,7 +123,7 @@ _Responses to this endpoint will be ignored._
 
 ## Board State Objects
 
-Describes the state of the board for a specific game. Board State Objects are comprised of a 2-Dimensional array of Board Tiles. This array is indexed to match board coordinates, such that the board tile for coordinates (1, 5) are accessible at _board[1][5]_. Board coordinates are 0-based.
+Describes the state of the board for a specific game. Board State Objects are comprised of a 2-Dimensional array of Board Tiles. This array is indexed to match board coordinates, such that the board tile for coordinates (1, 5) are accessible at _board[1][5]_. Board coordinates are 0-based with [0][0] representing the top left corner.
 
 ![board.jpg](/static/img/board.jpg)
 

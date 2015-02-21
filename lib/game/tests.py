@@ -21,13 +21,19 @@ SNAKE_4 = {
     'coords': [[4, 5], [5, 5], [5, 4], [5, 3], [4, 3], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8]]
 }
 
+SNAKE_5 = {
+    'name': 'test_snake_5',
+    'coords': [[4, 1], [5, 1], [6, 1], [7, 1]]
+}
+
+
 MOVE_RIGHT_1 = {
     'snake_name': 'test_snake_1',
     'move': Engine.MOVE_RIGHT
 }
 
 MOVE_LEFT_1 = {
-    'snake_id': 'test_snake_1',
+    'snake_name': 'test_snake_1',
     'move': Engine.MOVE_LEFT
 }
 
@@ -42,13 +48,18 @@ MOVE_UP_3 = {
 }
 
 MOVE_UP_4 = {
-    'snake_id': 'test_snake_4',
+    'snake_name': 'test_snake_4',
     'move': Engine.MOVE_UP
 }
 
 MOVE_RIGHT_4 = {
     'snake_name': 'test_snake_4',
     'move': Engine.MOVE_RIGHT
+}
+
+MOVE_LEFT_5 = {
+    'snake_name': 'test_snake_5',
+    'move': Engine.MOVE_LEFT
 }
 
 
@@ -109,6 +120,26 @@ def test_head_to_head():
     with open('lib/game/data/empty.out') as f:
         end_state = f.read().strip()
 
+    assert(g.to_string().strip() == end_state.strip())
+
+
+def test_head_to_head_uneven():
+    game = Game(width=10, height=10)
+    g = Engine.create_game_state(game.id, game.width, game.height)
+    Engine.add_snakes_to_board(g, [SNAKE_1, SNAKE_5])
+    g.sanity_check()
+
+    with open('lib/game/data/head_to_head_uneven.in') as f:
+        start_state = f.read().strip()
+
+    assert(g.to_string().strip() == start_state)
+
+    g = Engine.resolve_moves(g, [MOVE_RIGHT_1, MOVE_LEFT_5])
+    g.sanity_check()
+
+    with open('lib/game/data/head_to_head_uneven.out') as f:
+        end_state = f.read().strip()
+    print g.to_string().strip()
     assert(g.to_string().strip() == end_state.strip())
 
 

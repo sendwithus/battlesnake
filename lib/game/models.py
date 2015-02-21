@@ -85,11 +85,13 @@ class Game(Model):
             width=10,
             height=10,
             state=STATE_CREATED,
+            stats={},
             turn_time=2.0,
             is_live=True):
 
         self.id = id or self._generate_id()
         self.state = state
+        self.stats = stats
         self.width = width
         self.height = height
         self.turn_time = turn_time
@@ -102,6 +104,7 @@ class Game(Model):
         return {
             '_id': self.id,
             'state': self.state,
+            'stats': self.stats,
             'width': self.width,
             'height': self.height,
             'turn_time': self.turn_time,
@@ -114,6 +117,7 @@ class Game(Model):
             id=obj['_id'],
             state=obj['state'],
             width=obj['width'],
+            stats=obj['stats'],
             height=obj['height'],
             turn_time=obj['turn_time'],
             is_live=obj.get('is_live', False)
@@ -180,7 +184,7 @@ class GameState(Model):
         for snake in self.snakes:
             for coord in snake['coords']:
                 for check_snake in self.snakes:
-                    if snake['id'] == check_snake['id']:
+                    if snake['name'] == check_snake['name']:
                         continue
                     if coord in check_snake['coords']:
                         raise ValueError('Sanity Check Failed: board.snakes contains overlapping coords.')

@@ -62,7 +62,7 @@ def create_game(snake_urls, width, height, turn_time):
                 snakes.append({
                     'url': snake_url,
                     'color': response['color'],
-                    'head_url': response.get('head_url', 'http://screenshots.en.sftcdn.net/en/scrn/3332000/3332933/snake-iii-3d-01-100x100.png'),
+                    'head_url': response.get('head_url', 'http://www.battlesnake.io/static/img/default_head.gif'),
                     'name': response['name'],
                     'taunt': response['taunt']
                 })
@@ -112,10 +112,13 @@ def get_moves(game_state, timeout):
                     # in current direction
                     _log('%s timed out' % snake['name'])
                     continue
+
                 moves.append({
                     'snake_name': snake['name'],  # Don't trust id from response
-                    'move': response['move']
+                    'move': response['move'],
+                    'taunt': response.get('taunt', '')
                 })
+
     return moves
 
 
@@ -177,6 +180,7 @@ def run_game(game):
         _log('finished turn: %s' % new_game_state)
 
         if new_game_state.is_done:
+            game.stats = generate_stats_object(game, new_game_state)
             game.state = Game.STATE_DONE
             game.save()
         else:
@@ -187,3 +191,48 @@ def run_game(game):
             time.sleep(sleep_for)
 
     _log('done: %s' % new_game_state)
+
+
+def generate_stats_object(game, game_state):
+    all_snakes = []
+    stats = {
+        'snake_names': [],
+        'snakes': [],
+        'longest': None,
+        'hungriest': None,
+        'deadliest': None,
+        'winner': None
+    }
+
+    # Reverse so 2nd place is first
+    game_state.dead_snakes.reverse()
+
+    all_snakes = game_state.snakes + game_state.dead_snakes
+
+    longest = None
+    hungriest = None
+    deadliest = None
+
+    for snake in all_snakes:
+
+        if not longest or len(snake['coords']) > longest['coords']:
+            longest = snake
+
+        if not hungriest or snake.get('food_eaten', 0) > 0 > hungriest['food_eaten']:
+            hungriest = snake
+
+        if not deadliest or snake.get('kills', 0) > 0 > deadliest['kills']:
+            deadliest = snake
+
+        # Group all the snake names
+        stats['snake_names'].append(snake['name'])
+
+    stats['snakes'] = all_snakes
+    stats['longest'] = longest['name']
+    stats['hungriest'] = hungriest['name']
+
+    # Find the winner
+    if len(game_state.snakes) == 1:
+        stats['winner'] = game_state.snakes[0]['name']
+
+    return stats

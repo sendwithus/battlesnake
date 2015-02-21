@@ -24,6 +24,15 @@ form .btn {
     width: 100%;
 }
 
+table.game-summary,
+table.game-summary td,
+table.game-summary th {
+    border-color: #333 !important;
+}
+table.game-summary th {
+    background-color: #333;
+}
+
 .form-control {
     border-radius: 0;
     margin-bottom: 15px;
@@ -144,14 +153,14 @@ a:hover {
 
 .sidebar h1 {
     text-transform: uppercase;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .sidebar h2 {
     margin-top: 25px;
     font-size: 20px;
     background: #333;
-    padding: 5px;
+    padding: 5px 10px;
 }
 
 .sidebar h3 {
@@ -177,6 +186,33 @@ a:hover {
 
 .snake-block .meta {
     color: #999;
+}
+.snake-block .col {
+    padding: 0;
+    text-align: center;
+    width: 33%;
+    display: inline-block;
+}
+
+.snake-block .taunt {
+    font-size: 16px;
+    overflow: hidden;
+    background-color: rgba(30, 30, 30, 0.9);
+	border: 1px solid #9e0000;
+    position: absolute;
+    text-align: center;
+    padding: 5px;
+    padding-top: 5px;
+    left: 60px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.game-summary h1 {
+    font-size: 18px;
+    text-transform: uppercase;
+    margin: 5px;
 }
 
 

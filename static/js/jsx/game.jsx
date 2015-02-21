@@ -246,7 +246,7 @@ var GameSidebarSnake = React.createClass({
         var tauntStyles = {
             display: this.state.tauntToShow ? 'block' : 'none',
             opacity: 1.3 - (this.state.tauntCount / 10),
-            borderColor: this.props.isDead ? '#9e0000' : '#ABA700'
+            borderColor: this.props.isDead ? '#9e0000' : this.props.snake.color
         };
 
         var life = 101 - (this.props.turn - (this.props.snake.last_eaten || 0))

@@ -149,6 +149,7 @@ __Starter Snakes__
 * [Java](http://github.com/sendwithus/battlesnake-java)
 * [Ruby](http://github.com/sendwithus/battlesnake-ruby)
 * [Go](http://github.com/sendwithus/battlesnake-go)
+* [Clojure] (https://github.com/sendwithus/battlesnake-clojure)
 
 __Example Snakes (that suck)__
 * FILL THIS IN

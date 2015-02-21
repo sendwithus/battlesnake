@@ -212,10 +212,14 @@ var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
         }
     },
     handleTaunt: function (state, props) {
-        var words = props.snake.taunt;
+        var words = props.snake.taunt || state.lastTaunt;
 
         if (props.isDead) {
             words = 'Killed by ' + props.snake.killed_by;
+        }
+
+        if (words && words.length > 53) {
+            words = words.substring(0, 50) + '...';
         }
 
         if (state.lastTaunt === words) {
@@ -372,9 +376,17 @@ var GameListItem = React.createClass({displayName: "GameListItem",
         var path = '/play/games/' + this.props.game._id
 
         return (
-            React.createElement("div", {className: "game-summary"}, 
-                React.createElement("a", {href: path}, 
-                    React.createElement("h2", null, this.props.game._id)
+            React.createElement("table", {className: "table table-bordered game-summary"}, 
+                React.createElement("thead", null, 
+                    React.createElement("tr", null, 
+                    React.createElement("th", null, React.createElement("h1", null, React.createElement("a", {href: path}, this.props.game._id)))
+                    )
+                ), 
+                React.createElement("tbody", null, 
+                    React.createElement("tr", null, 
+                        React.createElement("td", null
+                        )
+                    )
                 )
             )
         )
@@ -421,6 +433,12 @@ var GameList = React.createClass({displayName: "GameList",
     render: function () {
         var playingGames = this.renderGameList(this.state.games.playing || [ ])
         var completedGames = this.renderGameList(this.state.games.done || [ ])
+
+        var noGamesMessage = React.createElement("span", null);
+
+        if (!playingGames.length) {
+            playingGames = React.createElement("p", null, "No games in progress");
+        }
 
         return (
             React.createElement("div", null, 

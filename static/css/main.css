@@ -180,16 +180,24 @@ a:hover {
 }
 
 .snake-block .taunt {
-    font-size: 18px;
+    font-size: 16px;
+    overflow: hidden;
     background-color: rgba(30, 30, 30, 0.9);
 	border: 1px solid #9e0000;
     position: absolute;
     text-align: center;
+    padding: 5px;
     padding-top: 12px;
     left: 60px;
     right: 0;
     top: 0;
     bottom: 0;
+}
+
+.game-summary h1 {
+    font-size: 18px;
+    text-transform: uppercase;
+    margin: 5px;
 }
 
 

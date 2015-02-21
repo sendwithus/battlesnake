@@ -207,7 +207,8 @@ class Engine(object):
 
         return {
             'move': move,
-            'snake_name': snake['name']
+            'snake_name': snake['name'],
+            'taunt': ''
         }
 
     @classmethod
@@ -232,6 +233,7 @@ class Engine(object):
 
             # Copy Old Snake
             new_snake = cls.copy_snake(game_state, snake_name)
+            new_snake['taunt'] = move['taunt']
 
             # If the snake is dead, ignore this move
             if not new_snake:

@@ -110,10 +110,13 @@ def get_moves(game_state, timeout):
                     # in current direction
                     _log('%s timed out' % snake['name'])
                     continue
+
                 moves.append({
                     'snake_name': snake['name'],  # Don't trust id from response
-                    'move': response['move']
+                    'move': response['move'],
+                    'taunt': response.get('taunt', '')
                 })
+
     return moves
 
 

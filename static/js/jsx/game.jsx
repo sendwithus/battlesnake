@@ -212,10 +212,14 @@ var GameSidebarSnake = React.createClass({
         }
     },
     handleTaunt: function (state, props) {
-        var words = props.snake.taunt;
+        var words = props.snake.taunt || state.lastTaunt;
 
         if (props.isDead) {
             words = 'Killed by ' + props.snake.killed_by;
+        }
+
+        if (words && words.length > 53) {
+            words = words.substring(0, 50) + '...';
         }
 
         if (state.lastTaunt === words) {
@@ -372,11 +376,19 @@ var GameListItem = React.createClass({
         var path = '/play/games/' + this.props.game._id
 
         return (
-            <div className="game-summary">
-                <a href={path}>
-                    <h2>{this.props.game._id}</h2>
-                </a>
-            </div>
+            <table className="table table-bordered game-summary">
+                <thead>
+                    <tr>
+                    <th><h1><a href={path}>{this.props.game._id}</a></h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         )
     }
 });
@@ -421,6 +433,12 @@ var GameList = React.createClass({
     render: function () {
         var playingGames = this.renderGameList(this.state.games.playing || [ ])
         var completedGames = this.renderGameList(this.state.games.done || [ ])
+
+        var noGamesMessage = <span></span>;
+
+        if (!playingGames.length) {
+            playingGames = <p>No games in progress</p>;
+        }
 
         return (
             <div>

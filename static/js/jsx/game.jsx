@@ -45,7 +45,7 @@ var Game = React.createClass({
             var next = function () {
                 this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
                 if (++framesCompleted < response.data.length && this.state.isReplay) {
-                    setTimeout(next, 250);
+                    setTimeout(next, 350);
                 }
             }.bind(this);
 
@@ -58,6 +58,7 @@ var Game = React.createClass({
         this.setState({ isReplay: false });
     },
     handleClickNextTurn: function () {
+        this.setState({ isLoading: true });
         $.ajax({
             type: 'POST',
             url: '/api/games/' + this.props.gameId + '/turn'
@@ -68,11 +69,16 @@ var Game = React.createClass({
     handleGameState: function (gameState, ignoreEnd) {
         if (this.isMounted()) {
             console.log('GAME STATE', gameState);
-            this.setState({ latestGameState: gameState });
+            this.state.latestGameState = gameState;
+            this.state.isLoading = false;
 
             if (gameState.is_done) {
                 $('#game-summary-modal').modal('show');
+                this.state.isReplay = false;
+                this.state.game.state = 'done';
             }
+
+            this.setState(this.state);
         }
     },
     handleClickContinuous: function () {
@@ -102,6 +108,11 @@ var Game = React.createClass({
 
                 if (this.isMounted() && shouldTick && !gameState.is_done) {
                     setTimeout(_, sleepFor);
+                }
+
+                if (gameState.is_done) {
+                    this.state.game.state = 'done';
+                    this.setState({ game: this.state.game });
                 }
             }.bind(this));
         }.bind(this);
@@ -146,6 +157,8 @@ var Game = React.createClass({
     getInitialState: function () {
         return {
             game: null,
+            isReplay: false,
+            isLoading: false,
             latestGameState: null
         };
     },
@@ -160,6 +173,7 @@ var Game = React.createClass({
                         gameId={this.props.gameId}
                         game={this.state.game}
                         isReplay={this.state.isReplay}
+                        isLoading={this.state.isLoading}
                         latestGameState={this.state.latestGameState}
                         continueous={this.handleClickContinuous}
                         startAutomated={this.handleStart.bind(null, false)}
@@ -182,7 +196,7 @@ var Game = React.createClass({
 var GameSidebarSnake = React.createClass({
     render: function () {
         var snakeStyles = {
-            'background-color': this.props.snake.color || 'red'
+            backgroundColor: this.props.snake.color || 'red'
         };
 
         return (
@@ -209,17 +223,20 @@ var GameSidebar = React.createClass({
     render: function () {
         var snakes = '';
 
-        if (this.props.latestGameState) {
-            var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-                return <GameSidebarSnake key={'a_' + i} snake={snake} />
-            });
+        if (!this.props.latestGameState) {
+            return <div></div>;
+        }
 
-            var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-                return <GameSidebarSnake key={'d_' + i} snake={snake} />
-            });
-            if (!deadSnakes.length) {
-                deadSnakes = <p>None Yet</p>;
-            }
+        var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
+            return <GameSidebarSnake key={'a_' + i} snake={snake} />
+        });
+
+        var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
+            return <GameSidebarSnake key={'d_' + i} snake={snake} />
+        });
+
+        if (!deadSnakes.length) {
+            deadSnakes = <p>None Yet</p>;
         }
 
 
@@ -236,15 +253,15 @@ var GameSidebar = React.createClass({
                     <br />
                     <br />
                     <button className="btn btn-info stretch" onClick={this.props.startManual}>
-                        Start Debug
+                        Start Debug (Step Through)
                     </button>
                 </div>
             );
         } else if (this.props.game.state === 'manual') {
             buttons = (
                 <div>
-                    <button className="btn btn-success stretch" onClick={this.props.nextTurn}>
-                        Next Turn
+                    <button className="btn btn-success stretch" onClick={this.props.nextTurn} disabled={this.props.isLoading}>
+                        {this.props.isLoading ? '...' : 'Play Turn ' + (this.props.latestGameState.turn + 1)}
                     </button>
                 </div>
             );
@@ -252,7 +269,7 @@ var GameSidebar = React.createClass({
             buttons = (
                 <div>
                     <button className="btn btn-success stretch" onClick={this.props.startReplay}>
-                        Replay
+                        View Replay
                     </button>
                 </div>
             );
@@ -268,7 +285,7 @@ var GameSidebar = React.createClass({
             buttons = (
                 <div>
                     <button className="btn btn-success stretch" onClick={this.props.resume}>
-                        Resume
+                        Resume Game
                     </button>
                 </div>
             );
@@ -277,7 +294,7 @@ var GameSidebar = React.createClass({
             buttons = (
                 <div>
                     <button className="btn btn-info stretch" onClick={this.props.pause}>
-                        Pause
+                        Pause Game
                     </button>
                 </div>
             );
@@ -444,7 +461,7 @@ var GameCreate = React.createClass({
                     <a href="#"
                         className="pull-right"
                         onClick={this.handleDeleteSnakeUrl.bind(null, i)}>
-                        X
+                        &times;
                     </a>
                     <p>{snakeUrl}</p>
                 </div>
@@ -508,7 +525,7 @@ var GameCreate = React.createClass({
                             <label>turn time</label>
                             <input type="number"
                                 step="0.1"
-                                min="0"
+                                min="0.6"
                                 className="form-control"
                                 placeholder="1.0 (seconds)"
                                 value={this.state.currentTimeout}

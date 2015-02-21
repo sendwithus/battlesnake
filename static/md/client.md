@@ -123,6 +123,8 @@ _Responses to this endpoint will be ignored._
 
 Describes the state of the board for a specific game. Board State Objects are comprised of a 2-Dimensional array of Board Tiles. This array is indexed to match board coordinates, such that the board tile for coordinates (1, 5) are accessible at _board[1][5]_. Board coordinates are 0-based.
 
+![board.jpg](/static/img/board.jpg)
+
 <br>
 
 ##### Example Board State

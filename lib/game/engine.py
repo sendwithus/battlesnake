@@ -22,6 +22,8 @@ class Engine(object):
     MOVE_LEFT = 'left'
     MOVE_RIGHT = 'right'
 
+    VALID_MOVES = [MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT]
+
     SNAKE_SACRIFICE = 'snake_sacrifice'
     WALL = 'wall'
     LARGE_NUMBER = 999999
@@ -217,18 +219,16 @@ class Engine(object):
 
         # Get moves for all snakes
         for snake in game_state.snakes:
+            move = cls.get_default_move(snake)
 
             # Find move for this snake
-            move = cls.get_default_move(snake)
             for m in moves:
-                if m['snake_id'] == snake['id']:
+                if m['snake_id'] == snake['id'] and m['move'] in cls.VALID_MOVES:
                     move = m
                     break
 
-            # Apply move
-
             action = move['move']
-            snake_id = move['snake_id']
+            snake_id = snake['id']
 
             # Copy Old Snake
             new_snake = cls.copy_snake(game_state, snake_id)

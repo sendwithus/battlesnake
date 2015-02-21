@@ -162,7 +162,7 @@ a:hover {
     margin-bottom: 10px;
     position: relative;
     padding-left: 60px;
-    height: 50px;
+    width: 100%;
 }
 
 .snake-block img {

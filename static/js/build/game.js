@@ -249,13 +249,19 @@ var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
             borderColor: this.props.isDead ? '#9e0000' : '#ABA700'
         };
 
+        var life = 101 - (this.props.turn - (this.props.snake.last_eaten || 0))
+
+        if (life < 0) {
+            life = 0;
+        }
+
         return (
             React.createElement("div", {className: "snake-block"}, 
                 React.createElement("img", {src: this.props.snake.head_url, style: snakeStyles, ref: "head_img"}), 
                 React.createElement("h3", null, this.props.snake.name, " ", React.createElement("span", {className: "muted"}, "(", this.props.snake.coords.length, ")")), 
                 React.createElement("div", {className: "meta"}, 
                     React.createElement("div", {className: "col"}, 
-                        "life: ", React.createElement("strong", null, 100 - (this.props.turn - (this.props.snake.last_eaten || 0)))
+                        "life: ", React.createElement("strong", null, life)
                     ), 
                     React.createElement("div", {className: "col"}, 
                         "food: ", this.props.snake.food_eaten || 0

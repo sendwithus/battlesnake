@@ -144,14 +144,14 @@ a:hover {
 
 .sidebar h1 {
     text-transform: uppercase;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .sidebar h2 {
     margin-top: 25px;
     font-size: 20px;
     background: #333;
-    padding: 5px;
+    padding: 5px 10px;
 }
 
 .sidebar h3 {

@@ -60,7 +60,7 @@ def create_game(snake_urls, width, height, turn_time):
                 snakes.append({
                     'url': snake_url,
                     'color': response['color'],
-                    'head_url': response.get('head_url', 'http://screenshots.en.sftcdn.net/en/scrn/3332000/3332933/snake-iii-3d-01-100x100.png'),
+                    'head_url': response.get('head_url', 'http://www.battlesnake.io/static/img/default_head.gif'),
                     'name': response['name'],
                     'taunt': response['taunt']
                 })

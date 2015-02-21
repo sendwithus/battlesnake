@@ -47,42 +47,18 @@ Board.prototype.init = function (width, height) {
 
   this.resize();
 
+  // <RENDER_IMAGES_HACK>
+  var timeout = setInterval(function () {
+      this.update(this.gameState);
+  }.bind(this), 30);
+
+  setTimeout(function () {
+      clearTimeout(timeout);
+  }.bind(this), 5000);
+  // </RENDER_IMAGES_HACK>
+
   window.onresize = this.resize.bind(this);
 };
-
-// Board.prototype.getGameId = function () {
-//   return this.gameState.id;
-// };
-//
-// Board.prototype.isGameOver = function () {
-//   return this.gameState.game_over;
-// };
-
-// Board.prototype.kick = function () {
-//   this.isStarted = true;
-//
-//   // DON'T KICK IF EXPECTING LOCAL INPUT
-//   if (this.testPlayer) { return; }
-//
-//   this.tick();
-// };
-//
-// Board.prototype.tick = function () {
-//   var that = this;
-//
-//   this.yell(false, function () {
-//     var soonestNextTick = that.lastTick + snakewithus.MOVE_DELTA;
-//     var delta = soonestNextTick - Date.now();
-//
-//     // Keep above 0
-//     delta = Math.max(0, delta);
-//
-//     setTimeout(function () {
-//       that.tick.call(that);
-//       that.lastTick = Date.now();
-//     }, delta);
-//   });
-// };
 
 Board.prototype.beginAnimation = function () {
   var that = this;
@@ -105,71 +81,11 @@ Board.prototype.animate = function () {
     }
   }
 };
-//
-// Board.prototype.yell = function (localPlayerMove, callback) {
-//   if (!this.isStarted || this.isGameOver()) { return; }
-//   var data = {
-//     game_id: this.gameState.id
-//   };
-//
-//   if (localPlayerMove) {
-//     data.local_player_move = {
-//       player_id: this.testPlayer.id,
-//       data: {
-//         move: localPlayerMove
-//       }
-//     };
-//   }
-//
-//   var that = this;
-//
-//   $.ajax({
-//     type: 'PUT',
-//     contentType: 'application/json',
-//     dataType: 'json',
-//     url: '/game.tick/'+this.getGameId(),
-//     data: JSON.stringify(data)
-//   }).done(function(gameState) {
-//     that.update(gameState);
-//     if (typeof callback === 'function') {
-//       callback();
-//     }
-//   });
-// };
 
-// Board.prototype.enableTestMode = function (testPlayer) {
-//   this.testPlayer = testPlayer || false;
-//
-//   var that = this;
-//   $('body').on('keydown', function (e) {
-//     that.localMove(e);
-//   });
-// };
-//
-// Board.prototype.localMove = function (e) {
-//   if (!this.testPlayer) { return; }
-//
-//   key = e.keyCode;
-//   if (key === snakewithus.KEYS.UP) {
-//     e.preventDefault();
-//     this.yell(snakewithus.DIRECTIONS.NORTH);
-//   } else if (key === snakewithus.KEYS.DOWN) {
-//     e.preventDefault();
-//     this.yell(snakewithus.DIRECTIONS.SOUTH);
-//   } else if (key === snakewithus.KEYS.LEFT) {
-//     e.preventDefault();
-//     this.yell(snakewithus.DIRECTIONS.WEST);
-//   } else if (key === snakewithus.KEYS.RIGHT) {
-//     e.preventDefault();
-//     this.yell(snakewithus.DIRECTIONS.EAST);
-//   }
-// };
-//
 Board.prototype.update = function (gameState) {
   this.gameState = gameState;
 
   this.canvas.width = this.canvas.width;
-  // console.log('UPDATE', gameState);
 
   var boardData = gameState.board;
 
@@ -211,13 +127,13 @@ Board.prototype.drawSquare = function (x, y, square) {
 
   // Draw body
   else if (square.state === snakewithus.SQUARE_TYPES.SNAKE) {
-    snake = this.getSnake(square.snake);
+    snake = this.getSnake(square.snake || square.snake_id);
     this.fillSquare(x, y, snake.getColor());
   }
 
   // Draw head
   else if (square.state === snakewithus.SQUARE_TYPES.SNAKE_HEAD) {
-    snake = this.getSnake(square.snake);
+    snake = this.getSnake(square.snake || square.snake_id);
     head = snake.getHeadImage();
     if (head) { this.drawImage(x, y, head); }
     else { this.fillSquare(x, y, snake.getHeadColor()); }
@@ -240,7 +156,7 @@ Board.prototype.getSnake = function (id) {
 
   for (var i = 0; i < this.gameState.snakes.length; i++) {
     var s = this.gameState.snakes[i];
-    if (s.name === id) {
+    if ((s.name || s.id) === id) {
       snake_data = s;
       break;
     }

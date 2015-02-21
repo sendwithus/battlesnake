@@ -207,6 +207,12 @@ var GameSidebarSnake = React.createClass({
         var newState = this.handleTaunt(this.state, nextProps);
         this.setState(newState);
     },
+    componentDidMount: function () {
+        var img = this.refs.head_img.getDOMNode();
+        img.onerror = function () {
+            this.setAttribute('src', 'http://www.battlesnake.io/static/img/default_head.gif');
+        }
+    },
     handleTaunt: function (state, props) {
         var words = props.snake.taunt;
 
@@ -243,8 +249,8 @@ var GameSidebarSnake = React.createClass({
 
         return (
             <div className="snake-block">
-                <img src={this.props.snake.head_url} />
-                <h3>{this.props.snake.name} <span className="kill-reason">{this.props.snake.killed_by}</span></h3>
+                <img src={this.props.snake.head_url} style={snakeStyles} ref='head_img' />
+                <h3>{this.props.snake.name}</h3>
                 <div className="row meta">
                     <div className="col-md-3">
                         len: {this.props.snake.coords.length}
@@ -365,9 +371,13 @@ var GameSidebar = React.createClass({
 
 var GameListItem = React.createClass({
     render: function () {
+        var path = '/play/games/' + this.props.game._id
+
         return (
             <div className="game-summary">
-
+                <a href={path}>
+                    <h2>{this.props.game._id}</h2>
+                </a>
             </div>
         )
     }
@@ -405,9 +415,8 @@ var GameList = React.createClass({
     },
     renderGameList: function (games) {
         return games.map(function (game, i) {
-            var path = '/play/games/' + game._id
             return (
-                <li key={game._id}><a href={path}>{game._id}</a></li>
+                <GameListItem key={game._id} game={game} />
             );
         });
     },
@@ -418,10 +427,14 @@ var GameList = React.createClass({
         return (
             <div>
                 <h2>In Progress</h2>
-                <ul>{playingGames}</ul>
+                <div className="games-list playing-games">
+                    {playingGames}
+                </div>
 
                 <h2>Finished Games</h2>
-                <ul>{completedGames}</ul>
+                <div className="games-list finished-games">
+                    {completedGames}
+                </div>
             </div>
         );
     }

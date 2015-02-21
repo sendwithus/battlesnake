@@ -207,6 +207,12 @@ var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
         var newState = this.handleTaunt(this.state, nextProps);
         this.setState(newState);
     },
+    componentDidMount: function () {
+        var img = this.refs.head_img.getDOMNode();
+        img.onerror = function () {
+            this.setAttribute('src', 'http://www.battlesnake.io/static/img/default_head.gif');
+        }
+    },
     handleTaunt: function (state, props) {
         var words = props.snake.taunt;
 
@@ -243,8 +249,8 @@ var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
 
         return (
             React.createElement("div", {className: "snake-block"}, 
-                React.createElement("img", {src: this.props.snake.head_url}), 
-                React.createElement("h3", null, this.props.snake.name, " ", React.createElement("span", {className: "kill-reason"}, this.props.snake.killed_by)), 
+                React.createElement("img", {src: this.props.snake.head_url, style: snakeStyles, ref: "head_img"}), 
+                React.createElement("h3", null, this.props.snake.name), 
                 React.createElement("div", {className: "row meta"}, 
                     React.createElement("div", {className: "col-md-3"}, 
                         "len: ", this.props.snake.coords.length
@@ -365,9 +371,13 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
 
 var GameListItem = React.createClass({displayName: "GameListItem",
     render: function () {
-        return (
-            React.createElement("div", {className: "game-summary"}
+        var path = '/play/games/' + this.props.game._id
 
+        return (
+            React.createElement("div", {className: "game-summary"}, 
+                React.createElement("a", {href: path}, 
+                    React.createElement("h2", null, this.props.game._id)
+                )
             )
         )
     }
@@ -405,9 +415,8 @@ var GameList = React.createClass({displayName: "GameList",
     },
     renderGameList: function (games) {
         return games.map(function (game, i) {
-            var path = '/play/games/' + game._id
             return (
-                React.createElement("li", {key: game._id}, React.createElement("a", {href: path}, game._id))
+                React.createElement(GameListItem, {key: game._id, game: game})
             );
         });
     },
@@ -418,10 +427,14 @@ var GameList = React.createClass({displayName: "GameList",
         return (
             React.createElement("div", null, 
                 React.createElement("h2", null, "In Progress"), 
-                React.createElement("ul", null, playingGames), 
+                React.createElement("div", {className: "games-list playing-games"}, 
+                    playingGames
+                ), 
 
                 React.createElement("h2", null, "Finished Games"), 
-                React.createElement("ul", null, completedGames)
+                React.createElement("div", {className: "games-list finished-games"}, 
+                    completedGames
+                )
             )
         );
     }

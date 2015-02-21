@@ -251,7 +251,7 @@ var GameSidebarSnake = React.createClass({displayName: "GameSidebarSnake",
 
         var life = 100 - (this.props.turn - (this.props.snake.last_eaten || 0))
 
-        if (life < 0) {
+        if (this.props.isDead || life < 0) {
             life = 0;
         }
 

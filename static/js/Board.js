@@ -205,13 +205,13 @@ Board.prototype.drawSquare = function (x, y, square) {
 
   // Draw body
   else if (square.state === snakewithus.SQUARE_TYPES.SNAKE) {
-    snake = this.getSnake(square.snake_id);
+    snake = this.getSnake(square.snake);
     this.fillSquare(x, y, snake.getColor());
   }
 
   // Draw head
   else if (square.state === snakewithus.SQUARE_TYPES.SNAKE_HEAD) {
-    snake = this.getSnake(square.snake_id);
+    snake = this.getSnake(square.snake);
     head = snake.getHeadImage();
     if (head) { this.drawImage(x, y, head); }
     else { this.fillSquare(x, y, snake.getHeadColor()); }
@@ -234,7 +234,7 @@ Board.prototype.getSnake = function (id) {
 
   for (var i = 0; i < this.gameState.snakes.length; i++) {
     var s = this.gameState.snakes[i];
-    if (s.id === id) {
+    if (s.name === id) {
       snake_data = s;
       break;
     }

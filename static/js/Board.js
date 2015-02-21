@@ -164,11 +164,7 @@ Board.prototype.getSnake = function (id) {
 
   for (var i = 0; i < this.gameState.snakes.length; i++) {
     var s = this.gameState.snakes[i];
-<<<<<<< HEAD
-    if (s.id === id) {
-=======
     if ((s.name || s.id) === id) {
->>>>>>> 43d303f04912b7633b3a04a093472ecffbfec0b7
       snake_data = s;
       break;
     }

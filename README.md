@@ -120,10 +120,10 @@ $300 Cash, Swag Pack
 $200, Swag Pack
 
 #### Heroku Award 
-Heroku Longboard (Register Here)[heroku.getfeedback.com/battlesnake]
+Heroku Longboard [Register Here](heroku.getfeedback.com/battlesnake)
 
 #### Dropbox Award
-1TB Dropbox Space (Register Here)[http://bit.ly/dropbox-battlesnake]
+1TB Dropbox Space [Register Here](http://bit.ly/dropbox-battlesnake)
 
 __Swag Pack Awards__
 * Hunger Games Snake (most food eaten)

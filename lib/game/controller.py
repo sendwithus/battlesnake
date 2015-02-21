@@ -136,6 +136,27 @@ def next_turn(game):
         raise Exception('No GameStates found for %s' % game)
 
 
+def end_game(game, game_state):
+    # Finalize the game
+    game.stats = generate_stats_object(game, game_state)
+    game.state = Game.STATE_DONE
+    game.save()
+
+    # Notify snakes
+    urls = []
+    for snake in game_state.snakes:
+        urls.append('%s/end' % snake['url'])
+
+    payload = {
+        'game_id': game_state.game_id
+    }
+
+    responses = AsyncCall(payload, urls, game.turn_time * 5)
+    # Ignore responses. Suckers.
+
+    return
+
+
 def run_game(game):
 
     def sigterm_handler(*args, **kwargs):
@@ -180,9 +201,8 @@ def run_game(game):
         _log('finished turn: %s' % new_game_state)
 
         if new_game_state.is_done:
-            game.stats = generate_stats_object(game, new_game_state)
-            game.state = Game.STATE_DONE
-            game.save()
+            end_game(game, new_game_state)
+
         else:
             # Wait at least
             elasped_time = time.time() - start_time

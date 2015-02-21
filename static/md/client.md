@@ -26,7 +26,9 @@ Since game IDs may be re-used, this endpoint may be called multiple times with t
 
 ```javascript
 {
-  "game_id": "hairy-cheese"
+  "game_id": "hairy-cheese",
+  "width: X,
+  "height: Y
 }
 ```
 

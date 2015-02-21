@@ -252,16 +252,16 @@ var GameSidebarSnake = React.createClass({
         return (
             <div className="snake-block">
                 <img src={this.props.snake.head_url} style={snakeStyles} ref='head_img' />
-                <h3>{this.props.snake.name}</h3>
-                <div className="row meta">
-                    <div className="col-md-3">
-                        len: {this.props.snake.coords.length}
+                <h3>{this.props.snake.name} <span className="muted">({this.props.snake.coords.length})</span></h3>
+                <div className="meta">
+                    <div className="col">
+                        life: <strong>{100 - (this.props.turn - (this.props.snake.last_eaten || 0))}</strong>
                     </div>
-                    <div className="col-md-3">
-                        kills: {this.props.snake.kills || 0}
-                    </div>
-                    <div className="col-md-3">
+                    <div className="col">
                         food: {this.props.snake.food_eaten || 0}
+                    </div>
+                    <div className="col">
+                        kills: {this.props.snake.kills || 0}
                     </div>
                 </div>
                 <div className="taunt" style={tauntStyles}>{this.state.tauntToShow}</div>
@@ -279,12 +279,12 @@ var GameSidebar = React.createClass({
         }
 
         var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-            return <GameSidebarSnake key={snake.name} snake={snake} isDead={false} />
-        });
+            return <GameSidebarSnake key={snake.name} snake={snake} isDead={false} turn={this.props.latestGameState.turn} />
+        }.bind(this));
 
         var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-            return <GameSidebarSnake key={snake.name} snake={snake} isDead={true} />
-        });
+            return <GameSidebarSnake key={snake.name} snake={snake} isDead={true} turn={this.props.latestGameState.turn} />
+        }.bind(this));
 
         if (!deadSnakes.length) {
             deadSnakes = <p>None Yet</p>;

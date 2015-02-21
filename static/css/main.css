@@ -178,6 +178,12 @@ a:hover {
 .snake-block .meta {
     color: #999;
 }
+.snake-block .col {
+    padding: 0;
+    text-align: center;
+    width: 33%;
+    display: inline-block;
+}
 
 .snake-block .taunt {
     font-size: 16px;

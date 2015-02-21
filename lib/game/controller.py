@@ -234,14 +234,17 @@ def generate_stats_object(game, game_state):
     deadliest = None
 
     for snake in all_snakes:
+        kills = snake.get('kills', 0)
+        food_eaten = snake.get('food_eaten', 0)
+        length = len(snake['coords'])
 
-        if not longest or len(snake['coords']) > longest['coords']:
+        if not longest or length > longest['coords']:
             longest = snake
 
-        if not hungriest or snake.get('food_eaten', 0) > 0 > hungriest['food_eaten']:
+        if not hungriest or food_eaten > 0 and food_eaten > hungriest.get('food_eaten', 0):
             hungriest = snake
 
-        if not deadliest or snake.get('kills', 0) > 0 > deadliest['kills']:
+        if not deadliest or kills > 0 and kills > deadliest.get('kills', 0):
             deadliest = snake
 
         # Group all the snake names
@@ -249,6 +252,7 @@ def generate_stats_object(game, game_state):
 
     stats['snakes'] = all_snakes
     stats['longest'] = longest['name']
+    stats['deadliest'] = longest['name']
     stats['hungriest'] = hungriest['name']
 
     # Find the winner

@@ -37,6 +37,9 @@ class AsyncCall(object):
 
         headers = {'content-type': 'application/json'}
         response = requests.post(url, data=json.dumps(self._payload), headers=headers)
+        print '----------------------'
+        print response
+        print '----------------------'
 
         if response.status_code == 200:
             try:

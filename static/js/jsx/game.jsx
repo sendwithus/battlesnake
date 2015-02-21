@@ -139,20 +139,17 @@ var Game = React.createClass({
     componentDidUpdate: function (prevProps, prevState) {
         if (!this.state.latestGameState) { return; }
 
-        var board = this.getBoard();
-
-        board.init(this.state.game.width, this.state.game.height);
-        board.update(this.state.latestGameState);
-        // $('#game-summary-modal').modal('show');
-    },
-    getBoard: function () {
         if (!this.board) {
-            var canvas = this.refs.canvas.getDOMNode();
-            var ctx = canvas.getContext('2d');
-            this.board = new Board(ctx, canvas);
+            this.board = this.getBoard();
+            this.board.init(this.state.game.width, this.state.game.height);
         }
 
-        return this.board;
+        this.board.update(this.state.latestGameState );
+    },
+    getBoard: function () {
+        var canvas = this.refs.canvas.getDOMNode();
+        var ctx = canvas.getContext('2d');
+        return new Board(ctx, canvas);
     },
     getInitialState: function () {
         return {
@@ -195,28 +192,47 @@ var Game = React.createClass({
 
 var GameSidebarSnake = React.createClass({
     getInitialState: function () {
-        return {
+        var state = {
             lastTaunt: this.props.snake.taunt,
             tauntToShow: this.props.snake.taunt,
-            tauntCount: 0,
+            tauntCount: 0
         };
+
+        return this.handleTaunt(state, this.props);
     },
     componentWillReceiveProps: function (nextProps) {
-        if (this.state.lastTaunt === nextProps.snake.taunt) {
+        var newState = this.handleTaunt(this.state, nextProps);
+        this.setState(newState);
+    },
+    componentDidMount: function () {
+        var img = this.refs.head_img.getDOMNode();
+        img.onerror = function () {
+            this.setAttribute('src', 'http://www.battlesnake.io/static/img/default_head.gif');
+            this.onerror = undefined;
+        }
+    },
+    handleTaunt: function (state, props) {
+        var words = props.snake.taunt;
+
+        if (props.isDead) {
+            words = 'Killed by ' + props.snake.killed_by;
+        }
+
+        if (state.lastTaunt === words) {
             // Taunt is the same
-            this.state.tauntCount++;
+            state.tauntCount++;
         } else {
-            this.state.tauntCount = 0;
-            this.state.lastTaunt = nextProps.snake.taunt;
+            state.tauntCount = 0;
+            state.lastTaunt = words;
         }
 
-        if (this.state.tauntCount > 5) {
-            this.state.tauntToShow = '';
+        if (state.tauntCount > 5) {
+            state.tauntToShow = '';
         } else {
-            this.state.tauntToShow = nextProps.snake.taunt;
+            state.tauntToShow = words;
         }
 
-        this.setState(this.state);
+        return state;
     },
     render: function () {
         var snakeStyles = {
@@ -225,13 +241,14 @@ var GameSidebarSnake = React.createClass({
 
         var tauntStyles = {
             display: this.state.tauntToShow ? 'block' : 'none',
-            opacity: 1.3 - (this.state.tauntCount / 10)
+            opacity: 1.3 - (this.state.tauntCount / 10),
+            borderColor: this.props.isDead ? '#9e0000' : '#ABA700'
         };
 
         return (
             <div className="snake-block">
-                <img src={this.props.snake.head_url} style={snakeStyles} />
-                <h3>{this.props.snake.name} <span className="kill-reason">{this.props.snake.killReason}</span></h3>
+                <img src={this.props.snake.head_url} style={snakeStyles} ref='head_img' />
+                <h3>{this.props.snake.name}</h3>
                 <div className="row meta">
                     <div className="col-md-3">
                         len: {this.props.snake.coords.length}
@@ -258,11 +275,11 @@ var GameSidebar = React.createClass({
         }
 
         var aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-            return <GameSidebarSnake key={snake.name} snake={snake} />
+            return <GameSidebarSnake key={snake.name} snake={snake} isDead={false} />
         });
 
         var deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-            return <GameSidebarSnake key={snake.name} snake={snake} />
+            return <GameSidebarSnake key={snake.name} snake={snake} isDead={true} />
         });
 
         if (!deadSnakes.length) {
@@ -352,9 +369,13 @@ var GameSidebar = React.createClass({
 
 var GameListItem = React.createClass({
     render: function () {
+        var path = '/play/games/' + this.props.game._id
+
         return (
             <div className="game-summary">
-
+                <a href={path}>
+                    <h2>{this.props.game._id}</h2>
+                </a>
             </div>
         )
     }
@@ -392,9 +413,8 @@ var GameList = React.createClass({
     },
     renderGameList: function (games) {
         return games.map(function (game, i) {
-            var path = '/play/games/' + game._id
             return (
-                <li key={game._id}><a href={path}>{game._id}</a></li>
+                <GameListItem key={game._id} game={game} />
             );
         });
     },
@@ -405,10 +425,14 @@ var GameList = React.createClass({
         return (
             <div>
                 <h2>In Progress</h2>
-                <ul>{playingGames}</ul>
+                <div className="games-list playing-games">
+                    {playingGames}
+                </div>
 
                 <h2>Finished Games</h2>
-                <ul>{completedGames}</ul>
+                <div className="games-list finished-games">
+                    {completedGames}
+                </div>
             </div>
         );
     }
@@ -454,8 +478,12 @@ var GameCreate = React.createClass({
     },
     handleSubmitSnake: function (e) {
         e.preventDefault();
+        var snakeUrl  = this.state.currentSnakeUrl;
         var snakeUrls = this.state.snakeUrls;
-        snakeUrls.push(this.state.currentSnakeUrl);
+        if (!snakeUrl.match(/^[a-zA-Z]+:\/\//)) {
+            snakeUrl = 'http://' + snakeUrl;
+        }
+        snakeUrls.push(snakeUrl.toLowerCase());
         this.setState({ snakeUrls: snakeUrls, currentSnakeUrl: '' });
     },
     handleSnakeUrlChange: function (e) {

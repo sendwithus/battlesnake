@@ -1,0 +1,2 @@
+#!/bin/bash
+nosetests lib.game.tests --verbosity 2

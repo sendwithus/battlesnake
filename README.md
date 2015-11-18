@@ -1,4 +1,6 @@
-# BattleSnake 2016
+BattleSnake 2016
+================
+
 #### presented by [sendwithus](https://www.sendwithus.com)
 
 BattleSnake is a programming competition held in Victoria BC.
@@ -21,3 +23,4 @@ __2015 Starter Snakes__
 * [Ruby](http://github.com/sendwithus/battlesnake-ruby)
 * [Go](http://github.com/sendwithus/battlesnake-go)
 * [Clojure](https://github.com/sendwithus/battlesnake-clojure)
+

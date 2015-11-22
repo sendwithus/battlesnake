@@ -8,16 +8,22 @@ __mongo = None
 
 
 def __init_connection():
+    # comma-separated list of host[:port]
+    hosts = os.environ.get('MONGODB_HOSTS', 'localhost')
+    replica_set = os.environ.get('MONGODB_REPLICA_SET')
     username = os.environ.get('MONGODB_USERNAME')
     password = os.environ.get('MONGODB_PASSWORD')
 
     if username and password:
-        url = 'mongodb://%s:%s@candidate.48.mongolayer.com:10146,candidate.11.mongolayer.com:10639/%s' % (
-            username, password, MONGODB_DATABASE
+        url = 'mongodb://{username}:{password}@{hosts}/{db}'.format(
+            hosts=hosts,
+            username=username,
+            password=password,
+            db=MONGODB_DATABASE,
         )
-        client = MongoReplicaSetClient(url, replicaSet='set-54def1ba0a1d8017550006f3')
+        client = MongoReplicaSetClient(url, replicaSet=replica_set)
     else:
-        client = MongoClient('localhost')
+        client = MongoClient(hosts)
 
     return client[MONGODB_DATABASE]
 

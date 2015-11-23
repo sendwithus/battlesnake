@@ -107,8 +107,7 @@ def game_pause(game_id):
 @bottle.put('/api/games/:game_id/resume')
 def game_resume(game_id):
     game = Game.find_one({'_id': game_id})
-    game.state = Game.STATE_READY
-    game.save()
+    game.mark_ready()
     return _json_response(game.to_dict())
 
 

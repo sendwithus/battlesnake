@@ -5,6 +5,7 @@ from datetime import datetime
 import pymongo
 
 from lib.mongo import get_mongodb
+from lib.redis import Queue
 from lib.words import get_noun, get_adjective
 
 
@@ -79,6 +80,8 @@ class Game(Model):
     STATE_PLAYING = 'playing'
     STATE_DONE = 'done'
 
+    ready_queue = Queue('games:ready')
+
     def __init__(
             self,
             id=None,
@@ -125,6 +128,12 @@ class Game(Model):
 
         instance.add_timestamps(obj)
         return instance
+
+    def mark_ready(self):
+        """ Marks this game as ready for a worker to process """
+        self.state = Game.STATE_READY
+        self.save()
+        self.ready_queue.enqueue(self.id)
 
 
 class GameState(Model):

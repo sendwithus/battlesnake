@@ -46,8 +46,7 @@ def start_game(game_id, manual):
         game.state = Game.STATE_MANUAL
         game.save()
     else:
-        game.state = Game.STATE_READY
-        game.save()
+        game.mark_ready()
 
     return game
 
@@ -230,8 +229,7 @@ def run_game(game):
 
     def sigterm_handler(*args, **kwargs):
         if game.state == Game.STATE_PLAYING:
-            game.state = Game.STATE_READY
-            game.save()
+            game.mark_ready()
         _log('Handled SIGTERM for %s' % game)
         sys.exit(0)
 

@@ -17,7 +17,7 @@ function exiting() {
 # fork $n procs
 for i in $(seq 1 $NUM_PROCS); do
     echo "Starting worker #$i";
-    python -c "execfile('lib/worker.py')" &
+    python -u -c "execfile('lib/worker.py')" &
     PIDS+=($!)
     sleep 0.1
 done

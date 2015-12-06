@@ -1,17 +1,16 @@
 from __future__ import absolute_import
-import os
 
 from redis import StrictRedis
 
+import settings.redis
 
 __redis = None
 
 
 def __init_connection():
-    host = os.environ.get('REDIS_HOST', 'localhost')
-    db = int(os.environ.get('REDIS_DB', '0'))
-
-    return StrictRedis(host=host, db=db)
+    return StrictRedis(host=settings.redis.REDIS_HOST,
+            port=settings.redis.REDIS_PORT,
+            db=settings.redis.REDIS_DB)
 
 
 def get_redis():

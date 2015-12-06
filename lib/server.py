@@ -168,5 +168,8 @@ def game_states_list(game_id):
     return _json_response(data)
 
 
+from lib.routes import tournaments
+
+
 # Expose WSGI app
 application = app

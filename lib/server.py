@@ -168,5 +168,9 @@ def game_states_list(game_id):
     return _json_response(data)
 
 
+from lib.routes.teams import teams
+
+app.register_blueprint(teams)
+
 # Expose WSGI app
 application = app

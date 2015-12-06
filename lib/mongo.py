@@ -17,7 +17,7 @@ def __init_connection():
         )
         client = MongoReplicaSetClient(url, replicaSet='set-54def1ba0a1d8017550006f3')
     else:
-        client = MongoClient('localhost')
+        client = MongoClient('localhost:27017')
 
     return client[MONGODB_DATABASE]
 

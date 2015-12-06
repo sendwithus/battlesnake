@@ -1,0 +1,35 @@
+web:
+  build: .
+  command: python -m bottle --bind 0.0.0.0:8080 --reload lib.server
+  ports:
+    - "8080:8080"
+  links:
+    - mongo
+    - redis
+  volumes:
+    - ./:/src
+  environment:
+    - MONGODB_HOSTS=mongo
+    - REDIS_HOST=redis
+    - PORT=8080
+
+worker:
+  build: .
+  command: python -u lib/worker.py
+  links:
+    - mongo
+    - redis
+  volumes:
+    - ./:/src
+  environment:
+    - PYTHONPATH=/src
+    - MONGODB_HOSTS=mongo
+    - REDIS_HOST=redis
+
+mongo:
+  image: mongo:2.6
+  log_driver: none
+
+redis:
+  image: redis:2.8
+  log_driver: none

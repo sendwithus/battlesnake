@@ -76,7 +76,11 @@ TODO
     "mode": "advanced",
     "turn": 4,
     "snakes": [ <Snake>, <Snake>, ... ],
-    "board": [ <Board>, <Board>, ... ]
+    "board": [ 
+        [ <Board Status>, <Board Status>, ... ], 
+        [ <Board Status>, <Board Status>, ... ], 
+        ...
+    ]
 }
 ```
 
@@ -120,4 +124,19 @@ TODO
 ### Snake Objects
 
 ```json
+{
+    "name": "Snakebutt",
+    "status": "alive|dead",
+    "message": "Killed by ___" | "Moved north" | etc,
+    "taunt": "Let's rock!",
+    "age": 56,
+    "health": 83,
+    "coords": [ [x, y], [x, y], ... ],
+    "kills": 4,
+    "food": 12
+}
 ```
+
+### Board Statuses
+
+`"empty", "food", "snake", "head"`

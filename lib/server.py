@@ -77,7 +77,7 @@ def games_create():
     })
 
 
-@app.route('/api/games/:game_id/start', methods=['POST'])
+@app.route('/api/games/<game_id>/start', methods=['POST'])
 def game_start(game_id):
     data = request.get_json()
 
@@ -91,7 +91,7 @@ def game_start(game_id):
     return _json_response(game.to_dict())
 
 
-@app.route('/api/games/:game_id/rematch', methods=['POST'])
+@app.route('/api/games/<game_id>/rematch', methods=['POST'])
 def game_rematch(game_id):
     try:
         game = controller.rematch_game(game_id)
@@ -101,7 +101,7 @@ def game_rematch(game_id):
     return _json_response(game.to_dict())
 
 
-@app.route('/api/games/:game_id/pause', methods=['PUT'])
+@app.route('/api/games/<game_id>/pause', methods=['PUT'])
 def game_pause(game_id):
     game = Game.find_one({'_id': game_id})
     game.state = Game.STATE_PAUSED
@@ -109,14 +109,14 @@ def game_pause(game_id):
     return _json_response(game.to_dict())
 
 
-@app.route('/api/games/:game_id/resume', methods=['PUT'])
+@app.route('/api/games/<game_id>/resume', methods=['PUT'])
 def game_resume(game_id):
     game = Game.find_one({'_id': game_id})
     game.mark_ready()
     return _json_response(game.to_dict())
 
 
-@app.route('/api/games/:game_id/turn', methods=['POST'])
+@app.route('/api/games/<game_id>/turn', methods=['POST'])
 def game_turn(game_id):
     game = Game.find_one({'_id': game_id})
     game_state = controller.next_turn(game)
@@ -143,13 +143,13 @@ def games_list():
     return _json_response(data)
 
 
-@app.route('/api/games/:game_id')
+@app.route('/api/games/<game_id>')
 def game_details(game_id):
     game = Game.find_one({'_id': game_id})
     return _json_response(game.to_dict())
 
 
-@app.route('/api/games/:game_id/gamestates/:game_state_id')
+@app.route('/api/games/<game_id>/gamestates/<game_state_id>')
 def game_states_details(game_id, game_state_id):
     if game_state_id == 'latest':
         game_state = GameState.find({'game_id': game_id}, limit=1)[0]
@@ -159,7 +159,7 @@ def game_states_details(game_id, game_state_id):
     return _json_response(game_state.to_dict())
 
 
-@app.route('/api/games/:game_id/gamestates')
+@app.route('/api/games/<game_id>/gamestates')
 def game_states_list(game_id):
     game_states = GameState.find({'game_id': game_id})
     data = []

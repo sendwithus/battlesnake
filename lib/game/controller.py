@@ -1,5 +1,3 @@
-import json
-import requests
 import signal
 import sys
 import time
@@ -11,8 +9,6 @@ from lib.game.engine import Engine
 from lib.game.models import Game, GameState
 from lib.log import get_logger
 
-import settings.slack
-
 
 BATTLESNAKE_URL = 'http://www.battlesnake.io/play/games'
 
@@ -20,19 +16,7 @@ logger = get_logger(__name__)
 
 
 def _update_slack(game_id, message):
-    if settings.slack.SLACK_HOOK_URL:
-        try:
-            payload = {
-                'text': '<%s/%s|%s> %s' % (
-                    BATTLESNAKE_URL, game_id, game_id, message
-                ),
-                'username': 'battlesnake-bot',
-                'icon_emoji': ":snake:"
-            }
-            headers = {'content-type': 'application/json'}
-            requests.post(settings.slack.SLACK_HOOK_URL, data=json.dumps(payload), headers=headers, timeout=2)
-        except:
-            pass
+    logger.slack('<%s/%s|%s> %s', BATTLESNAKE_URL, game_id, game_id, message)
 
 
 def start_game(game_id, manual):

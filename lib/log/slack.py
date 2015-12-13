@@ -33,7 +33,7 @@ class SlackLogFilter(logging.Filter):
 class SlackLogHandler(logging.Handler):
 
     def emit(self, record):
-        if settings.slack.SLACK_HOOK_URL:
+        if settings.slack.SLACK_WEBHOOK_URL:
             try:
                 headers = {
                     'content-type': 'application/json',
@@ -42,11 +42,11 @@ class SlackLogHandler(logging.Handler):
                     'text': self.format(record),
                     'username': 'logger.slack',
                     'icon_emoji': ':snake:',
-                    'channel': 'general'
+                    'channel': '#general'
                 }
 
                 requests.post(
-                    settings.slack.SLACK_HOOK_URL,
+                    settings.slack.SLACK_WEBHOOK_URL,
                     data=json.dumps(payload),
                     headers=headers
                 )

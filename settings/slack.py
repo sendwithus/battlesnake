@@ -1,3 +1,3 @@
 from os import environ
 
-SLACK_HOOK_URL = environ.get('SLACK_HOOK_URL', None)
+SLACK_WEBHOOK_URL = environ.get('SLACK_WEBHOOK_URL', None)

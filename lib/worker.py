@@ -2,26 +2,26 @@ import time
 
 import lib.game.controller as controller
 from lib.game.models import Game
+from lib.log import get_logger
 
 
-def _log(msg):
-    print "[worker] %s" % str(msg)
+logger = get_logger(__name__)
 
 
 def maybe_run_game():
     game_id = Game.ready_queue.dequeue(timeout=60)
     if not game_id:
-        _log("no game is ready")
+        logger.info('No game is ready')
         return
 
     game_to_run = Game.find_one({'_id': game_id})
     if not game_to_run:
-        _log("game not found: %s" % game_id)
+        logger.warning('Game not found: %s', game_id)
         return
 
-    _log("running game: %s" % game_to_run.id)
+    logger.info('Running game: %s', game_to_run.id)
     controller.run_game(game_to_run)
-    _log("finished game: %s" % game_to_run.id)
+    logger.info('Finished game: %s', game_to_run.id)
 
 
 def main():

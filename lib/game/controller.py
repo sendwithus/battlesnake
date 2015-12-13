@@ -6,13 +6,17 @@ import time
 
 from gevent import signal as gevent_signal
 
-from lib.game.engine import Engine
 from lib.caller import AsyncCall
+from lib.game.engine import Engine
 from lib.game.models import Game, GameState
+from lib.log import get_logger
+
 import settings.slack
 
 
 BATTLESNAKE_URL = 'http://www.battlesnake.io/play/games'
+
+logger = get_logger(__name__)
 
 
 def _update_slack(game_id, message):
@@ -29,10 +33,6 @@ def _update_slack(game_id, message):
             requests.post(settings.slack.SLACK_HOOK_URL, data=json.dumps(payload), headers=headers, timeout=2)
         except:
             pass
-
-
-def _log(msg):
-    print "[controller] %s" % str(msg)
 
 
 def start_game(game_id, manual):
@@ -169,7 +169,7 @@ def get_moves(game_state, timeout):
                         'move': None,
                         'taunt': '!! SNAKE ERROR !!'
                     })
-                    _log('%s timed out' % snake['name'])
+                    logger.info('%s time out', snake['name'])
                 else:
                     moves.append({
                         'snake_name': snake['name'],  # Don't trust id from response
@@ -229,7 +229,7 @@ def run_game(game):
     def sigterm_handler(*args, **kwargs):
         if game.state == Game.STATE_PLAYING:
             game.mark_ready()
-        _log('Handled SIGTERM for %s' % game)
+        logger.info('Handled SIGTERM for %s', game)
         sys.exit(0)
 
     gevent_signal(signal.SIGTERM, sigterm_handler)
@@ -243,7 +243,7 @@ def run_game(game):
     new_game_state = None
 
     # We have exclusive game access now
-    _log('starting game: %s' % game.id)
+    logger.info('Starting game: %s', game.id)
 
     while game.state != Game.STATE_DONE:
         start_time = time.time()
@@ -252,20 +252,20 @@ def run_game(game):
         game = game.refetch()
 
         if game.state == Game.STATE_PAUSED:
-            _log('paused: %s' % game)
+            logger.info('Paused game: %s', game)
             break
 
         if game.state != Game.STATE_PLAYING:
-            _log('aborted: %s' % new_game_state)
+            logger.info('Abored game: %s', game)
             break
 
         try:
             new_game_state = next_turn(game)
-        except Exception as e:
-            _log('failed to insert game state for %s: %s' % (game.id, e))
+        except Exception:
+            logger.exception('Failed to insert game state for %s', game)
             break
 
-        _log('finished turn: %s' % new_game_state)
+        logger.info('Finished turn: %s', new_game_state)
 
         if new_game_state.is_done:
             end_game(game, new_game_state)
@@ -274,10 +274,10 @@ def run_game(game):
             # Wait at least
             elasped_time = time.time() - start_time
             sleep_for = max(0, float(game.turn_time) - elasped_time)
-            _log('sleeping for %.2f: %s' % (sleep_for, new_game_state.id))
+            logger.info('Sleeping for %.2f: %s', sleep_for, new_game_state.id)
             time.sleep(sleep_for)
 
-    _log('done: %s' % new_game_state)
+    logger.info('Done: %s', new_game_state)
 
 
 def generate_stats_object(game, game_state):

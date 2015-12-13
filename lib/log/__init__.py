@@ -18,7 +18,7 @@ LOGGING_CONFIG = {
             'format': '%(message)s',
         },
         'standard': {
-            'format': '%(asctime)s [%(name)s.%(filename)s:%(lineno)d] [%(levelname)s] %(message)s',
+            'format': '%(asctime)s [%(levelname)s] [%(name)s:%(lineno)d] %(message)s',
         },
     },
     'loggers': {

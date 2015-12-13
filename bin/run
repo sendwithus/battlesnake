@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Remove pyc files first to be safe
+find . -name '*.pyc' -delete
+
+foreman start -f ${1:-Procfile_dev}

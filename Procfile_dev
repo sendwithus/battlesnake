@@ -1,2 +1,2 @@
-web: ./serve
-worker: ./work 4
+web: python -m bottle --reload lib.server
+worker: python lib/worker.py

@@ -1,4 +1,4 @@
-# BattleSnake 2016 - AI Documentation
+# BattleSnake AI Documentation
 
 ### GET /
 
@@ -76,9 +76,9 @@ TODO
     "mode": "advanced",
     "turn": 4,
     "snakes": [ <Snake>, <Snake>, ... ],
-    "board": [ 
-        [ <Board Status>, <Board Status>, ... ], 
-        [ <Board Status>, <Board Status>, ... ], 
+    "board": [
+        [ <Board Status>, <Board Status>, ... ],
+        [ <Board Status>, <Board Status>, ... ],
         ...
     ]
 }
@@ -103,7 +103,7 @@ TODO
 * **game** - ID of game being played
 * **mode** - Game mode, either `classic` or `advanced`
 * **snakes** - List of snakes, including their final status and position
- 
+
 ```json
 {
     "game": "hairy-cheese",

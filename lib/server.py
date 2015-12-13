@@ -162,5 +162,15 @@ def game_states_list(game_id):
         data.append(game_state.to_dict())
     return _json_response(data)
 
-# Expose WSGI app
+
+# Expose a WSGI app for gunicorn to use
 application = bottle.default_app()
+
+
+# Things to run locally
+def main():
+    # Run a debug server locally
+    bottle.run(host='localhost', port=8080, debug=True)  # reloader=True <-- this breaks things
+
+if __name__ == "__main__":
+    main()

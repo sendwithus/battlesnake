@@ -6,7 +6,7 @@ import time
 
 from gevent import signal as gevent_signal
 
-from lib.caller import AsyncCall
+# from lib.caller import AsyncCall
 from lib.game.engine import Engine
 from lib.game.models import Game, GameState
 from lib.log import get_logger
@@ -69,15 +69,16 @@ def create_game(snake_urls, width, height, turn_time):
 
     # Fetch snakes
     start_urls = [('%s/start' % url) for url in snake_urls]
-    responses = AsyncCall(
-        payload={
-            'game_id': game.id,
-            'width': width,
-            'height': height
-        },
-        urls=start_urls,
-        timeout=10  # Enough time for Heroku apps to wake up
-    ).start()
+    # responses = AsyncCall(
+    #     payload={
+    #         'game_id': game.id,
+    #         'width': width,
+    #         'height': height
+    #     },
+    #     urls=start_urls,
+    #     timeout=10  # Enough time for Heroku apps to wake up
+    # ).start()
+    responses = []
 
     # Any errors?
     for url, response in responses.items():
@@ -149,7 +150,7 @@ def get_moves(game_state, timeout):
         'snakes': game_state.snakes
     }
 
-    responses = AsyncCall(payload, urls, timeout).start()
+    responses = []  # AsyncCall(payload, urls, timeout).start()
 
     moves = []
 
@@ -209,7 +210,7 @@ def end_game(game, game_state):
         'game_id': game_state.game_id
     }
 
-    responses = AsyncCall(payload, urls, game.turn_time * 5)
+    responses = []  # AsyncCall(payload, urls, game.turn_time * 5)
     # Ignore responses. Suckers.
 
     if (len(game_state.snakes + game_state.dead_snakes) > 1):

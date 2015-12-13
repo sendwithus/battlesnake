@@ -4,7 +4,7 @@ from flask import (
     jsonify, send_from_directory,
 )
 
-from lib.game.models import Game, GameState
+from lib.models.game import Game, GameState
 from lib.game import controller
 
 

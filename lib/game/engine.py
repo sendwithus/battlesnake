@@ -32,7 +32,6 @@ class Engine(object):
     @classmethod
     def create_game_state(cls, game_id, width, height):
         game_state = GameState(game_id=game_id, width=width, height=height)
-        game_state.board = cls.create_board(width, height)
         return game_state
 
     @staticmethod
@@ -63,8 +62,8 @@ class Engine(object):
             diff = (mid / 2) + 1
             return [mid - diff, mid, mid + diff]
 
-        width_quarters = get_quarter_dimensions(len(game_state.board))
-        height_quarters = get_quarter_dimensions(len(game_state.board[0]))
+        width_quarters = get_quarter_dimensions(game_state.width)
+        height_quarters = get_quarter_dimensions(game_state.height)
 
         first_four = [
             [width_quarters[0], height_quarters[0]],  # top left
@@ -87,7 +86,7 @@ class Engine(object):
         # Place snakes
 
         for snake, coords in zip(snakes, starting_coords):
-            snake['coords'] = [coords for i in range(constants.SNAKE_STARTING_LENGTH)]
+            snake['coords'] = [coords for _ in range(constants.SNAKE_STARTING_LENGTH)]
 
         Engine.add_snakes_to_board(game_state, snakes)
 
@@ -130,11 +129,8 @@ class Engine(object):
                 return [half, half + 1]
             return [half]
 
-        width = len(game_state.board)
-        height = len(game_state.board[0])
-
-        for x in get_mid_coords(width):
-            for y in get_mid_coords(height):
+        for x in get_mid_coords(game_state.width):
+            for y in get_mid_coords(game_state.height):
                 game_state.food.append([x, y])
 
         return game_state
@@ -302,7 +298,7 @@ class Engine(object):
                 new_food.remove(food)
 
         # Create new_game_state using new_snakes and new_food
-        new_game_state = cls.create_game_state(game_state.game_id, len(game_state.board), len(game_state.board[0]))
+        new_game_state = cls.create_game_state(game_state.game_id, game_state.width, game_state.height)
         new_game_state.snakes = new_snakes
         new_game_state.dead_snakes = dead_snakes
         new_game_state.food = new_food
@@ -310,9 +306,6 @@ class Engine(object):
         new_game_state.turn = game_state.turn + 1
 
         cls.check_snake_starvation(new_game_state)
-
-        cls.update_food_on_board(new_game_state)
-        cls.update_snakes_on_board(new_game_state)
 
         # Add food every X turns
         if new_game_state.turn % constants.TURNS_PER_FOOD == 0:

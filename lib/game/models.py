@@ -183,31 +183,32 @@ class GameState(Model):
             self.id = '%s-%s' % (self.game_id, self.turn)
         return super(GameState, self).insert()
 
+    def get_board(self):
+        board = []
+        for x in range(self.width):
+            row = []
+            for y in range(self.height):
+                row.append({'state': GameState.TILE_STATE_EMPTY})
+            board.append(row)
+
+        for snake in self.snakes:
+            for i, coord in enumerate(snake['coords']):
+                if i == 0:
+                    board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_SNAKE_HEAD
+                else:
+                    board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_SNAKE_BODY
+                board[coord[0]][coord[1]]['snake'] = snake['name']
+
+        for coord in self.food:
+            board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_FOOD
+
+        return board
+
     def sanity_check(self):
         if not isinstance(self.game_id, basestring):
             raise ValueError('Sanity Check Failed: game_id not int, %s' % self.game_id)
         if not isinstance(self.turn, int):
             raise ValueError('Sanity Check Failed: turn is not int, %s' % self.turn)
-
-        # Board State
-        if not isinstance(self.board, list):
-            raise ValueError('Sanity Check Failed: board is not list, %s' % self.board)
-        row_size = None
-        for tile_row in self.board:
-            if not isinstance(tile_row, list):
-                raise ValueError('Sanity Check Failed: board.tile_row is not list, %s' % tile_row)
-
-            if not row_size:
-                row_size = len(tile_row)
-            if len(tile_row) != row_size:
-                raise ValueError('Sanity Check Failed: board.tile_row is wrong length')
-
-            for tile in tile_row:
-                if not isinstance(tile, dict):
-                    raise ValueError('Sanity Check Failed: board.tile is not dict' % tile)
-                if tile['state'] not in GameState.TILE_STATES:
-                    raise ValueError('Sanity Check Failed: board.tile has invalid state, %s' % (
-                        tile['state']))
 
         for snake in self.snakes:
             for coord in snake['coords']:
@@ -218,11 +219,11 @@ class GameState(Model):
                         raise ValueError('Sanity Check Failed: board.snakes contains overlapping coords.')
                 if coord in self.food:
                     raise ValueError('Sanity Check Failed: board.snakes and board.food contain overlapping coords.')
-                if coord[0] > (len(self.board) - 1):
+                if coord[0] > (self.width - 1):
                     raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
                 if coord[0] < 0:
                     raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
-                if coord[1] > (len(self.board[0]) - 1):
+                if coord[1] > (self.height - 1):
                     raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
                 if coord[1] < 0:
                     raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
@@ -238,19 +239,20 @@ class GameState(Model):
             'food': self.food[:],
             'width': self.width,
             'height': self.height,
+
+            # TODO: Remove the need to have this here
+            'board': self.get_board(),
         }
 
     @classmethod
     def from_dict(cls, obj):
-        game_state = cls(obj['game_id'])
+        game_state = cls(obj['game_id'], obj['width'], obj['height'])
         game_state.id = obj['_id']
         game_state.turn = obj['turn']
         game_state.is_done = obj['is_done']
         game_state.snakes = obj['snakes']
         game_state.dead_snakes = obj['dead_snakes']
         game_state.food = obj['food']
-        game_state.width = obj['width']
-        game_state.height = obj['height']
 
         game_state.sanity_check()
 

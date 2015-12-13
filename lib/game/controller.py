@@ -128,12 +128,12 @@ def create_game(snake_urls, width, height, turn_time):
     # Save the first GameState
     game_state.insert()
 
-    if (len(snakes) > 1):
+    if len(snakes) > 1:
         _update_slack(game.id, '%d brave snakes enter the grid: %s' % (
             len(snakes), ', '.join([s['name'] for s in snakes]))
         )
 
-    return (game, game_state)
+    return game, game_state
 
 
 def get_moves(game_state, timeout):
@@ -144,7 +144,7 @@ def get_moves(game_state, timeout):
     payload = {
         'game_id': game_state.game_id,
         'turn': game_state.turn,
-        'board': game_state.board,
+        'board': game_state.get_board(),
         'food': game_state.food,
         'snakes': game_state.snakes
     }

@@ -1,42 +1,50 @@
-import bottle
-import json
+from flask import (
+    Flask,
+    request,
+    jsonify, send_from_directory,
+)
 
 from lib.game.models import Game, GameState
 from lib.game import controller
 
 
+# Use hardcoded app name to ensure lib is not used for top-level directory
+app = Flask('battlesnake')
+
+
 def _json_response(data={}, msg=None, status=200):
-    body = json.dumps({
-        'data': data,
-        'message': msg
-    })
-
-    return bottle.HTTPResponse(
-        body,
-        status=status,
-        headers={'Content-Type': 'application/json'})
+    return jsonify(
+        data=data,
+        message=msg,
+    ), status, {'Content-Type': 'application/json'}
 
 
-@bottle.get('/')
+def _json_error(msg=None, status=400):
+    return jsonify(message=msg), status, {'Content-Type': 'application/json'}
+
+
+@app.route('/')
 def index():
-    return bottle.static_file('html/index.html', root='static')
+    return app.send_static_file('html/index.2015.html')
 
 
-@bottle.get('/play<:re:.*>')
-def page():
+@app.route('/play/')
+@app.route('/play/<path:path>')
+def page(path=None):
     # serve play.html for anything that starts with "play/"
-    # fontend with show the correct route
-    return bottle.static_file('html/play.html', root='static')
+    # frontend will show the correct route
+    return app.send_static_file('html/play.html')
 
 
-@bottle.get('/static/<filepath:path>')
-def server_static(filepath):
-    return bottle.static_file(filepath, root='static')
+@app.route('/static/<path:path>')
+def server_static(path):
+    # Flask has this built-in, but it's only active in dev
+    return send_from_directory('static', path)
 
 
-@bottle.post('/api/games')
+@app.route('/api/games', methods=['POST'])
 def games_create():
-    data = bottle.request.json
+    data = request.get_json()
 
     if data is None:
         return _json_response(msg='Invalid request body', status=400)
@@ -69,34 +77,31 @@ def games_create():
     })
 
 
-@bottle.post('/api/games/:game_id/start')
+@app.route('/api/games/<game_id>/start', methods=['POST'])
 def game_start(game_id):
-    data = bottle.request.json
-
-    if data is None:
-        return bottle.abort(400, 'No request body')
+    data = request.get_json()
 
     manual = data.get('manual')
 
     try:
         game = controller.start_game(game_id, manual)
     except Exception as e:
-        return bottle.abort(400, str(e))
+        return _json_error(str(e))
 
     return _json_response(game.to_dict())
 
 
-@bottle.post('/api/games/:game_id/rematch')
+@app.route('/api/games/<game_id>/rematch', methods=['POST'])
 def game_rematch(game_id):
     try:
         game = controller.rematch_game(game_id)
     except Exception as e:
-        return bottle.abort(400, str(e))
+        return _json_error(str(e))
 
     return _json_response(game.to_dict())
 
 
-@bottle.put('/api/games/:game_id/pause')
+@app.route('/api/games/<game_id>/pause', methods=['PUT'])
 def game_pause(game_id):
     game = Game.find_one({'_id': game_id})
     game.state = Game.STATE_PAUSED
@@ -104,14 +109,14 @@ def game_pause(game_id):
     return _json_response(game.to_dict())
 
 
-@bottle.put('/api/games/:game_id/resume')
+@app.route('/api/games/<game_id>/resume', methods=['PUT'])
 def game_resume(game_id):
     game = Game.find_one({'_id': game_id})
     game.mark_ready()
     return _json_response(game.to_dict())
 
 
-@bottle.post('/api/games/:game_id/turn')
+@app.route('/api/games/<game_id>/turn', methods=['POST'])
 def game_turn(game_id):
     game = Game.find_one({'_id': game_id})
     game_state = controller.next_turn(game)
@@ -119,7 +124,7 @@ def game_turn(game_id):
     return _json_response(game_state.to_dict())
 
 
-@bottle.get('/api/games')
+@app.route('/api/games')
 def games_list():
     games = Game.find({
         'is_live': True,
@@ -138,13 +143,13 @@ def games_list():
     return _json_response(data)
 
 
-@bottle.get('/api/games/:game_id')
+@app.route('/api/games/<game_id>')
 def game_details(game_id):
     game = Game.find_one({'_id': game_id})
     return _json_response(game.to_dict())
 
 
-@bottle.get('/api/games/:game_id/gamestates/:game_state_id')
+@app.route('/api/games/<game_id>/gamestates/<game_state_id>')
 def game_states_details(game_id, game_state_id):
     if game_state_id == 'latest':
         game_state = GameState.find({'game_id': game_id}, limit=1)[0]
@@ -154,7 +159,7 @@ def game_states_details(game_id, game_state_id):
     return _json_response(game_state.to_dict())
 
 
-@bottle.get('/api/games/:game_id/gamestates')
+@app.route('/api/games/<game_id>/gamestates')
 def game_states_list(game_id):
     game_states = GameState.find({'game_id': game_id})
     data = []
@@ -162,5 +167,6 @@ def game_states_list(game_id):
         data.append(game_state.to_dict())
     return _json_response(data)
 
+
 # Expose WSGI app
-application = bottle.default_app()
+application = app

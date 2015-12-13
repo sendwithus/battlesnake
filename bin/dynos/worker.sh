@@ -2,7 +2,7 @@
 # python lib/worker.py
 
 PIDS=() # store forked pids here
-NUM_PROCS=${1-1} # use $1 or default to 1
+NUM_PROCS=3  # Default to 3 procs
 
 trap exiting SIGINT SIGTERM
 function exiting() {

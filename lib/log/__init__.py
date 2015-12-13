@@ -1,37 +1,18 @@
 import logging
 import logging.config
-import sys
+
+from lib.log.config import LOGGING_CONFIG
+from lib.log.slack import install_slack_logger
 
 
-LOGGING_CONFIG = {
-    'version': 1,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'level': 'DEBUG',
-            'formatter': 'standard',
-            'stream': sys.stdout,
-        },
-    },
-    'formatters': {
-        'simple': {
-            'format': '%(message)s',
-        },
-        'standard': {
-            'format': '%(asctime)s [%(levelname)s] [%(name)s:%(lineno)d] %(message)s',
-        },
-    },
-    'loggers': {
-        '': {
-            'level': 'DEBUG',
-            'handlers': ['console']
-        },
-    }
-}
-
-
-logging.config.dictConfig(LOGGING_CONFIG)
+g_configured = False
 
 
 def get_logger(module_name):
+    global g_configured
+
+    if not g_configured:
+        install_slack_logger()
+        logging.config.dictConfig(LOGGING_CONFIG)
+
     return logging.getLogger(module_name)

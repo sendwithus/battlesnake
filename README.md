@@ -24,3 +24,28 @@ __2015 Starter Snakes__
 * [Go](http://github.com/sendwithus/battlesnake-go)
 * [Clojure](https://github.com/sendwithus/battlesnake-clojure)
 
+__Development Teams__
+* * *
+**FrontEnd** **[MS, WY]**
+* Canvas Rendering (JS) 
+* Control/View (REACT) **[HW, BB]**
+* Styling (HTML/CSS) **[HW, BB]**
+
+
+
+**BackEnd** **[CS, PM, CP]**
+* Data Access/OPS (Python) **[RO, DK]**
+* Game Logic (Python) **[JR, DK]**
+* Web (AJAX, routes)
+* Tournament Logic **[RO, JR, DK]**
+* "User" model **[RO, SL]**
+* Clients (Snakes) **[TM]**
+   * Node
+   * Java
+   * Python
+   * Go
+   * Clojure
+   * Ruby
+   * C#
+   * PHP
+* Stats

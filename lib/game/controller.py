@@ -1,5 +1,4 @@
 import json
-import os
 import requests
 import signal
 import sys
@@ -10,14 +9,14 @@ from gevent import signal as gevent_signal
 from lib.game.engine import Engine
 from lib.caller import AsyncCall
 from lib.game.models import Game, GameState
+import settings.slack
 
 
 BATTLESNAKE_URL = 'http://www.battlesnake.io/play/games'
-SLACK_HOOK_URL = os.environ.get('SLACK_HOOK_URL')
 
 
 def _update_slack(game_id, message):
-    if SLACK_HOOK_URL:
+    if settings.slack.SLACK_HOOK_URL:
         try:
             payload = {
                 'text': '<%s/%s|%s> %s' % (
@@ -27,7 +26,7 @@ def _update_slack(game_id, message):
                 'icon_emoji': ":snake:"
             }
             headers = {'content-type': 'application/json'}
-            requests.post(SLACK_HOOK_URL, data=json.dumps(payload), headers=headers, timeout=2)
+            requests.post(settings.slack.SLACK_HOOK_URL, data=json.dumps(payload), headers=headers, timeout=2)
         except:
             pass
 
@@ -46,8 +45,7 @@ def start_game(game_id, manual):
         game.state = Game.STATE_MANUAL
         game.save()
     else:
-        game.state = Game.STATE_READY
-        game.save()
+        game.mark_ready()
 
     return game
 
@@ -230,8 +228,7 @@ def run_game(game):
 
     def sigterm_handler(*args, **kwargs):
         if game.state == Game.STATE_PLAYING:
-            game.state = Game.STATE_READY
-            game.save()
+            game.mark_ready()
         _log('Handled SIGTERM for %s' % game)
         sys.exit(0)
 

@@ -31,8 +31,7 @@ class Engine(object):
 
     @classmethod
     def create_game_state(cls, game_id, width, height):
-        game_state = GameState(game_id=game_id, width=width, height=height)
-        return game_state
+        return GameState(game_id=game_id, width=width, height=height)
 
     @staticmethod
     def create_board(width, height):

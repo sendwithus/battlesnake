@@ -144,7 +144,7 @@ def get_moves(game_state, timeout):
     payload = {
         'game_id': game_state.game_id,
         'turn': game_state.turn,
-        'board': game_state.get_board(),
+        'board': game_state.generate_board(),
         'food': game_state.food,
         'snakes': game_state.snakes
     }

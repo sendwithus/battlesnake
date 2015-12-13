@@ -183,7 +183,7 @@ class GameState(Model):
             self.id = '%s-%s' % (self.game_id, self.turn)
         return super(GameState, self).insert()
 
-    def get_board(self):
+    def generate_board(self):
         board = []
         for x in range(self.width):
             row = []
@@ -241,7 +241,7 @@ class GameState(Model):
             'height': self.height,
 
             # TODO: Remove the need to have this here
-            'board': self.get_board(),
+            'board': self.generate_board(),
         }
 
     @classmethod

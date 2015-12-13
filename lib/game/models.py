@@ -14,21 +14,23 @@ logger = logging.getLogger(__name__)
 
 class Model(object):
 
+    def __init__(self):
+        self.id = None
+        self.created = None
+        self.modified = None
+
     def __unicode__(self):
         return '%s[%s]' % (self.__class__.__name__, self.id)
 
     def __str__(self):
-        if hasattr(self, '__unicode__'):
-            return self.__unicode__().encode('utf-8')
-        else:
-            return super(Game, self).__str__()
+        return self.__unicode__().encode('utf-8')
 
     def __repr__(self):
         return self.__str__()
 
-    @classmethod
-    def _get_collection(cls):
-        return get_mongodb()[cls.__name__.lower()]
+    def _add_timestamps(self, obj):
+        self.created = obj['created']
+        self.modified = obj['modified']
 
     def refetch(self):
         return self.find_one({'_id': self.id})
@@ -45,9 +47,12 @@ class Model(object):
         doc['created'] = self.created
         self._get_collection().update({'_id': self.id}, doc, True)
 
-    def add_timestamps(self, obj):
-        self.created = obj['created']
-        self.modified = obj['modified']
+    def to_dict(self):
+        raise NotImplementedError
+
+    @classmethod
+    def _get_collection(cls):
+        return get_mongodb()[cls.__name__.lower()]
 
     @classmethod
     def find(cls, *args, **kwargs):
@@ -71,6 +76,10 @@ class Model(object):
             return cls.from_dict(doc)
         return None
 
+    @classmethod
+    def from_dict(cls, result):
+        raise NotImplementedError
+
 
 class Game(Model):
     STATE_CREATED = 'created'
@@ -88,20 +97,19 @@ class Game(Model):
             width=10,
             height=10,
             state=STATE_CREATED,
-            stats={},
+            stats=None,
             turn_time=2.0,
             is_live=True):
 
-        self.id = id or self._generate_id()
+        super(Game, self).__init__()
+
+        self.id = id or Game._generate_id()
         self.state = state
-        self.stats = stats
+        self.stats = stats or {}
         self.width = width
         self.height = height
         self.turn_time = turn_time
         self.is_live = is_live
-
-    def _generate_id(self):
-        return '%s-%s' % (get_adjective(), get_noun())
 
     def to_dict(self):
         return {
@@ -113,6 +121,19 @@ class Game(Model):
             'turn_time': self.turn_time,
             'is_live': self.is_live
         }
+
+    def mark_ready(self):
+        """
+        Mark game as ready for a worker to process
+        """
+
+        self.state = Game.STATE_READY
+        self.save()
+        self.ready_queue.enqueue(self.id)
+
+    @staticmethod
+    def _generate_id():
+        return '%s-%s' % (get_adjective(), get_noun())
 
     @classmethod
     def from_dict(cls, obj):
@@ -126,14 +147,8 @@ class Game(Model):
             is_live=obj.get('is_live', False)
         )
 
-        instance.add_timestamps(obj)
+        instance._add_timestamps(obj)
         return instance
-
-    def mark_ready(self):
-        """ Marks this game as ready for a worker to process """
-        self.state = Game.STATE_READY
-        self.save()
-        self.ready_queue.enqueue(self.id)
 
 
 class GameState(Model):
@@ -149,12 +164,16 @@ class GameState(Model):
         TILE_STATE_FOOD
     ]
 
-    def __init__(self, game_id):
+    def __init__(self, game_id, width, height):
+
+        super(GameState, self).__init__()
+
         self.id = None
         self.game_id = game_id
+        self.width = width
+        self.height = height
         self.turn = 0
         self.is_done = False
-        self.board = []
         self.snakes = []
         self.dead_snakes = []
         self.food = []
@@ -164,31 +183,32 @@ class GameState(Model):
             self.id = '%s-%s' % (self.game_id, self.turn)
         return super(GameState, self).insert()
 
+    def generate_board(self):
+        board = []
+        for x in range(self.width):
+            row = []
+            for y in range(self.height):
+                row.append({'state': GameState.TILE_STATE_EMPTY})
+            board.append(row)
+
+        for snake in self.snakes:
+            for i, coord in enumerate(snake['coords']):
+                if i == 0:
+                    board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_SNAKE_HEAD
+                else:
+                    board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_SNAKE_BODY
+                board[coord[0]][coord[1]]['snake'] = snake['name']
+
+        for coord in self.food:
+            board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_FOOD
+
+        return board
+
     def sanity_check(self):
         if not isinstance(self.game_id, basestring):
             raise ValueError('Sanity Check Failed: game_id not int, %s' % self.game_id)
         if not isinstance(self.turn, int):
             raise ValueError('Sanity Check Failed: turn is not int, %s' % self.turn)
-
-        # Board State
-        if not isinstance(self.board, list):
-            raise ValueError('Sanity Check Failed: board is not list, %s' % self.board)
-        row_size = None
-        for tile_row in self.board:
-            if not isinstance(tile_row, list):
-                raise ValueError('Sanity Check Failed: board.tile_row is not list, %s' % (tile_row))
-
-            if not row_size:
-                row_size = len(tile_row)
-            if len(tile_row) != row_size:
-                raise ValueError('Sanity Check Failed: board.tile_row is wrong length')
-
-            for tile in tile_row:
-                if not isinstance(tile, dict):
-                    raise ValueError('Sanity Check Failed: board.tile is not dict' % (tile))
-                if tile['state'] not in GameState.TILE_STATES:
-                    raise ValueError('Sanity Check Failed: board.tile has invalid state, %s' % (
-                        tile['state']))
 
         for snake in self.snakes:
             for coord in snake['coords']:
@@ -199,16 +219,14 @@ class GameState(Model):
                         raise ValueError('Sanity Check Failed: board.snakes contains overlapping coords.')
                 if coord in self.food:
                     raise ValueError('Sanity Check Failed: board.snakes and board.food contain overlapping coords.')
-                if coord[0] > (len(self.board) - 1):
+                if coord[0] > (self.width - 1):
                     raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
                 if coord[0] < 0:
                     raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
-                if coord[1] > (len(self.board[0]) - 1):
+                if coord[1] > (self.height - 1):
                     raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
                 if coord[1] < 0:
                     raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
-
-    # Serialize/Deserialize
 
     def to_dict(self):
         return {
@@ -216,61 +234,22 @@ class GameState(Model):
             'game_id': self.game_id,
             'is_done': self.is_done,
             'turn': self.turn,
-            'board': self.board[:],
             'snakes': self.snakes[:],
             'dead_snakes': self.dead_snakes[:],
-            'food': self.food[:]
+            'food': self.food[:],
+            'width': self.width,
+            'height': self.height,
+
+            # TODO: Remove the need to have this here
+            'board': self.generate_board(),
         }
-
-    def to_string(self):
-        self.sanity_check()
-
-        tile_map = {
-            GameState.TILE_STATE_EMPTY: '_',
-            GameState.TILE_STATE_FOOD: '*',
-            GameState.TILE_STATE_SNAKE_BODY: 'B',
-            GameState.TILE_STATE_SNAKE_HEAD: 'H'
-        }
-
-        output = ''
-
-        for y in range(len(self.board[0])):
-            for x in range(len(self.board)):
-                output += tile_map[self.board[x][y]['state']]
-            output += '\n'
-        output += '\n'
-
-        return output
-
-    def from_string(self, content):
-        self.board = []
-
-        tile_map = {
-            '_': GameState.TILE_STATE_EMPTY,
-            '*': GameState.TILE_STATE_FOOD,
-            'B': GameState.TILE_STATE_SNAKE_BODY,
-            'H': GameState.TILE_STATE_SNAKE_HEAD
-        }
-
-        for raw_row in [row for row in content.split('\n') if row]:
-            row = []
-
-            for raw_tile in raw_row:
-                row.append({
-                    'state': tile_map[raw_tile],
-                    'snake': None
-                })
-            self.board.append(row)
-
-        self.sanity_check()
 
     @classmethod
     def from_dict(cls, obj):
-        game_state = cls(obj['game_id'])
+        game_state = cls(obj['game_id'], obj['width'], obj['height'])
         game_state.id = obj['_id']
         game_state.turn = obj['turn']
         game_state.is_done = obj['is_done']
-        game_state.board = obj['board']
         game_state.snakes = obj['snakes']
         game_state.dead_snakes = obj['dead_snakes']
         game_state.food = obj['food']
@@ -278,3 +257,4 @@ class GameState(Model):
         game_state.sanity_check()
 
         return game_state
+

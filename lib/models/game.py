@@ -1,7 +1,7 @@
 import logging
 
 from lib.models.base import Model
-from lib.redis import Queue
+from lib.redis_client import Queue
 from lib.words import get_noun, get_adjective
 
 

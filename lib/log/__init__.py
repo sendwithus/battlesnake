@@ -5,14 +5,16 @@ from lib.log.config import LOGGING_CONFIG
 from lib.log.slack import install_slack_logger
 
 
-g_configured = False
+__configured = False
 
 
 def get_logger(module_name):
-    global g_configured
+    global __configured
 
-    if not g_configured:
+    if not __configured:
         install_slack_logger()
         logging.config.dictConfig(LOGGING_CONFIG)
+
+        __configured = True
 
     return logging.getLogger(module_name)

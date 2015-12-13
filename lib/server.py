@@ -162,5 +162,9 @@ def game_states_list(game_id):
         data.append(game_state.to_dict())
     return _json_response(data)
 
+
+from lib.routes import teams
+
+
 # Expose WSGI app
 application = bottle.default_app()

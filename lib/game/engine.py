@@ -31,7 +31,7 @@ class Engine(object):
 
     @classmethod
     def create_game_state(cls, game_id, width, height):
-        game_state = GameState(game_id=game_id)
+        game_state = GameState(game_id=game_id, width=width, height=height)
         game_state.board = cls.create_board(width, height)
         return game_state
 
@@ -51,12 +51,7 @@ class Engine(object):
 
     @staticmethod
     def add_snakes_to_board(game_state, snakes):
-        # Add snakes to .snakes
         game_state.snakes = snakes
-
-        # Add snakes to .board
-        Engine.update_snakes_on_board(game_state)
-
         return game_state
 
     @staticmethod
@@ -109,16 +104,21 @@ class Engine(object):
 
     @staticmethod
     def add_random_food_to_board(game_state):
-        if len(game_state.food) < constants.MAX_FOOD_ON_BOARD:
-            empty_tile_coords = [
-                [x, y]
-                for (x, y, tile) in _board_iterator(
-                    game_state.board,
-                    state_filter=GameState.TILE_STATE_EMPTY
-                )
-            ]
-            if empty_tile_coords:
-                Engine.add_food_to_board(game_state, random.choice(empty_tile_coords))
+        if len(game_state.food) >= constants.MAX_FOOD_ON_BOARD:
+            return game_state
+
+        taken_tiles = []
+        taken_tiles += [snake['coords'] for snake in game_state.snakes]
+        taken_tiles += [food for food in game_state.food]
+
+        empty_tile_coords = []
+        for x in range(game_state.width):
+            for y in range(game_state.height):
+                if [x, y] not in taken_tiles:
+                    empty_tile_coords.append([x, y])
+
+        if empty_tile_coords:
+            game_state.food.append(random.choice(empty_tile_coords))
 
         return game_state
 
@@ -135,45 +135,9 @@ class Engine(object):
 
         for x in get_mid_coords(width):
             for y in get_mid_coords(height):
-                Engine.add_food_to_board(game_state, [x, y])
+                game_state.food.append([x, y])
 
         return game_state
-
-    @staticmethod
-    def add_food_to_board(game_state, food):
-        game_state.food.append(food)
-
-        Engine.set_coords(
-            game_state=game_state,
-            coords=food,
-            state=GameState.TILE_STATE_FOOD)
-
-        return game_state
-
-    @classmethod
-    def update_snakes_on_board(cls, game_state):
-        snakes = game_state.snakes
-        for snake in snakes:
-            for coords in snake['coords']:
-                if coords == snake['coords'][0]:
-                    state = GameState.TILE_STATE_SNAKE_HEAD
-                else:
-                    state = GameState.TILE_STATE_SNAKE_BODY
-
-                cls.set_coords(
-                    game_state=game_state,
-                    coords=coords,
-                    state=state,
-                    snake=snake['name'])
-
-    @staticmethod
-    def update_food_on_board(game_state):
-        food = game_state.food
-        for coords in food:
-            Engine.set_coords(
-                game_state=game_state,
-                coords=coords,
-                state=GameState.TILE_STATE_FOOD)
 
     @classmethod
     def get_default_move(cls, snake):
@@ -273,12 +237,12 @@ class Engine(object):
                 snake['killed_by'] = Engine.WALL
                 continue
 
-            if snake['coords'][0][0] >= len(game_state.board):
+            if snake['coords'][0][0] >= game_state.width:
                 kill.append(snake['name'])
                 snake['killed_by'] = Engine.WALL
                 continue
 
-            if snake['coords'][0][1] >= len(game_state.board[0]):
+            if snake['coords'][0][1] >= game_state.height:
                 kill.append(snake['name'])
                 snake['killed_by'] = Engine.WALL
                 continue

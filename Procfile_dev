@@ -1,2 +1,3 @@
 web: ./serve
 worker: ./work 4
+static: ./watch

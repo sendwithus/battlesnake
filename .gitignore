@@ -46,3 +46,6 @@ target/
 # IntelliJ Stuff
 *.iml
 .idea
+
+# Frontend
+static/js/build/.module-cache

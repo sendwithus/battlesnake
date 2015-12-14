@@ -6,7 +6,6 @@
     "clean": "rimraf dist",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "build": "npm run clean && npm run build:webpack",
-    "start": "./bin/run",
     "lint": "eslint src"
   },
   "repository": {

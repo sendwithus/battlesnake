@@ -4,7 +4,7 @@
 
 .white{color:#fff;}
 
-.white-2{color:7f7e7e;}
+.white-2{color:#7f7e7e;}
 
 .white-3{color:#4A4848;}
 
@@ -70,8 +70,9 @@ a{
 .btn:focus,
 .btn:active {
     outline: 0 !important;
-    box-shadow: none !important;
     -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
 }
 .btn.btn-success{
 	background: #F8F568;

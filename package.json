@@ -1,0 +1,38 @@
+{
+  "name": "battlesnake",
+  "version": "0.0.0",
+  "description": "Snakewithus",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
+    "build": "npm run clean && npm run build:webpack",
+    "start": "./serve",
+    "lint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sendwithus/battlesnake.git"
+  },
+  "author": "Battlesnake <us@battlesnake.io>",
+  "license": "WTFPL",
+  "homepage": "http://battlesnake.io",
+  "devDependencies": {
+    "babel-core": "^5.8.34",
+    "babel-eslint": "^4.1.6",
+    "babel-loader": "^5.4.0",
+    "babel-plugin-react-transform": "^1.1.1",
+    "eslint": "^1.10.3",
+    "eslint-plugin-react": "^3.11.3",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "redbox-react": "^1.2.0",
+    "rimraf": "^2.4.4",
+    "webpack": "^1.12.9",
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-hot-middleware": "^2.6.0"
+  },
+  "dependencies": {
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
+  }
+}

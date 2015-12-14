@@ -4,7 +4,7 @@ from flask import (
     jsonify, send_from_directory,
 )
 
-from lib.game.models import Game, GameState
+from lib.models.game import Game, GameState
 from lib.game import controller
 
 
@@ -167,6 +167,10 @@ def game_states_list(game_id):
         data.append(game_state.to_dict())
     return _json_response(data)
 
+
+from lib.routes.teams import teams
+
+app.register_blueprint(teams)
 
 # Expose WSGI app
 application = app

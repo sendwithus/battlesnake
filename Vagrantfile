@@ -21,9 +21,11 @@ Vagrant.configure(2) do |config|
 
      sudo apt-get install -y redis-server > /dev/null
      sudo sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf
+     sudo service redis-server restart
 
      sudo apt-get install -y mongodb-org > /dev/null
      sudo sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
+     sudo service mongodb restart
 
   SHELL
 end

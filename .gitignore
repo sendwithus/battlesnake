@@ -43,5 +43,9 @@ target/
 # Vagrant
 .vagrant
 
-# Static dist folder
-dist
+# IntelliJ Stuff
+*.iml
+.idea
+
+# Frontend static dist folder
+static/js/dist

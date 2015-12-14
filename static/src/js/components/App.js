@@ -1,15 +1,19 @@
 class App extends React.Component {
 
-  static mixins: [
-    ReactMiniRouter.RouterMixin
-  ]
+  constructor () {
+    super()
+    
+    this.mixins = [
+      ReactMiniRouter.RouterMixin
+    ]
 
-  static routes = {
-    '/': 'games',
-    '/play': 'play',
-    '/play/games': 'games',
-    '/play/new': 'create',
-    '/play/games/:gameId': 'game'
+    this.routes = {
+      '/': 'games',
+      '/play': 'play',
+      '/play/games': 'games',
+      '/play/new': 'create',
+      '/play/games/:gameId': 'game'
+    }
   }
 
   play () {

@@ -4,7 +4,7 @@
   "description": "Snakewithus",
   "scripts": {
     "clean": "rimraf dist",
-    "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
+    "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js --progress --colors --watch",
     "build": "npm run clean && npm run build:webpack",
     "lint": "eslint src"
   },

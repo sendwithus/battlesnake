@@ -48,4 +48,4 @@ target/
 .idea
 
 # Frontend static dist folder
-static/js/dist
+static/dist

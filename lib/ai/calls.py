@@ -19,13 +19,8 @@ class AIResponse(object):
         raise KeyError(name)
 
 
-def __build_urls(snakes, endpoint):
-    # For now, assume snakes are base URLs
-    return ['%s%s' % (snake_url, endpoint) for snake_url in snakes]
-
-
-def __call_urls(urls, method, payload):
-    start_time = time.time()
+def __call_urls(base_urls, method, endpoint, payload):
+    urls = ['%s%s' % (base_url, endpoint) for base_url in base_urls]
 
     if method == 'POST':
         headers = {
@@ -38,33 +33,61 @@ def __call_urls(urls, method, payload):
     else:
         raise Exception('Unknown method %s' % method)
 
+    start_time = time.time()
     responses = grequests.map(requests)
-
     end_time = time.time()
+
     logger.info("Called %d URLs in %.2fs", len(urls), end_time - start_time)
 
-    return responses
+    return [
+        (base_url, AIResponse(response.json()))
+        for base_url, response
+        in zip(base_urls, responses)
+    ]
 
 
-def whois(snakes):
-    urls = __build_urls(snakes, '/')
-    responses = __call_urls(urls, 'GET', None)
-    return [AIResponse(response.json()) for response in responses]
+def whois(snake_urls):
+    """
+    Response:
+        - name
+        - color
+        - head
+    """
+    return __call_urls(snake_urls, 'GET', '/', None)
 
 
-def start(snakes):
-    urls = __build_urls(snakes, '/start')
-    responses = __call_urls(urls, 'POST', {})
-    return [AIResponse(response.json()) for response in responses]
+def start(snake_urls, game, snakes):
+    """
+    Response:
+        - taunt
+    """
+    payload = {
+        'game': game.id,
+        'mode': 'classic',
+        'board': {
+            'height': game.height,
+            'width': game.width,
+        },
+        'snakes': [
+            {'name': snake['name']}
+            for snake in snakes
+        ]
+    }
+    return __call_urls(snake_urls, 'POST', '/start', payload)
 
 
-def move(snakes):
-    urls = __build_urls(snakes, '/move')
-    responses = __call_urls(urls, 'POST', {})
-    return [AIResponse(response.json()) for response in responses]
+def move(snake_urls):
+    """
+    Response:
+        - move
+        - taunt
+    """
+    return __call_urls(snake_urls, 'POST', '/move', {})
 
 
-def end(snakes):
-    urls = __build_urls(snakes, '/end')
-    responses = __call_urls(urls, 'POST', {})
-    return [AIResponse(response.json()) for response in responses]
+def end(snake_urls):
+    """
+    Response:
+        - taunt
+    """
+    return __call_urls(snake_urls, 'POST', '/end', {})

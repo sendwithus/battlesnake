@@ -4,7 +4,7 @@ import time
 
 from gevent import signal as gevent_signal
 
-# from lib.caller import AsyncCall
+import lib.ai as ai
 from lib.game.engine import Engine
 from lib.game.models import Game, GameState
 from lib.log import get_logger
@@ -45,62 +45,34 @@ def rematch_game(game_id):
     return create_game(snake_urls, game.width, game.height, game.turn_time)[0]
 
 
+def __create_snake(url, color='', name='', head='', taunt=''):
+    return {
+        'url': url,
+        'color': color,
+        'name': name,
+        'head': head,
+        'taunt': taunt,
+        'coords': [],
+    }
+
+
 def create_game(snake_urls, width, height, turn_time):
     if not snake_urls or len(snake_urls) == 0:
         raise Exception('No snake urls added. You need at least one...')
 
+    # Fetch info about each Snake
+    snakes = [
+        __create_snake(
+            url=snake_url,
+            color=response.color,
+            name=response.name,
+            head=response.head
+        )
+        for snake_url, response
+        in ai.whois(snake_urls)
+    ]
+
     game = Game(width=width, height=height, turn_time=turn_time)
-
-    # Fetch snakes
-    start_urls = [('%s/start' % url) for url in snake_urls]
-    # responses = AsyncCall(
-    #     payload={
-    #         'game_id': game.id,
-    #         'width': width,
-    #         'height': height
-    #     },
-    #     urls=start_urls,
-    #     timeout=10  # Enough time for Heroku apps to wake up
-    # ).start()
-    responses = []
-
-    # Any errors?
-    for url, response in responses.items():
-        if not response:
-            raise Exception('%s failed to respond' % url)
-
-        params = ['name', 'color']
-        for param in params:
-            if param not in response:
-                raise Exception('%s missing %s' % (url, param))
-
-    # Build snakes
-    snakes = []
-    for snake_url in snake_urls:
-
-        # Find the response for that snake
-        for url, response in responses.items():
-
-            # We matched! Now handle the response
-            if url.startswith(snake_url):
-
-                if response is None:
-                    # FREAK OUT
-                    raise Exception('failed to contact snake: %s' % url)
-
-                snake = {
-                    'url': snake_url,
-                    'color': response['color'],
-                    'head_url': response.get('head_url', 'http://www.battlesnake.io/static/img/default_head.gif'),
-                    'name': response['name'],
-                    'taunt': response['taunt']
-                }
-
-                if snake in snakes:
-                    raise Exception('cannot snake name "%s" more than once' % (snake['name']))
-
-                snakes.append(snake)
-
     game.insert()
 
     # Create the first GameState
@@ -109,6 +81,12 @@ def create_game(snake_urls, width, height, turn_time):
     # Init the first GameState
     Engine.add_random_snakes_to_board(game_state, snakes)
     Engine.add_starting_food_to_board(game_state)
+
+    # Notify snakes that we're about to start
+    for snake_url, response in ai.start(snake_urls, game, snakes):
+        for snake in game_state.snakes:
+            if snake_url == snake['url']:
+                snake['taunt'] = response.taunt
 
     # Save the first GameState
     game_state.insert()

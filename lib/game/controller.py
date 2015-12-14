@@ -48,11 +48,18 @@ def rematch_game(game_id):
 def __create_snake(url, color='', name='', head='', taunt=''):
     return {
         'url': url,
+        'status': 'alive',
+        'message': '',
+        'taunt': '',
+        'age': 0,
+        'health': 0,
         'color': color,
         'name': name,
         'head': head,
         'taunt': taunt,
         'coords': [],
+        'kills': 0,
+        'food': 0
     }
 
 
@@ -99,92 +106,54 @@ def create_game(snake_urls, width, height, turn_time):
     return game, game_state
 
 
-def get_moves(game_state, timeout):
-    urls = []
-    for snake in game_state.snakes:
-        urls.append('%s/move' % snake['url'])
+def get_moves(game, game_state):
+    snake_urls = [snake['url'] for snake in game_state.snakes]
 
-    payload = {
-        'game_id': game_state.game_id,
-        'turn': game_state.turn,
-        'board': game_state.generate_board(),
-        'food': game_state.food,
-        'snakes': game_state.snakes
-    }
-
-    responses = []  # AsyncCall(payload, urls, timeout).start()
-
-    moves = []
-
-    # For all snakes
-    for snake in game_state.snakes:
-
-        # Find the response for that snake
-        for url, response in responses.items():
-
-            # We matched! Now handle the response
-            if url.startswith(snake['url']):
-                if response is None:
-                    # Too bad for that snake. Engine should keep it moving
-                    # in current direction
-                    moves.append({
-                        'snake_name': snake['name'],  # Don't trust id from response
-                        'move': None,
-                        'taunt': '!! SNAKE ERROR !!'
-                    })
-                    logger.info('%s time out', snake['name'])
-                else:
-                    moves.append({
-                        'snake_name': snake['name'],  # Don't trust id from response
-                        'move': response.get('move', 'no_move'),
-                        'taunt': response.get('taunt', '')
-                    })
+    moves = [
+        {
+            'snake_url': snake_url,
+            'move': response.move,
+            'taunt': response.taunt
+        }
+        for snake_url, response
+        in ai.move(snake_urls, game_state)
+    ]
 
     return moves
 
 
 def next_turn(game):
     game_states = GameState.find({'game_id': game.id}, limit=1)
-
-    if len(game_states) > 0:
-        game_state = game_states[0]
-        moves = get_moves(game_state, game.turn_time * 5)
-        next_game_state = Engine.resolve_moves(game_state, moves)
-        next_game_state.insert()
-
-        return next_game_state
-    else:
+    if not game_states:
         raise Exception('No GameStates found for %s' % game)
+
+    game_state = game_states[0]
+
+    moves = get_moves(game, game_state)
+
+    next_game_state = Engine.resolve_moves(game_state, moves)
+    next_game_state.insert()
+
+    return next_game_state
 
 
 def end_game(game, game_state):
+    # Notify snakes that the game is over
+    snake_urls = [snake['url'] for snake in game_state.snakes]
+    for snake_url, response in ai.end(snake_urls, game, game_state):
+        for snake in game_state.snakes:
+            if snake_url == snake['url']:
+                snake['taunt'] = response.taunt
+
     # Finalize the game
     game.stats = generate_stats_object(game, game_state)
     game.state = Game.STATE_DONE
     game.save()
 
-    # Notify snakes
-    urls = []
     for snake in game_state.snakes:
-        urls.append('%s/end' % snake['url'])
-
-    payload = {
-        'game_id': game_state.game_id
-    }
-
-    responses = []  # AsyncCall(payload, urls, game.turn_time * 5)
-    # Ignore responses. Suckers.
-
-    if (len(game_state.snakes + game_state.dead_snakes) > 1):
-        lose_phrase = 'loses' if len(game_state.dead_snakes) == 1 else 'lose'
-        _update_slack(game.id, 'has been decided. %s wins after %d turns! %s %s.' % (
-            game.stats['winner'],
-            game_state.turn,
-            ', '.join([snake['name'] for snake in game_state.dead_snakes]),
-            lose_phrase
-        ))
-
-    return
+        if snake['status'] == 'alive':
+            _update_slack(game.id, '%s wins after %d turns!' % (snake['name'], game_state.turn))
+            break
 
 
 def run_game(game):

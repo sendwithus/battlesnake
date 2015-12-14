@@ -87,9 +87,7 @@ class Engine(object):
         for snake, coords in zip(snakes, starting_coords):
             snake['coords'] = [coords for _ in range(constants.SNAKE_STARTING_LENGTH)]
 
-        Engine.add_snakes_to_board(game_state, snakes)
-
-        return game_state
+        return Engine.add_snakes_to_board(game_state, snakes)
 
     @staticmethod
     def check_snake_starvation(game_state):

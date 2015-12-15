@@ -49,3 +49,6 @@ target/
 
 # Frontend
 static/js/build/.module-cache
+
+# virtualenv
+env/

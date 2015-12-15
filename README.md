@@ -38,7 +38,9 @@ This will walk you through setting up a game server instance. You probably don't
 
         $ CFLAGS='-std=c99' pip install -r requirements.txt
 
-6. We use foreman to actually run the server. It's bundled with the Heroku command line tools so you can [install those](https://devcenter.heroku.com/articles/heroku-command) or you can run `$ sudo gem install foreman`.
+6. We use foreman to run the game server. To install, you'll use Ruby's `gem`:
+
+        $ sudo gem install foreman
 
 7. With foreman installed, the python environment set up, and the vagrant VM setup finished, we're ready to run this shit!
 

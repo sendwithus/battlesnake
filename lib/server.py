@@ -215,6 +215,7 @@ def load_user(username):
     """
     return User.find_one({'username': username})
 
+from lib.routes import tournaments
 
 # Expose WSGI app
 application = app

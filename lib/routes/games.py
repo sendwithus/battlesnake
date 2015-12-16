@@ -1,6 +1,6 @@
 from flask import request
 
-from lib.game.models import Game, GameState
+from lib.models.game import Game, GameState
 from lib.game import controller
 
 

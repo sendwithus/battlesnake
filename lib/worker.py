@@ -1,7 +1,7 @@
 import time
 
 import lib.game.controller as controller
-from lib.game.models import Game
+from lib.models.game import Game
 from lib.log import get_logger
 
 

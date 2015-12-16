@@ -6,7 +6,7 @@ from flask.ext.login import (
 )
 
 from lib.server import _json_response, app
-from lib.game.models import Team
+from lib.models.team import Team
 
 import settings.secrets
 

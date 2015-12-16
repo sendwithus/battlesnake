@@ -1,4 +1,4 @@
-from models import Game
+from lib.models.game import Game
 from engine import Engine
 
 SNAKE_1 = {

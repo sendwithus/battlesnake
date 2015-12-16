@@ -259,41 +259,40 @@ class GameState(Model):
         return game_state
 
 
-class User(Model):
+class Team(Model):
 
-    def __init__(self, username):
-        super(User, self).__init__()
+    def __init__(self, teamname):
+        super(Team, self).__init__()
 
-        self.username = username
+        self.teamname = teamname
 
     def is_active(self):
-        """True, as all users are active."""
         return True
 
     def get_id(self):
-        """Return the username to satisfy Flask-Login's requirements."""
-        return self.username
+        return self.teamname
 
     def is_authenticated(self):
-        """Return True if the user is authenticated."""
         return True
 
     def is_anonymous(self):
-        """False, as anonymous users aren't supported."""
         return False
+
+    def check_password(self, password):
+        return password == 'password'
 
     def to_dict(self):
         return {
-            'username': self.username,
+            'teamname': self.teamname,
         }
 
     @classmethod
     def from_dict(cls, obj):
-        return cls(obj['username'])
+        return cls(obj['teamname'])
 
 
-# Create default user for testing if one doesn't exist
-default = User.find_one({'username': 'default'})
-if not default:
-    default = User('default')
-    default.save()
+# Create default team for testing if one doesn't exist
+default_team = Team.find_one({'teamname': 'default'})
+if not default_team:
+    default_team = Team('default')
+    default_team.save()

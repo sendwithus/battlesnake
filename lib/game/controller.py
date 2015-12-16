@@ -50,7 +50,6 @@ def __create_snake(url, color='', name='', head='', taunt=''):
         'url': url,
         'status': 'alive',
         'message': '',
-        'taunt': '',
         'age': 0,
         'health': 0,
         'color': color,
@@ -109,15 +108,11 @@ def create_game(snake_urls, width, height, turn_time):
 def get_moves(game, game_state):
     snake_urls = [snake['url'] for snake in game_state.snakes]
 
-    moves = [
-        {
-            'snake_url': snake_url,
-            'move': response.move,
-            'taunt': response.taunt
-        }
-        for snake_url, response
-        in ai.move(snake_urls, game_state)
-    ]
+    moves = [{
+        'snake_url': snake_url,
+        'move': response.move,
+        'taunt': response.taunt
+    } for snake_url, response in ai.move(snake_urls, game, game_state)]
 
     return moves
 

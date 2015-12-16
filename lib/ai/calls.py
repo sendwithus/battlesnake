@@ -19,6 +19,31 @@ class AIResponse(object):
         raise KeyError(name)
 
 
+def __game_to_dict(game):
+    return {
+        'game': game.id,
+        'mode': 'classic',
+        # 'turn': game.turn,
+        'height': game.height,
+        'width': game.width,
+    }
+
+
+def __snake_to_dict(snake):
+    # Note that we intentionally do not expose URL
+    return {
+        'name': snake['name'],
+        'status': snake['status'],
+        'message': snake['message'],
+        'taunt': snake['taunt'],
+        'age': snake['age'],
+        'health': snake['health'],
+        'coords': snake['coords'],
+        'kills': snake['kills'],
+        'food': snake['food']
+    }
+
+
 def __call_urls(base_urls, method, endpoint, payload):
     urls = ['%s%s' % (base_url, endpoint) for base_url in base_urls]
 
@@ -61,33 +86,32 @@ def start(snake_urls, game, snakes):
     Response:
         - taunt
     """
-    payload = {
-        'game': game.id,
-        'mode': 'classic',
-        'board': {
-            'height': game.height,
-            'width': game.width,
-        },
-        'snakes': [
-            {'name': snake['name']}
-            for snake in snakes
-        ]
-    }
+    payload = __game_to_dict(game)
+    payload['snakes'] = [{'name': snake['name']} for snake in snakes]
+
     return __call_urls(snake_urls, 'POST', '/start', payload)
 
 
-def move(snake_urls):
+def move(snake_urls, game, game_state):
     """
     Response:
         - move
         - taunt
     """
-    return __call_urls(snake_urls, 'POST', '/move', {})
+    payload = __game_to_dict(game)
+    payload['snakes'] = [__snake_to_dict(snake) for snake in game_state.snakes]
+    payload['board'] = []  # TODO
+    payload['food'] = []  # TODO
+
+    return __call_urls(snake_urls, 'POST', '/move', payload)
 
 
-def end(snake_urls):
+def end(snake_urls, game, game_state):
     """
     Response:
         - taunt
     """
-    return __call_urls(snake_urls, 'POST', '/end', {})
+    payload = __game_to_dict(game)
+    payload['snakes'] = [__snake_to_dict(snake) for snake in game_state.snakes]
+
+    return __call_urls(snake_urls, 'POST', '/end', payload)

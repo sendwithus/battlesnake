@@ -75,7 +75,7 @@ def teams_create():
     return _json_response(team.to_dict(), msg='Team created', status=201)
 
 
-@teams.route('/api/teams/<teamname>')
+@app.route('/api/teams/<teamname>')
 def team_details(teamname):
     """
     Get data for a single team.
@@ -94,7 +94,7 @@ def team_details(teamname):
     return _json_response(team.to_dict())
 
 
-@teams.route('/api/teams/<teamname>/members/<email>', methods=['PUT'])
+@app.route('/api/teams/<teamname>/members/<email>', methods=['PUT'])
 def team_member_create(teamname, email):
     """
     Add a new member to an existing team.

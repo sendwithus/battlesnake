@@ -3,7 +3,6 @@ from flask import (
     request,
     redirect,
     jsonify, send_from_directory,
-    flash,
 )
 
 from flask.ext.login import (
@@ -14,12 +13,13 @@ from flask.ext.login import (
 from lib.game.models import Game, GameState, User
 from lib.game import controller
 
+import settings.secrets
+
 
 # Use hardcoded app name to ensure lib is not used for top-level directory
 app = Flask('battlesnake')
 
-# Secret key set to appease the session framework
-app.secret_key = 'LOLLIPOP'
+app.secret_key = settings.secrets.SESSION_KEY
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -188,7 +188,7 @@ def signin():
         user = load_user(username)
 
         if user:
-            login_user(user) 
+            login_user(user)
             return redirect("/")
 
     return app.send_static_file('html/signin.html')

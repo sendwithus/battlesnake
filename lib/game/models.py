@@ -271,7 +271,7 @@ class User(Model):
         return True
 
     def get_id(self):
-        """Return the email address to satisfy Flask-Login's requirements."""
+        """Return the username to satisfy Flask-Login's requirements."""
         return self.username
 
     def is_authenticated(self):
@@ -292,7 +292,7 @@ class User(Model):
         return cls(obj['username'])
 
 
-# Create default user for testing
+# Create default user for testing if one doesn't exist
 default = User.find_one({'username': 'default'})
 if not default:
     default = User('default')

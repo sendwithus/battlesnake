@@ -187,20 +187,24 @@ def signin():
 
     if user and user.check_password(password):
         login_user(user)
-        return _json_response()
+        return _json_response(msg='Successfully signed in')
     else:
         return _json_response(msg='Incorrect username or password', status=401)
+# login_manager.login_view = 'signin'
 
-@app.route("/api/signout", methods=['GET', 'POST'])
+@app.route("/api/signout", methods=['POST'])
 @login_required
-def logout():
+def signout():
     logout_user()
-    return _json_response()
+    return _json_response(msg='Successfully signed out')
 
-@app.route('/api/authed')
+@app.route('/api/user')
 @login_required
-def auth_test():
-    return _json_response(msg='Hello, %s!' % current_user.username)
+def user_info():
+    return _json_response(data={
+        'username': current_user.username
+    })
+
 
 @login_manager.user_loader
 def load_user(username):

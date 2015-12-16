@@ -233,4 +233,5 @@ class Game extends Component {
       </div>
     );
   }
+  
 }

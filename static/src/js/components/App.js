@@ -1,6 +1,10 @@
 import {Component} from 'react';
 import {RouterMixin} from 'react-router';
 
+import Navbr from './Navbar';
+import Game from './Game';
+import GameCreate from './GameCreate';
+
 
 class App extends Component {
 

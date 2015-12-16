@@ -12,6 +12,7 @@
   "devDependencies": {
     "autoprefixer": "^6.1.2",
     "babel-cli": "^6.3.17",
+    "babel-plugin-react-transform": "^1.1.1",
     "babel-preset-es2015": "^6.3.13",
     "babelify": "^7.2.0",
     "bootstrap": "^3.3.6",
@@ -24,7 +25,12 @@
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-router": "^1.0.2",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "redbox-react": "^1.2.0",
     "rimraf": "^2.4.4",
+    "uglifyify": "^3.0.1",
+    "uglifyjs": "^2.4.10",
     "watchify": "^3.6.1"
   },
   "scripts": {
@@ -40,7 +46,37 @@
     "lint": "npm run lint:js",
     "lint:js": "esw static/src/js",
     "postcss:build": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css",
-    "build": "npm run clean && npm run make:static_folders && npm run copy && npm run postcss:build && npm run lint && npm run build:dev",
-    "build:dev": "watchify static/src/js/index.js -o static/dist/js/app.js -t [ babelify --presets [ es2015 react ] --sourceMapRelative . ] -v"
+    "build:js-dev": "watchify static/src/js/index.js -v -o 'exorcist static/dist/js/app.js.map > static/dist/js/app.js' -d",
+    "build:js-prod": "browserify static/src/js/index.js -d | exorcist  static/dist/js/app.js.map > static/dist/js/app.js",
+    "build:dev": "npm run clean && npm run make:static_folders && npm run copy && npm run postcss:build && npm run lint && npm run build:js-dev",
+    "build:prod": "npm run clean && npm run make:static_folders && npm run copy && npm run postcss:build && npm run lint && npm run build:js-prod"
+  },
+  "browserify": {
+    "transform": [
+      ["babelify", { "presets": ["es2015"], "sourceMap": true, "sourceMapRelative": "." }]
+    ]
+  },
+  "babel": {
+    "presets": ["react", "es2015"],
+    "env": {
+      "development": {
+        "plugins": [
+          [
+            "react-transform", {
+              "transforms": [
+                {
+                  "transform": "react-transform-hmr",
+                  "imports": ["react"],
+                  "locals": ["module"]
+                }, {
+                  "transform": "react-transform-catch-errors",
+                  "imports": ["react", "redbox-react"]
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    }
   }
 }

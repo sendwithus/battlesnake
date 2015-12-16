@@ -1,5 +1,5 @@
 import {Component} from 'react';
-import navigate from "ReactMiniRouter";
+import {navigate} from 'react-router';
 
 
 class GameCreate extends Component {

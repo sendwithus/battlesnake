@@ -7,7 +7,7 @@ from flask import (
 
 from flask.ext.login import (
     LoginManager,
-    login_required, login_user, logout_user
+    login_required, login_user, logout_user, current_user
 )
 
 from lib.game.models import Game, GameState, User
@@ -189,9 +189,11 @@ def signin():
 
         if user:
             login_user(user)
-            return redirect("/")
+            return redirect(request.args.get('next') or '/')
 
     return app.send_static_file('html/signin.html')
+
+login_manager.login_view = 'signin'
 
 @app.route("/signout")
 @login_required
@@ -203,7 +205,7 @@ def logout():
 @app.route('/authed')
 @login_required
 def settings():
-    return app.send_static_file('html/index.2015.html')
+    return 'Hello, %s!' % current_user.username
 
 @login_manager.user_loader
 def load_user(username):

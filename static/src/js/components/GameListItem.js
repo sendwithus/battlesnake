@@ -1,4 +1,7 @@
-class GameListItem extends React.Component {
+import {Component} from 'react';
+
+
+class GameListItem extends Component {
 
   render () {
     let path = '/play/games/' + this.props.game._id

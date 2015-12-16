@@ -1,7 +1,8 @@
+import {Component} from 'react';
 import navigate from "ReactMiniRouter";
 
 
-class GameList extends React.Component {
+class GameList extends Component {
 
   componentDidMount () {
     $.ajax({ url: '/api/games' })

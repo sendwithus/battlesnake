@@ -1,7 +1,8 @@
-import navigate from "ReactMiniRouter";
+import {Component} from 'react';
+import {navigate} from 'react-router';
 
 
-class Game extends React.Component {
+class Game extends Component {
 
   handleStart (isManual) {
     $.ajax({

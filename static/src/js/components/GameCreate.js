@@ -1,7 +1,8 @@
+import {Component} from 'react';
 import navigate from "ReactMiniRouter";
 
 
-class GameCreate extends React.Component {
+class GameCreate extends Component {
 
   _loadPastState () {
     try {

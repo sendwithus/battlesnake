@@ -1,4 +1,7 @@
-class GameSidebarSnake extends React.Component {
+import {Component} from 'react';
+
+
+class GameSidebarSnake extends Component {
 
   getInitialState () {
     let state = {

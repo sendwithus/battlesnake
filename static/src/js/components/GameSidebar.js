@@ -1,4 +1,7 @@
-class GameSidebar extends React.Component {
+import {Component} from 'react';
+
+
+class GameSidebar extends Component {
 
   render () {
     let snakes = '';

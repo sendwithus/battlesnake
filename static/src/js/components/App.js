@@ -1,7 +1,8 @@
-import RouterMixin from "react-mini-router";
+import {Component} from 'react';
+import {RouterMixin} from 'react-router';
 
 
-class App extends React.Component {
+class App extends Component {
 
   constructor () {
     super()

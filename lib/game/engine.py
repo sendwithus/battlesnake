@@ -171,7 +171,7 @@ class Engine(object):
 
             # Find move for this snake
             for m in moves:
-                if m['snake_name'] == snake['name']:
+                if m['snake_url'] == snake['url']:
                     move = m
 
                     # If action is not valid, override it
@@ -179,10 +179,10 @@ class Engine(object):
                         move['move'] = action
 
             action = move['move']
-            snake_name = move['snake_name']
+            snake_url = move['snake_url']
 
             # Copy Old Snake
-            new_snake = cls.copy_snake(game_state, snake_name)
+            new_snake = cls.copy_snake(game_state, snake_url)
             new_snake['taunt'] = move['taunt']
 
             # If the snake is dead, ignore this move
@@ -321,9 +321,9 @@ class Engine(object):
         return new_game_state
 
     @staticmethod
-    def copy_snake(game_state, snake_name):
+    def copy_snake(game_state, snake_url):
         for snake in game_state.snakes:
-            if snake['name'] == snake_name:
+            if snake['url'] == snake_url:
                 return copy.deepcopy(snake)
         return None
 

@@ -14,11 +14,11 @@ logger = get_logger(__name__)
 
 class AIResponse(object):
     """
-    Maps a dictionary to properties.
+    Maps a snake to response properties with an optional error.
     if response.error:
         print "AI ERROR:", response.error
     else:
-        print response.snake, response.move
+        print response.snake, 'wants to move', response.move
     """
 
     def __init__(self, snake=None, data=None, error=None):
@@ -32,28 +32,32 @@ class AIResponse(object):
         raise KeyError(name)
 
 
-def __game_to_dict(game):
-    return {
+def __game_to_dict(game, game_state=None):
+    data = {
         'game': game.id,
         'mode': 'classic',
-        # 'turn': game.turn,
         'height': game.height,
         'width': game.width,
     }
+
+    if game_state:
+        data['turn'] = game_state.turn
+
+    return data
 
 
 def __snake_to_dict(snake):
     # Note that we intentionally do not expose URL
     return {
-        'name': snake['name'],
-        'status': snake['status'],
-        'message': snake['message'],
-        'taunt': snake['taunt'],
-        'age': snake['age'],
-        'health': snake['health'],
-        'coords': snake['coords'],
-        'kills': snake['kills'],
-        'food': snake['food']
+        'name': snake.name,
+        'status': snake.status,
+        'message': snake.message,
+        'taunt': snake.taunt,
+        'age': snake.age,
+        'health': snake.health,
+        'coords': snake.coords,
+        'kills': snake.kills,
+        'food': snake.food
     }
 
 
@@ -156,7 +160,7 @@ def move(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
         - move
         - taunt
     """
-    payload = __game_to_dict(game)
+    payload = __game_to_dict(game, game_state)
     payload['snakes'] = [__snake_to_dict(snake) for snake in game_state.snakes]
     payload['board'] = []  # TODO
     payload['food'] = []  # TODO
@@ -169,7 +173,7 @@ def end(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     Response:
         - taunt
     """
-    payload = __game_to_dict(game)
+    payload = __game_to_dict(game, game_state)
     payload['snakes'] = [__snake_to_dict(snake) for snake in game_state.snakes]
 
     return __call_snakes(snakes, 'POST', '/end', payload, timeout_seconds)

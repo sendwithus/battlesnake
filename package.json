@@ -37,12 +37,13 @@
     "copy:lib": "npm run copy:lib-bootstrap && npm run copy:lib-jquery && npm run copy:lib-react",
     "copy:lib-bootstrap": "cp -r node_modules/bootstrap/dist/css/{bootstrap.min.css,bootstrap-theme.min.css} static/dist/css && cp -r node_modules/bootstrap/dist/js/bootstrap.min.js static/dist/js/lib",
     "copy:lib-jquery": "cp -r node_modules/jquery/dist/jquery.min.js static/dist/js/lib",
-    "copy:lib-react": "cp -r node_modules/{react/dist/react.min.js,react-dom/dist/react-dom.min.js} static/dist/js/lib",
+    "copy:lib-react": "cp -r node_modules/{react/dist/react.min.js,react-dom/dist/react-dom.min.js,react-mini-router/dist/react-mini-router.min.js} static/dist/js/lib",
     "copy:images": "cp -r static/src/img/* static/dist/img",
     "lint": "npm run lint:js",
     "lint:js": "esw static/src/js",
+    "postcss:build": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css",
     "build": "npm run clean && npm run make:static_folders && npm run copy && npm run postcss:build && npm run lint && npm run build:webpack",
-    "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js --progress --colors --watch",
-    "postcss:build": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css"
+    "build:webpack": "NODE_ENV=development webpack --config webpack.config.dev.js --progress --colors --watch",
+    "build:prod": "NODE_ENV=production webpack --config webpack.config.prod.js --progress --colors"
   }
 }

@@ -2,7 +2,8 @@ from flask import (
     Flask,
     request,
     redirect,
-    jsonify, send_from_directory,
+    jsonify,
+    send_from_directory,
 )
 
 from flask.ext.login import (
@@ -25,9 +26,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-def _json_response(data={}, msg=None, status=200):
+def _json_response(data=None, msg=None, status=200):
     return jsonify(
-        data=data,
+        data=data or {},
         message=msg,
     ), status, {'Content-Type': 'application/json'}
 
@@ -76,7 +77,8 @@ def games_create():
             width=width,
             height=height,
             snake_urls=snake_urls,
-            turn_time=turn_time
+            turn_time=turn_time,
+            add_local_snake=True
         )
     except Exception as e:
         return _json_response({
@@ -134,6 +136,9 @@ def game_turn(game_id):
     game = Game.find_one({'_id': game_id})
     game_state = controller.next_turn(game)
 
+    data = request.get_json()
+
+    manual = data.get('manual')
     return _json_response(game_state.to_dict())
 
 
@@ -195,6 +200,7 @@ def signin():
 
 login_manager.login_view = 'signin'
 
+
 @app.route("/signout")
 @login_required
 def logout():
@@ -202,10 +208,12 @@ def logout():
     logout_user()
     return redirect("/")
 
+
 @app.route('/authed')
 @login_required
 def settings():
     return 'Hello, %s!' % current_user.username
+
 
 @login_manager.user_loader
 def load_user(username):

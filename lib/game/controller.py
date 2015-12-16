@@ -62,7 +62,7 @@ def __create_snake(url, color='', name='', head='', taunt=''):
     }
 
 
-def create_game(snake_urls, width, height, turn_time):
+def create_game(snake_urls, width, height, turn_time, add_local_snake=False):
     if not snake_urls or len(snake_urls) == 0:
         raise Exception('No snake urls added. You need at least one...')
 
@@ -77,6 +77,14 @@ def create_game(snake_urls, width, height, turn_time):
         for snake_url, response
         in ai.whois(snake_urls)
     ]
+
+    if add_local_snake:
+        __create_snake(
+            url=None,
+            color='yellow',
+            name='Local Snake',
+            head=''
+        )
 
     game = Game(width=width, height=height, turn_time=turn_time)
     game.insert()

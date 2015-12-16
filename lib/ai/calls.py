@@ -23,7 +23,6 @@ def __game_to_dict(game):
     return {
         'game': game.id,
         'mode': 'classic',
-        # 'turn': game.turn,
         'height': game.height,
         'width': game.width,
     }
@@ -45,7 +44,13 @@ def __snake_to_dict(snake):
 
 
 def __call_urls(base_urls, method, endpoint, payload):
-    urls = ['%s%s' % (base_url, endpoint) for base_url in base_urls]
+    cleaned_base_urls = []
+
+    for url in base_urls:
+        if url is not None:
+            cleaned_base_urls.append(url)
+
+    urls = ['%s%s' % (base_url, endpoint) for base_url in cleaned_base_urls]
 
     if method == 'POST':
         headers = {
@@ -78,6 +83,7 @@ def whois(snake_urls):
         - color
         - head
     """
+
     return __call_urls(snake_urls, 'GET', '/', None)
 
 

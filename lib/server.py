@@ -1,15 +1,28 @@
 from flask import (
     Flask,
     request,
+    redirect,
     jsonify, send_from_directory,
+    flash,
 )
 
-from lib.game.models import Game, GameState
+from flask.ext.login import (
+    LoginManager,
+    login_required, login_user, logout_user
+)
+
+from lib.game.models import Game, GameState, User
 from lib.game import controller
 
 
 # Use hardcoded app name to ensure lib is not used for top-level directory
 app = Flask('battlesnake')
+
+# Secret key set to appease the session framework
+app.secret_key = 'LOLLIPOP'
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 def _json_response(data={}, msg=None, status=200):
@@ -166,6 +179,39 @@ def game_states_list(game_id):
     for game_state in game_states:
         data.append(game_state.to_dict())
     return _json_response(data)
+
+
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        user = load_user(username)
+
+        if user:
+            login_user(user) 
+            return redirect("/")
+
+    return app.send_static_file('html/signin.html')
+
+@app.route("/signout")
+@login_required
+def logout():
+    """Logout the current user."""
+    logout_user()
+    return redirect("/")
+
+@app.route('/authed')
+@login_required
+def settings():
+    return app.send_static_file('html/index.2015.html')
+
+@login_manager.user_loader
+def load_user(username):
+    """Given *username*, return the associated User object.
+
+    :param username: username user to retrieve
+    """
+    return User.find_one({'username': username})
 
 
 # Expose WSGI app

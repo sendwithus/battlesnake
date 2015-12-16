@@ -31,10 +31,10 @@
   },
   "scripts": {
     "clean": "rimraf static/dist",
-    "make:static_folders": "mkdir -p static/dist/{img,css,js/lib}",
+    "make:static_folders": "mkdir -p static/dist/{html,img,css,js/lib}",
     "copy": "npm run copy:lib && npm run copy:html && npm run copy:lib-bootstrap && npm run copy:lib-react && npm run copy:images",
     "copy:html": "cp -r static/src/html/* static/dist/html",
-    "copy:lib": "npm run lib-bootstrap && npm run lib-jquery && npm run lib-react",
+    "copy:lib": "npm run copy:lib-bootstrap && npm run copy:lib-jquery && npm run copy:lib-react",
     "copy:lib-bootstrap": "cp -r node_modules/bootstrap/dist/css/{bootstrap.min.css,bootstrap-theme.min.css} static/dist/css && cp -r node_modules/bootstrap/dist/js/bootstrap.min.js static/dist/js/lib",
     "copy:lib-jquery": "cp -r node_modules/jquery/dist/jquery.min.js static/dist/js/lib",
     "copy:lib-react": "cp -r node_modules/{react/dist/react.min.js,react-dom/dist/react-dom.min.js} static/dist/js/lib",

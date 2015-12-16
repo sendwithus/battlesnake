@@ -7,6 +7,8 @@ from lib.ai import grequests
 from lib.log import get_logger
 
 
+DEFAULT_TIMEOUT_SECONDS = 1.0
+
 logger = get_logger(__name__)
 
 
@@ -55,18 +57,24 @@ def __snake_to_dict(snake):
     }
 
 
-def __call_snakes(snakes, method, endpoint, payload):
+def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
 
-    urls = ['%s%s' % (snake, endpoint) for snake in snakes]
+    urls = ['%s%s' % (snake.url, endpoint) for snake in snakes]
 
     if method == 'POST':
         headers = {
             'content-type': 'application/json'
         }
         data = json.dumps(payload)
-        reqs = [grequests.post(url, data=data, headers=headers, timeout=1.0) for url in urls]
+        reqs = [
+            grequests.post(url, data=data, headers=headers, timeout=timeout_seconds)
+            for url in urls
+        ]
     elif method == 'GET':
-        reqs = [grequests.get(url, timeout=1.0) for url in urls]
+        reqs = [
+            grequests.get(url, timeout=timeout_seconds)
+            for url in urls
+        ]
     else:
         raise Exception('Unknown method %s' % method)
 
@@ -86,7 +94,7 @@ def __call_snakes(snakes, method, endpoint, payload):
     # Process good responses
     for response in responses:
         for snake in snakes:
-            if response.request.url.startswith(snake):
+            if response.request.url.startswith(snake.url):
                 # We found the snake this request is for.
                 ai_response = AIResponse(snake=snake)
 
@@ -106,9 +114,9 @@ def __call_snakes(snakes, method, endpoint, payload):
     # Process exceptions
     for req, exception in exceptions:
         for snake in snakes:
-            ai_response = AIResponse(snake=snake)
+            if req.url.startswith(snake.url):
+                ai_response = AIResponse(snake=snake)
 
-            if req.url.startswith(snake):
                 try:
                     raise exception
                 except requests.exceptions.Timeout:
@@ -121,17 +129,17 @@ def __call_snakes(snakes, method, endpoint, payload):
     return ai_responses
 
 
-def whois(snakes):
+def whois(snakes, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     """
     Response:
         - name
         - color
         - head
     """
-    return __call_snakes(snakes, 'GET', '/', None)
+    return __call_snakes(snakes, 'GET', '/', None, timeout_seconds)
 
 
-def start(snakes, game):
+def start(snakes, game, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     """
     Response:
         - taunt
@@ -139,10 +147,10 @@ def start(snakes, game):
     payload = __game_to_dict(game)
     payload['snakes'] = [{'name': snake['name']} for snake in snakes]
 
-    return __call_snakes(snakes, 'POST', '/start', payload)
+    return __call_snakes(snakes, 'POST', '/start', payload, timeout_seconds)
 
 
-def move(snakes, game, game_state):
+def move(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     """
     Response:
         - move
@@ -153,10 +161,10 @@ def move(snakes, game, game_state):
     payload['board'] = []  # TODO
     payload['food'] = []  # TODO
 
-    return __call_snakes(snakes, 'POST', '/move', payload)
+    return __call_snakes(snakes, 'POST', '/move', payload, timeout_seconds)
 
 
-def end(snakes, game, game_state):
+def end(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     """
     Response:
         - taunt
@@ -164,4 +172,4 @@ def end(snakes, game, game_state):
     payload = __game_to_dict(game)
     payload['snakes'] = [__snake_to_dict(snake) for snake in game_state.snakes]
 
-    return __call_snakes(snakes, 'POST', '/end', payload)
+    return __call_snakes(snakes, 'POST', '/end', payload, timeout_seconds)

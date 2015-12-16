@@ -3,23 +3,11 @@
   "version": "0.0.0",
   "description": "Snakewithus",
   "private": true,
-  "scripts": {
-    "clean": "rimraf static/dist",
-    "make:static_folders": "mkdir -p static/dist/{img,css,js/lib}",
-    "copy:react": "cp -r static/src/js/lib/* static/dist/js/lib",
-    "copy:images": "cp -r static/src/img/* static/dist/img",
-    "lint": "npm run lint:js",
-    "lint:js": "esw static/src/js",
-    "build": "npm run clean && npm run make:static_folders && npm run copy:images && npm run postcss:build && npm run lint && npm run build:webpack",
-    "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js --progress --colors --watch",
-    "postcss:build": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sendwithus/battlesnake.git"
   },
   "author": "Battlesnake <us@battlesnake.io>",
-  "license": "WTFPL",
   "homepage": "http://battlesnake.io",
   "devDependencies": {
     "autoprefixer": "^6.1.2",
@@ -40,5 +28,21 @@
     "redbox-react": "^1.2.0",
     "rimraf": "^2.4.4",
     "webpack": "^1.12.9"
+  },
+  "scripts": {
+    "clean": "rimraf static/dist",
+    "make:static_folders": "mkdir -p static/dist/{img,css,js/lib}",
+    "copy": "npm run copy:lib && npm run copy:html && npm run copy:lib-bootstrap && npm run copy:lib-react && npm run copy:images",
+    "copy:html": "cp -r static/src/html/* static/dist/html",
+    "copy:lib": "npm run lib-bootstrap && npm run lib-jquery && npm run lib-react",
+    "copy:lib-bootstrap": "cp -r node_modules/bootstrap/dist/css/{bootstrap.min.css,bootstrap-theme.min.css} static/dist/css && cp -r node_modules/bootstrap/dist/js/bootstrap.min.js static/dist/js/lib",
+    "copy:lib-jquery": "cp -r node_modules/jquery/dist/jquery.min.js static/dist/js/lib",
+    "copy:lib-react": "cp -r node_modules/{react/dist/react.min.js,react-dom/dist/react-dom.min.js} static/dist/js/lib",
+    "copy:images": "cp -r static/src/img/* static/dist/img",
+    "lint": "npm run lint:js",
+    "lint:js": "esw static/src/js",
+    "build": "npm run clean && npm run make:static_folders && npm run copy && npm run postcss:build && npm run lint && npm run build:webpack",
+    "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js --progress --colors --watch",
+    "postcss:build": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css"
   }
 }

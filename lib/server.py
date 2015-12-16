@@ -78,7 +78,7 @@ def games_create():
             height=height,
             snake_urls=snake_urls,
             turn_time=turn_time,
-            add_local_snake=True
+            # add_local_snake=True
         )
     except Exception as e:
         return _json_response({
@@ -133,12 +133,11 @@ def game_resume(game_id):
 
 @app.route('/api/games/<game_id>/turn', methods=['POST'])
 def game_turn(game_id):
+    local_move = request.get_json()['local_move']
+
     game = Game.find_one({'_id': game_id})
-    game_state = controller.next_turn(game)
+    game_state = controller.next_turn(game, local_move=local_move)
 
-    data = request.get_json()
-
-    manual = data.get('manual')
     return _json_response(game_state.to_dict())
 
 

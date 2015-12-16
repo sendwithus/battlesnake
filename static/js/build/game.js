@@ -8,7 +8,7 @@ var Game = React.createClass({displayName: "Game",
             type: 'POST',
             url: '/api/games/' + this.props.gameId + '/start',
             data: JSON.stringify({ manual: isManual }),
-            contentType: 'application/json',
+            contentType: 'application/json'
         }).done(function (response) {
             console.log('Started Game', response.data);
             this.setState({ game: response.data });
@@ -57,7 +57,7 @@ var Game = React.createClass({displayName: "Game",
     handleCancelReplay: function () {
         this.setState({ isReplay: false });
     },
-    handleClickNextTurn: function () {
+    handleNextTurn: function () {
         this.setState({ isLoading: true });
         $.ajax({
             type: 'POST',
@@ -65,6 +65,29 @@ var Game = React.createClass({displayName: "Game",
         }).done(function (response) {
             this.handleGameState(response.data);
         }.bind(this));
+    },
+    handleLocalMove: function (e) {
+        if (!this.state.game || this.state.game.state != 'manual') { return; }
+
+        var keyMap = {
+            38: 'up',
+            40: 'down',
+            37: 'left',
+            39: 'right'
+        };
+
+        var localMove = keyMap[e.keyCode];
+        if (localMove) {
+            this.setState({ isLoading: true });
+            $.ajax({
+                type: 'POST',
+                url: '/api/games/' + this.props.gameId + '/turn',
+                data: JSON.stringify({ local_move: localMove }),
+                contentType: 'application/json'
+            }).done(function (response) {
+                this.handleGameState(response.data);
+            }.bind(this));
+        }
     },
     handleGameState: function (gameState, ignoreEnd) {
         if (this.isMounted()) {
@@ -99,7 +122,7 @@ var Game = React.createClass({displayName: "Game",
         }.bind(this));
     },
     handleClickContinuous: function () {
-        this.interval = setInterval(this.handleClickNextTurn, 400);
+        this.interval = setInterval(this.handleNextTurn, 400);
     },
     tick: function (callback) {
         var url = '/api/games/' + this.props.gameId + '/gamestates/latest';
@@ -137,7 +160,6 @@ var Game = React.createClass({displayName: "Game",
         _();
     },
     componentDidMount: function () {
-        var canvas = this.refs.canvas.getDOMNode();
         $.ajax({
             type: 'GET',
             url: '/api/games/' + this.props.gameId
@@ -152,6 +174,8 @@ var Game = React.createClass({displayName: "Game",
                 this.checkInterval();
             }.bind(this));
         }.bind(this));
+
+        document.addEventListener('keydown', this.handleLocalMove.bind(this));
     },
     componentDidUpdate: function (prevProps, prevState) {
         if (!this.state.latestGameState) { return; }
@@ -196,8 +220,7 @@ var Game = React.createClass({displayName: "Game",
                         rematch: this.handleRematch, 
                         cancelReplay: this.handleCancelReplay, 
                         pause: this.handlePause, 
-                        resume: this.handleResume, 
-                        nextTurn: this.handleClickNextTurn})
+                        resume: this.handleResume})
                 ), 
                 React.createElement(GameOverModal, {
                     game: this.state.game, 
@@ -340,9 +363,7 @@ var GameSidebar = React.createClass({displayName: "GameSidebar",
         } else if (this.props.game.state === 'manual') {
             buttons = (
                 React.createElement("div", null, 
-                    React.createElement("button", {className: "btn btn-success stretch", onClick: this.props.nextTurn, disabled: this.props.isLoading}, 
-                        this.props.isLoading ? '...' : 'Play Turn ' + (this.props.latestGameState.turn + 1)
-                    )
+                    "Use the arrow keys to move local player"
                 )
             );
         } else if (!this.props.isReplay && this.props.game.state === 'done') {

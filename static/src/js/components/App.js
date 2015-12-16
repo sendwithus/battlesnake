@@ -1,10 +1,13 @@
+import RouterMixin from "react-mini-router";
+
+
 class App extends React.Component {
 
   constructor () {
     super()
-    
+
     this.mixins = [
-      ReactMiniRouter.RouterMixin
+      RouterMixin
     ]
 
     this.routes = {
@@ -16,26 +19,8 @@ class App extends React.Component {
     }
   }
 
-  play () {
-    window.location = '/play/games';
-  }
-
-  game (gameId) {
-    return this.wrapPage(
-      <Game gameId={gameId} />
-    );
-  }
-
-  create () {
-    return this.wrapPage(
-      <GameCreate />
-    );
-  }
-
-  games () {
-    return this.wrapPage(
-      <GameList />
-    );
+  render () {
+    return this.renderCurrentRoute();
   }
 
   wrapPage (page) {
@@ -49,8 +34,26 @@ class App extends React.Component {
     );
   }
 
-  render () {
-    return this.renderCurrentRoute();
+  play () {
+    window.location = '/play/games';
+  }
+
+  create () {
+    return this.wrapPage(
+      <GameCreate />
+    );
+  }
+
+  game (gameId) {
+    return this.wrapPage(
+      <Game gameId={gameId} />
+    );
+  }
+
+  games () {
+    return this.wrapPage(
+      <GameList />
+    );
   }
 
 }

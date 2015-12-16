@@ -1,0 +1,299 @@
+body {
+  background: #221E1D url('/static/img/bg-battlesnake-dark.jpg') top center no-repeat;
+  background-size: cover;
+  color: #ddd;
+  font-size: 16px;
+}
+
+canvas {
+  margin: auto;
+  display: block;
+}
+
+form {
+  max-width: 500px;
+  margin: auto;
+}
+
+form .input-group {
+  margin-bottom: 20px;
+}
+
+form .input-group,
+form .btn {
+  width: 100%;
+}
+
+.game-summary img {
+  height: 30px;
+  width: 30px;
+  margin-right: 15px;
+  padding: 3px;
+}
+
+.game-summary {
+  margin-bottom: 70px;
+}
+
+.game-summary,
+.game-summary td,
+.game-summary th {
+  border-color: #333 !important;
+}
+
+.game-summary th {
+  background-color: #333;
+}
+
+.game-summary .snakes-heading {
+  background-color: #282828;
+}
+
+.form-control {
+  border-radius: 0;
+  margin-bottom: 15px;
+}
+
+.form-control:focus {
+  border-color: #F8F568;
+}
+
+p,
+.muted {
+  color: #999;
+}
+
+a {
+  color: #aaa;
+}
+
+a:hover {
+  color: #ccc;
+}
+
+.navbar {
+  border-radius: 0;
+}
+
+.navbar .navbar-brand img {
+  height: 37px;
+  margin-top: -10px;
+}
+
+.navbar-inverse {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 0;
+}
+
+.site-links {
+  float: right;
+  padding: 0;
+}
+
+.btn {
+  border: none;
+  border-radius: 0;
+}
+
+.btn-big {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.btn:focus,
+.btn:active {
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+.btn.btn-success {
+  background: #F8F568;
+  color: #000;
+}
+
+.btn.btn-info {
+  background-color: #9e0000;
+  color: #fff;
+}
+
+.btn.btn-success:hover {
+  background-color: #C7C308;
+}
+
+.btn.btn-success:active {
+  background-color: #ABA700;
+}
+
+.btn.btn-info:hover {
+  background-color: #890000;
+  color: #ccc;
+}
+
+.btn.btn-info:active {
+  background-color: #720000;
+  color: #aaa;
+}
+
+.btn.btn-lg {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 20px;
+  font-size: 24px;
+  padding: 16px 32px;
+}
+
+.btn:hover {
+  cursor: pointer;
+  top: 3px;
+  transition: all 0.25s ease-in;
+}
+
+.btn:active {
+  transition: all 0s ease-in;
+}
+
+.btn:hover {
+  top: 0;
+}
+
+.modal-content {
+  background-color: #221E1D;
+  color: #ccc;
+}
+
+.modal-header,
+.modal-footer {
+  border-color: #444;
+}
+
+.modal .close {
+  color: #fff;
+  text-shadow: none;
+}
+
+.sidebar h1 {
+  text-transform: uppercase;
+  font-size: 25px;
+}
+
+.sidebar h2 {
+  margin-top: 25px;
+  font-size: 20px;
+  background: #333;
+  padding: 5px 10px;
+}
+
+.sidebar h3 {
+  font-size: 18px;
+}
+
+.snake-block {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 60px;
+  width: 100%;
+}
+
+.snake-block img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  padding: 4px;
+}
+
+.snake-block .meta {
+  color: #999;
+}
+
+.snake-block .col {
+  padding: 0;
+  text-align: center;
+  width: 33%;
+  display: inline-block;
+}
+
+.snake-block .taunt {
+  font-size: 16px;
+  overflow: hidden;
+  background-color: rgba(30, 30, 30, 0.8);
+  border: 1px solid #9e0000;
+  position: absolute;
+  text-align: center;
+  padding: 5px;
+  padding-top: 5px;
+  left: 60px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.snake-block .taunt.dead {
+  background-color: rgba(130, 0, 0, 0.8);
+  border-color: rgba(130, 0, 0, 0.8);
+  color: #fff;
+}
+
+.game-summary h1 {
+  font-size: 18px;
+  text-transform: uppercase;
+  margin: 5px;
+}
+
+.game-summary h1 a {
+  padding-right: 10px;
+}
+
+.game-summary h1 .small {
+  font-size: 15px;
+}
+
+.game-summary .stat {
+  padding-top: 15px;
+}
+
+.game-summary .snake-name {
+  padding: 4;
+  padding-left: 60px;
+  position: relative;
+  height: 50px;
+}
+
+.game-summary .snake-name img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+}
+
+.game-summary .snake-name .url {
+  font-size: 14px;
+  color: #888;
+}
+
+
+/** HELPERS **/
+
+.float-right {
+  float: right;
+}
+
+.stretch {
+  width: 100%;
+}
+
+
+/** MEDIA QUERIES **/
+
+@media (max-width: 767px) {
+  .sidebar {
+    margin-top: 20px;
+  }
+  .site-links {
+    float: none;
+    padding: 0 15px;
+  }
+}

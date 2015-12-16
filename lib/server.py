@@ -25,7 +25,7 @@ def _json_error(msg=None, status=400):
 
 @app.route('/')
 def index():
-    return app.send_static_file('html/index.2015.html')
+    return app.send_static_file('src/html/index.2015.html')
 
 
 @app.route('/play/')
@@ -33,7 +33,7 @@ def index():
 def page(path=None):
     # serve play.html for anything that starts with "play/"
     # frontend will show the correct route
-    return app.send_static_file('html/play.html')
+    return app.send_static_file('src/html/play.html')
 
 
 @app.route('/static/<path:path>')

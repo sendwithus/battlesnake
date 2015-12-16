@@ -2,11 +2,17 @@
   "name": "battlesnake",
   "version": "0.0.0",
   "description": "Snakewithus",
+  "private": true,
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rimraf static/dist",
+    "make:static_folders": "mkdir -p static/dist/{img,css,js/lib}",
+    "copy:react": "cp -r static/src/js/lib/* static/dist/js/lib",
+    "copy:images": "cp -r static/src/img/* static/dist/img",
+    "lint": "npm run lint:js",
+    "lint:js": "esw static/src/js",
+    "build": "npm run clean && npm run make:static_folders && npm run copy:images && npm run postcss:build && npm run lint && npm run build:webpack",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js --progress --colors --watch",
-    "build": "npm run clean && npm run build:webpack",
-    "lint": "eslint src"
+    "postcss:build": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css"
   },
   "repository": {
     "type": "git",
@@ -16,22 +22,23 @@
   "license": "WTFPL",
   "homepage": "http://battlesnake.io",
   "devDependencies": {
+    "autoprefixer": "^6.1.2",
     "babel-core": "^5.8.34",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^5.4.0",
     "babel-plugin-react-transform": "^1.1.1",
+    "bootstrap": "^3.3.6",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.11.3",
+    "eslint-watch": "^2.1.4",
+    "jquery": "^2.1.4",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-mini-router": "^2.0.0",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.2.0",
     "rimraf": "^2.4.4",
-    "webpack": "^1.12.9",
-    "webpack-dev-middleware": "^1.4.0",
-    "webpack-hot-middleware": "^2.6.0"
-  },
-  "dependencies": {
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3"
+    "webpack": "^1.12.9"
   }
 }

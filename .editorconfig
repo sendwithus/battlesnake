@@ -12,6 +12,6 @@ insert_final_newline = true
 [*.py]
 indent_style = tab
 
-[*.{js,json}]
+[*.{js,json,html}]
 indent_style = space
 indent_size = 2

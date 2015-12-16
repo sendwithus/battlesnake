@@ -1,4 +1,4 @@
-import {navigate} from ReactMiniRouter.navigate;
+import navigate from "ReactMiniRouter";
 
 
 class Game extends React.Component {

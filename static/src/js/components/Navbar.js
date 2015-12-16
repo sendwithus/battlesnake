@@ -1,4 +1,4 @@
-classs Navbar extends React.Component {
+class Navbar extends React.Component {
 
   handleNavToggle () {
     this.setState({ mobileNavExpanded: !this.state.mobileNavExpanded });

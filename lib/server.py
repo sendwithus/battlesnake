@@ -1,7 +1,6 @@
 from flask import (
     Flask,
     request,
-    redirect,
     jsonify, send_from_directory,
 )
 
@@ -180,32 +179,28 @@ def game_states_list(game_id):
         data.append(game_state.to_dict())
     return _json_response(data)
 
-
-@app.route('/signin', methods=['GET', 'POST'])
+@app.route('/api/signin', methods=['POST'])
 def signin():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        user = load_user(username)
+    username = request.json.get('username')
+    password = request.json.get('password')
+    user = load_user(username)
 
-        if user:
-            login_user(user)
-            return redirect(request.args.get('next') or '/')
+    if user and user.check_password(password):
+        login_user(user)
+        return _json_response()
+    else:
+        return _json_response(msg='Incorrect username or password', status=401)
 
-    return app.send_static_file('html/signin.html')
-
-login_manager.login_view = 'signin'
-
-@app.route("/signout")
+@app.route("/api/signout", methods=['GET', 'POST'])
 @login_required
 def logout():
-    """Logout the current user."""
     logout_user()
-    return redirect("/")
+    return _json_response()
 
-@app.route('/authed')
+@app.route('/api/authed')
 @login_required
-def settings():
-    return 'Hello, %s!' % current_user.username
+def auth_test():
+    return _json_response(msg='Hello, %s!' % current_user.username)
 
 @login_manager.user_loader
 def load_user(username):

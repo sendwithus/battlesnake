@@ -282,6 +282,9 @@ class User(Model):
         """False, as anonymous users aren't supported."""
         return False
 
+    def check_password(self, password):
+        return password == 'password'
+
     def to_dict(self):
         return {
             'username': self.username,

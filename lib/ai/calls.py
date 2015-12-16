@@ -23,7 +23,7 @@ def __game_to_dict(game):
     return {
         'game': game.id,
         'mode': 'classic',
-        'turn': game.turn,
+        # 'turn': game.turn,
         'height': game.height,
         'width': game.width,
     }

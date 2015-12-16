@@ -36,7 +36,7 @@ class Model(object):
     def save(self):
         doc = self.to_dict()
         doc['modified'] = datetime.now()
-        doc['created'] = self.created
+        doc['created'] = self.created or datetime.now()
         self._get_collection().update({'_id': self.id}, doc, True)
 
     def to_dict(self):

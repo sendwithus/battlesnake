@@ -42,7 +42,12 @@ def rematch_game(game_id):
     for snake in game_state.snakes + game_state.dead_snakes:
         snake_urls.append(snake['url'])
 
-    return create_game(snake_urls, game.width, game.height, game.turn_time)[0]
+    return create_game(
+        snake_urls,
+        game.width,
+        game.height,
+        game.turn_time
+    )[0]
 
 
 def __create_snake(url, color='', name='', head='', taunt=''):
@@ -62,7 +67,7 @@ def __create_snake(url, color='', name='', head='', taunt=''):
     }
 
 
-def create_game(snake_urls, width, height, turn_time):
+def create_game(snake_urls, width, height, turn_time, add_local_snake=False):
     if not snake_urls or len(snake_urls) == 0:
         raise Exception('No snake urls added. You need at least one...')
 
@@ -77,6 +82,14 @@ def create_game(snake_urls, width, height, turn_time):
         for snake_url, response
         in ai.whois(snake_urls)
     ]
+
+    if add_local_snake:
+        snakes.append(__create_snake(
+            url=None,
+            color='yellow',
+            name='Local Snake',
+            head=''
+        ))
 
     game = Game(width=width, height=height, turn_time=turn_time)
     game.insert()
@@ -117,7 +130,7 @@ def get_moves(game, game_state):
     return moves
 
 
-def next_turn(game):
+def next_turn(game, local_move=None):
     game_states = GameState.find({'game_id': game.id}, limit=1)
     if not game_states:
         raise Exception('No GameStates found for %s' % game)
@@ -125,6 +138,13 @@ def next_turn(game):
     game_state = game_states[0]
 
     moves = get_moves(game, game_state)
+
+    if local_move:
+        moves.append({
+            'snake_url': None,
+            'move': local_move,
+            'taunt': ''
+        })
 
     next_game_state = Engine.resolve_moves(game_state, moves)
     next_game_state.insert()

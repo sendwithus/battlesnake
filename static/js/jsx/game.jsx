@@ -8,7 +8,7 @@ var Game = React.createClass({
             type: 'POST',
             url: '/api/games/' + this.props.gameId + '/start',
             data: JSON.stringify({ manual: isManual }),
-            contentType: 'application/json',
+            contentType: 'application/json'
         }).done(function (response) {
             console.log('Started Game', response.data);
             this.setState({ game: response.data });
@@ -57,7 +57,7 @@ var Game = React.createClass({
     handleCancelReplay: function () {
         this.setState({ isReplay: false });
     },
-    handleClickNextTurn: function () {
+    handleNextTurn: function () {
         this.setState({ isLoading: true });
         $.ajax({
             type: 'POST',
@@ -65,6 +65,29 @@ var Game = React.createClass({
         }).done(function (response) {
             this.handleGameState(response.data);
         }.bind(this));
+    },
+    handleLocalMove: function (e) {
+        if (!this.state.game || this.state.game.state != 'manual') { return; }
+
+        var keyMap = {
+            38: 'up',
+            40: 'down',
+            37: 'left',
+            39: 'right'
+        };
+
+        var localMove = keyMap[e.keyCode];
+        if (localMove) {
+            this.setState({ isLoading: true });
+            $.ajax({
+                type: 'POST',
+                url: '/api/games/' + this.props.gameId + '/turn',
+                data: JSON.stringify({ local_move: localMove }),
+                contentType: 'application/json'
+            }).done(function (response) {
+                this.handleGameState(response.data);
+            }.bind(this));
+        }
     },
     handleGameState: function (gameState, ignoreEnd) {
         if (this.isMounted()) {
@@ -74,7 +97,6 @@ var Game = React.createClass({
 
             if (gameState.is_done) {
                 $('#game-summary-modal').off('shown.bs.modal').on('shown.bs.modal', function () {
-                    console.log('hello');
                     $(this).find('button').focus();
                 }).modal('show');
 
@@ -99,7 +121,7 @@ var Game = React.createClass({
         }.bind(this));
     },
     handleClickContinuous: function () {
-        this.interval = setInterval(this.handleClickNextTurn, 400);
+        this.interval = setInterval(this.handleNextTurn, 400);
     },
     tick: function (callback) {
         var url = '/api/games/' + this.props.gameId + '/gamestates/latest';
@@ -137,7 +159,6 @@ var Game = React.createClass({
         _();
     },
     componentDidMount: function () {
-        var canvas = this.refs.canvas.getDOMNode();
         $.ajax({
             type: 'GET',
             url: '/api/games/' + this.props.gameId
@@ -152,6 +173,8 @@ var Game = React.createClass({
                 this.checkInterval();
             }.bind(this));
         }.bind(this));
+
+        document.addEventListener('keydown', this.handleLocalMove.bind(this));
     },
     componentDidUpdate: function (prevProps, prevState) {
         if (!this.state.latestGameState) { return; }
@@ -196,8 +219,7 @@ var Game = React.createClass({
                         rematch={this.handleRematch}
                         cancelReplay={this.handleCancelReplay}
                         pause={this.handlePause}
-                        resume={this.handleResume}
-                        nextTurn={this.handleClickNextTurn} />
+                        resume={this.handleResume} />
                 </div>
                 <GameOverModal
                     game={this.state.game}
@@ -340,9 +362,7 @@ var GameSidebar = React.createClass({
         } else if (this.props.game.state === 'manual') {
             buttons = (
                 <div>
-                    <button className="btn btn-success stretch" onClick={this.props.nextTurn} disabled={this.props.isLoading}>
-                        {this.props.isLoading ? '...' : 'Play Turn ' + (this.props.latestGameState.turn + 1)}
-                    </button>
+                    Use the arrow keys to move local player
                 </div>
             );
         } else if (!this.props.isReplay && this.props.game.state === 'done') {

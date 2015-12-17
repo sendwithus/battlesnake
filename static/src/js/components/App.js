@@ -1,12 +1,12 @@
-import {Component} from 'react';
-import {RouterMixin} from 'react-router';
+import React from 'react';
+import RouterMixin from 'react-router';
 
-import Navbr from './Navbar';
-import Game from './Game';
-import GameCreate from './GameCreate';
+import Navbar from './navbar';
+import Game from './game';
+import GameCreate from './gamecreate';
 
 
-class App extends Component {
+export default class AppComponent extends React.Component {
 
   constructor () {
     super()

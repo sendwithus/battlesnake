@@ -1,7 +1,7 @@
-import {Component} from 'react';
+import React from 'react';
 
 
-class GameListItem extends Component {
+export default class GameListItem extends React.Component {
 
   render () {
     let path = '/play/games/' + this.props.game._id

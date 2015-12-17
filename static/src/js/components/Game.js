@@ -1,8 +1,8 @@
-import {Component} from 'react';
-import {navigate} from 'react-router';
+import React from 'react';
+import navigate from 'react-router';
 
 
-class Game extends Component {
+export default class Game extends React.Component {
 
   handleStart (isManual) {
     $.ajax({
@@ -233,5 +233,5 @@ class Game extends Component {
       </div>
     );
   }
-  
+
 }

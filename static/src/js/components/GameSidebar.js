@@ -1,7 +1,7 @@
-import {Component} from 'react';
+import React from 'react';
 
 
-class GameSidebar extends Component {
+export default class GameSidebar extends React.Component {
 
   render () {
     let snakes = '';

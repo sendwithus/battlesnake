@@ -1,7 +1,7 @@
-import {Component} from 'react';
+import React from 'react';
 
 
-class GameSidebarSnake extends Component {
+export default class GameSidebarSnake extends React.Component {
 
   getInitialState () {
     let state = {

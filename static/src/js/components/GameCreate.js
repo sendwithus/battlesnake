@@ -1,8 +1,8 @@
-import {Component} from 'react';
-import {navigate} from 'react-router';
+import React from 'react';
+import navigate from 'react-router';
 
 
-class GameCreate extends Component {
+export default class GameCreate extends React.Component {
 
   _loadPastState () {
     try {

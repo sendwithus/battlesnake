@@ -2,7 +2,7 @@
  *  Snake class
  */
 
-class Snake {
+export default class Snake {
 
   constructor (config_data) {
     this.id = config_data.name || config_data.id;

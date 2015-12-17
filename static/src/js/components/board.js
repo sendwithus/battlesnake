@@ -2,7 +2,7 @@
  *  Main game board class
  */
 
-class Board {
+export default class Board {
 
   constructor (ctx, canvas) {
     this.ctx = ctx;

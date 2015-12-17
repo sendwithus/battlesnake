@@ -1,8 +1,8 @@
-import {Component} from 'react';
-import {navigate} from 'react-router';
+import React from 'react';
+import navigate from 'react-router';
 
 
-class GameList extends Component {
+export default class GameList extends React.Component {
 
   componentDidMount () {
     $.ajax({ url: '/api/games' })

@@ -1,7 +1,7 @@
-import {Component} from 'react';
+import React from 'react';
 
 
-class GameOverModal extends Component {
+export default class GameOverModal extends React.Component {
 
   render () {
     if (!this.props.game || !this.props.latestGameState) {

@@ -75,6 +75,8 @@ class AsyncRequest(object):
         merged_kwargs.update(self.kwargs)
         merged_kwargs.update(kwargs)
 
+        self.response = None
+
         start_time = time.time()
         try:
             self.response = self.session.request(self.method, self.url, **merged_kwargs)
@@ -131,10 +133,12 @@ def map(requests, stream=False, size=None, exception_handler=None):
     ret = []
 
     for request in requests:
-        if request.response:
+        if request.response is not None:
             ret.append(request.response)
-        elif exception_handler:
+        elif exception_handler and request.exception:
             exception_handler(request, request.exception)
+        else:
+            raise Exception('grequests unknown response state')
 
     return ret
 

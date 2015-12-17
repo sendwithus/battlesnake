@@ -4,6 +4,7 @@ import time
 import requests.exceptions
 
 from lib.ai import grequests
+from lib.ai.local import LOCAL_SNAKES
 from lib.log import get_logger
 
 
@@ -63,7 +64,41 @@ def __snake_to_dict(snake):
 
 def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
 
-    urls = ['%s%s' % (snake.url, endpoint) for snake in snakes]
+    local_snakes = []
+    remote_snakes = []
+
+    for snake in snakes:
+        if snake.url.startswith('http://') or snake.url.startswith('https://'):
+            remote_snakes.append(snake)
+        elif snake.url.startswith('localsnake://'):
+            local_snakes.append(snake)
+        else:
+            raise Exception('unrecognized snake protocol: %s' % snake.url)
+
+    # Handle remote snakes first
+    ai_responses = __call_remote_snakes(remote_snakes, method, endpoint, payload, timeout_seconds)
+    ai_responses.extend(__call_local_snakes(local_snakes, payload, endpoint))
+
+
+def __call_local_snakes(snakes, endpoint, payload):
+    ai_responses = []
+
+    for snake in snakes:
+        ai_name = snake.url.split('://')[1]
+
+        # TODO Catch case where ai_name is not recognized
+        local_snake = LOCAL_SNAKES[ai_name]()
+
+        # TODO Try catch and timeout this?
+        response_data = getattr(local_snake, endpoint)(payload)
+
+        ai_responses.append(AIResponse(snake=snake, data=response_data))
+
+    return ai_responses
+
+
+def __call_remote_snakes(snakes, method, endpoint, payload, timeout_seconds):
+    urls = ['%s/%s' % (snake.url, endpoint) for snake in snakes]
 
     if method == 'POST':
         headers = {
@@ -140,7 +175,7 @@ def whois(snakes, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
         - color
         - head
     """
-    return __call_snakes(snakes, 'GET', '/', None, timeout_seconds)
+    return __call_snakes(snakes, 'GET', '', None, timeout_seconds)
 
 
 def start(snakes, game, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
@@ -151,7 +186,7 @@ def start(snakes, game, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     payload = __game_to_dict(game)
     payload['snakes'] = [{'name': snake['name']} for snake in snakes]
 
-    return __call_snakes(snakes, 'POST', '/start', payload, timeout_seconds)
+    return __call_snakes(snakes, 'POST', 'start', payload, timeout_seconds)
 
 
 def move(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
@@ -165,7 +200,7 @@ def move(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     payload['board'] = []  # TODO
     payload['food'] = []  # TODO
 
-    return __call_snakes(snakes, 'POST', '/move', payload, timeout_seconds)
+    return __call_snakes(snakes, 'POST', 'move', payload, timeout_seconds)
 
 
 def end(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
@@ -176,4 +211,4 @@ def end(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     payload = __game_to_dict(game, game_state)
     payload['snakes'] = [__snake_to_dict(snake) for snake in game_state.snakes]
 
-    return __call_snakes(snakes, 'POST', '/end', payload, timeout_seconds)
+    return __call_snakes(snakes, 'POST', 'end', payload, timeout_seconds)

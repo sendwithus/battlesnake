@@ -1,11 +1,19 @@
 import time
 
 import lib.game.controller as controller
-from lib.models.game import Game
 from lib.log import get_logger
+from lib.models.game import Game
 
 
 logger = get_logger(__name__)
+
+
+def patch_gevent():
+    try:
+        import gevent.monkey
+    except ImportError:
+        raise RuntimeError('gevent is required for lib.worker')
+    gevent.monkey.patch_all(thread=False)
 
 
 def maybe_run_game():
@@ -25,6 +33,8 @@ def maybe_run_game():
 
 
 def main():
+    patch_gevent()
+
     while True:
         maybe_run_game()
         time.sleep(1)

@@ -13,16 +13,6 @@ by gevent. All API methods return a ``Request`` instance (as opposed to
 from functools import partial
 import time
 
-try:
-    import gevent
-    # from gevent import monkey as curious_george
-    from gevent.pool import Pool
-except ImportError:
-    raise RuntimeError('Gevent is required for grequests.')
-
-# Monkey-patch.
-# curious_george.patch_all(thread=False, select=False)
-
 from requests import Session
 
 from lib.log import get_logger

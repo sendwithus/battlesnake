@@ -79,6 +79,8 @@ def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
     ai_responses = __call_remote_snakes(remote_snakes, method, endpoint, payload, timeout_seconds)
     ai_responses.extend(__call_local_snakes(local_snakes, payload, endpoint))
 
+    return ai_responses
+
 
 def __call_local_snakes(snakes, endpoint, payload):
     ai_responses = []

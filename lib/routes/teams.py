@@ -3,7 +3,47 @@ from flask.ext.login import login_required
 
 from lib.server import _json_response, app
 
-@app.route('/api/team')
+# Public routes
+
+@app.route('/api/teams/')
+def teams_list():
+    """
+    List all teams.
+    Sample response:
+    {
+      "data": [
+        {
+          "teamname": "TEAM1",
+          "member_emails": ["user@domain.com"],
+          "snake_url": "http://localhost:6000/"
+        }
+      ]
+    }
+    """
+    teams = Team.find({}, limit=50)
+    return _json_response([team.to_dict() for team in teams])
+
+@app.route('/api/teams/<teamname>')
+def team_details(teamname):
+    """
+    Get data for a single team.
+    Sample response:
+    {
+      "data": {
+        "_id": "TEAM1",
+        "member_emails": ["user@domain.com"],
+        "snake_url": "http://localhost:6000/"
+      }
+    }
+    """
+    team = Team.find_one({'teamname': teamname})
+    if not team:
+        return _json_response(msg='Team not found', status=404)
+    return _json_response(team.to_dict())
+
+# Signed in team routes
+
+@app.route('/api/teams/current')
 @login_required
 def team_info():
     return _json_response(data={
@@ -11,7 +51,7 @@ def team_info():
     })
 
 
-@app.route('/api/team/members/<email>', methods=['PUT'])
+@app.route('/api/teams/current/members/<email>', methods=['PUT'])
 @login_required
 def team_member_create(email):
     """
@@ -40,27 +80,8 @@ def team_member_create(email):
     return _json_response(g.team.member_emails, msg='Member already exists', status=200)
 
 
-
+# Super user routes
 # TODO: authorization on routes that modify teams
-
-@app.route('/api/teams/')
-def teams_list():
-    """
-    List all teams.
-    Sample response:
-    {
-      "data": [
-        {
-          "teamname": "TEAM1",
-          "member_emails": ["user@domain.com"],
-          "snake_url": "http://localhost:6000/"
-        }
-      ]
-    }
-    """
-    teams = Team.find({}, limit=50)
-    return _json_response([team.to_dict() for team in teams])
-
 
 @app.route('/api/teams/', methods=['POST'])
 def teams_create():
@@ -103,22 +124,3 @@ def teams_create():
         return _json_response({}, msg='Team with that name already exists', status=400)
 
     return _json_response(team.to_dict(), msg='Team created', status=201)
-
-
-@app.route('/api/teams/<teamname>')
-def team_details(teamname):
-    """
-    Get data for a single team.
-    Sample response:
-    {
-      "data": {
-        "_id": "TEAM1",
-        "member_emails": ["user@domain.com"],
-        "snake_url": "http://localhost:6000/"
-      }
-    }
-    """
-    team = Team.find_one({'teamname': teamname})
-    if not team:
-        return _json_response(msg='Team not found', status=404)
-    return _json_response(team.to_dict())

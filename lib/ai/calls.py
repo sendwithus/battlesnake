@@ -4,7 +4,7 @@ import time
 import requests.exceptions
 
 from lib.ai import grequests
-from lib.ai.local import LOCAL_SNAKES
+from lib.ai.local import create_local_snake
 from lib.log import get_logger
 
 
@@ -86,13 +86,14 @@ def __call_local_snakes(snakes, endpoint, payload):
     ai_responses = []
 
     for snake in snakes:
-        ai_name = snake.url.split('://')[1]
-
-        # TODO Catch case where ai_name is not recognized
-        local_snake = LOCAL_SNAKES[ai_name]()
+        snake_name = snake.url.split('://')[1]
+        local_snake = create_local_snake(snake_name)
 
         # TODO Try catch and timeout this?
-        response_data = getattr(local_snake, endpoint)(payload)
+        if payload:
+            response_data = getattr(local_snake, endpoint)(payload)
+        else:
+            response_data = getattr(local_snake, endpoint)()
 
         ai_responses.append(AIResponse(snake=snake, data=response_data))
 

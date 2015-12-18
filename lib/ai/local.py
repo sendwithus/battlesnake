@@ -1,6 +1,13 @@
-class LocalSnake(object):
+from importlib import import_module
 
-    def whois(self, payload):
+
+LOCAL_SNAKE_CLASSES = {}
+
+
+class LocalSnake(object):
+    """ Base object for all Local Snakes to inherit from. """
+
+    def whois(self):
         """ Responds: name, color, head """
         raise NotImplementedError()
 
@@ -17,32 +24,12 @@ class LocalSnake(object):
         raise NotImplementedError()
 
 
-class BradSnake(LocalSnake):
+def create_local_snake(snake_name):
+    # Import Snake class if we don't have it already.
+    if snake_name not in LOCAL_SNAKE_CLASSES:
+        module_name = 'snakes.%s' % snake_name
+        module = import_module(module_name)
 
-    def whois(self, payload):
-        return {
-            'name': 'BradSnake',
-            'color': '#f0f088',
-            'head': 'barf'
-        }
+        LOCAL_SNAKE_CLASSES[snake_name] = getattr(module, 'Snake')
 
-    def start(self, payload):
-        return {
-            'taunt': 'go taunt yourself'
-        }
-
-    def move(self, payload):
-        return {
-            'move': 'north',
-            'taunt': 'up up and away!'
-        }
-
-    def end(self, payload):
-        return {
-            'taunt': 'barf I died'
-        }
-
-
-LOCAL_SNAKES = {
-    'brad': BradSnake
-}
+    return LOCAL_SNAKE_CLASSES[snake_name]()

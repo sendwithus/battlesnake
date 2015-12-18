@@ -1,11 +1,11 @@
 from importlib import import_module
 
 
-LOCAL_SNAKE_CLASSES = {}
+__LOCAL_SNAKE_CLASSES = {}
 
 
 class LocalSnake(object):
-    """ Base object for all Local Snakes to inherit from. """
+    """ Base object for all Local Snake AIs """
 
     def whois(self):
         """ Responds: name, color, head """
@@ -25,11 +25,13 @@ class LocalSnake(object):
 
 
 def create_local_snake(snake_name):
+    """ Returns an instance of a Snake class loaded from snakes.snake_name """
+
     # Import Snake class if we don't have it already.
-    if snake_name not in LOCAL_SNAKE_CLASSES:
+    if snake_name not in __LOCAL_SNAKE_CLASSES:
         module_name = 'snakes.%s' % snake_name
         module = import_module(module_name)
 
-        LOCAL_SNAKE_CLASSES[snake_name] = getattr(module, 'Snake')
+        __LOCAL_SNAKE_CLASSES[snake_name] = getattr(module, 'Snake')
 
-    return LOCAL_SNAKE_CLASSES[snake_name]()
+    return __LOCAL_SNAKE_CLASSES[snake_name]()

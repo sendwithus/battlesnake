@@ -17,7 +17,7 @@ class LocalSnake(object):
         raise NotImplementedError()
 
 
-class BradSnake(object):
+class BradSnake(LocalSnake):
 
     def whois(self, payload):
         return {

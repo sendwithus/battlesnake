@@ -1,1 +1,1 @@
-from models import Game, GameState
+from lib.models.game import Game, GameState

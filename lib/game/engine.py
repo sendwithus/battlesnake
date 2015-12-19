@@ -2,7 +2,7 @@ import copy
 import random
 
 import lib.game.constants as constants
-from lib.game.models import GameState
+from lib.models.game import GameState
 
 
 class Engine(object):

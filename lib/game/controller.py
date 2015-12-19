@@ -5,8 +5,10 @@ import time
 from gevent import signal as gevent_signal
 
 import lib.ai as ai
+
 from lib.game.engine import Engine
 from lib.game.models import Game, GameState, Snake
+
 from lib.log import get_logger
 
 
@@ -43,6 +45,7 @@ def rematch_game(game_id):
         snake_urls.append(snake.url)
 
     return create_game(snake_urls, game.width, game.height, game.turn_time)[0]
+
 
 
 def create_game(snake_urls, width, height, turn_time):

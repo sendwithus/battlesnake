@@ -6,7 +6,7 @@ class Snake(LocalSnake):
     def whois(self):
         return {
             'name': 'BradSnake',
-            'color': '#f0f088',
+            'color': '#f0f087',
             'head': 'barf'
         }
 

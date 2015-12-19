@@ -1,6 +1,7 @@
 import json
 import time
 
+import gevent.Timeout
 import requests.exceptions
 
 from lib.ai import grequests
@@ -11,6 +12,10 @@ from lib.log import get_logger
 DEFAULT_TIMEOUT_SECONDS = 1.0
 
 logger = get_logger(__name__)
+
+
+class LocalSnakeTimeout(Exception):
+    pass
 
 
 class AIResponse(object):
@@ -86,16 +91,27 @@ def __call_local_snakes(snakes, endpoint, payload):
     ai_responses = []
 
     for snake in snakes:
+        ai_response = AIResponse(snake=snake)
+
         snake_name = snake.url.split('://')[1]
         local_snake = create_local_snake(snake_name)
 
-        # TODO Try catch and timeout this?
-        if payload:
-            response_data = getattr(local_snake, endpoint)(payload)
+        try:
+            with gevent.Timeout(0.1):
+                if payload:
+                    response_data = getattr(local_snake, endpoint)(payload)
+                else:
+                    response_data = getattr(local_snake, endpoint)()
+        except gevent.Timeout:
+            logger.exception('local snake timeout')
+            ai_response.error = 'LOCAL SNAKE TIMEOUT'
+        except:
+            logger.exception('local snake error')
+            ai_response.error = 'LOCAL SNAKE ERROR'
         else:
-            response_data = getattr(local_snake, endpoint)()
+            ai_response.data = response_data
 
-        ai_responses.append(AIResponse(snake=snake, data=response_data))
+        ai_responses.append(ai_response)
 
     return ai_responses
 

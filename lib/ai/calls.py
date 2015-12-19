@@ -14,10 +14,6 @@ DEFAULT_TIMEOUT_SECONDS = 1.0
 logger = get_logger(__name__)
 
 
-class LocalSnakeTimeout(Exception):
-    pass
-
-
 class AIResponse(object):
     """
     Maps a snake to response properties with an optional error.

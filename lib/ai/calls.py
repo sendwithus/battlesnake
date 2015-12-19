@@ -1,7 +1,7 @@
 import json
 import time
 
-import gevent.Timeout
+import gevent
 import requests.exceptions
 
 from lib.ai import grequests

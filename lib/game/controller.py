@@ -6,7 +6,7 @@ from gevent import signal as gevent_signal
 
 import lib.ai as ai
 from lib.game.engine import Engine
-from lib.game.models import Game, GameState
+from lib.game.models import Game, GameState, Snake
 from lib.log import get_logger
 
 
@@ -40,27 +40,9 @@ def rematch_game(game_id):
 
     snake_urls = []
     for snake in game_state.snakes + game_state.dead_snakes:
-        snake_urls.append(snake['url'])
+        snake_urls.append(snake.url)
 
     return create_game(snake_urls, game.width, game.height, game.turn_time)[0]
-
-
-def __create_snake(url, color='', name='', head='', taunt=''):
-    return {
-        'url': url,
-        'status': 'alive',
-        'message': '',
-        'taunt': '',
-        'age': 0,
-        'health': 0,
-        'color': color,
-        'name': name,
-        'head': head,
-        'taunt': taunt,
-        'coords': [],
-        'kills': 0,
-        'food': 0
-    }
 
 
 def create_game(snake_urls, width, height, turn_time):
@@ -69,7 +51,7 @@ def create_game(snake_urls, width, height, turn_time):
 
     # Fetch info about each Snake
     snakes = [
-        __create_snake(
+        Snake(
             url=snake_url,
             color=response.color,
             name=response.name,
@@ -92,29 +74,25 @@ def create_game(snake_urls, width, height, turn_time):
     # Notify snakes that we're about to start
     for snake_url, response in ai.start(snake_urls, game, snakes):
         for snake in game_state.snakes:
-            if snake_url == snake['url']:
-                snake['taunt'] = response.taunt
+            if snake_url == snake.url:
+                snake.taunt = response.taunt
 
     # Save the first GameState
     game_state.insert()
 
     if len(snakes) > 1:
         _update_slack(game.id, '%d brave snakes enter the grid: %s' % (
-            len(snakes), ', '.join([s['name'] for s in snakes]))
+            len(snakes), ', '.join([s.name for s in snakes]))
         )
 
     return game, game_state
 
 
 def get_moves(game, game_state):
-    snake_urls = [snake['url'] for snake in game_state.snakes]
+    snake_urls = [snake.url for snake in game_state.snakes]
 
     moves = [
-        {
-            'snake_url': snake_url,
-            'move': response.move,
-            'taunt': response.taunt
-        }
+        Move(snake_url, response.move, response.taunt)
         for snake_url, response
         in ai.move(snake_urls, game_state)
     ]
@@ -139,11 +117,11 @@ def next_turn(game):
 
 def end_game(game, game_state):
     # Notify snakes that the game is over
-    snake_urls = [snake['url'] for snake in game_state.snakes]
+    snake_urls = [snake.url for snake in game_state.snakes]
     for snake_url, response in ai.end(snake_urls, game, game_state):
         for snake in game_state.snakes:
-            if snake_url == snake['url']:
-                snake['taunt'] = response.taunt
+            if snake_url == snake.url:
+                snake.taunt = response.taunt
 
     # Finalize the game
     game.stats = generate_stats_object(game, game_state)
@@ -151,8 +129,8 @@ def end_game(game, game_state):
     game.save()
 
     for snake in game_state.snakes:
-        if snake['status'] == 'alive':
-            _update_slack(game.id, '%s wins after %d turns!' % (snake['name'], game_state.turn))
+        if snake.status == Snake.STATUS_ALIVE
+            _update_slack(game.id, '%s wins after %d turns!' % (snake.name, game_state.turn))
             break
 
 
@@ -233,35 +211,35 @@ def generate_stats_object(game, game_state):
     deadliest = None
 
     for snake in all_snakes:
-        kills = snake.get('kills', 0)
-        food_eaten = snake.get('food_eaten', 0)
-        length = len(snake['coords'])
+        kills = snake.kills
+        food_eaten = snake.food_eaten
+        length = len(snake.coords)
 
-        if not longest or length > len(longest['coords']):
+        if not longest or length > len(longest.coords):
             longest = snake
 
-        if food_eaten > 0 and (not hungriest or food_eaten > hungriest.get('food_eaten', 0)):
+        if food_eaten > 0 and (not hungriest or food_eaten > hungriest.food_eaten):
             hungriest = snake
 
-        if kills > 0 and (not deadliest or kills > deadliest.get('kills', 0)):
+        if kills > 0 and (not deadliest or kills > deadliest.kills):
             deadliest = snake
 
         # Group all the snake names
-        stats['snake_names'].append(snake['name'])
+        stats['snake_names'].append(snake.name)
 
     stats['snakes'] = all_snakes
 
     if longest:
-        stats['longest'] = longest['name']
+        stats['longest'] = longest.name
 
     if deadliest:
-        stats['deadliest'] = longest['name']
+        stats['deadliest'] = longest.name
 
     if hungriest:
-        stats['hungriest'] = hungriest['name']
+        stats['hungriest'] = hungriest.name
 
     # Find the winner
     if len(game_state.snakes) == 1:
-        stats['winner'] = game_state.snakes[0]['name']
+        stats['winner'] = game_state.snakes[0].name
 
     return stats

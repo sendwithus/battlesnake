@@ -29,21 +29,6 @@ def __game_to_dict(game):
     }
 
 
-def __snake_to_dict(snake):
-    # Note that we intentionally do not expose URL
-    return {
-        'name': snake['name'],
-        'status': snake['status'],
-        'message': snake['message'],
-        'taunt': snake['taunt'],
-        'age': snake['age'],
-        'health': snake['health'],
-        'coords': snake['coords'],
-        'kills': snake['kills'],
-        'food': snake['food']
-    }
-
-
 def __call_urls(base_urls, method, endpoint, payload):
     urls = ['%s%s' % (base_url, endpoint) for base_url in base_urls]
 
@@ -99,7 +84,7 @@ def move(snake_urls, game, game_state):
         - taunt
     """
     payload = __game_to_dict(game)
-    payload['snakes'] = [__snake_to_dict(snake) for snake in game_state.snakes]
+    payload['snakes'] = [snake.to_dict_public() for snake in game_state.snakes]
     payload['board'] = []  # TODO
     payload['food'] = []  # TODO
 
@@ -112,6 +97,6 @@ def end(snake_urls, game, game_state):
         - taunt
     """
     payload = __game_to_dict(game)
-    payload['snakes'] = [__snake_to_dict(snake) for snake in game_state.snakes]
+    payload['snakes'] = [snake.to_dict_public() for snake in game_state.snakes]
 
     return __call_urls(snake_urls, 'POST', '/end', payload)

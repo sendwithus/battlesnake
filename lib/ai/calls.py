@@ -44,7 +44,7 @@ def __game_to_dict(game, game_state=None):
         data['turn'] = game_state.turn
 
     return data
-    
+
 
 def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
 
@@ -163,6 +163,5 @@ def end(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
 
     payload = __game_to_dict(game)
     payload['snakes'] = [snake.to_dict_public() for snake in game_state.snakes]
-
 
     return __call_snakes(snakes, 'POST', '/end', payload, timeout_seconds)

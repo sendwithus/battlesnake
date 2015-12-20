@@ -6,8 +6,8 @@ from gevent import signal as gevent_signal
 
 import lib.ai as ai
 
-from lib.game.engine import Engine
-from lib.game.models import Game, GameState, Snake
+from lib.game.engine import Engine, Move, Snake
+from lib.models.game import Game, GameState
 
 from lib.log import get_logger
 
@@ -45,7 +45,6 @@ def rematch_game(game_id):
         snake_urls.append(snake.url)
 
     return create_game(snake_urls, game.width, game.height, game.turn_time)[0]
-
 
 
 def create_game(snake_urls, width, height, turn_time):
@@ -132,7 +131,7 @@ def end_game(game, game_state):
     game.save()
 
     for snake in game_state.snakes:
-        if snake.status == Snake.STATUS_ALIVE
+        if snake.status == Snake.STATUS_ALIVE:
             _update_slack(game.id, '%s wins after %d turns!' % (snake.name, game_state.turn))
             break
 

@@ -257,11 +257,7 @@ class Engine(object):
         else:
             raise Exception('failed to determine default move: %s' % str(vector))
 
-        return {
-            'move': move,
-            'snake_name': snake.name,
-            'taunt': ''
-        }
+        return Move(snake, move, '')
 
     @classmethod
     def resolve_moves(cls, game_state, moves):
@@ -272,40 +268,33 @@ class Engine(object):
 
         # Get moves for all snakes
         for snake in game_state.snakes:
-            move = cls.get_default_move(snake)
-            action = move['move']
+            snake_move = None
 
             # Find move for this snake
-            for m in moves:
-                if m['snake_url'] == snake.url:
-                    move = m
+            for move in moves:
+                if move.snake.url == snake.url:
+                    snake_move = move
+                    break
 
-                    # If action is not valid, override it
-                    if m['move'] not in cls.VALID_MOVES:
-                        move['move'] = action
-
-            action = move['move']
-            snake_url = move['snake_url']
+            if (not snake_move) or (snake_move.move not in cls.VALID_MOVES):
+                # Apply default move
+                snake_move = cls.get_default_move(snake)
 
             # Copy Old Snake
-            new_snake = cls.copy_snake(game_state, snake_url)
-            new_snake.taunt = move['taunt']
+            new_snake = cls.copy_snake(game_state, snake)
+            new_snake.taunt = move.taunt
 
-            # If the snake is dead, ignore this move
-            if not new_snake:
-                continue
-
-            # Add New Head
-            if action == cls.MOVE_UP:
+            # Move the snake
+            if snake_move.move == cls.MOVE_UP:
                 new_snake.move_north()
 
-            if action == cls.MOVE_DOWN:
+            if snake_move.move == cls.MOVE_DOWN:
                 new_snake.move_south()
 
-            if action == cls.MOVE_RIGHT:
+            if snake_move.move == cls.MOVE_RIGHT:
                 new_snake.move_east()
 
-            if action == cls.MOVE_LEFT:
+            if snake_move.move == cls.MOVE_LEFT:
                 new_snake.move_west()
 
             new_snakes.append(new_snake)

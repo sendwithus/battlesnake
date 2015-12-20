@@ -48,21 +48,6 @@ def __game_to_dict(game, game_state=None):
     return data
 
 
-def __snake_to_dict(snake):
-    # Note that we intentionally do not expose URL
-    return {
-        'name': snake.name,
-        'status': snake.status,
-        'message': snake.message,
-        'taunt': snake.taunt,
-        'age': snake.age,
-        'health': snake.health,
-        'coords': snake.coords,
-        'kills': snake.kills,
-        'food': snake.food
-    }
-
-
 def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
 
     local_snakes = []
@@ -210,8 +195,10 @@ def move(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
         - move
         - taunt
     """
-    payload = __game_to_dict(game, game_state)
-    payload['snakes'] = [__snake_to_dict(snake) for snake in game_state.snakes]
+
+    payload = __game_to_dict(game)
+    payload['snakes'] = [snake.to_dict_public() for snake in game_state.snakes]
+
     payload['board'] = []  # TODO
     payload['food'] = []  # TODO
 
@@ -223,7 +210,8 @@ def end(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     Response:
         - taunt
     """
-    payload = __game_to_dict(game, game_state)
-    payload['snakes'] = [__snake_to_dict(snake) for snake in game_state.snakes]
+
+    payload = __game_to_dict(game)
+    payload['snakes'] = [snake.to_dict_public() for snake in game_state.snakes]
 
     return __call_snakes(snakes, 'POST', 'end', payload, timeout_seconds)

@@ -1,10 +1,18 @@
 #!/usr/bin/env python
 
+import os
+from os.path import abspath, dirname, join
 import sys
-from os.path import join, abspath, dirname
+
+HOST = '127.0.0.1'
+PORT = int(os.environ.get('PORT', 5000))
+
 
 # Add parent directory to path
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 
+
 from lib.server import app
-app.run(debug=True)
+
+print "Running flask at {}:{}".format(HOST, PORT)
+app.run(host=HOST, port=PORT, debug=True)

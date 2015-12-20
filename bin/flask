@@ -4,7 +4,7 @@ import os
 from os.path import abspath, dirname, join
 import sys
 
-HOST = '127.0.0.1'
+HOST = os.environ.get('HOST', '127.0.0.1')
 PORT = int(os.environ.get('PORT', 5000))
 
 

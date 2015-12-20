@@ -39,8 +39,15 @@ class Team(Model):
 
     def to_dict(self):
         return {
-            'teamname':  self.teamname,
+            'teamname': self.teamname,
             'pw_hash': self.pw_hash,
+            'snake_url': self.snake_url,
+            'member_emails': self.member_emails
+        }
+
+    def serialize(self):
+        return {
+            'teamname': self.teamname,
             'snake_url': self.snake_url,
             'member_emails': self.member_emails
         }
@@ -52,6 +59,7 @@ class Team(Model):
             snake_url=obj.get('snake_url', None),
             member_emails=obj.get('member_emails', []),
         )
+        instance.id = obj['_id']
         instance.pw_hash = obj['pw_hash']
         return instance
 

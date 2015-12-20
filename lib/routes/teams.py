@@ -1,7 +1,9 @@
-from flask import g
+from flask import g, request
 from flask.ext.login import login_required
+from pymongo.errors import DuplicateKeyError
 
 from lib.server import _json_response, app
+from lib.models.team import Team
 
 # Public routes
 
@@ -21,7 +23,7 @@ def teams_list():
     }
     """
     teams = Team.find({}, limit=50)
-    return _json_response([team.to_dict() for team in teams])
+    return _json_response([team.serialize() for team in teams])
 
 @app.route('/api/teams/<teamname>')
 def team_details(teamname):
@@ -39,16 +41,14 @@ def team_details(teamname):
     team = Team.find_one({'teamname': teamname})
     if not team:
         return _json_response(msg='Team not found', status=404)
-    return _json_response(team.to_dict())
+    return _json_response(team.serialize())
 
 # Signed in team routes
 
 @app.route('/api/teams/current')
 @login_required
 def team_info():
-    return _json_response(data={
-        'teamname': g.team.teamname
-    })
+    return _json_response(data=g.team.serialize())
 
 
 @app.route('/api/teams/current/members/<email>', methods=['PUT'])
@@ -110,17 +110,23 @@ def teams_create():
         return _json_response(msg='Invalid team', status=400)
 
     try:
-        name = data['teamname']
+        teamname = data['teamname']
+        password = data['password']
     except KeyError:
-        return _json_response(msg='Invalid team', status=400)
+        return _json_response(msg='Invalid team, missing attributes', status=400)
 
     snake_url = data.get('snake_url', None)
     member_emails = data.get('member_emails', [])
 
-    team = Team(name=name, snake_url=snake_url, member_emails=member_emails)
+    existing_team = Team.find_one({'teamname': teamname})
+    if existing_team:
+        return _json_response(msg='Team name already exists', status=400)
+
+    team = Team(teamname=teamname, password=password,
+                snake_url=snake_url, member_emails=member_emails)
     try:
         team.insert()
     except DuplicateKeyError:
         return _json_response({}, msg='Team with that name already exists', status=400)
 
-    return _json_response(team.to_dict(), msg='Team created', status=201)
+    return _json_response(team.serialize(), msg='Team created', status=201)

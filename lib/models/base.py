@@ -42,6 +42,10 @@ class Model(object):
     def to_dict(self):
         raise NotImplementedError
 
+    def serialize(self):
+        """ Return a dict representation that's safe to return to the browser. """
+        return self.to_dict()
+
     @classmethod
     def _get_collection(cls):
         return get_mongodb()[cls.__name__.lower()]

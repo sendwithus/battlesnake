@@ -3,4 +3,4 @@
 # Remove pyc files first to be safe
 find . -name '*.pyc' -delete
 
-heroku local  -f ${1:-Procfile.local}
+foreman start -f ${1:-Procfile.local}

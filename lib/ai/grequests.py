@@ -13,16 +13,6 @@ by gevent. All API methods return a ``Request`` instance (as opposed to
 from functools import partial
 import time
 
-try:
-    import gevent
-    # from gevent import monkey as curious_george
-    from gevent.pool import Pool
-except ImportError:
-    raise RuntimeError('Gevent is required for grequests.')
-
-# Monkey-patch.
-# curious_george.patch_all(thread=False, select=False)
-
 from requests import Session
 
 from lib.log import get_logger
@@ -74,6 +64,8 @@ class AsyncRequest(object):
         merged_kwargs = {}
         merged_kwargs.update(self.kwargs)
         merged_kwargs.update(kwargs)
+
+        self.response = None
 
         start_time = time.time()
         try:
@@ -131,10 +123,12 @@ def map(requests, stream=False, size=None, exception_handler=None):
     ret = []
 
     for request in requests:
-        if request.response:
+        if request.response is not None:
             ret.append(request.response)
-        elif exception_handler:
+        elif exception_handler and request.exception:
             exception_handler(request, request.exception)
+        else:
+            raise Exception('grequests unknown response state')
 
     return ret
 

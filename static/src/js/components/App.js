@@ -1,6 +1,5 @@
 import React from 'react';
 import RouterMixin from 'react-router';
-
 import Navbar from './navbar';
 import Game from './game';
 import GameCreate from './gamecreate';

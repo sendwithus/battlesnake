@@ -6,7 +6,7 @@ from gevent import signal as gevent_signal
 
 import lib.ai as ai
 
-from lib.game.engine import Engine, Move, Snake
+from lib.game.engine import Engine, Snake
 from lib.models.game import Game, GameState
 
 from lib.log import get_logger

@@ -50,19 +50,6 @@ class Snake(object):
             'died_on_turn': self.died_on_turn,
         }
 
-    def to_dict_public(self):
-        return {
-            'name': self.name,
-            'taunt': self.taunt,
-            'status': self.status,
-            'message': self.message,
-            'age': self.age,
-            'health': self.health,
-            'coords': self.coords,
-            'kills': self.kills,
-            'food_eaten': self.food_eaten
-        }
-
     @classmethod
     def from_dict(cls, obj):
         snake = cls(obj['url'], obj['name'], obj['color'], obj['head'], obj['taunt'])
@@ -319,7 +306,8 @@ class Engine(object):
                 # Head to Body Collision
                 if snake.coords[0] in check_snake.coords:
                     kill.append(snake.name)
-                    grow[check_snake.name] = grow.get(snake.name, 0) + int(len(snake.coords) * constants.EAT_RATIO)
+                    grow[check_snake.name] = (
+                        grow.get(snake.name, 0) + int(len(snake.coords) * constants.EAT_RATIO))
                     snake.killed_by = check_snake.name
                     check_snake.kills = check_snake.kills + 1
                     continue
@@ -351,7 +339,8 @@ class Engine(object):
                 new_food.remove(food)
 
         # Create new_game_state using new_snakes and new_food
-        new_game_state = cls.create_game_state(game_state.game_id, game_state.width, game_state.height)
+        new_game_state = cls.create_game_state(
+            game_state.game_id, game_state.width, game_state.height)
         new_game_state.snakes = new_snakes
         new_game_state.dead_snakes = dead_snakes
         new_game_state.food = new_food

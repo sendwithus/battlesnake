@@ -90,7 +90,7 @@ def create_game(snake_urls, width, height, turn_time):
     Engine.add_starting_food_to_board(game_state)
 
     # Notify snakes that we're about to start
-    _update_snakes(snakes, ai.start(snakes, game))
+    _update_snakes(game_state.snakes, ai.start(game, game_state))
 
     # Save the first GameState
     game_state.insert()
@@ -111,8 +111,7 @@ def next_turn(game):
     game_state = game_states[0]
 
     # Update taunts and moves
-    ai_responses = ai.move(game_state.snakes, game, game_state)
-    _update_snakes(game_state.snakes, ai_responses)
+    _update_snakes(game_state.snakes, ai.move(game, game_state))
 
     next_game_state = Engine.resolve_moves(game_state)
     next_game_state.insert()
@@ -122,7 +121,7 @@ def next_turn(game):
 
 def end_game(game, game_state):
     # Notify snakes that the game is over
-    _update_snakes(game_state.snakes, ai.whois(game_state.snakes))
+    _update_snakes(game_state.snakes, ai.end(game, game_state))
 
     # Finalize the game
     game.stats = generate_stats_object(game, game_state)

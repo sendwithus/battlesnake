@@ -6,6 +6,7 @@ import requests.exceptions
 
 from lib.ai import grequests
 from lib.ai.local import create_local_snake
+from lib.ai.serializers import serialize_game
 from lib.log import get_logger
 
 
@@ -32,20 +33,6 @@ class AIResponse(object):
         if self.data and name in self.data:
             return self.data[name]
         raise KeyError(name)
-
-
-def __game_to_dict(game, game_state=None):
-    data = {
-        'game': game.id,
-        'mode': 'classic',
-        'height': game.height,
-        'width': game.width,
-    }
-
-    if game_state:
-        data['turn'] = game_state.turn
-
-    return data
 
 
 def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
@@ -178,40 +165,29 @@ def whois(snakes, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     return __call_snakes(snakes, 'GET', '', None, timeout_seconds)
 
 
-def start(snakes, game, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
+def start(game, game_state):
     """
     Response:
         - taunt
     """
-    payload = __game_to_dict(game)
-    payload['snakes'] = [{'name': snake['name']} for snake in snakes]
-
-    return __call_snakes(snakes, 'POST', 'start', payload, timeout_seconds)
+    payload = serialize_game(game, game_state)
+    return __call_snakes(game_state.snakes, 'POST', 'start', payload, game.turn_time)
 
 
-def move(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
+def move(game, game_state):
     """
     Response:
         - move
         - taunt
     """
-
-    payload = __game_to_dict(game)
-    payload['snakes'] = [snake.to_dict_public() for snake in game_state.snakes]
-
-    payload['board'] = []  # TODO
-    payload['food'] = []  # TODO
-
-    return __call_snakes(snakes, 'POST', 'move', payload, timeout_seconds)
+    payload = serialize_game(game, game_state)
+    return __call_snakes(game_state.snakes, 'POST', 'move', payload, game.turn_time)
 
 
-def end(snakes, game, game_state, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
+def end(game, game_state):
     """
     Response:
-        - taunt
+        None
     """
-
-    payload = __game_to_dict(game)
-    payload['snakes'] = [snake.to_dict_public() for snake in game_state.snakes]
-
-    return __call_snakes(snakes, 'POST', 'end', payload, timeout_seconds)
+    payload = serialize_game(game, game_state)
+    return __call_snakes(game_state.snakes, 'POST', 'end', payload, game.turn_time)

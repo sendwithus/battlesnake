@@ -77,7 +77,7 @@ class Game(Model):
             height=obj['height'],
             turn_time=obj['turn_time'],
             is_live=obj.get('is_live', False),
-            mode=obj.get('mode', MODE_CLASSIC)
+            mode=obj.get('mode', cls.MODE_CLASSIC)
         )
 
         instance._add_timestamps(obj)
@@ -149,17 +149,17 @@ class GameState(Model):
                     if snake['name'] == check_snake['name']:
                         continue
                     if coord in check_snake['coords']:
-                        raise ValueError('Sanity Check Failed: board.snakes contains overlapping coords.')
+                        raise ValueError('board.snakes contains overlapping coords.')
                 if coord in self.food:
-                    raise ValueError('Sanity Check Failed: board.snakes and board.food contain overlapping coords.')
+                    raise ValueError('board.snakes and board.food contain overlapping coords.')
                 if coord[0] > (self.width - 1):
-                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                    raise ValueError('board.snakes outside bounds of self.board')
                 if coord[0] < 0:
-                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                    raise ValueError('board.snakes outside bounds of self.board')
                 if coord[1] > (self.height - 1):
-                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                    raise ValueError('board.snakes outside bounds of self.board')
                 if coord[1] < 0:
-                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                    raise ValueError('board.snakes outside bounds of self.board')
 
     def to_dict(self):
         return {

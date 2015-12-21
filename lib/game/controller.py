@@ -121,7 +121,7 @@ def next_turn(game):
 
 def end_game(game, game_state):
     # Notify snakes that the game is over
-    _update_snakes(game_state.snakes, ai.end(game, game_state))
+    ai.end(game, game_state)
 
     # Finalize the game
     game.stats = generate_stats_object(game, game_state)

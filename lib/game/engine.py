@@ -5,28 +5,6 @@ import lib.game.constants as constants
 from lib.models.game import GameState
 
 
-class Move(object):
-
-    def __init__(self, snake_url, move, taunt):
-
-        super(Move, self).__init__()
-
-        self.snake_url = snake_url
-        self.move = move
-        self.taunt = taunt
-
-    def to_dict(self):
-        return {
-            'snake_url': self.snake_url,
-            'move': self.move,
-            'taunt': self.taunt
-        }
-
-    @classmethod
-    def from_dict(cls, obj):
-        return cls(obj['snake_url'], obj['move'], obj['taunt'])
-
-
 class Snake(object):
     STATUS_ALIVE = 'alive'
     STATUS_DEAD = 'dead'
@@ -50,6 +28,8 @@ class Snake(object):
         self.last_eaten = 0
         self.killed_by = ''
         self.died_on_turn = 0
+        self.move = ''
+        self.error = None
 
     def to_dict(self):
         return {
@@ -123,12 +103,12 @@ class Snake(object):
 
 
 class Engine(object):
-    MOVE_UP = 'up'
-    MOVE_DOWN = 'down'
-    MOVE_LEFT = 'left'
-    MOVE_RIGHT = 'right'
+    MOVE_NORTH = 'north'
+    MOVE_SOUTH = 'south'
+    MOVE_WEST = 'west'
+    MOVE_EAST = 'east'
 
-    VALID_MOVES = [MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT]
+    VALID_MOVES = [MOVE_NORTH, MOVE_SOUTH, MOVE_WEST, MOVE_EAST]
 
     STARVATION = 'starvation'
     SUICIDE = 'itself'
@@ -257,44 +237,33 @@ class Engine(object):
         else:
             raise Exception('failed to determine default move: %s' % str(vector))
 
-        return Move(snake, move, '')
+        return move
 
     @classmethod
-    def resolve_moves(cls, game_state, moves):
+    def resolve_moves(cls, game_state):
         # Determine what snakes and food are left on the board after this turn
         new_snakes = []
         dead_snakes = copy.deepcopy(game_state.dead_snakes)
         new_food = list(game_state.food)
 
-        # Get moves for all snakes
+        # Move all snakes
         for snake in game_state.snakes:
-            snake_move = None
 
-            # Find move for this snake
-            for move in moves:
-                if move.snake.url == snake.url:
-                    snake_move = move
-                    break
-
-            if (not snake_move) or (snake_move.move not in cls.VALID_MOVES):
-                # Apply default move
-                snake_move = cls.get_default_move(snake)
+            # Make sure move is valid
+            if snake.move not in cls.VALID_MOVES:
+                snake.move = cls.get_default_move(snake)
 
             # Copy Old Snake
             new_snake = cls.copy_snake(game_state, snake)
-            new_snake.taunt = move.taunt
 
             # Move the snake
-            if snake_move.move == cls.MOVE_UP:
+            if snake.move == cls.MOVE_NORTH:
                 new_snake.move_north()
-
-            if snake_move.move == cls.MOVE_DOWN:
+            elif snake.move == cls.MOVE_SOUTH:
                 new_snake.move_south()
-
-            if snake_move.move == cls.MOVE_RIGHT:
+            elif snake.move == cls.MOVE_EAST:
                 new_snake.move_east()
-
-            if snake_move.move == cls.MOVE_LEFT:
+            elif snake.move == cls.MOVE_WEST:
                 new_snake.move_west()
 
             new_snakes.append(new_snake)

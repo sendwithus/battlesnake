@@ -25,14 +25,22 @@ def _update_snakes(snakes, ai_responses):
     for snake in snakes:
         for ai_response in ai_responses:
             if ai_response.snake.url == snake.url:
-                if hasattr(ai_response, 'name'):
-                    snake.name = ai_response.name
-                if hasattr(ai_response, 'color'):
-                    snake.color = ai_response.color
-                if hasattr(ai_response, 'head'):
-                    snake.head = ai_response.head
-                if hasattr(ai_response, 'taunt'):
-                    snake.taunt = ai_response.taunt
+                if ai_response.error:
+                    snake.error = ai_response.error
+
+                else:
+                    snake.error = None
+                    if hasattr(ai_response, 'name'):
+                        snake.name = ai_response.name
+                    if hasattr(ai_response, 'color'):
+                        snake.color = ai_response.color
+                    if hasattr(ai_response, 'head'):
+                        snake.head = ai_response.head
+                    if hasattr(ai_response, 'taunt'):
+                        snake.taunt = ai_response.taunt
+                    if hasattr(ai_response, 'move'):
+                        snake.move = ai_response.move
+
                 break
 
 
@@ -95,11 +103,6 @@ def create_game(snake_urls, width, height, turn_time):
     return game, game_state
 
 
-def get_moves(game, game_state):
-    ai_responses = ai.move(game_state.snakes, game_state)
-    return [Move(r.snake, r.move, r.taunt) for r in ai_responses]
-
-
 def next_turn(game):
     game_states = GameState.find({'game_id': game.id}, limit=1)
     if not game_states:
@@ -107,9 +110,11 @@ def next_turn(game):
 
     game_state = game_states[0]
 
-    moves = get_moves(game, game_state)
+    # Update taunts and moves
+    ai_responses = ai.move(game_state.snakes, game, game_state)
+    _update_snakes(game_state.snakes, ai_responses)
 
-    next_game_state = Engine.resolve_moves(game_state, moves)
+    next_game_state = Engine.resolve_moves(game_state)
     next_game_state.insert()
 
     return next_game_state

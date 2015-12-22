@@ -50,12 +50,16 @@ def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
 
     # Handle remote snakes first
     ai_responses = __call_remote_snakes(remote_snakes, method, endpoint, payload, timeout_seconds)
-    ai_responses.extend(__call_local_snakes(local_snakes, payload, endpoint))
+    ai_responses.extend(__call_local_snakes(local_snakes, endpoint, payload))
 
     return ai_responses
 
 
 def __call_local_snakes(snakes, endpoint, payload):
+    # Hack around whois being a root URI
+    if endpoint == '':
+        endpoint = 'whois'
+
     ai_responses = []
 
     for snake in snakes:

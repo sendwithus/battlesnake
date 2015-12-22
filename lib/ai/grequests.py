@@ -13,6 +13,8 @@ by gevent. All API methods return a ``Request`` instance (as opposed to
 from functools import partial
 import time
 
+import gevent
+from gevent.pool import Pool
 from requests import Session
 
 from lib.log import get_logger
@@ -116,7 +118,7 @@ def map(requests, stream=False, size=None, exception_handler=None):
 
     requests = list(requests)
 
-    pool = Pool(size) if size else None
+    pool = gvPool(size) if size else None
     jobs = [send(r, pool, stream=stream) for r in requests]
     gevent.joinall(jobs)
 

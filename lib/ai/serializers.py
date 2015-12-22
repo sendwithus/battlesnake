@@ -25,4 +25,4 @@ def serialize_snake(snake):
 
 
 def serialize_snakes(snakes):
-    return [serialize_snake for snake in snakes]
+    return [serialize_snake(snake) for snake in snakes]

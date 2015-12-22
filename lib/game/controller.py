@@ -44,7 +44,7 @@ def _update_snakes(snakes, ai_responses):
                 break
 
 
-def start_game(game_id, manual):
+def start_game(game_id, manual=None):
     game = Game.find_one({'_id': game_id})
 
     if not game:
@@ -125,6 +125,11 @@ def end_game(game, game_state):
 
     # Finalize the game
     game.stats = generate_stats_object(game, game_state)
+
+    print
+    print game.stats
+    print
+
     game.state = Game.STATE_DONE
     game.save()
 
@@ -227,7 +232,7 @@ def generate_stats_object(game, game_state):
         # Group all the snake names
         stats['snake_names'].append(snake.name)
 
-    stats['snakes'] = all_snakes
+    stats['snakes'] = [snake.to_dict() for snake in all_snakes]
 
     if longest:
         stats['longest'] = longest.name

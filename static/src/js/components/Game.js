@@ -1,7 +1,6 @@
 import React from 'react';
 import navigate from 'react-router';
 
-
 export default class Game extends React.Component {
 
   handleStart (isManual) {

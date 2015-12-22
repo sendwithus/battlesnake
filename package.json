@@ -94,5 +94,9 @@
         "plugins": []
       }
     }
+  },
+  "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "react-google-analytics": "^0.2.0"
   }
 }

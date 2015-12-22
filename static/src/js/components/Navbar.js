@@ -3,6 +3,14 @@ import React from 'react';
 
 export default class Navbar extends React.Component {
 
+  constructor () {
+    super()
+
+    this.state = {
+      mobileNavExpanded: false
+    }
+  }
+
   handleNavToggle () {
     this.setState({ mobileNavExpanded: !this.state.mobileNavExpanded });
   }
@@ -11,20 +19,10 @@ export default class Navbar extends React.Component {
     this.setState({ mobileNavExpanded: false });
   }
 
-  getInitialState () {
-    return { mobileNavExpanded: false };
-  }
-
-  getDefaultProps () {
-    return {
-      links: [ // Default nav links
-        ['/play/games', 'Games'],
-        ['/play/new', 'New']
-      ]
-    };
-  }
-
   render () {
+
+    console.log(this.props)
+    console.log(this.state)
     var navToggleClass = this.state.mobileNavExpanded ? 'in': '';
 
     // Generate nav links
@@ -43,7 +41,7 @@ export default class Navbar extends React.Component {
         <div className="container-fluid">
           <div className="navbar-header">
             <a className="navbar-brand" href="/">
-              <img src="/static/img/logo-battlesnake.png" />
+              <img src="/static/dist/img/logo-battlesnake.png" />
             </a>
             <button type="button"
                 className="navbar-toggle collapsed"
@@ -61,5 +59,11 @@ export default class Navbar extends React.Component {
       </nav>
     );
   }
-
 }
+
+Navbar.defaultProps = {
+  links: [ // Default nav links
+    ['/play/games', 'Games'],
+    ['/play/new', 'New']
+  ]
+};

@@ -125,11 +125,6 @@ def end_game(game, game_state):
 
     # Finalize the game
     game.stats = generate_stats_object(game, game_state)
-
-    print
-    print game.stats
-    print
-
     game.state = Game.STATE_DONE
     game.save()
 

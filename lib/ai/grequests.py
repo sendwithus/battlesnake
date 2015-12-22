@@ -118,7 +118,7 @@ def map(requests, stream=False, size=None, exception_handler=None):
 
     requests = list(requests)
 
-    pool = gvPool(size) if size else None
+    pool = Pool(size) if size else None
     jobs = [send(r, pool, stream=stream) for r in requests]
     gevent.joinall(jobs)
 

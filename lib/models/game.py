@@ -174,6 +174,7 @@ class GameState(Model):
             'height': self.height,
 
             # TODO: Remove the need to have this here
+            # Should push this into lib.game.engine.resolve_moves
             'board': self.generate_board(),
         }
 

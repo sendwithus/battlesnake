@@ -19,7 +19,7 @@ def _json_error(msg=None, status=400):
 
 @app.route('/')
 def index():
-    return app.send_static_file('html/index.2015.html')
+    return app.send_static_file('html/index.html')
 
 
 @app.route('/play/')

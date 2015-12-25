@@ -1,8 +1,8 @@
-from flask import g, request
-from flask.ext.login import login_required
+from flask import g, request, session
+from flask.ext.login import login_required, login_user
 from pymongo.errors import DuplicateKeyError
 
-from lib.server import _json_response, app
+from lib.server import _json_response, _json_error, app
 from lib.models.team import Team
 
 # Public routes
@@ -40,7 +40,7 @@ def team_details(teamname):
     """
     team = Team.find_one({'teamname': teamname})
     if not team:
-        return _json_response(msg='Team not found', status=404)
+        return _json_error(msg='Team not found', status=404)
     return _json_response(team.serialize())
 
 # Signed in team routes
@@ -48,7 +48,30 @@ def team_details(teamname):
 @app.route('/api/teams/current')
 @login_required
 def team_info():
+    app.logger.info(session)
     return _json_response(data=g.team.serialize())
+
+
+@app.route('/api/teams/current', methods=['PUT'])
+@login_required
+def team_update():
+    team = g.team
+    data = request.get_json()
+    if not data:
+        return _json_error(msg='Invalid team data', status=400)
+
+    for field in ('teamname', 'snake_url'):
+        if field in data:
+            setattr(team, field, data[field])
+
+    team.save()
+    data = team.serialize()
+
+    # Log in team again in case team name changed
+    # Note: calling this seems to make team un-serializable
+    login_user(team)
+
+    return _json_response(data=data)
 
 
 @app.route('/api/teams/current/members/<email>', methods=['PUT'])
@@ -107,26 +130,26 @@ def teams_create():
     """
     data = request.get_json()
     if not data:
-        return _json_response(msg='Invalid team', status=400)
+        return _json_error(msg='Invalid team', status=400)
 
     try:
         teamname = data['teamname']
         password = data['password']
     except KeyError:
-        return _json_response(msg='Invalid team, missing attributes', status=400)
+        return _json_error(msg='Invalid team, missing attributes', status=400)
 
     snake_url = data.get('snake_url', None)
     member_emails = data.get('member_emails', [])
 
     existing_team = Team.find_one({'teamname': teamname})
     if existing_team:
-        return _json_response(msg='Team name already exists', status=400)
+        return _json_error(msg='Team name already exists', status=400)
 
     team = Team(teamname=teamname, password=password,
                 snake_url=snake_url, member_emails=member_emails)
     try:
         team.insert()
     except DuplicateKeyError:
-        return _json_response({}, msg='Team with that name already exists', status=400)
+        return _json_error({}, msg='Team with that name already exists', status=400)
 
     return _json_response(team.serialize(), msg='Team created', status=201)

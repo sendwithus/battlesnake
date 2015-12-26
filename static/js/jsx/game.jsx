@@ -575,6 +575,15 @@ var GameList = React.createClass({
 });
 
 var GameCreate = React.createClass({
+    componentDidMount: function () {
+        // fetch list of teams
+        $.ajax({
+            type: 'GET',
+            url: '/api/teams/',
+        }).done(function (response) {
+            this.setState({ availableTeams: response.data });
+        }.bind(this));
+    },
     _loadPastState: function () {
         try {
             return JSON.parse(window.localStorage['battlesnake.new_game_state']);
@@ -591,6 +600,7 @@ var GameCreate = React.createClass({
 
         var gameData = {
             snake_urls: this.state.snakeUrls,
+            teamnames: this.state.teamnames,
             width: parseInt(this.state.currentWidth),
             height: parseInt(this.state.currentHeight),
             turn_time: parseFloat(this.state.currentTimeout),
@@ -646,16 +656,37 @@ var GameCreate = React.createClass({
     handleTimeoutChange: function (e) {
         this.setState({ currentTimeout: e.target.value });
     },
+    handleTeamChange: function (e) {
+        this.setState({ selectedTeamName: e.target.value });
+    },
+    handleDeleteTeam: function (i, e) {
+        var teamnames = this.state.teamnames;
+        teamnames.splice(i, 1);
+        this.setState({ teamnames: teamnames });
+    },
+    handleSubmitTeam: function (e) {
+        e.preventDefault();
+        var teamnames = this.state.teamnames;
+        teamnames.push(this.state.selectedTeamName);
+        this.setState({ teamnames: teamnames, selectedTeamName: '' });
+    },
     getInitialState: function () {
         var state = this._loadPastState();
         if (state) {
             state.isLoading = false;
+            if(!state.teamnames || !state.availableTeams) {
+              state.availableTeams = [];
+              state.teamnames = [];
+            }
             return state;
         }
 
         return {
+            availableTeams: [],
+            teamnames: [],
             snakeUrls: [ ],
             currentSnakeUrl: '',
+            selectedTeamName: '',
             currentWidth: 20,
             currentHeight: 20,
             currentTimeout: 1,
@@ -682,6 +713,39 @@ var GameCreate = React.createClass({
                 <p>You have no snake added. Input your snake url in the box below...</p>
             );
         }
+
+        var noTeamsMessage = '';
+        if (!this.state.teamnames.length) {
+            noTeamsMessage = (
+                <p>You have no teams added. Select a team in the box below...</p>
+            );
+        }
+
+        var teamsByName = {};
+
+        var teamOpts = this.state.availableTeams.map(function (team, i) {
+            teamsByName[team.teamname] = team;
+            return (
+              <option key={'team_opt_' + i} value={team.teamname}>
+                {team.teamname}
+              </option>
+            );
+        }.bind(this));
+
+        var teamnames = this.state.teamnames.map(function (teamname, i) {
+            var team = teamsByName[teamname];
+            return (
+                <div key={'team_' + i}>
+                    <a href="#"
+                        className="pull-right"
+                        onClick={this.handleDeleteTeam.bind(null, i)}>
+                        &times;
+                    </a>
+                    <p><strong>{teamname}</strong> - {team.snake_url}</p>
+                </div>
+            );
+        }.bind(this));
+
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmitSnake}>
@@ -707,6 +771,29 @@ var GameCreate = React.createClass({
                             </button>
                         </span>
                     </div>
+
+                    {noTeamsMessage}
+                    <div>
+                      {teamnames}
+                    </div>
+                    <div className="input-group">
+                        <select
+                            className="form-control"
+                            name="teamname"
+                            onChange={this.handleTeamChange}>
+                            <option value="">Select a team</option>
+                            {teamOpts}
+                        </select>
+                        <span className="input-group-btn">
+                            <button type="submit"
+                                    disabled={this.state.selectedTeamName ? false : 'on'}
+                                    className="btn btn-info big form-control"
+                                    onClick={this.handleSubmitTeam}>
+                                Add Team
+                            </button>
+                        </span>
+                    </div>
+
                     <div className="row">
                         <div className="col-md-4">
                             <label>width</label>

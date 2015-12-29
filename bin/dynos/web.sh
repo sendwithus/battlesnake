@@ -1,1 +1,1 @@
-gunicorn -c settings/gunicorn.py settings.wsgi --log-level info
+gunicorn -c settings/gunicorn.py settings.wsgi --log-level debug

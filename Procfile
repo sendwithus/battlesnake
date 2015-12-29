@@ -1,2 +1,2 @@
-web: newrelic-admin run-program bin/dynos/web.sh
-worker: newrelic-admin run-program bin/dynos/worker.sh
+web: bin/dynos/web.sh
+worker: bin/dynos/worker.sh

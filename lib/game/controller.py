@@ -6,7 +6,7 @@ from gevent import signal as gevent_signal
 
 import lib.ai as ai
 
-from lib.game.engine import Engine, Move, Snake
+from lib.game.engine import Engine, Snake
 from lib.models.game import Game, GameState
 
 from lib.log import get_logger
@@ -21,7 +21,30 @@ def _update_slack(game_id, message):
     logger.slack('<%s/%s|%s> %s', BATTLESNAKE_URL, game_id, game_id, message)
 
 
-def start_game(game_id, manual):
+def _update_snakes(snakes, ai_responses):
+    for snake in snakes:
+        for ai_response in ai_responses:
+            if ai_response.snake.url == snake.url:
+                if ai_response.error:
+                    snake.error = ai_response.error
+
+                else:
+                    snake.error = None
+                    if hasattr(ai_response, 'name'):
+                        snake.name = ai_response.name
+                    if hasattr(ai_response, 'color'):
+                        snake.color = ai_response.color
+                    if hasattr(ai_response, 'head'):
+                        snake.head = ai_response.head
+                    if hasattr(ai_response, 'taunt'):
+                        snake.taunt = ai_response.taunt
+                    if hasattr(ai_response, 'move'):
+                        snake.move = ai_response.move
+
+                break
+
+
+def start_game(game_id, manual=None):
     game = Game.find_one({'_id': game_id})
 
     if not game:
@@ -51,18 +74,11 @@ def create_game(snake_urls, width, height, turn_time):
     if not snake_urls or len(snake_urls) == 0:
         raise Exception('No snake urls added. You need at least one...')
 
-    # Fetch info about each Snake
-    snakes = [
-        Snake(
-            url=snake_url,
-            color=response.color,
-            name=response.name,
-            head=response.head
-        )
-        for snake_url, response
-        in ai.whois(snake_urls)
-    ]
+    # Create snakes and fetch whois for each
+    snakes = [Snake(url=snake_url) for snake_url in snake_urls]
+    _update_snakes(snakes, ai.whois(snakes))
 
+    # Create game
     game = Game(width=width, height=height, turn_time=turn_time)
     game.insert()
 
@@ -74,10 +90,7 @@ def create_game(snake_urls, width, height, turn_time):
     Engine.add_starting_food_to_board(game_state)
 
     # Notify snakes that we're about to start
-    for snake_url, response in ai.start(snake_urls, game, snakes):
-        for snake in game_state.snakes:
-            if snake_url == snake.url:
-                snake.taunt = response.taunt
+    _update_snakes(game_state.snakes, ai.start(game, game_state))
 
     # Save the first GameState
     game_state.insert()
@@ -90,18 +103,6 @@ def create_game(snake_urls, width, height, turn_time):
     return game, game_state
 
 
-def get_moves(game, game_state):
-    snake_urls = [snake.url for snake in game_state.snakes]
-
-    moves = [
-        Move(snake_url, response.move, response.taunt)
-        for snake_url, response
-        in ai.move(snake_urls, game_state)
-    ]
-
-    return moves
-
-
 def next_turn(game):
     game_states = GameState.find({'game_id': game.id}, limit=1)
     if not game_states:
@@ -109,9 +110,10 @@ def next_turn(game):
 
     game_state = game_states[0]
 
-    moves = get_moves(game, game_state)
+    # Update taunts and moves
+    _update_snakes(game_state.snakes, ai.move(game, game_state))
 
-    next_game_state = Engine.resolve_moves(game_state, moves)
+    next_game_state = Engine.resolve_moves(game_state)
     next_game_state.insert()
 
     return next_game_state
@@ -119,11 +121,7 @@ def next_turn(game):
 
 def end_game(game, game_state):
     # Notify snakes that the game is over
-    snake_urls = [snake.url for snake in game_state.snakes]
-    for snake_url, response in ai.end(snake_urls, game, game_state):
-        for snake in game_state.snakes:
-            if snake_url == snake.url:
-                snake.taunt = response.taunt
+    ai.end(game, game_state)
 
     # Finalize the game
     game.stats = generate_stats_object(game, game_state)
@@ -229,7 +227,7 @@ def generate_stats_object(game, game_state):
         # Group all the snake names
         stats['snake_names'].append(snake.name)
 
-    stats['snakes'] = all_snakes
+    stats['snakes'] = [snake.to_dict() for snake in all_snakes]
 
     if longest:
         stats['longest'] = longest.name

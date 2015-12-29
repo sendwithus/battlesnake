@@ -77,7 +77,7 @@ class Game(Model):
             height=obj['height'],
             turn_time=obj['turn_time'],
             is_live=obj.get('is_live', False),
-            mode=obj.get('mode', MODE_CLASSIC)
+            mode=obj.get('mode', cls.MODE_CLASSIC)
         )
 
         instance._add_timestamps(obj)
@@ -125,12 +125,12 @@ class GameState(Model):
             board.append(row)
 
         for snake in self.snakes:
-            for i, coord in enumerate(snake['coords']):
+            for i, coord in enumerate(snake.coords):
                 if i == 0:
                     board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_SNAKE_HEAD
                 else:
                     board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_SNAKE_BODY
-                board[coord[0]][coord[1]]['snake'] = snake['name']
+                board[coord[0]][coord[1]]['snake'] = snake.name
 
         for coord in self.food:
             board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_FOOD
@@ -144,22 +144,22 @@ class GameState(Model):
             raise ValueError('Sanity Check Failed: turn is not int, %s' % self.turn)
 
         for snake in self.snakes:
-            for coord in snake['coords']:
+            for coord in snake.coords:
                 for check_snake in self.snakes:
-                    if snake['name'] == check_snake['name']:
+                    if snake.url == check_snake.url:
                         continue
-                    if coord in check_snake['coords']:
-                        raise ValueError('Sanity Check Failed: board.snakes contains overlapping coords.')
+                    if coord in check_snake.coords:
+                        raise ValueError('board.snakes contains overlapping coords.')
                 if coord in self.food:
-                    raise ValueError('Sanity Check Failed: board.snakes and board.food contain overlapping coords.')
+                    raise ValueError('board.snakes and board.food contain overlapping coords.')
                 if coord[0] > (self.width - 1):
-                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                    raise ValueError('board.snakes outside bounds of self.board')
                 if coord[0] < 0:
-                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                    raise ValueError('board.snakes outside bounds of self.board')
                 if coord[1] > (self.height - 1):
-                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                    raise ValueError('board.snakes outside bounds of self.board')
                 if coord[1] < 0:
-                    raise ValueError('Sanity Check Failed: board.snakes outside bounds of self.board')
+                    raise ValueError('board.snakes outside bounds of self.board')
 
     def to_dict(self):
         return {
@@ -167,13 +167,14 @@ class GameState(Model):
             'game_id': self.game_id,
             'is_done': self.is_done,
             'turn': self.turn,
-            'snakes': self.snakes[:],
-            'dead_snakes': self.dead_snakes[:],
+            'snakes': [snake.to_dict() for snake in self.snakes],
+            'dead_snakes': [snake.to_dict() for snake in self.dead_snakes],
             'food': self.food[:],
             'width': self.width,
             'height': self.height,
 
             # TODO: Remove the need to have this here
+            # Should push this into lib.game.engine.resolve_moves
             'board': self.generate_board(),
         }
 
@@ -183,9 +184,11 @@ class GameState(Model):
         game_state.id = obj['_id']
         game_state.turn = obj['turn']
         game_state.is_done = obj['is_done']
-        game_state.snakes = obj['snakes']
-        game_state.dead_snakes = obj['dead_snakes']
         game_state.food = obj['food']
+
+        from lib.game.engine import Snake
+        game_state.snakes = [Snake.from_dict(snake) for snake in obj['snakes']]
+        game_state.dead_snakes = [Snake.from_dict(snake) for snake in obj['dead_snakes']]
 
         game_state.sanity_check()
 

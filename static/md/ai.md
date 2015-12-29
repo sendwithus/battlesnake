@@ -113,13 +113,7 @@ TODO
 ```
 
 ##### Response
-* **taunt** - Final message to other snakes
-
-```json
-{
-    "taunt": "gg, well played"
-}
-```
+None
 
 ### Snake Objects
 

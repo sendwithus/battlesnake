@@ -14,7 +14,7 @@ def _json_response(data={}, msg=None, status=200):
 
 
 def _json_error(msg=None, status=400):
-    return jsonify(message=msg), status, {'Content-Type': 'application/json'}
+    return jsonify(message=str(msg)), status, {'Content-Type': 'application/json'}
 
 
 @app.route('/')
@@ -34,6 +34,14 @@ def page(path=None):
 def server_static(path):
     # Flask has this built-in, but it's only active in dev
     return send_from_directory('static', path)
+
+
+@app.errorhandler(BaseException)
+def server_error(e):
+    # Generic handler for exceptions thrown when handling API requests
+    # Others can be added for more specific exceptions with new errorhandler routes
+    app.logger.exception(e)
+    return _json_error(msg='Server error', status=500)
 
 
 import lib.routes

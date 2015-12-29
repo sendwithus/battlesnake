@@ -1,10 +1,11 @@
 from flask import request
 
 from lib.models.game import Game, GameState
+from lib.models.team import Team
 from lib.game import controller
 
 
-from lib.server import _json_response, app
+from lib.server import _json_response, _json_error, app
 
 @app.route('/api/games', methods=['POST'])
 def games_create():
@@ -17,10 +18,21 @@ def games_create():
     height = data.get('height', 20)
     turn_time = data.get('turn_time', 1)
 
-    try:
-        snake_urls = data['snake_urls']
-    except KeyError:
-        return _json_response(msg='Invalid snakes', status=400)
+    snake_urls = data.get('snake_urls', [])
+    teamnames = data.get('teamnames', [])
+
+    # Add all team snake URLs to snake_urls
+    teams = []
+    for teamname in teamnames:
+        team = Team.find_one({'teamname': teamname})
+        if not team:
+            return _json_response(msg='Team not found', status=404)
+        if not team.ready_to_play():
+            error = 'Team "%s" is not ready to play' % team.teamname
+            return _json_error(error)
+
+        teams.append(team)
+        snake_urls.append(team.snake_url)
 
     try:
         game, game_state = controller.create_game(
@@ -30,10 +42,12 @@ def games_create():
             turn_time=turn_time
         )
     except Exception as e:
-        return _json_response({
-            'error': True,
-            'message': str(e)
-        })
+        return _json_error(e)
+
+    # Add the game ID to the team's list of games
+    for team in teams:
+        team.game_ids.append(game.id)
+        team.save()
 
     return _json_response({
         'game': game.to_dict(),
@@ -50,7 +64,7 @@ def game_start(game_id):
     try:
         game = controller.start_game(game_id, manual)
     except Exception as e:
-        return _json_error(str(e))
+        return _json_error(e)
 
     return _json_response(game.to_dict())
 
@@ -60,7 +74,7 @@ def game_rematch(game_id):
     try:
         game = controller.rematch_game(game_id)
     except Exception as e:
-        return _json_error(str(e))
+        return _json_error(e)
 
     return _json_response(game.to_dict())
 

@@ -6,9 +6,12 @@ __redis = None
 
 
 def __init_connection():
-    return StrictRedis(host=settings.redis.REDIS_HOST,
-            port=settings.redis.REDIS_PORT,
-            db=settings.redis.REDIS_DB)
+    return StrictRedis(
+        host=settings.redis.REDIS_HOST,
+        port=settings.redis.REDIS_PORT,
+        db=settings.redis.REDIS_DB,
+        password=settings.redis.REDIS_PASSWORD
+    )
 
 
 def get_redis():

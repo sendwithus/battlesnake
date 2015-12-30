@@ -4,6 +4,8 @@ from flask import (
     jsonify, send_from_directory, flash, redirect,
     url_for,
 )
+from flask.ext.login import login_required
+
 # Use hardcoded app name to ensure lib is not used for top-level directory
 app = Flask('battlesnake')
 
@@ -33,6 +35,7 @@ def index():
 
 @app.route('/play/')
 @app.route('/play/<path:path>')
+@login_required
 def play(path=None):
     # serve play.html for anything that starts with "play/"
     # frontend will show the correct route

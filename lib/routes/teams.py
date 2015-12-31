@@ -60,7 +60,8 @@ def team_update():
     if not data:
         return _json_error(msg='Invalid team data', status=400)
 
-    for field in ('teamname', 'snake_url'):
+    # TODO: check for duplicate team name and allow updating
+    for field in ['snake_url']:
         if field in data:
             setattr(team, field, data[field])
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Register a Team</title>
+</head>
+<body>
+
+<h1>Register a Team</h1>
+
+{% include "partials/flashed_messages.html" %}
+
+<form method="post">
+  <input type="text" name="teamname" placeholder="Team Name">
+  <input type="password" name="password" placeholder="Password">
+  <input type="hidden" name="next" value="{{ request.args.next }}">
+  <button type="submit">Register</button>
+</form>
+
+<p>
+  <a href="{{ url_for('login') }}">Log In</a>
+</p>
+
+</body>
+</html>

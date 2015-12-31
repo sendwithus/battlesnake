@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Update Team</title>
+</head>
+<body>
+
+<h1>Update Team</h1>
+
+{% include "partials/flashed_messages.html" %}
+
+<form method="post">
+  <p>
+    <label for="teamname">Team Name:</label>
+    <input type="text" name="teamname" value="{{ team.teamname }}" disabled>
+  </p>
+
+  <p>
+    <label for="snake_url">Snake URL:</label>
+    <input type="text" name="snake_url" value="{{ team.snake_url | default('', true) }}" placeholder="http://">
+  </p>
+
+  <h2>Members</h2>
+  <ul>
+    {% for email in team.member_emails %}
+    <li>{{ email }}</li>
+    {% endfor %}
+  </ul>
+
+  <p>
+    <label for="add_member">Add a team member:</label>
+    <input type="text" name="add_member">
+  </p>
+
+  <button type="submit">Update Team</button>
+</form>
+
+</body>
+</html>

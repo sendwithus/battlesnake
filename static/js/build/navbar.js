@@ -32,6 +32,13 @@ var Navbar = React.createClass({displayName: "Navbar",
            );
         }.bind(this));
 
+        var teamLink;
+        if(this.props.team) {
+            teamLink = React.createElement("li", null, React.createElement("a", {href: "/team"}, "Logged in as ", this.props.team.teamname));
+        } else {
+            teamLink = '';
+        }
+
         return (
             React.createElement("nav", {className: "navbar navbar-inverse"}, 
                 React.createElement("div", {className: "container-fluid"}, 
@@ -49,7 +56,10 @@ var Navbar = React.createClass({displayName: "Navbar",
                         )
                     ), 
                     React.createElement("div", {className: 'collapse navbar-collapse site-links ' + navToggleClass}, 
-                        React.createElement("ul", {className: "nav navbar-nav"}, navLinks)
+                        React.createElement("ul", {className: "nav navbar-nav"}, 
+                          teamLink, 
+                          navLinks
+                        )
                     )
                 )
             )

@@ -32,6 +32,13 @@ var Navbar = React.createClass({
            );
         }.bind(this));
 
+        var teamLink;
+        if(this.props.team) {
+            teamLink = <li><a href="/team">Logged in as {this.props.team.teamname}</a></li>;
+        } else {
+            teamLink = '';
+        }
+
         return (
             <nav className="navbar navbar-inverse">
                 <div className="container-fluid">
@@ -49,7 +56,10 @@ var Navbar = React.createClass({
                         </button>
                     </div>
                     <div className={'collapse navbar-collapse site-links ' + navToggleClass}>
-                        <ul className="nav navbar-nav">{navLinks}</ul>
+                        <ul className="nav navbar-nav">
+                          {teamLink}
+                          {navLinks}
+                        </ul>
                     </div>
                 </div>
             </nav>

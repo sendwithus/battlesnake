@@ -30,12 +30,21 @@ var App = React.createClass({
     wrapPage: function (page) {
         return (
             <div>
-                <Navbar />
+                <Navbar team={this.state.team} />
                 <div className="container-fluid">
                     {page}
                 </div>
             </div>
         );
+    },
+    componentDidMount: function () {
+        // fetch current team data
+        $.ajax({
+            type: 'GET',
+            url: '/api/teams/current'
+        }).done(function (response) {
+            this.setState({ team: response.data });
+        }.bind(this));
     },
 
     render: function () {

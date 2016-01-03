@@ -67,7 +67,8 @@ Update the team that's currently signed in.
   "teamname": "TEAM2",
   "snake_url": "http://localhost:7000/",
   "password": "SECRET"
-}```
+}
+```
 
 ##### Response
 * **data** - The updated team object
@@ -117,7 +118,8 @@ Create a new team.
   "teamname": "TEAM2",
   "password": "SECRET",
   "snake_url": "http://localhost:8000/"
-}```
+}
+```
 
 ##### Response
 * **data** - The new team object

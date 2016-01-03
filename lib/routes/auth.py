@@ -9,7 +9,11 @@ from flask.ext.login import (
     login_required, login_user, logout_user, current_user
 )
 
+import lib.ai as ai
+import lib.game.engine as engine
+
 from lib.server import app, _json_response, _form_error
+from lib.models.game import Game
 from lib.models.team import Team
 
 import settings.secrets
@@ -20,9 +24,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 @app.before_request
 def load_users():
     g.team = current_user
+
 
 @app.route('/api/signin', methods=['POST'])
 def signin_api():
@@ -36,11 +42,13 @@ def signin_api():
     else:
         return _json_response(msg='Incorrect teamname or password', status=401)
 
+
 @app.route("/api/signout", methods=['POST'])
 @login_required
 def signout_api():
     logout_user()
     return _json_response(msg='Successfully signed out')
+
 
 @login_manager.user_loader
 def load_team(teamname):
@@ -147,3 +155,24 @@ def team():
     login_user(team)
 
     return redirect(url_for('team'))
+
+
+@app.route('/team/test', methods=['GET'])
+@login_required
+def team_test():
+    team = g.team
+
+    # Fake a game
+    game = Game(10, 10, 1)
+    snakes = [engine.Snake(g.team.snake_url)]
+    game_state = engine.Engine.create_game_state(game.id, game.width, game.height)
+    engine.Engine.add_random_snakes_to_board(game_state, snakes)
+
+    results = {
+        'whois': ai.whois(snakes)[0],
+        'start': ai.start(game, game_state)[0],
+        'move': ai.move(game, game_state)[0],
+        'end': ai.end(game, game_state)[0]
+    }
+
+    return render_template('team_test.html', team=team, results=results)

@@ -1,69 +1,38 @@
 from lib.models.game import Game
-from engine import Engine
+from engine import Engine, Snake
 
-SNAKE_1 = {
-    'name': 'test_snake_1',
-    'coords': [[2, 1], [1, 1], [0, 1]]
-}
+SNAKE_1 = Snake(
+    name='test_snake_1',
+    coords=[[2, 1], [1, 1], [0, 1]],
+    url=''
+)
 
-SNAKE_2 = {
-    'name': 'test_snake_2',
-    'coords': [[4, 1], [5, 1], [6, 1]]
-}
+SNAKE_2 = Snake(
+    name='test_snake_2',
+    coords=[[4, 1], [5, 1], [6, 1]],
+    url=''
+)
 
-SNAKE_3 = {
-    'name': 'test_snake_3',
-    'coords': [[2, 2], [2, 3], [2, 4]]
-}
+SNAKE_3 = Snake(
+    name='test_snake_3',
+    coords=[[2, 2], [2, 3], [2, 4]],
+    url=''
+)
 
-SNAKE_4 = {
-    'name': 'test_snake_4',
-    'coords': [[4, 5], [5, 5], [5, 4], [5, 3], [4, 3], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8]]
-}
+SNAKE_4 = Snake(
+    name='test_snake_4',
+    coords=[[4, 5], [5, 5], [5, 4], [5, 3], [4, 3], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8]],
+    url=''
+)
 
-SNAKE_5 = {
-    'name': 'test_snake_5',
-    'coords': [[4, 1], [5, 1], [6, 1], [7, 1]]
-}
-
-
-MOVE_RIGHT_1 = {
-    'snake_name': 'test_snake_1',
-    'move': Engine.MOVE_RIGHT
-}
-
-MOVE_LEFT_1 = {
-    'snake_name': 'test_snake_1',
-    'move': Engine.MOVE_LEFT
-}
-
-MOVE_LEFT_2 = {
-    'snake_name': 'test_snake_2',
-    'move': Engine.MOVE_LEFT
-}
-
-MOVE_UP_3 = {
-    'snake_name': 'test_snake_3',
-    'move': Engine.MOVE_UP
-}
-
-MOVE_UP_4 = {
-    'snake_name': 'test_snake_4',
-    'move': Engine.MOVE_UP
-}
-
-MOVE_RIGHT_4 = {
-    'snake_name': 'test_snake_4',
-    'move': Engine.MOVE_RIGHT
-}
-
-MOVE_LEFT_5 = {
-    'snake_name': 'test_snake_5',
-    'move': Engine.MOVE_LEFT
-}
+SNAKE_5 = Snake(
+    name='test_snake_5',
+    coords=[[4, 1], [5, 1], [6, 1], [7, 1]],
+    url=''
+)
 
 
-def test_move_right():
+def test_move_east():
     game = Game(width=10, height=10)
     g = Engine.create_game_state(game.id, game.width, game.height)
     Engine.add_snakes_to_board(g, [SNAKE_1])
@@ -74,7 +43,8 @@ def test_move_right():
 
     assert(g.to_string().strip() == start_state)
 
-    g = Engine.resolve_moves(g, [MOVE_RIGHT_1])
+    g.snakes[0].move = Engine.MOVE_EAST
+    g = Engine.resolve_moves(g)
     g.sanity_check()
 
     with open('lib/game/data/move_right.out') as f:
@@ -94,7 +64,8 @@ def test_move_back_on_self():
 
     assert(g.to_string().strip() == start_state)
 
-    g = Engine.resolve_moves(g, [MOVE_LEFT_1])
+    g.snakes[0].move = Engine.MOVE_WEST
+    g = Engine.resolve_moves(g)
     g.sanity_check()
 
     with open('lib/game/data/empty.out') as f:
@@ -114,7 +85,9 @@ def test_head_to_head():
 
     assert(g.to_string().strip() == start_state)
 
-    g = Engine.resolve_moves(g, [MOVE_RIGHT_1, MOVE_LEFT_2])
+    g.snakes[0].move = Engine.MOVE_EAST
+    g.snakes[1].move = Engine.MOVE_WEST
+    g = Engine.resolve_moves(g)
     g.sanity_check()
 
     with open('lib/game/data/empty.out') as f:
@@ -134,7 +107,9 @@ def test_head_to_head_uneven():
 
     assert(g.to_string().strip() == start_state)
 
-    g = Engine.resolve_moves(g, [MOVE_RIGHT_1, MOVE_LEFT_5])
+    g.snakes[0].move = Engine.MOVE_EAST
+    g.snakes[1].move = Engine.MOVE_WEST
+    g = Engine.resolve_moves(g)
     g.sanity_check()
 
     with open('lib/game/data/head_to_head_uneven.out') as f:
@@ -147,7 +122,7 @@ def test_head_to_head_with_food():
     game = Game(width=10, height=10)
     g = Engine.create_game_state(game.id, game.width, game.height)
     Engine.add_snakes_to_board(g, [SNAKE_1, SNAKE_2])
-    Engine.add_food_to_board(g, [3, 1])
+    g.food.append([3, 1])
     g.sanity_check()
 
     with open('lib/game/data/head_to_head_with_food.in') as f:
@@ -155,7 +130,9 @@ def test_head_to_head_with_food():
 
     assert(g.to_string().strip() == start_state)
 
-    g = Engine.resolve_moves(g, [MOVE_RIGHT_1, MOVE_LEFT_2])
+    g.snakes[0].move = Engine.MOVE_EAST
+    g.snakes[1].move = Engine.MOVE_WEST
+    g = Engine.resolve_moves(g)
     g.sanity_check()
 
     with open('lib/game/data/head_to_head_with_food.out') as f:
@@ -176,9 +153,13 @@ def test_head_to_body():
 
     assert(g.to_string().strip() == start_state)
 
-    g = Engine.resolve_moves(g, [MOVE_RIGHT_1, MOVE_UP_3])
+    g.snakes[0].move = Engine.MOVE_EAST
+    g.snakes[1].move = Engine.MOVE_NORTH
+    g = Engine.resolve_moves(g)
     g.sanity_check()
-    g = Engine.resolve_moves(g, [MOVE_RIGHT_1])
+
+    g.snakes[0].move = Engine.MOVE_EAST
+    g = Engine.resolve_moves(g)
     g.sanity_check()
 
     with open('lib/game/data/head_to_body.out') as f:
@@ -191,7 +172,7 @@ def test_eat_food():
     game = Game(width=10, height=10)
     g = Engine.create_game_state(game.id, game.width, game.height)
     Engine.add_snakes_to_board(g, [SNAKE_1])
-    Engine.add_food_to_board(g, [3, 1])
+    g.food.append([3, 1])
     g.sanity_check()
 
     with open('lib/game/data/eat_food.in') as f:
@@ -199,9 +180,12 @@ def test_eat_food():
 
     assert(g.to_string().strip() == start_state)
 
-    g = Engine.resolve_moves(g, [MOVE_RIGHT_1])
+    g.snakes[0].move = Engine.MOVE_EAST
+    g = Engine.resolve_moves(g)
     g.sanity_check()
-    g = Engine.resolve_moves(g, [MOVE_RIGHT_1])
+
+    g.snakes[0].move = Engine.MOVE_EAST
+    g = Engine.resolve_moves(g)
     g.sanity_check()
 
     with open('lib/game/data/eat_food.out') as f:
@@ -216,16 +200,18 @@ def test_trap_self():
     g = Engine.create_game_state(game.id, game.width, game.height)
     Engine.add_snakes_to_board(g, [SNAKE_4])
     g.sanity_check()
-    print g.to_string().strip()
+    
     with open('lib/game/data/trap_self.in') as f:
         start_state = f.read().strip()
 
     assert(g.to_string().strip() == start_state)
 
-    g = Engine.resolve_moves(g, [MOVE_UP_4])
+    g.snakes[0].move = Engine.MOVE_NORTH
+    g = Engine.resolve_moves(g)
     g.sanity_check()
 
-    g = Engine.resolve_moves(g, [MOVE_RIGHT_4])
+    g.snakes[0].move = Engine.MOVE_EAST
+    g = Engine.resolve_moves(g)
     g.sanity_check()
 
     with open('lib/game/data/empty.out') as f:

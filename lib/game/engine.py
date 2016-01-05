@@ -9,7 +9,7 @@ class Snake(object):
     STATUS_ALIVE = 'alive'
     STATUS_DEAD = 'dead'
 
-    def __init__(self, url, name='', color='', head='', taunt=''):
+    def __init__(self, url, name='', color='', head='', taunt='', coords=[]):
 
         super(Snake, self).__init__()
 
@@ -22,7 +22,7 @@ class Snake(object):
         self.message = ''
         self.age = 0
         self.health = 100
-        self.coords = []
+        self.coords = coords
         self.kills = 0
         self.food_eaten = 0
         self.last_eaten = 0
@@ -221,16 +221,16 @@ class Engine(object):
         vector = [head_coords[0] - next_coords[0], head_coords[1] - next_coords[1]]
 
         if vector == [0, -1]:
-            move = cls.MOVE_UP
+            move = cls.MOVE_NORTH
         elif vector == [0, 1]:
-            move = cls.MOVE_DOWN
+            move = cls.MOVE_SOUTH
         elif vector == [1, 0]:
-            move = cls.MOVE_RIGHT
+            move = cls.MOVE_EAST
         elif vector == [-1, 0]:
-            move = cls.MOVE_LEFT
+            move = cls.MOVE_WEST
         elif vector == [0, 0]:
             # Greg: Run into the wall right away.
-            move = random.choice([cls.MOVE_LEFT, cls.MOVE_RIGHT, cls.MOVE_DOWN, cls.MOVE_UP])
+            move = random.choice([cls.MOVE_WEST, cls.MOVE_EAST, cls.MOVE_SOUTH, cls.MOVE_NORTH])
         else:
             raise Exception('failed to determine default move: %s' % str(vector))
 

@@ -199,3 +199,26 @@ class GameState(Model):
         game_state.sanity_check()
 
         return game_state
+
+    # Board State Pretty Printer
+    def to_string(self):
+        self.sanity_check()
+
+        tile_map = {
+            GameState.TILE_STATE_EMPTY: '_',
+            GameState.TILE_STATE_FOOD: '*',
+            GameState.TILE_STATE_SNAKE_BODY: 'B',
+            GameState.TILE_STATE_SNAKE_HEAD: 'H'
+        }
+
+        output = ''
+        board = self.generate_board()
+
+        for y in range(len(board[0])):
+            for x in range(len(board)):
+                output += tile_map[board[x][y]['state']]
+            output += '\n'
+        output += '\n'
+
+        return output
+

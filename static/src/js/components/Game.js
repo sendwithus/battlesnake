@@ -1,5 +1,6 @@
 import React from 'react';
 import navigate from 'react-router';
+import GameSidebar from './GameSidebar.js'
 
 export default class Game extends React.Component {
 
@@ -192,13 +193,15 @@ export default class Game extends React.Component {
     return new Board(ctx, canvas);
   }
 
-  getInitialState () {
-    return {
+  constructor () {
+    super()
+
+    this.state = {
       game: null,
       isReplay: false,
       isLoading: false,
       latestGameState: null
-    };
+    }
   }
 
   render () {

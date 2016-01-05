@@ -1,8 +1,6 @@
 import React from 'react';
 
-
 export default class Navbar extends React.Component {
-
   constructor () {
     super()
 
@@ -20,9 +18,6 @@ export default class Navbar extends React.Component {
   }
 
   render () {
-
-    console.log(this.props)
-    console.log(this.state)
     var navToggleClass = this.state.mobileNavExpanded ? 'in': '';
 
     // Generate nav links

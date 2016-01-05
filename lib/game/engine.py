@@ -26,6 +26,7 @@ class Snake(object):
         self.kills = 0
         self.food_eaten = 0
         self.last_eaten = 0
+        self.gold_food_eaten = 0
         self.killed_by = ''
         self.died_on_turn = 0
         self.move = ''
@@ -52,6 +53,7 @@ class Snake(object):
             'kills': self.kills,
             'food_eaten': self.food_eaten,
             'last_eaten': self.last_eaten,
+            'gold_food_eaten': self.gold_food_eaten,
             'killed_by': self.killed_by,
             'died_on_turn': self.died_on_turn,
         }
@@ -240,6 +242,7 @@ class Engine(object):
         new_snakes = []
         dead_snakes = copy.deepcopy(game_state.dead_snakes)
         new_food = list(game_state.food)
+        new_gold = list(game_state.gold)
 
         # Move all snakes
         for snake in game_state.snakes:
@@ -328,6 +331,11 @@ class Engine(object):
 
                     continue
 
+            if snake.coords[0] in new_gold:
+                if snake.name not in kill:
+                    new_gold.remove(gold)
+                    snake.gold = snake.gold + 1
+
         # Resolve Collisions
         for snake in new_snakes:
             if snake.name in kill:
@@ -369,5 +377,9 @@ class Engine(object):
         elif total_snakes > 1 and len(new_game_state.snakes) <= 1:
             # Multi snake games go until one snake left
             new_game_state.is_done = True
+
+        for snake in game_state.snakes:
+            if snake.gold == constants.GOLD_VICTORY:
+                new_game_state.is_done = True
 
         return new_game_state

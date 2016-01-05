@@ -89,12 +89,14 @@ class GameState(Model):
     TILE_STATE_FOOD = 'food'
     TILE_STATE_SNAKE_HEAD = 'head'
     TILE_STATE_SNAKE_BODY = 'body'
+    TILE_STATE_GOLD = 'gold'
 
     TILE_STATES = [
         TILE_STATE_EMPTY,
         TILE_STATE_SNAKE_HEAD,
         TILE_STATE_SNAKE_BODY,
-        TILE_STATE_FOOD
+        TILE_STATE_FOOD,
+        TILE_STATE_GOLD
     ]
 
     def __init__(self, game_id, width, height):
@@ -110,6 +112,7 @@ class GameState(Model):
         self.snakes = []
         self.dead_snakes = []
         self.food = []
+        self.gold = []
 
     def insert(self):
         if not self.id:
@@ -134,6 +137,9 @@ class GameState(Model):
 
         for coord in self.food:
             board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_FOOD
+
+        for coord in self.gold:
+            board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_GOLD
 
         return board
 

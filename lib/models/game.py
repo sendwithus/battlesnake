@@ -176,6 +176,7 @@ class GameState(Model):
             'snakes': [snake.to_dict() for snake in self.snakes],
             'dead_snakes': [snake.to_dict() for snake in self.dead_snakes],
             'food': self.food[:],
+            'gold': self.gold[:],
             'width': self.width,
             'height': self.height,
 
@@ -191,6 +192,7 @@ class GameState(Model):
         game_state.turn = obj['turn']
         game_state.is_done = obj['is_done']
         game_state.food = obj['food']
+        game_state.gold = obj['gold']
 
         from lib.game.engine import Snake
         game_state.snakes = [Snake.from_dict(snake) for snake in obj['snakes']]
@@ -207,6 +209,7 @@ class GameState(Model):
         tile_map = {
             GameState.TILE_STATE_EMPTY: '_',
             GameState.TILE_STATE_FOOD: '*',
+            GameState.TILE_STATE_GOLD: 'G',
             GameState.TILE_STATE_SNAKE_BODY: 'B',
             GameState.TILE_STATE_SNAKE_HEAD: 'H'
         }

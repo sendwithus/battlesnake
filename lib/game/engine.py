@@ -26,7 +26,7 @@ class Snake(object):
         self.kills = 0
         self.food_eaten = 0
         self.last_eaten = 0
-        self.gold_food_eaten = 0
+        self.gold = 0
         self.killed_by = ''
         self.died_on_turn = 0
         self.move = ''
@@ -53,7 +53,7 @@ class Snake(object):
             'kills': self.kills,
             'food_eaten': self.food_eaten,
             'last_eaten': self.last_eaten,
-            'gold_food_eaten': self.gold_food_eaten,
+            'gold': self.gold,
             'killed_by': self.killed_by,
             'died_on_turn': self.died_on_turn,
         }
@@ -69,6 +69,7 @@ class Snake(object):
         snake.kills = obj['kills']
         snake.food_eaten = obj['food_eaten']
         snake.last_eaten = obj['last_eaten']
+        snake.gold = obj['gold']
         snake.killed_by = obj['killed_by']
         snake.died_on_turn = obj['died_on_turn']
 
@@ -333,7 +334,7 @@ class Engine(object):
 
             if snake.coords[0] in new_gold:
                 if snake.name not in kill:
-                    new_gold.remove(gold)
+                    new_gold.remove(new_gold[0])
                     snake.gold = snake.gold + 1
 
         # Resolve Collisions

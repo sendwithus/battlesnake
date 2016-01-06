@@ -1,4 +1,4 @@
-sampleBoardData = {
+const sampleBoardData = {
   id: "example-game-one",
   board: [
       [ [{type: "food", id: "f1"}], [], [], [{type: "snake", id: "snake_3"}], [{type: "snake", id: "snake_3"}], [{type: "snake", id: "snake_3"}], [{type: "snake", id: "snake_3"}], [{type: "snake", id: "snake_3"}], [], [] ],
@@ -49,6 +49,6 @@ sampleBoardData = {
     }
   ],
   turn_num: 0
-}
+};
 
-export default sampleBoardData
+export default sampleBoardData;

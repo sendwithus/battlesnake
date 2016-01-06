@@ -36,7 +36,7 @@ export default class Navbar extends React.Component {
         <div className="container-fluid">
           <div className="navbar-header">
             <a className="navbar-brand" href="/">
-              <img src="/static/dist/img/logo-battlesnake.png" />
+              <img src="/static/dist/img/old/logo-battlesnake.png" />
             </a>
             <button type="button"
                 className="navbar-toggle collapsed"

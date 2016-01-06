@@ -19,12 +19,11 @@
     "babel-preset-stage-0": "^6.3.13",
     "babel-preset-stage-1": "^6.3.13",
     "babelify": "^7.2.0",
-    "bootstrap": "^3.3.6",
     "browserify": "^12.0.1",
     "eslint": "^1.10.3",
     "eslint-watch": "^2.1.4",
     "history": "^1.13.1",
-    "jquery": "^2.1.4",
+    "less": "^2.5.3",
     "livereactload": "^2.1.0",
     "postcss-cli": "^2.3.2",
     "react": "^0.14.3",
@@ -42,20 +41,17 @@
   "scripts": {
     "clean": "rimraf static/dist",
     "make:static_folders": "mkdir -p static/dist/{html,img,css,js/lib}",
-    "copy": "npm run copy:lib && npm run copy:html && npm run copy:images",
+    "copy": "npm run copy:html && npm run copy:images",
     "copy:html": "cp -r static/src/html/* static/dist/html",
-    "copy:lib": "npm run copy:lib-bootstrap && npm run copy:lib-jquery &&  npm run build:lib-js",
-    "copy:lib-bootstrap": "cp -r node_modules/bootstrap/dist/css/{bootstrap.min.css,bootstrap-theme.min.css} static/dist/css && cp -r node_modules/bootstrap/dist/js/bootstrap.min.js static/dist/js/lib",
-    "copy:lib-jquery": "cp -r node_modules/jquery/dist/jquery.min.js static/dist/js/lib",
-    "build:lib-js": "cat static/dist/js/lib/jquery.min.js >> static/dist/js/lib.js; echo '\n;' >> static/dist/js/lib.js; cat static/dist/js/lib/bootstrap.min.js >> static/dist/js/lib.js; rimraf static/dist/js/lib",
     "copy:images": "cp -r static/src/img/* static/dist/img",
     "lint": "npm run lint:js",
     "lint:js": "esw static/src/js",
+    "lesscss:build": "lessc --silent static/src/css/landing.less static/dist/css/landing.css",
     "postcss:build": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css",
     "build:js-dev": "BABEL_ENV=development watchify static/src/js/index.js -v -d -p livereactload -o static/dist/js/app.js",
     "build:js-prod": "BABEL_ENV=production browserify static/src/js/index.js -v -d | exorcist static/dist/js/app.js.map > static/dist/js/app.js",
-    "build:dev": "npm run clean && npm run make:static_folders && npm run copy && npm run postcss:build && npm run lint && npm run build:js-dev",
-    "build:prod": "npm run clean && npm run make:static_folders && npm run copy && npm run postcss:build && npm run lint && npm run build:js-prod"
+    "build:dev": "npm run clean && npm run make:static_folders && npm run copy && npm run lesscss:build && npm run postcss:build && npm run lint && npm run build:js-dev",
+    "build:prod": "npm run clean && npm run make:static_folders && npm run copy && npm run lesscss:build && npm run postcss:build && npm run lint && npm run build:js-prod"
   },
   "browserify": {
     "transform": [

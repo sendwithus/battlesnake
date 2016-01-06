@@ -3,13 +3,8 @@ import navigate from 'react-router';
 
 
 export default class GameList extends React.Component {
-  constructor (props) {
-    super(props);
-
-    console.log(this.props);
-    this.state = {
-      games: this.categorizeGames(this.props.games || [])
-    }
+  state = {
+    games: this.categorizeGames(this.props.games || [])
   }
 
   componentDidMount () {

@@ -7,15 +7,11 @@ import Navbar from "./components/navbar";
 // const GAInitializer = ga.Initializer;
 
 export default class App extends React.Component {
-  constructor () {
-    super()
-
-    this.displayName = "BattleSnake"
-
-    this.propTypes = {
-      children: React.PropTypes.node,
-    }
+  static propTypes = {
+    children: React.PropTypes.node
   }
+
+  // displayName = "BattleSnake"
 
   // componentDidMount() {
   //   ga("create", env.gaId, "auto");

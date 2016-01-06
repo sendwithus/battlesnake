@@ -5,14 +5,12 @@ from lib.server import app
 
 @app.route('/')
 def index():
-    print "ROOT"
     return app.send_static_file('html/index.html')
 
 
 # REMOVE ME
 @app.route('/new')
 def index_new():
-    print "NEW"
     return app.send_static_file('html/index-new.html')
 
 

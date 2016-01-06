@@ -10,8 +10,8 @@ import App from './app';
 
 
 // Game Components
-import GameCreate from './components/gamecreate';
-import GameList from './components/gamelist';
+import GameCreate from './components/gameCreate';
+import GameList from './components/gameList';
 import Game from './components/game';
 
 // Team Components

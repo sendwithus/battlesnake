@@ -2,7 +2,7 @@ import React from "react";
 import ga from "react-google-analytics";
 import env from "./config/environment";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar";
 
 const GAInitializer = ga.Initializer;
 

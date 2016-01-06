@@ -49,4 +49,6 @@ sampleBoardData = {
     }
   ],
   turn_num: 0
-};
+}
+
+export default sampleBoardData

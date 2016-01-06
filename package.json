@@ -49,7 +49,7 @@
     "lint": "npm run lint:js",
     "lint:js": "esw static/src/js",
     "postcss:build": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css",
-    "build:js-dev": "BABEL_ENV=development watchify static/src/js/index.js -v -d -p livereactload -o static/dist/js/app.js",
+    "build:js-dev": "BABEL_ENV=development globify \"static/src/js/**/*.js\" -w -v -d -p livereactload -o \"static/dist/js/app.js\"",
     "build:js-prod": "BABEL_ENV=production browserify static/src/js/index.js -v -d | exorcist static/dist/js/app.js.map > static/dist/js/app.js",
     "build:dev": "npm run clean && npm run make:static_folders && npm run copy && npm run postcss:build && npm run lint && npm run build:js-dev",
     "build:prod": "npm run clean && npm run make:static_folders && npm run copy && npm run postcss:build && npm run lint && npm run build:js-prod"

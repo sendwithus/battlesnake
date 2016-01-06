@@ -62,9 +62,7 @@ def games_create():
 
 @app.route('/api/games/<game_id>/start', methods=['POST'])
 def game_start(game_id):
-    logger.debug(vars(request))
     data = request.get_json()
-    logger.debug(data)
 
     manual = data.get('manual')
 

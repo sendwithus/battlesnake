@@ -1,8 +1,6 @@
 import React from 'react';
 import navigate from 'react-router';
 
-console.log('llllll')
-
 export default class GameCreate extends React.Component {
 
   _loadPastState () {
@@ -202,4 +200,4 @@ export default class GameCreate extends React.Component {
     );
   }
 
-}
+};

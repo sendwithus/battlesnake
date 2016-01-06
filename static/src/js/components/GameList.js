@@ -3,6 +3,14 @@ import navigate from 'react-router';
 
 
 export default class GameList extends React.Component {
+  constructor () {
+    super()
+
+    this.state = {
+      games: this.categorizeGames(this.props.games || [])
+    }
+  }
+  
   componentDidMount () {
     $.ajax({ url: '/api/games' })
     .done((response) => {
@@ -22,14 +30,6 @@ export default class GameList extends React.Component {
       categories[game.state].push(game);
     }
     return categories;
-  }
-
-  constructor () {
-    super()
-
-    this.state = {
-      games: this.categorizeGames(this.props.games || [])
-    }
   }
 
   renderGameList (games) {

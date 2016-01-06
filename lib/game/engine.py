@@ -5,28 +5,6 @@ import lib.game.constants as constants
 from lib.models.game import GameState
 
 
-class Move(object):
-
-    def __init__(self, snake_url, move, taunt):
-
-        super(Move, self).__init__()
-
-        self.snake_url = snake_url
-        self.move = move
-        self.taunt = taunt
-
-    def to_dict(self):
-        return {
-            'snake_url': self.snake_url,
-            'move': self.move,
-            'taunt': self.taunt
-        }
-
-    @classmethod
-    def from_dict(cls, obj):
-        return cls(obj['snake_url'], obj['move'], obj['taunt'])
-
-
 class Snake(object):
     STATUS_ALIVE = 'alive'
     STATUS_DEAD = 'dead'
@@ -50,6 +28,14 @@ class Snake(object):
         self.last_eaten = 0
         self.killed_by = ''
         self.died_on_turn = 0
+        self.move = ''
+        self.error = None
+
+    def __str__(self):
+        return self.__unicode__()
+
+    def __unicode__(self):
+        return u'Snake[{}]'.format(self.name)
 
     def to_dict(self):
         return {
@@ -70,19 +56,6 @@ class Snake(object):
             'died_on_turn': self.died_on_turn,
         }
 
-    def to_dict_public(self):
-        return {
-            'name': self.name,
-            'taunt': self.taunt,
-            'status': self.status,
-            'message': self.message,
-            'age': self.age,
-            'health': self.health,
-            'coords': self.coords,
-            'kills': self.kills,
-            'food_eaten': self.food_eaten
-        }
-
     @classmethod
     def from_dict(cls, obj):
         snake = cls(obj['url'], obj['name'], obj['color'], obj['head'], obj['taunt'])
@@ -96,6 +69,8 @@ class Snake(object):
         snake.last_eaten = obj['last_eaten']
         snake.killed_by = obj['killed_by']
         snake.died_on_turn = obj['died_on_turn']
+
+        return snake
 
     def move_north(self):
         new_head = list(sum(x) for x in zip(self.coords[0], [0, -1]))
@@ -123,12 +98,12 @@ class Snake(object):
 
 
 class Engine(object):
-    MOVE_UP = 'up'
-    MOVE_DOWN = 'down'
-    MOVE_LEFT = 'left'
-    MOVE_RIGHT = 'right'
+    MOVE_NORTH = 'north'
+    MOVE_SOUTH = 'south'
+    MOVE_WEST = 'west'
+    MOVE_EAST = 'east'
 
-    VALID_MOVES = [MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT]
+    VALID_MOVES = [MOVE_NORTH, MOVE_SOUTH, MOVE_WEST, MOVE_EAST]
 
     STARVATION = 'starvation'
     SUICIDE = 'itself'
@@ -257,55 +232,32 @@ class Engine(object):
         else:
             raise Exception('failed to determine default move: %s' % str(vector))
 
-        return {
-            'move': move,
-            'snake_name': snake.name,
-            'taunt': ''
-        }
+        return move
 
     @classmethod
-    def resolve_moves(cls, game_state, moves):
+    def resolve_moves(cls, game_state):
         # Determine what snakes and food are left on the board after this turn
         new_snakes = []
         dead_snakes = copy.deepcopy(game_state.dead_snakes)
         new_food = list(game_state.food)
 
-        # Get moves for all snakes
+        # Move all snakes
         for snake in game_state.snakes:
-            move = cls.get_default_move(snake)
-            action = move['move']
-
-            # Find move for this snake
-            for m in moves:
-                if m['snake_url'] == snake.url:
-                    move = m
-
-                    # If action is not valid, override it
-                    if m['move'] not in cls.VALID_MOVES:
-                        move['move'] = action
-
-            action = move['move']
-            snake_url = move['snake_url']
+            # Make sure move is valid
+            if snake.move not in cls.VALID_MOVES:
+                snake.move = cls.get_default_move(snake)
 
             # Copy Old Snake
-            new_snake = cls.copy_snake(game_state, snake_url)
-            new_snake.taunt = move['taunt']
+            new_snake = copy.deepcopy(snake)
 
-            # If the snake is dead, ignore this move
-            if not new_snake:
-                continue
-
-            # Add New Head
-            if action == cls.MOVE_UP:
+            # Move the snake
+            if snake.move == cls.MOVE_NORTH:
                 new_snake.move_north()
-
-            if action == cls.MOVE_DOWN:
+            elif snake.move == cls.MOVE_SOUTH:
                 new_snake.move_south()
-
-            if action == cls.MOVE_RIGHT:
+            elif snake.move == cls.MOVE_EAST:
                 new_snake.move_east()
-
-            if action == cls.MOVE_LEFT:
+            elif snake.move == cls.MOVE_WEST:
                 new_snake.move_west()
 
             new_snakes.append(new_snake)
@@ -361,7 +313,8 @@ class Engine(object):
                 # Head to Body Collision
                 if snake.coords[0] in check_snake.coords:
                     kill.append(snake.name)
-                    grow[check_snake.name] = grow.get(snake.name, 0) + int(len(snake.coords) * constants.EAT_RATIO)
+                    grow[check_snake.name] = (
+                        grow.get(snake.name, 0) + int(len(snake.coords) * constants.EAT_RATIO))
                     snake.killed_by = check_snake.name
                     check_snake.kills = check_snake.kills + 1
                     continue
@@ -376,11 +329,11 @@ class Engine(object):
                     continue
 
         # Resolve Collisions
-        for snake in copy.deepcopy(new_snakes):
+        for snake in new_snakes:
             if snake.name in kill:
-                new_snakes.remove(snake)
                 snake.died_on_turn = game_state.turn
                 dead_snakes.append(snake)
+        new_snakes = [snake for snake in new_snakes if snake.name not in kill]
 
         for snake_name, grow_by in grow.iteritems():
             for snake in new_snakes:
@@ -393,7 +346,8 @@ class Engine(object):
                 new_food.remove(food)
 
         # Create new_game_state using new_snakes and new_food
-        new_game_state = cls.create_game_state(game_state.game_id, game_state.width, game_state.height)
+        new_game_state = cls.create_game_state(
+            game_state.game_id, game_state.width, game_state.height)
         new_game_state.snakes = new_snakes
         new_game_state.dead_snakes = dead_snakes
         new_game_state.food = new_food
@@ -417,10 +371,3 @@ class Engine(object):
             new_game_state.is_done = True
 
         return new_game_state
-
-    @staticmethod
-    def copy_snake(game_state, snake_url):
-        for snake in game_state.snakes:
-            if snake.url == snake_url:
-                return copy.deepcopy(snake)
-        return None

@@ -13,6 +13,8 @@ by gevent. All API methods return a ``Request`` instance (as opposed to
 from functools import partial
 import time
 
+import gevent
+from gevent.pool import Pool
 from requests import Session
 
 from lib.log import get_logger

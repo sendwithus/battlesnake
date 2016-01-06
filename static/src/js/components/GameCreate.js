@@ -86,21 +86,29 @@ export default class GameCreate extends React.Component {
     this.setState({ currentTimeout: e.target.value });
   }
 
-  getInitialState () {
-    let state = this._loadPastState();
-    if (state) {
-      state.isLoading = false;
-      return state;
-    }
+  // getInitialState () {
+  //   let state = this._loadPastState();
+  //   if (state) {
+  //     state.isLoading = false;
+  //     return state;
+  //   }
 
-    return {
+  //   return {
+
+  //   };
+  // }
+
+  constructor () {
+    super()
+
+    this.state = {
       snakeUrls: [ ],
       currentSnakeUrl: '',
       currentWidth: 20,
       currentHeight: 20,
       currentTimeout: 1,
       isLoading: false
-    };
+    }
   }
 
   render () {

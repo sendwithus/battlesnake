@@ -10,17 +10,17 @@ export default class App extends React.Component {
   constructor () {
     super()
 
-    this.displayName = "App"
+    this.displayName = "BattleSnake"
 
     this.propTypes = {
       children: React.PropTypes.node,
     }
   }
 
-  componentDidMount() {
-    ga("create", env.gaId, "auto");
-    ga("send", "pageview");
-  }
+  // componentDidMount() {
+  //   ga("create", env.gaId, "auto");
+  //   ga("send", "pageview");
+  // }
 
   // <GAInitializer />
   render() {

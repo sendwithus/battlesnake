@@ -183,13 +183,14 @@ class Engine(object):
                 game_state.dead_snakes.append(snake)
 
     @staticmethod
-    def add_random_food_to_board(game_state):
+    def add_tile_to_board(game_state, tile_type):
         if len(game_state.food) >= constants.MAX_FOOD_ON_BOARD:
             return game_state
 
         taken_tiles = []
         taken_tiles += [snake.coords for snake in game_state.snakes]
         taken_tiles += [food for food in game_state.food]
+        taken_tiles += [gold for gold in game_state.gold]
 
         empty_tile_coords = []
         for x in range(game_state.width):
@@ -198,7 +199,11 @@ class Engine(object):
                     empty_tile_coords.append([x, y])
 
         if empty_tile_coords:
-            game_state.food.append(random.choice(empty_tile_coords))
+            if tile_type == GameState.TILE_STATE_FOOD:
+                game_state.food.append(random.choice(empty_tile_coords))
+
+            if tile_type == GameState.TILE_STATE_GOLD:
+                game_state.gold.append(random.choice(empty_tile_coords))
 
         return game_state
 
@@ -367,7 +372,10 @@ class Engine(object):
 
         # Add food every X turns
         if new_game_state.turn % constants.TURNS_PER_FOOD == 0:
-            cls.add_random_food_to_board(new_game_state)
+            cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_FOOD)
+
+        if new_game_state.turn % constants.TURNS_PER_GOLD == 0 and len(new_game_state.gold) == 0:
+            cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_GOLD)
 
         # Check if the game is over
         total_snakes = len(new_game_state.snakes) + len(new_game_state.dead_snakes)

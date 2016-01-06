@@ -183,6 +183,7 @@ class GameState(Model):
             'dead_snakes': [snake.to_dict() for snake in self.dead_snakes],
             'food': self.food[:],
             'gold': self.gold[:],
+            'walls': self.walls[:],
             'width': self.width,
             'height': self.height,
 

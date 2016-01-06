@@ -7,7 +7,8 @@ def serialize_game(game, game_state=None):
         'width': game.width,
         'turn': game_state.turn if game_state else 0,
         'snakes': serialize_snakes(game_state.snakes) if game_state else [],
-        'food': []  # TODO
+        'food': game_state.food,
+        'gold': game_state.gold
     }
 
 

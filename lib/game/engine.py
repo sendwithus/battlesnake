@@ -3,7 +3,7 @@ import math
 import random
 
 import lib.game.constants as constants
-from lib.models.game import GameState
+from lib.models.game import GameState, Game
 
 
 class Snake(object):
@@ -276,7 +276,10 @@ class Engine(object):
 
         # Track Snake Collisions
         kill = []       # [snake_name, snake_name]
-        health_decay = int(math.exp(constants.HEALTH_DECAY_RATE * game_state.turn)) # Health Decay Rate this turn
+        if game_state.mode == Game.MODE_ADVANCED:
+            health_decay = int(math.exp(constants.HEALTH_DECAY_RATE * game_state.turn)) # Health Decay Rate this turn
+        else:
+            health_decay = 1
 
         # Check Collisions
         for snake in new_snakes:
@@ -382,18 +385,21 @@ class Engine(object):
         new_game_state.gold = new_gold
         new_game_state.walls = game_state.walls
         new_game_state.turn = game_state.turn + 1
+        new_game_state.mode = game_state.mode
 
         # Add food every X turns
         if new_game_state.turn % constants.TURNS_PER_FOOD == 0:
             cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_FOOD)
 
-        # Add gold every Y turns
-        if new_game_state.turn % constants.TURNS_PER_GOLD == 0 and len(new_game_state.gold) == 0:
-            cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_GOLD)
+        # Advanced Mechanics
+        if new_game_state.mode == Game.MODE_ADVANCED:
+            # Add gold every Y turns
+            if new_game_state.turn % constants.TURNS_PER_GOLD == 0 and len(new_game_state.gold) == 0:
+                cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_GOLD)
 
-        # Add gold every Z turns after turn A
-        if new_game_state.turn % constants.TURNS_PER_WALL == 0 and new_game_state.turn >= constants.WALL_START_TURN:
-            cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_WALL)
+            # Add gold every Z turns after turn A
+            if new_game_state.turn % constants.TURNS_PER_WALL == 0 and new_game_state.turn >= constants.WALL_START_TURN:
+                cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_WALL)
 
         # Check if the game is over
         total_snakes = len(new_game_state.snakes) + len(new_game_state.dead_snakes)

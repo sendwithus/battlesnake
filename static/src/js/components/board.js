@@ -39,7 +39,7 @@ export default class Board {
     }, 5000);
     // </RENDER_IMAGES_HACK>
 
-    window.onresize = this.resize.bind(this);
+    window.onresize = this.resize;
   }
 
   resize () {

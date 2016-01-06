@@ -123,6 +123,7 @@ export default class GameCreate extends React.Component {
   }
 
   handleTeamChange (e) {
+    console.log(this);
     this.setState({ selectedTeamName: e.target.value });
   }
 

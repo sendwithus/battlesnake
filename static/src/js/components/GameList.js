@@ -3,6 +3,10 @@ import React from 'react';
 
 export default class GameList extends React.Component {
 
+  state = {
+    games: this.categorizeGames(this.props.games || [])
+  };
+
   componentDidMount () {
     $.ajax({
       type: 'GET',
@@ -28,12 +32,6 @@ export default class GameList extends React.Component {
     }
 
     return categories;
-  }
-
-  getInitialState () {
-    return {
-      games: this.categorizeGames(this.props.games || [])
-    };
   }
 
   renderGameList (games) {

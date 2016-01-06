@@ -1,4 +1,4 @@
-export function generateColor () {
+export default generateColor = () => {
   var color = [ ];
   for (var i=0; i<3; i++) {
     var c = Math.min(

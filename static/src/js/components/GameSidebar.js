@@ -15,7 +15,7 @@ export default class GameSidebar extends Component {
       );
     }
 
-    let aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
+    let aliveSnakes = this.props.latestGameState.snakes.map((snake, i) => {
       return (
         <GameSidebarSnake
           key={snake.name}
@@ -26,7 +26,7 @@ export default class GameSidebar extends Component {
       )
     });
 
-    let deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
+    let deadSnakes = this.props.latestGameState.dead_snakes.map((snake, i) => {
       return (
         <GameSidebarSnake
           key={snake.name}

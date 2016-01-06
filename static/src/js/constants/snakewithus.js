@@ -1,4 +1,4 @@
-export const snakewithus = {
+const snakewithus = {
   MOVE_DELTA: 0,
   SQUARE_PADDING: 2,
   FOOD_SIZE: 0.5,
@@ -8,7 +8,8 @@ export const snakewithus = {
     EMPTY: 'empty',
     SNAKE: 'body',
     SNAKE_HEAD: 'head',
-    FOOD: 'food'
+    FOOD: 'food',
+    GOLD: 'gold'
   },
   DIRECTIONS: {
     NORTH: 'n',
@@ -22,7 +23,8 @@ export const snakewithus = {
   },
   COLORS: {
     FOOD: '#E6D560',
-    EMPTY: 'rgba(0, 0, 0, 0.2)'
+    EMPTY: 'rgba(0, 0, 0, 0.2)',
+    GOLD: 'linear-gradient(to bottom, #AE8913, #FFEEB5)'
   },
   MAX_COLOR: 255,
   MIN_COLOR: 120,
@@ -34,3 +36,5 @@ export const snakewithus = {
     RIGHT: 39
   }
 }
+
+export default snakewithus;

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import GameListItem from './gameListItem';
+
 
 export default class GameList extends Component {
 

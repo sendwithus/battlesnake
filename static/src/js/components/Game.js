@@ -1,15 +1,16 @@
+/**
+ * Any reference of _isMounted, see # see https://facebook.github.io/react/blog/2015/12/16/ismounted-antipattern.html
+ */
+
 import React, { Component } from 'react';
 import navigate from 'react-router';
 
+import Board from './board';
 import GameSidebar from './gameSidebar'
 import GameOverModal from './gameOverModal'
 
 
 export default class Game extends Component {
-
-  constructor (props) {
-    super(props);
-  }
 
   state =  {
     game: null,
@@ -19,10 +20,12 @@ export default class Game extends Component {
   }
 
   handleStart (isManual) {
+    let formData = JSON.stringify({ manual: isManual })
+    console.log(formData);
     $.ajax({
       type: 'POST',
-      url: '/api/games/' + this.props.gameId + '/start',
-      data: JSON.stringify({ manual: isManual }),
+      url: '/api/games/' + this.props.params.id + '/start',
+      data: formData,
     })
     .done((response) => {
       console.log('Started Game', response.data);
@@ -31,10 +34,10 @@ export default class Game extends Component {
     });
   }
 
-  handlePause () {
+  handlePause = () => {
     $.ajax({
       type: 'PUT',
-      url: '/api/games/' + this.props.gameId + '/pause'
+      url: '/api/games/' + this.props.params.id + '/pause'
     })
     .done((response) => {
       console.log('Paused Game', response.data);
@@ -42,10 +45,10 @@ export default class Game extends Component {
     });
   }
 
-  handleResume () {
+  handleResume = () => {
     $.ajax({
       type: 'PUT',
-      url: '/api/games/' + this.props.gameId + '/resume'
+      url: '/api/games/' + this.props.params.id + '/resume'
     })
     .done((response) => {
       console.log('Resumed Game', response.data);
@@ -54,9 +57,9 @@ export default class Game extends Component {
     });
   }
 
-  handleReplay () {
+  handleReplay = () => {
     console.log('Started Replay');
-    let url = '/api/games/' + this.props.gameId + '/gamestates';
+    let url = '/api/games/' + this.props.params.id + '/gamestates';
 
     $.ajax({
       type: 'GET',
@@ -66,7 +69,7 @@ export default class Game extends Component {
       let framesCompleted = 0;
       let gameStates = response.data;
 
-      let next = function () {
+      let next = () => {
         this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
         if (++framesCompleted < response.data.length && this.state.isReplay) {
           setTimeout(next, 350);
@@ -79,29 +82,49 @@ export default class Game extends Component {
     this.setState({ isReplay: true });
   }
 
-  handleCancelReplay () {
+  handleCancelReplay = () => {
     this.setState({ isReplay: false });
   }
 
-  handleClickNextTurn () {
+  handleClickNextTurn = () => {
     this.setState({ isLoading: true });
     $.ajax({
       type: 'POST',
-      url: '/api/games/' + this.props.gameId + '/turn'
+      url: '/api/games/' + this.props.params.id + '/turn'
     })
     .done((response) => {
       this.handleGameState(response.data);
     });
   }
 
+  handleRematch = () => {
+    this.setState({ isLoading: true });
+
+    $.ajax({
+      type: 'POST',
+      url: '/api/games/' + this.props.params.id + '/rematch'
+    })
+    .done((response) => {
+      this.props.history.push('/play/games/' + response.data._id);
+      this.componentDidMount();
+    })
+    .error((xhr, textStatus, errorThrown) => {
+      this.setState({ isLoading: false });
+    });
+  }
+
+  handleClickContinuous () {
+    this.interval = setInterval(this.handleClickNextTurn, 400);
+  }
+
   handleGameState (gameState, ignoreEnd) {
-    if (this.isMounted()) {
+    if (this._isMounted) {
       console.log('GAME STATE', gameState);
       this.state.latestGameState = gameState;
       this.state.isLoading = false;
 
       if (gameState.is_done) {
-        $('#game-summary-modal').off('shown.bs.modal').on('shown.bs.modal', function () {
+        $('#game-summary-modal').off('shown.bs.modal').on('shown.bs.modal', () => {
           console.log('hello');
           $(this).find('button').focus();
         }).modal('show');
@@ -114,27 +137,8 @@ export default class Game extends Component {
     }
   }
 
-  handleRematch () {
-    this.setState({ isLoading: true });
-
-    $.ajax({
-      type: 'POST',
-      url: '/api/games/' + this.props.gameId + '/rematch'
-    })
-    .done((response) => {
-      navigate('/play/games/' + response.data._id);
-      this.componentDidMount();
-    }).error(function (xhr, textStatus, errorThrown) {
-      this.setState({ isLoading: false });
-    });
-  }
-
-  handleClickContinuous () {
-    this.interval = setInterval(this.handleClickNextTurn, 400);
-  }
-
   tick (callback) {
-    let url = '/api/games/' + this.props.gameId + '/gamestates/latest';
+    let url = '/api/games/' + this.props.params.id + '/gamestates/latest';
     let id = Date.now();
 
     $.ajax({ type: 'GET', url: url })
@@ -157,7 +161,7 @@ export default class Game extends Component {
 
         let sleepFor = Math.max(0, this.state.game.turn_time * 1000 - elapsedMillis);
 
-        if (this.isMounted() && shouldTick && !gameState.is_done) {
+        if (this._isMounted && shouldTick && !gameState.is_done) {
           setTimeout(_, sleepFor);
         }
 
@@ -172,20 +176,20 @@ export default class Game extends Component {
   }
 
   componentDidMount () {
+    this._isMounted = true;
     let canvas = this.refs.canvas;
-    console.log(this.props);
     $.ajax({
       type: 'GET',
-      url: '/api/games/' + this.props.gameId
+      url: '/api/games/' + this.props.params.id
     })
     .done((response) => {
       console.log(response);
-      if (this.isMounted()) {
+      if (this._isMounted) {
         this.setState({ game: response.data });
       }
 
       // Get latest game state
-      this.tick(function () {
+      this.tick(() => {
         // See if we need to tick the game
         this.checkInterval();
       });
@@ -203,6 +207,10 @@ export default class Game extends Component {
     this.board.update(this.state.latestGameState );
   }
 
+  componentWillUnmount () {
+    this._isMounted = false;
+  }
+
   getBoard () {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
@@ -217,14 +225,14 @@ export default class Game extends Component {
         </div>
         <div className="col-md-3 sidebar">
           <GameSidebar
-            gameId={this.props.gameId}
+            id={this.props.params.id}
             game={this.state.game}
             isReplay={this.state.isReplay}
             isLoading={this.state.isLoading}
             latestGameState={this.state.latestGameState}
             continueous={this.handleClickContinuous}
-            startAutomated={this.handleStart.bind(null, false)}
-            startManual={this.handleStart.bind(null, true)}
+            startAutomated={this.handleStart.bind(this, false)}
+            startManual={this.handleStart.bind(this, true)}
             startReplay={this.handleReplay}
             rematch={this.handleRematch}
             cancelReplay={this.handleCancelReplay}

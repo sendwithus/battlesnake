@@ -2,6 +2,11 @@
  *  Main game board class
  */
 
+import snakewithus from '../constants/snakewithus';
+
+import Snake from './snake';
+
+
 export default class Board {
 
   constructor (ctx, canvas) {
@@ -72,7 +77,7 @@ export default class Board {
   beginAnimation () {
     let that = this;
     this.animate();
-    this.animationLoop = setInterval(function () {
+    this.animationLoop = setInterval(() => {
       that.animate.call(that);
     }, 300);
   }

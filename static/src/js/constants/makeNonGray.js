@@ -1,4 +1,4 @@
-export function makeNonGray (rgb, DELTA) {
+export default makeNonGray = (rgb, DELTA) => {
   DELTA = DELTA || 50;
   var rgbOld = rgb.slice(0);
   var rgbArr = [ 0, 1, 2 ];

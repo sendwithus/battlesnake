@@ -6,7 +6,7 @@ export default class GameListItem extends Component {
   render () {
     let path = '/play/games/' + this.props.game._id
     let tdStyles = { width: '20%' };
-    let tbody = <tr></tr>;
+    let tbody = <tbody><tr></tr></tbody>;
 
     if (this.props.game.state === 'done') {
       let snakeHeader = (

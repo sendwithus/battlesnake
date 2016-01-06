@@ -7,21 +7,21 @@ export default class GameSidebarSnake extends Component {
     lastTaunt: this.props.snake.taunt,
     tauntToShow: this.props.snake.taunt,
     tauntCount: 0
-  };
-
-  constructor () {
-    super()
-
-    this.handleTaunt(state, this.props);
   }
 
-  componentWillReceiveProps (nextProps) {
-    let newState = this.handleTaunt(this.state, nextProps);
+  constructor (props) {
+    super(props)
+
+    this.handleTaunt(this.state, props);
+  }
+
+  componentWillReceiveProps (props) {
+    let newState = this.handleTaunt(this.state, props);
     this.setState(newState);
   }
 
   componentDidMount () {
-    let img = this.refs.head_img.getDOMNode();
+    let img = this.refs.head_img;
     img.onerror = () => {
       this.setAttribute('src', 'http://www.battlesnake.io/static/img/default_head.gif');
       this.onerror = undefined;

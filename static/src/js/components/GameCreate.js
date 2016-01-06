@@ -69,8 +69,7 @@ export default class GameCreate extends Component {
     $.ajax({
       type: 'POST',
       url: '/api/games',
-      data: JSON.stringify(gameData),
-      contentType: 'application/json'
+      data: JSON.stringify(gameData)
     })
     .done((response) => {
       if (response.data.error) {

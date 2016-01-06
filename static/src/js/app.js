@@ -4,7 +4,7 @@ import env from "./config/environment";
 
 import Navbar from "./components/navbar";
 
-const GAInitializer = ga.Initializer;
+// const GAInitializer = ga.Initializer;
 
 export default class App extends React.Component {
   constructor () {
@@ -22,6 +22,7 @@ export default class App extends React.Component {
     ga("send", "pageview");
   }
 
+  // <GAInitializer />
   render() {
     return (
       <div className="App">
@@ -29,7 +30,6 @@ export default class App extends React.Component {
         <div className="container-fluid">
           {this.props.children}
         </div>
-        <GAInitializer />
       </div>
     );
   }

@@ -22,17 +22,18 @@ import Game from './components/game';
 
 // Analytics
 import env from './config/environment';
-import ga from 'react-google-analytics';
+// import ga from 'react-google-analytics';
 
-function runAnalytics() {
-  ga('create', env.gaId, 'auto');
-  ga('send', 'pageview');
-}
+// function runAnalytics() {
+//   ga('create', env.gaId, 'auto');
+//   ga('send', 'pageview');
+// }
 
 const history = createBrowserHistory();
 
+// <Router history={history} onUpdate={runAnalytics}>
 const router = () =>
-  <Router history={history} onUpdate={runAnalytics}>
+  <Router history={history}>
     <Route path='/play' component={App}>
       <Route path='games' component={GameList} />
       <Route path='game/:id' component={Game} />

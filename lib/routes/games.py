@@ -113,10 +113,15 @@ def games_list():
             ]
         }
     }, limit=50)
+
+    print games
+
     data = []
     for game in games:
         obj = game.to_dict()
         data.append(obj)
+
+    print data
 
     return _json_response(data)
 

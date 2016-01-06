@@ -10,15 +10,31 @@ export default class GameSidebar extends Component {
     let snakes = '';
 
     if (!this.props.latestGameState) {
-      return <div></div>;
+      return (
+        <div></div>
+      );
     }
 
     let aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-      return <GameSidebarSnake key={snake.name} snake={snake} isDead={false} turn={this.props.latestGameState.turn} />
+      return (
+        <GameSidebarSnake
+          key={snake.name}
+          snake={snake}
+          isDead={false}
+          turn={this.props.latestGameState.turn}
+        />
+      )
     });
 
     let deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-      return <GameSidebarSnake key={snake.name} snake={snake} isDead={true} turn={this.props.latestGameState.turn} />
+      return (
+        <GameSidebarSnake
+          key={snake.name}
+          snake={snake}
+          isDead={true}
+          turn={this.props.latestGameState.turn}
+        />
+      )
     });
 
     if (!deadSnakes.length) {
@@ -92,15 +108,11 @@ export default class GameSidebar extends Component {
       <div className="game-sidebar sidebar-inner">
         <h1>{this.props.gameId}</h1>
         <p>Turn {this.props.latestGameState ? this.props.latestGameState.turn : '--'}</p>
-
         <h2>Living Snakes</h2>
         {aliveSnakes}
-
         <h2>Dead Snakes</h2>
         {deadSnakes}
-
         <hr />
-
         {buttons}
       </div>
     );

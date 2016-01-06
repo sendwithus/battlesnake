@@ -7,6 +7,10 @@ import GameOverModal from './gameOverModal'
 
 export default class Game extends Component {
 
+  constructor (props) {
+    super(props);
+  }
+
   state =  {
     game: null,
     isReplay: false,
@@ -19,7 +23,6 @@ export default class Game extends Component {
       type: 'POST',
       url: '/api/games/' + this.props.gameId + '/start',
       data: JSON.stringify({ manual: isManual }),
-      contentType: 'application/json',
     })
     .done((response) => {
       console.log('Started Game', response.data);
@@ -170,6 +173,7 @@ export default class Game extends Component {
 
   componentDidMount () {
     let canvas = this.refs.canvas;
+    console.log(this.props);
     $.ajax({
       type: 'GET',
       url: '/api/games/' + this.props.gameId

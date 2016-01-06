@@ -300,6 +300,11 @@ class Engine(object):
                 snake.killed_by = Engine.WALL
                 continue
 
+            if snake.coords[0] in game_state.walls:
+                kill.append(snake.name)
+                snake.killed_by = Engine.WALL
+                continue
+
             for check_snake in new_snakes:
 
                 # Self Collision or Ignore Self
@@ -376,6 +381,9 @@ class Engine(object):
 
         if new_game_state.turn % constants.TURNS_PER_GOLD == 0 and len(new_game_state.gold) == 0:
             cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_GOLD)
+
+        if new_game_state.turn % constants.TURNS_PER_WALL == 0 and new_game_state.turn >= constants.WALl_START_TURN:
+            cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_WALL)
 
         # Check if the game is over
         total_snakes = len(new_game_state.snakes) + len(new_game_state.dead_snakes)

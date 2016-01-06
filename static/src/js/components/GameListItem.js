@@ -7,19 +7,19 @@ export default class GameListItem extends React.Component {
     let path = '/play/games/' + this.props.game._id
     let tdStyles = { width: '20%' };
     let tbody = <tr></tr>;
-    let watchLink;
 
     if (this.props.game.state === 'done') {
       let snakeHeader = (
         <tr className="snakes-heading">
           <td>Snake Stats</td>
-          <td>Length</td>
-          <td>Food</td>
-          <td>Kills</td>
-          <td>Killed by...</td>
+          <td>length</td>
+          <td>food</td>
+          <td>kills</td>
+          <td>killed by...</td>
         </tr>
       );
-      let snakeRows = this.props.game.stats.snakes.map(function (snake, i) {
+      
+      let snakeRows = this.props.game.stats.snakes.map((snake, i) => {
         let snakeStyles = {
           backgroundColor: snake.color
         };
@@ -78,6 +78,7 @@ export default class GameListItem extends React.Component {
       );
     }
 
+    let watchLink;
     if (this.props.game.state === 'done') {
       watchLink = <a href={path} className="btn btn-info pull-right">Watch Replay</a>
     } else {
@@ -103,4 +104,5 @@ export default class GameListItem extends React.Component {
       </table>
     )
   }
+
 }

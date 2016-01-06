@@ -95,4 +95,5 @@ export default class GameSidebarSnake extends React.Component {
       </div>
     )
   }
+
 }

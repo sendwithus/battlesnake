@@ -3,6 +3,42 @@ import navigate from 'react-router';
 
 export default class GameCreate extends React.Component {
 
+  constructor () {
+    super()
+
+    let state = this._loadPastState();
+    if (state) {
+      state.isLoading = false;
+      if(!state.teamnames || !state.availableTeams) {
+        state.availableTeams = [];
+        state.teamnames = [];
+      }
+    }
+
+    this.state = state || {
+      availableTeams: [],
+      teamnames: [],
+      snakeUrls: [ ],
+      currentSnakeUrl: '',
+      selectedTeamName: '',
+      currentWidth: 20,
+      currentHeight: 20,
+      currentTimeout: 1,
+      isLoading: false
+    };
+  }
+
+  componentDidMount () {
+    // fetch list of teams
+    $.ajax({
+      type: 'GET',
+      url: '/api/teams/',
+    })
+    .done((response) => {
+      this.setState({ availableTeams: response.data });
+    });
+  }
+
   _loadPastState () {
     try {
       return JSON.parse(window.localStorage['battlesnake.new_game_state']);
@@ -21,6 +57,7 @@ export default class GameCreate extends React.Component {
 
     let gameData = {
       snake_urls: this.state.snakeUrls,
+      teamnames: this.state.teamnames,
       width: parseInt(this.state.currentWidth),
       height: parseInt(this.state.currentHeight),
       turn_time: parseFloat(this.state.currentTimeout),
@@ -85,33 +122,24 @@ export default class GameCreate extends React.Component {
     this.setState({ currentTimeout: e.target.value });
   }
 
-  // getInitialState () {
-  //   let state = this._loadPastState();
-  //   if (state) {
-  //     state.isLoading = false;
-  //     return state;
-  //   }
+  handleTeamChange (e) {
+    this.setState({ selectedTeamName: e.target.value });
+  }
 
-  //   return {
+  handleDeleteTeam (i, e) {
+    let teamnames = this.state.teamnames;
+    teamnames.splice(i, 1);
+    this.setState({ teamnames: teamnames });
+  }
 
-  //   };
-  // }
-
-  constructor () {
-    super()
-
-    this.state = {
-      snakeUrls: [ ],
-      currentSnakeUrl: '',
-      currentWidth: 20,
-      currentHeight: 20,
-      currentTimeout: 1,
-      isLoading: false
-    }
+  handleSubmitTeam (e) {
+    e.preventDefault();
+    let teamnames = this.state.teamnames;
+    teamnames.push(this.state.selectedTeamName);
+    this.setState({ teamnames: teamnames, selectedTeamName: '' });
   }
 
   render () {
-    let noSnakesMessage = '';
     let snakeUrls = this.state.snakeUrls.map((snakeUrl, i) => {
       return (
         <div key={'url_' + i}>
@@ -125,79 +153,135 @@ export default class GameCreate extends React.Component {
       );
     });
 
+    let noSnakesMessage = '';
     if (!this.state.snakeUrls.length) {
       noSnakesMessage = (
         <p>You have no snake added. Input your snake url in the box below...</p>
       );
     }
 
+    let noTeamsMessage = '';
+    if (!this.state.teamnames.length) {
+      noTeamsMessage = (
+        <p>You have no teams added. Select a team in the box below...</p>
+      );
+    }
+
+    let teamsByName = {};
+
+    let teamOpts = this.state.availableTeams.map((team, i) => {
+      teamsByName[team.teamname] = team;
+      return (
+        <option key={'team_opt_' + i} value={team.teamname}>
+          {team.teamname}
+        </option>
+      );
+    });
+
+    let teamnames = this.state.teamnames.map((teamname, i) => {
+      let team = teamsByName[teamname];
+      return (
+        <div key={'team_' + i}>
+          <a href="#"
+             className="pull-right"
+             onClick={this.handleDeleteTeam.bind(null, i)}>
+            &times;
+          </a>
+          <p><strong>{teamname}</strong> - {team.snake_url}</p>
+        </div>
+      );
+    });
+
     return (
       <div className="container">
-        <form onSubmit={this.handleSubmitSnake}>
-          <h2>Create Game</h2>
-          <br />
-          {noSnakesMessage}
-          <div>
-            {snakeUrls}
-          </div>
-          <div className="input-group">
-            <input type="text"
-              className="form-control"
-              value={this.state.currentSnakeUrl}
-              name="snake-url"
-              placeholder="http://mysnake.herokuapp.com"
-              onChange={this.handleSnakeUrlChange}
-            />
-            <span className="input-group-btn">
-              <button type="submit"
-                disabled={this.state.currentSnakeUrl ? false : 'on'}
-                className="btn btn-info big form-control">
-                Add Snake
-              </button>
-            </span>
-          </div>
-          <div className="row">
-              <div className="col-md-4">
-                  <label>width</label>
-                  <input type="number"
+          <form onSubmit={this.handleSubmitSnake}>
+            <h2>Create Game</h2>
+            <br />
+            {noSnakesMessage}
+            <div>
+              {snakeUrls}
+            </div>
+            <div className="input-group">
+              <input type="text"
+                     className="form-control"
+                     value={this.state.currentSnakeUrl}
+                     name="snake-url"
+                     placeholder="http://mysnake.herokuapp.com"
+                     onChange={this.handleSnakeUrlChange}
+              />
+              <span className="input-group-btn">
+                <button type="submit"
+                        disabled={this.state.currentSnakeUrl ? false : 'on'}
+                  className="btn btn-info big form-control">
+                    Add Snake
+                </button>
+              </span>
+            </div>
+
+            {noTeamsMessage}
+            <div>
+              {teamnames}
+            </div>
+            <div className="input-group">
+              <select name="teamname"
                       className="form-control"
-                      placeholder="width"
-                      min="5"
-                      max="50"
-                      value={this.state.currentWidth}
-                      onChange={this.handleWidthChange}/>
+                      onChange={this.handleTeamChange}>
+                <option value="">Select a team</option>
+                {teamOpts}
+              </select>
+              <span className="input-group-btn">
+                <button type="submit"
+                        disabled={this.state.selectedTeamName ? false : 'on'}
+                        className="btn btn-info big form-control"
+                        onClick={this.handleSubmitTeam}>
+                    Add Team
+                </button>
+              </span>
+            </div>
+
+            <div className="row">
+              <div className="col-md-4">
+                <label>width</label>
+                <input type="number"
+                       className="form-control"
+                       placeholder="width"
+                       min="5"
+                       max="50"
+                       value={this.state.currentWidth}
+                       onChange={this.handleWidthChange}
+                  />
               </div>
               <div className="col-md-4">
                 <label>height</label>
                 <input type="number"
-                  className="form-control"
-                  placeholder="height"
-                  min="5"
-                  max="50"
-                  value={this.state.currentHeight}
-                  onChange={this.handleHeightChange}
+                       className="form-control"
+                       placeholder="height"
+                       min="5"
+                       max="50"
+                       value={this.state.currentHeight}
+                       onChange={this.handleHeightChange}
                 />
               </div>
               <div className="col-md-4">
                 <label>turn time</label>
                 <input type="number"
-                  step="0.1"
-                  min="0.1"
-                  className="form-control"
-                  placeholder="1.0 (seconds)"
-                  value={this.state.currentTimeout}
-                  onChange={this.handleTimeoutChange}
+                       step="0.1"
+                       min="0.1"
+                       className="form-control"
+                       placeholder="1.0 (seconds)"
+                       value={this.state.currentTimeout}
+                       onChange={this.handleTimeoutChange}
                 />
               </div>
-          </div>
-          <div className="input-group">
-            <button type="button" className="btn btn-big btn-success" onClick={this.handleGameCreate} disabled={this.state.isLoading}>
-              {this.state.isLoading ? 'Contacting snakes...' : 'Start Game'}
-            </button>
-          </div>
+            </div>
+            <div className="input-group">
+              <button type="button" className="btn btn-big btn-success" onClick={this.handleGameCreate} disabled={this.state.isLoading}>
+                {this.state.isLoading ? 'Contacting snakes...' : 'Start Game'}
+              </button>
+            </div>
         </form>
       </div>
     );
   }
 
-};
+}

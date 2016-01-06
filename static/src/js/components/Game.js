@@ -45,17 +45,20 @@ export default class Game extends React.Component {
     console.log('Started Replay');
     let url = '/api/games/' + this.props.gameId + '/gamestates';
 
-    $.ajax({ url: url })
+    $.ajax({
+      type: 'GET',
+      url: url
+    })
     .done((response) => {
       let framesCompleted = 0;
       let gameStates = response.data;
 
-      let next = () => {
+      let next = function () {
         this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
         if (++framesCompleted < response.data.length && this.state.isReplay) {
           setTimeout(next, 350);
         }
-      }
+      };
 
       next();
     });
@@ -70,8 +73,8 @@ export default class Game extends React.Component {
   handleClickNextTurn () {
     this.setState({ isLoading: true });
     $.ajax({
-        type: 'POST',
-        url: '/api/games/' + this.props.gameId + '/turn'
+      type: 'POST',
+      url: '/api/games/' + this.props.gameId + '/turn'
     })
     .done((response) => {
       this.handleGameState(response.data);
@@ -85,13 +88,10 @@ export default class Game extends React.Component {
       this.state.isLoading = false;
 
       if (gameState.is_done) {
-        $('#game-summary-modal')
-          .off('shown.bs.modal')
-          .on('shown.bs.modal', () => {
-            console.log('hello');
-            $(this).find('button').focus();
-          })
-          .modal('show');
+        $('#game-summary-modal').off('shown.bs.modal').on('shown.bs.modal', function () {
+          console.log('hello');
+          $(this).find('button').focus();
+        }).modal('show');
 
         this.state.isReplay = false;
         this.state.game.state = 'done';
@@ -111,8 +111,7 @@ export default class Game extends React.Component {
     .done((response) => {
       navigate('/play/games/' + response.data._id);
       this.componentDidMount();
-    })
-    .error((xhr, textStatus, errorThrown) => {
+    }).error(function (xhr, textStatus, errorThrown) {
       this.setState({ isLoading: false });
     });
   }
@@ -125,7 +124,7 @@ export default class Game extends React.Component {
     let url = '/api/games/' + this.props.gameId + '/gamestates/latest';
     let id = Date.now();
 
-    $.ajax({ url: url })
+    $.ajax({ type: 'GET', url: url })
     .done((response) => {
       this.handleGameState(response.data);
       callback && callback(response.data);
@@ -139,7 +138,7 @@ export default class Game extends React.Component {
       if (!shouldTick) { return; }
 
       let startTimestamp = Date.now();
-      let tickFunc = (gameState) => {
+      this.tick((gameState) => {
         let endTimestamp = Date.now();
         let elapsedMillis = endTimestamp - startTimestamp;
 
@@ -153,8 +152,7 @@ export default class Game extends React.Component {
           this.state.game.state = 'done';
           this.setState({ game: this.state.game });
         }
-      }
-      this.tick(tickFunc);
+      });
     };
 
     _();
@@ -162,14 +160,17 @@ export default class Game extends React.Component {
 
   componentDidMount () {
     let canvas = this.refs.canvas.getDOMNode();
-    $.ajax({ url: '/api/games/' + this.props.gameId })
+    $.ajax({
+      type: 'GET',
+      url: '/api/games/' + this.props.gameId
+    })
     .done((response) => {
       if (this.isMounted()) {
         this.setState({ game: response.data });
       }
 
       // Get latest game state
-      this.tick(() => {
+      this.tick(function () {
         // See if we need to tick the game
         this.checkInterval();
       });
@@ -193,22 +194,20 @@ export default class Game extends React.Component {
     return new Board(ctx, canvas);
   }
 
-  constructor () {
-    super()
-
-    this.state = {
+  getInitialState () {
+    return {
       game: null,
       isReplay: false,
       isLoading: false,
       latestGameState: null
-    }
+    };
   }
 
   render () {
     return (
       <div className="row">
         <div className="col-md-9">
-          <canvas ref="canvas">Sorry, your browser does not support canvas</canvas>
+          <canvas ref="canvas">Your browser does not support canvas</canvas>
         </div>
         <div className="col-md-3 sidebar">
           <GameSidebar

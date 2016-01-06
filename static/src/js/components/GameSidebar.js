@@ -4,33 +4,19 @@ import React from 'react';
 export default class GameSidebar extends React.Component {
 
   render () {
-    let snakes = '';
     let buttons;
+    let snakes = '';
 
     if (!this.props.latestGameState) {
       return <div></div>;
     }
 
     let aliveSnakes = this.props.latestGameState.snakes.map(function (snake, i) {
-      return (
-        <GameSidebarSnake
-          key={snake.name}
-          snake={snake}
-          isDead={false}
-          turn={this.props.latestGameState.turn}
-        />
-      )
+      return <GameSidebarSnake key={snake.name} snake={snake} isDead={false} turn={this.props.latestGameState.turn} />
     });
 
     let deadSnakes = this.props.latestGameState.dead_snakes.map(function (snake, i) {
-      return (
-        <GameSidebarSnake
-          key={snake.name}
-          snake={snake}
-          isDead={true}
-          turn={this.props.latestGameState.turn}
-        />
-      )
+      return <GameSidebarSnake key={snake.name} snake={snake} isDead={true} turn={this.props.latestGameState.turn} />
     });
 
     if (!deadSnakes.length) {
@@ -61,43 +47,43 @@ export default class GameSidebar extends React.Component {
         </div>
       );
     } else if (!this.props.isReplay && this.props.game.state === 'done') {
-      buttons = (
-        <div>
-          <button className="btn btn-success stretch" onClick={this.props.startReplay}>
-            View Replay
-          </button>
-          <br />
-          <br />
-          <button className="btn btn-info stretch" onClick={this.props.rematch}>
-            Rematch
-          </button>
-        </div>
-      );
+        buttons = (
+          <div>
+            <button className="btn btn-success stretch" onClick={this.props.startReplay}>
+              View Replay
+            </button>
+            <br />
+            <br />
+            <button className="btn btn-info stretch" onClick={this.props.rematch}>
+              Rematch
+            </button>
+          </div>
+        );
     } else if (this.props.isReplay && this.props.game.state === 'done') {
-      buttons = (
-        <div>
-          <button className="btn btn-info stretch" onClick={this.props.cancelReplay}>
-            Cancel Replay
-          </button>
-        </div>
-      );
+        buttons = (
+          <div>
+            <button className="btn btn-info stretch" onClick={this.props.cancelReplay}>
+              Cancel Replay
+            </button>
+          </div>
+        );
     } else if (this.props.game.state === 'paused') {
-      buttons = (
-        <div>
-          <button className="btn btn-success stretch" onClick={this.props.resume}>
-            Resume Game
-          </button>
-        </div>
-      );
+        buttons = (
+          <div>
+            <button className="btn btn-success stretch" onClick={this.props.resume}>
+              Resume Game
+            </button>
+          </div>
+        );
     } else {
-      // game is playing live
-      buttons = (
-        <div>
-          <button className="btn btn-info stretch" onClick={this.props.pause}>
-            Pause Game
-          </button>
-        </div>
-      );
+        // game is playing live
+        buttons = (
+          <div>
+            <button className="btn btn-info stretch" onClick={this.props.pause}>
+              Pause Game
+            </button>
+          </div>
+        );
     }
 
     return (
@@ -117,4 +103,5 @@ export default class GameSidebar extends React.Component {
       </div>
     );
   }
+
 }

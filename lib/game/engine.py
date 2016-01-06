@@ -249,6 +249,7 @@ class Engine(object):
         dead_snakes = copy.deepcopy(game_state.dead_snakes)
         new_food = list(game_state.food)
         new_gold = list(game_state.gold)
+        new_walls = list(game_state.walls)
 
         # Move all snakes
         for snake in game_state.snakes:
@@ -296,6 +297,11 @@ class Engine(object):
                 continue
 
             if snake.coords[0][1] >= game_state.height:
+                kill.append(snake.name)
+                snake.killed_by = Engine.WALL
+                continue
+
+            if snake.coords[0] in game_state.walls:
                 kill.append(snake.name)
                 snake.killed_by = Engine.WALL
                 continue
@@ -365,6 +371,8 @@ class Engine(object):
         new_game_state.snakes = new_snakes
         new_game_state.dead_snakes = dead_snakes
         new_game_state.food = new_food
+        new_game_state.gold = new_gold
+        new_game_state.walls = new_walls
 
         new_game_state.turn = game_state.turn + 1
 
@@ -376,6 +384,9 @@ class Engine(object):
 
         if new_game_state.turn % constants.TURNS_PER_GOLD == 0 and len(new_game_state.gold) == 0:
             cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_GOLD)
+
+        if new_game_state.turn % constants.TURNS_PER_WALL == 0 and new_game_state.turn >= constants.WALl_START_TURN:
+            cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_WALL)
 
         # Check if the game is over
         total_snakes = len(new_game_state.snakes) + len(new_game_state.dead_snakes)

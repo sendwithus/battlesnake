@@ -1,10 +1,9 @@
 from flask import (
     Flask,
     request,
-    jsonify, send_from_directory, flash, redirect,
+    jsonify, flash, redirect,
     url_for,
 )
-from flask.ext.login import login_required
 
 # Use hardcoded app name to ensure lib is not used for top-level directory
 app = Flask('battlesnake')

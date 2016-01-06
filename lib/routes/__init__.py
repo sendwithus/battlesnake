@@ -1,1 +1,1 @@
-import auth, games, teams, tournaments
+import auth, games, pages, teams, tournaments

@@ -5,23 +5,23 @@ class Snake(LocalSnake):
 
     def whois(self):
         return {
-            'name': 'BarfSnake',
-            'color': '#f0f087',
-            'head': 'barf'
+            'name': 'North Snake',
+            'color': '#FFFFFF',
+            'head': 'wut'
         }
 
     def start(self, payload):
         return {
-            'taunt': 'go taunt yourself'
+            'taunt': 'northward bound'
         }
 
     def move(self, payload):
         return {
             'move': 'north',
-            'taunt': 'up up and away!'
+            'taunt': 'still going north'
         }
 
     def end(self, payload):
         return {
-            'taunt': 'barf I died'
+            'taunt': 'oh no I died'
         }

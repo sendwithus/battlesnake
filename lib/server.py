@@ -1,10 +1,9 @@
 from flask import (
     Flask,
     request,
-    jsonify, send_from_directory, flash, redirect,
+    jsonify, flash, redirect,
     url_for,
 )
-from flask.ext.login import login_required
 
 # Use hardcoded app name to ensure lib is not used for top-level directory
 app = Flask('battlesnake')
@@ -27,25 +26,6 @@ def _form_error(msg, view=None):
 
     flash(msg, 'error')
     return redirect(url_for(view))
-
-@app.route('/')
-def index():
-    return app.send_static_file('html/index.html')
-
-
-@app.route('/play/')
-@app.route('/play/<path:path>')
-@login_required
-def play(path=None):
-    # serve play.html for anything that starts with "play/"
-    # frontend will show the correct route
-    return app.send_static_file('html/play.html')
-
-
-@app.route('/static/<path:path>')
-def server_static(path):
-    # Flask has this built-in, but it's only active in dev
-    return send_from_directory('static', path)
 
 
 import lib.routes

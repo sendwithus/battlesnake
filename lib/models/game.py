@@ -144,7 +144,7 @@ class GameState(Model):
         for coord in self.gold:
             board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_GOLD
 
-        for coord in self.wall:
+        for coord in self.walls:
             board[coord[0]][coord[1]]['state'] = GameState.TILE_STATE_WALL
 
         return board

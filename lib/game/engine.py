@@ -249,6 +249,7 @@ class Engine(object):
         dead_snakes = copy.deepcopy(game_state.dead_snakes)
         new_food = list(game_state.food)
         new_gold = list(game_state.gold)
+        new_walls = list(game_state.walls)
 
         # Move all snakes
         for snake in game_state.snakes:
@@ -370,6 +371,8 @@ class Engine(object):
         new_game_state.snakes = new_snakes
         new_game_state.dead_snakes = dead_snakes
         new_game_state.food = new_food
+        new_game_state.gold = new_gold
+        new_game_state.walls = new_walls
 
         new_game_state.turn = game_state.turn + 1
 

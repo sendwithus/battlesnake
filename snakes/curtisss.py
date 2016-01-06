@@ -5,9 +5,9 @@ class Snake(LocalSnake):
 
     def whois(self):
         return {
-            'name': 'BradSnake',
-            'color': '#f0f087',
-            'head': 'barf'
+            'name': 'Curtisssnake',
+            'color': '#002287',
+            'head': 'wat'
         }
 
     def start(self, payload):
@@ -19,7 +19,7 @@ class Snake(LocalSnake):
         bad_tiles = []
         for snake in payload['snakes']:
             bad_tiles += snake['coords']
-            if snake['name'] == 'BradSnake':
+            if snake['name'] == 'Curtisssnake':
                 head = snake['coords'][0]
 
         smallest = 999
@@ -45,6 +45,7 @@ class Snake(LocalSnake):
         if target[0] > head[0]:
             if [head[0]+1, head[1]] not in bad_tiles:
                 move = 'east'
+
         return {
             'move': move,
             'taunt': 'up up and away!'

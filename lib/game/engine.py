@@ -26,6 +26,7 @@ class Snake(object):
         self.kills = 0
         self.food_eaten = 0
         self.last_eaten = 0
+        self.gold = 0
         self.killed_by = ''
         self.died_on_turn = 0
         self.move = ''
@@ -52,6 +53,7 @@ class Snake(object):
             'kills': self.kills,
             'food_eaten': self.food_eaten,
             'last_eaten': self.last_eaten,
+            'gold': self.gold,
             'killed_by': self.killed_by,
             'died_on_turn': self.died_on_turn,
         }
@@ -67,6 +69,7 @@ class Snake(object):
         snake.kills = obj['kills']
         snake.food_eaten = obj['food_eaten']
         snake.last_eaten = obj['last_eaten']
+        snake.gold = obj['gold']
         snake.killed_by = obj['killed_by']
         snake.died_on_turn = obj['died_on_turn']
 
@@ -180,13 +183,14 @@ class Engine(object):
                 game_state.dead_snakes.append(snake)
 
     @staticmethod
-    def add_random_food_to_board(game_state):
+    def add_tile_to_board(game_state, tile_type):
         if len(game_state.food) >= constants.MAX_FOOD_ON_BOARD:
             return game_state
 
         taken_tiles = []
         taken_tiles += [snake.coords for snake in game_state.snakes]
         taken_tiles += [food for food in game_state.food]
+        taken_tiles += [gold for gold in game_state.gold]
 
         empty_tile_coords = []
         for x in range(game_state.width):
@@ -195,7 +199,11 @@ class Engine(object):
                     empty_tile_coords.append([x, y])
 
         if empty_tile_coords:
-            game_state.food.append(random.choice(empty_tile_coords))
+            if tile_type == GameState.TILE_STATE_FOOD:
+                game_state.food.append(random.choice(empty_tile_coords))
+
+            if tile_type == GameState.TILE_STATE_GOLD:
+                game_state.gold.append(random.choice(empty_tile_coords))
 
         return game_state
 
@@ -240,6 +248,7 @@ class Engine(object):
         new_snakes = []
         dead_snakes = copy.deepcopy(game_state.dead_snakes)
         new_food = list(game_state.food)
+        new_gold = list(game_state.gold)
 
         # Move all snakes
         for snake in game_state.snakes:
@@ -328,6 +337,11 @@ class Engine(object):
 
                     continue
 
+            if snake.coords[0] in new_gold:
+                if snake.name not in kill:
+                    new_gold.remove(new_gold[0])
+                    snake.gold = snake.gold + 1
+
         # Resolve Collisions
         for snake in new_snakes:
             if snake.name in kill:
@@ -358,7 +372,10 @@ class Engine(object):
 
         # Add food every X turns
         if new_game_state.turn % constants.TURNS_PER_FOOD == 0:
-            cls.add_random_food_to_board(new_game_state)
+            cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_FOOD)
+
+        if new_game_state.turn % constants.TURNS_PER_GOLD == 0 and len(new_game_state.gold) == 0:
+            cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_GOLD)
 
         # Check if the game is over
         total_snakes = len(new_game_state.snakes) + len(new_game_state.dead_snakes)
@@ -369,5 +386,9 @@ class Engine(object):
         elif total_snakes > 1 and len(new_game_state.snakes) <= 1:
             # Multi snake games go until one snake left
             new_game_state.is_done = True
+
+        for snake in game_state.snakes:
+            if snake.gold == constants.GOLD_VICTORY:
+                new_game_state.is_done = True
 
         return new_game_state

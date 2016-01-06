@@ -218,3 +218,29 @@ def test_trap_self():
         end_state = f.read().strip()
 
     assert(g.to_string().strip() == end_state.strip())
+
+def test_eat_gold():
+    game = Game(width=10, height=10)
+    g = Engine.create_game_state(game.id, game.width, game.height)
+    Engine.add_snakes_to_board(g, [SNAKE_1])
+    g.gold.append([3, 1])
+    g.sanity_check()
+
+    with open('lib/game/data/gold_test_1.in') as f:
+        start_state = f.read().strip()
+
+    assert(g.to_string().strip() == start_state)
+
+    g.snakes[0].move = Engine.MOVE_EAST
+    g = Engine.resolve_moves(g)
+    g.sanity_check()
+
+    g.snakes[0].move = Engine.MOVE_EAST
+    g = Engine.resolve_moves(g)
+    g.sanity_check()
+
+    with open('lib/game/data/gold_test_1.out') as f:
+        end_state = f.read().strip()
+
+    assert(g.to_string().strip() == end_state.strip())
+    assert(len(g.gold) == 0)

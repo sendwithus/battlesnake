@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
+
+import GameSidebarSnake from './gameSidebarSnake'
 
 
-export default class GameSidebar extends React.Component {
+export default class GameSidebar extends Component {
 
   render () {
     let buttons;

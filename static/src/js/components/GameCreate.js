@@ -1,7 +1,8 @@
-import React from 'react';
-import navigate from 'react-router';
+import React, { Component } from 'react';
+import RouterContext from 'react-router';
 
-export default class GameCreate extends React.Component {
+
+export default class GameCreate extends Component {
 
   constructor () {
     super()
@@ -18,7 +19,7 @@ export default class GameCreate extends React.Component {
     this.state = state || {
       availableTeams: [],
       teamnames: [],
-      snakeUrls: [ ],
+      snakeUrls: [],
       currentSnakeUrl: '',
       selectedTeamName: '',
       currentWidth: 20,
@@ -52,7 +53,7 @@ export default class GameCreate extends React.Component {
     window.localStorage['battlesnake.new_game_state'] = json;
   }
 
-  handleGameCreate (e) {
+  handleGameCreate = (e) => {
     e.preventDefault();
 
     let gameData = {
@@ -74,19 +75,20 @@ export default class GameCreate extends React.Component {
     .done((response) => {
       if (response.data.error) {
         alert(response.data.message);
+        this.setState({ isLoading: false });
       } else {
         this._savePastState();
-        navigate('/play/games/' + response.data.game._id);
+        this.setState({ isLoading: false });
+        this.props.history.push('/play/games/' + response.data.game._id);
       }
-      this.setState({ isLoading: false });
     })
     .error((xhr, textStatus, errorThrown) => {
       alert(xhr.responseJSON.message);
       this.setState({ isLoading: false });
-    });
+    })
   }
 
-  handleSubmitSnake (e) {
+  handleSubmitSnake = (e) => {
     e.preventDefault();
     let snakeUrl  = this.state.currentSnakeUrl;
     let snakeUrls = this.state.snakeUrls;
@@ -100,40 +102,39 @@ export default class GameCreate extends React.Component {
     this.setState({ snakeUrls: snakeUrls, currentSnakeUrl: '' });
   }
 
-  handleSnakeUrlChange (e) {
+  handleSnakeUrlChange = (e) => {
     this.setState({ currentSnakeUrl: e.target.value });
   }
 
-  handleDeleteSnakeUrl (i, e) {
+  handleDeleteSnakeUrl = (i, e) => {
     let snakeUrls = this.state.snakeUrls;
     snakeUrls.splice(i, 1);
     this.setState({ snakeUrls: snakeUrls });
   }
 
-  handleWidthChange (e) {
+  handleWidthChange = (e) => {
     this.setState({ currentWidth: e.target.value });
   }
 
-  handleHeightChange (e) {
+  handleHeightChange = (e) => {
     this.setState({ currentHeight: e.target.value });
   }
 
-  handleTimeoutChange (e) {
+  handleTimeoutChange = (e) => {
     this.setState({ currentTimeout: e.target.value });
   }
 
-  handleTeamChange (e) {
-    console.log(this);
+  handleTeamChange = (e) => {
     this.setState({ selectedTeamName: e.target.value });
   }
 
-  handleDeleteTeam (i, e) {
+  handleDeleteTeam = (i, e) => {
     let teamnames = this.state.teamnames;
     teamnames.splice(i, 1);
     this.setState({ teamnames: teamnames });
   }
 
-  handleSubmitTeam (e) {
+  handleSubmitTeam = (e) => {
     e.preventDefault();
     let teamnames = this.state.teamnames;
     teamnames.push(this.state.selectedTeamName);
@@ -169,7 +170,6 @@ export default class GameCreate extends React.Component {
     }
 
     let teamsByName = {};
-
     let teamOpts = this.state.availableTeams.map((team, i) => {
       teamsByName[team.teamname] = team;
       return (

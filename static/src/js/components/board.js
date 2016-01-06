@@ -30,7 +30,7 @@ export default class Board {
     this.resize();
 
     // <RENDER_IMAGES_HACK>
-    var interval = setInterval(() => {
+    let interval = setInterval(() => {
         this.update(this.gameState);
     }, 50);
 
@@ -43,13 +43,13 @@ export default class Board {
   }
 
   resize () {
-    var board = this.canvas.parentNode;
+    let board = this.canvas.parentNode;
 
-    var width  = board.clientWidth - 40;
-    var height = window.innerHeight - 105;
+    let width  = board.clientWidth - 40;
+    let height = window.innerHeight - 105;
 
-    var size1 = Math.ceil(width / this.dimensions[0]);
-    var size2 = Math.ceil(height / this.dimensions[1]);
+    let size1 = Math.ceil(width / this.dimensions[0]);
+    let size2 = Math.ceil(height / this.dimensions[1]);
 
     this.SQUARE_SIZE = Math.min(size1, size2);
 
@@ -70,7 +70,7 @@ export default class Board {
   }
 
   beginAnimation () {
-    var that = this;
+    let that = this;
     this.animate();
     this.animationLoop = setInterval(function () {
       that.animate.call(that);
@@ -78,14 +78,14 @@ export default class Board {
   }
 
   animate () {
-    var boardData = this.gameState.board;
+    let boardData = this.gameState.board;
     for (var x = 0; x < boardData.length; x++) {
-      var col = boardData[x];
+      let col = boardData[x];
       for (var y = 0; y < col.length; y++) {
-        var square = col[y];
-        var color = generateColor();
+        let square = col[y];
+        let color = generateColor();
         color = makeNonGray(color, 150);
-        var colorStr = 'rgb(' + color.join(',') + ')';
+        let colorStr = 'rgb(' + color.join(',') + ')';
         this.fillSquare(x, y, colorStr);
       }
     }
@@ -96,12 +96,12 @@ export default class Board {
 
     this.canvas.width = this.canvas.width;
 
-    var boardData = gameState.board;
+    let boardData = gameState.board;
 
     for (var x = 0; x < boardData.length; x++) {
-      var col = boardData[x];
+      let col = boardData[x];
       for (var y = 0; y < col.length; y++) {
-        var square = col[y];
+        let square = col[y];
         this.drawSquare(x, y, square);
       }
     }
@@ -124,8 +124,8 @@ export default class Board {
     }
 
     // console.log('DRAWING SQUARE', x, y, square.state);
-    var snake;
-    var head;
+    let snake;
+    let head;
 
     this.fillSquare(x, y, snakewithus.COLORS.EMPTY);
 
@@ -161,19 +161,19 @@ export default class Board {
   }
 
   getSnake (id) {
-    var snake_data = null;
+    let snake_data = null;
 
     if (this.snakeCache[id]) { return this.snakeCache[id]; }
 
     for (var i = 0; i < this.gameState.snakes.length; i++) {
-      var s = this.gameState.snakes[i];
+      let s = this.gameState.snakes[i];
       if ((s.name || s.id) === id) {
         snake_data = s;
         break;
       }
     }
 
-    var snake = new Snake(snake_data);
+    let snake = new Snake(snake_data);
     this.snakeCache[id] = snake;
     return snake;
   }
@@ -183,8 +183,8 @@ export default class Board {
   }
 
   fillSquare (x, y, color) {
-    var xStart = x * this.SQUARE_SIZE;
-    var yStart = y * this.SQUARE_SIZE;
+    let xStart = x * this.SQUARE_SIZE;
+    let yStart = y * this.SQUARE_SIZE;
 
     this.ctx.beginPath();
     this.ctx.rect(
@@ -198,19 +198,19 @@ export default class Board {
   }
 
   drawImage (x, y, img) {
-    var size = this.SQUARE_SIZE - snakewithus.SQUARE_PADDING * 2;
+    let size = this.SQUARE_SIZE - snakewithus.SQUARE_PADDING * 2;
 
-    var xStart = x * this.SQUARE_SIZE + snakewithus.SQUARE_PADDING;
-    var yStart = y * this.SQUARE_SIZE + snakewithus.SQUARE_PADDING;
+    let xStart = x * this.SQUARE_SIZE + snakewithus.SQUARE_PADDING;
+    let yStart = y * this.SQUARE_SIZE + snakewithus.SQUARE_PADDING;
 
     this.ctx.drawImage(img, xStart, yStart, size, size);
   }
 
   fillCircle (x, y, color) {
-    var halfSquare = Math.round(this.SQUARE_SIZE / 2);
-    var xCenter = x * this.SQUARE_SIZE + halfSquare;
-    var yCenter = y * this.SQUARE_SIZE + halfSquare;
-    var radius = this.SQUARE_SIZE / 2 * snakewithus.FOOD_SIZE;
+    let halfSquare = Math.round(this.SQUARE_SIZE / 2);
+    let xCenter = x * this.SQUARE_SIZE + halfSquare;
+    let yCenter = y * this.SQUARE_SIZE + halfSquare;
+    let radius = this.SQUARE_SIZE / 2 * snakewithus.FOOD_SIZE;
 
     this.ctx.beginPath();
     this.ctx.arc(xCenter, yCenter, radius, 0, 2 * Math.PI);

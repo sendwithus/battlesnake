@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 
-export default class GameSidebarSnake extends React.Component {
+export default class GameSidebarSnake extends Component {
 
-  getInitialState () {
-    let state = {
-      lastTaunt: this.props.snake.taunt,
-      tauntToShow: this.props.snake.taunt,
-      tauntCount: 0
-    };
+  state = {
+    lastTaunt: this.props.snake.taunt,
+    tauntToShow: this.props.snake.taunt,
+    tauntCount: 0
+  };
 
-    return this.handleTaunt(state, this.props);
+  constructor () {
+    super()
+
+    this.handleTaunt(state, this.props);
   }
 
   componentWillReceiveProps (nextProps) {

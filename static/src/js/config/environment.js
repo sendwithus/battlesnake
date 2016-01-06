@@ -1,9 +1,11 @@
+// Environment can go here
+
 const env = {
-  gaId: null,
+  // foo: null,
 };
 
 if (process.env.NODE_ENV === "production") {
-  env.gaId = "UA-67530875-1";
+  // env.foo = "bar";
 }
 
 export default env;

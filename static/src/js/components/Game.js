@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import navigate from 'react-router';
-import GameSidebar from './GameSidebar.js'
 
-export default class Game extends React.Component {
+import GameSidebar from './gameSidebar'
+import GameOverModal from './gameOverModal'
+
+
+export default class Game extends Component {
+
+  state =  {
+    game: null,
+    isReplay: false,
+    isLoading: false,
+    latestGameState: null
+  }
 
   handleStart (isManual) {
     $.ajax({
@@ -159,12 +169,13 @@ export default class Game extends React.Component {
   }
 
   componentDidMount () {
-    let canvas = this.refs.canvas.getDOMNode();
+    let canvas = this.refs.canvas;
     $.ajax({
       type: 'GET',
       url: '/api/games/' + this.props.gameId
     })
     .done((response) => {
+      console.log(response);
       if (this.isMounted()) {
         this.setState({ game: response.data });
       }
@@ -189,18 +200,9 @@ export default class Game extends React.Component {
   }
 
   getBoard () {
-    let canvas = this.refs.canvas.getDOMNode();
+    let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
     return new Board(ctx, canvas);
-  }
-
-  getInitialState () {
-    return {
-      game: null,
-      isReplay: false,
-      isLoading: false,
-      latestGameState: null
-    };
   }
 
   render () {

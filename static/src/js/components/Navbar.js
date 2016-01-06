@@ -1,27 +1,33 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class Navbar extends React.Component {
-  constructor () {
-    super()
 
-    this.state = {
-      mobileNavExpanded: false
-    }
+export default class Navbar extends Component {
+
+  static defaultProps = {
+    links: [
+      // Default nav links
+      ['/play/games', 'Games'],
+      ['/play/new', 'New']
+    ]
   }
 
-  handleNavToggle () {
+  state = {
+    mobileNavExpanded: false
+  }
+
+  handleNavToggle = () => {
     this.setState({ mobileNavExpanded: !this.state.mobileNavExpanded });
   }
 
-  handleNavChange (link) {
+  handleNavChange = (link) => {
     this.setState({ mobileNavExpanded: false });
   }
 
   render () {
-    var navToggleClass = this.state.mobileNavExpanded ? 'in': '';
+    let navToggleClass = this.state.mobileNavExpanded ? 'in': '';
 
     // Generate nav links
-    var navLinks = this.props.links.map((link, i) => {
+    let navLinks = this.props.links.map((link, i) => {
       return (
         <li key={i}>
           <a href={link[0]} onClick={this.handleNavChange.bind(null, link[0])}>
@@ -55,10 +61,3 @@ export default class Navbar extends React.Component {
     );
   }
 }
-
-Navbar.defaultProps = {
-  links: [ // Default nav links
-    ['/play/games', 'Games'],
-    ['/play/new', 'New']
-  ]
-};

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 
-export default class GameList extends React.Component {
+export default class GameList extends Component {
 
   state = {
     games: this.categorizeGames(this.props.games || [])

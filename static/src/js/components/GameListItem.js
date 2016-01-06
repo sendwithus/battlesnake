@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 
-export default class GameListItem extends React.Component {
+export default class GameListItem extends Component {
 
   render () {
     let path = '/play/games/' + this.props.game._id
@@ -18,7 +18,7 @@ export default class GameListItem extends React.Component {
           <td>killed by...</td>
         </tr>
       );
-      
+
       let snakeRows = this.props.game.stats.snakes.map((snake, i) => {
         let snakeStyles = {
           backgroundColor: snake.color

@@ -9,19 +9,19 @@ export default class Navbar extends Component {
       ['/play/games', 'Games'],
       ['/play/new', 'New']
     ]
-  }
+  };
 
   state = {
     mobileNavExpanded: false
-  }
+  };
 
   handleNavToggle = () => {
     this.setState({ mobileNavExpanded: !this.state.mobileNavExpanded });
-  }
+  };
 
   handleNavChange = (link) => {
     this.setState({ mobileNavExpanded: false });
-  }
+  };
 
   render () {
     let navToggleClass = this.state.mobileNavExpanded ? 'in': '';

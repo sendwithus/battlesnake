@@ -6,9 +6,9 @@ import Navbar from "./components/navbar";
 export default class App extends React.Component {
   static propTypes = {
     children: React.PropTypes.node
-  }
+  };
 
-  displayName = "BattleSnake"
+  displayName = "BattleSnake";
 
   render() {
     return (

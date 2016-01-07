@@ -29,30 +29,6 @@ export default class GameCreate extends Component {
     };
   }
 
-  componentDidMount () {
-    // fetch list of teams
-    $.ajax({
-      type: 'GET',
-      url: '/api/teams/',
-    })
-    .done((response) => {
-      this.setState({ availableTeams: response.data });
-    });
-  }
-
-  _loadPastState () {
-    try {
-      return JSON.parse(window.localStorage['battlesnake.new_game_state']);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  _savePastState () {
-    let json = JSON.stringify(this.state);
-    window.localStorage['battlesnake.new_game_state'] = json;
-  }
-
   handleGameCreate = (e) => {
     e.preventDefault();
 
@@ -85,7 +61,7 @@ export default class GameCreate extends Component {
       alert(xhr.responseJSON.message);
       this.setState({ isLoading: false });
     })
-  }
+  };
 
   handleSubmitSnake = (e) => {
     e.preventDefault();
@@ -99,45 +75,69 @@ export default class GameCreate extends Component {
     }
     snakeUrls.push(snakeUrl.toLowerCase());
     this.setState({ snakeUrls: snakeUrls, currentSnakeUrl: '' });
-  }
+  };
 
   handleSnakeUrlChange = (e) => {
     this.setState({ currentSnakeUrl: e.target.value });
-  }
+  };
 
   handleDeleteSnakeUrl = (i, e) => {
     let snakeUrls = this.state.snakeUrls;
     snakeUrls.splice(i, 1);
     this.setState({ snakeUrls: snakeUrls });
-  }
+  };
 
   handleWidthChange = (e) => {
     this.setState({ currentWidth: e.target.value });
-  }
+  };
 
   handleHeightChange = (e) => {
     this.setState({ currentHeight: e.target.value });
-  }
+  };
 
   handleTimeoutChange = (e) => {
     this.setState({ currentTimeout: e.target.value });
-  }
+  };
 
   handleTeamChange = (e) => {
     this.setState({ selectedTeamName: e.target.value });
-  }
+  };
 
   handleDeleteTeam = (i, e) => {
     let teamnames = this.state.teamnames;
     teamnames.splice(i, 1);
     this.setState({ teamnames: teamnames });
-  }
+  };
 
   handleSubmitTeam = (e) => {
     e.preventDefault();
     let teamnames = this.state.teamnames;
     teamnames.push(this.state.selectedTeamName);
     this.setState({ teamnames: teamnames, selectedTeamName: '' });
+  };
+
+  componentDidMount () {
+    // fetch list of teams
+    $.ajax({
+      type: 'GET',
+      url: '/api/teams/',
+    })
+    .done((response) => {
+      this.setState({ availableTeams: response.data });
+    });
+  }
+
+  _loadPastState () {
+    try {
+      return JSON.parse(window.localStorage['battlesnake.new_game_state']);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  _savePastState () {
+    let json = JSON.stringify(this.state);
+    window.localStorage['battlesnake.new_game_state'] = json;
   }
 
   render () {

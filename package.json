@@ -34,7 +34,6 @@
     "redbox-react": "^1.2.0",
     "rimraf": "^2.4.4",
     "uglifyify": "^3.0.1",
-    "uglifyjs": "^2.4.10",
     "watchify": "^3.6.1"
   },
   "scripts": {
@@ -43,14 +42,13 @@
     "copy": "npm run copy:html && npm run copy:images",
     "copy:html": "cp -r static/src/html/* static/dist/html",
     "copy:images": "cp -r static/src/img/* static/dist/img",
-    "lint": "npm run lint:js",
-    "lint:js": "esw static/src/js",
-    "lesscss:build": "lessc --silent static/src/css/landing.less static/dist/css/landing.css",
-    "postcss:build": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css",
+    "lint": "esw static/src/js",
+    "lesscss": "lessc --silent static/src/css/landing.less static/dist/css/landing.css",
+    "postcss": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css",
     "build:js-dev": "BABEL_ENV=development watchify static/src/js/index.js -v -d -p livereactload -o static/dist/js/app.js",
-    "build:js-prod": "BABEL_ENV=production browserify static/src/js/index.js -v -d | exorcist static/dist/js/app.js.map > static/dist/js/app.js",
-    "build:dev": "npm run clean && npm run make:static_folders && npm run copy && npm run lesscss:build && npm run postcss:build && npm run lint && npm run build:js-dev",
-    "build:prod": "npm run clean && npm run make:static_folders && npm run copy && npm run lesscss:build && npm run postcss:build && npm run lint && npm run build:js-prod"
+    "build:js-prod": "BABEL_ENV=production browserify -g uglifyify static/src/js/index.js > static/dist/js/app.js",
+    "build:dev": "npm run clean && npm run make:static_folders && npm run copy && npm run lesscss && npm run postcss && npm run lint && npm run build:js-dev",
+    "build:prod": "npm run clean && npm run make:static_folders && npm run copy && npm run lesscss && npm run postcss && npm run lint && npm run build:js-prod"
   },
   "browserify": {
     "transform": [

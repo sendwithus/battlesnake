@@ -17,22 +17,7 @@ export default class Game extends Component {
     isReplay: false,
     isLoading: false,
     latestGameState: null
-  }
-
-  handleStart (isManual) {
-    let formData = JSON.stringify({ manual: isManual })
-    console.log(formData);
-    $.ajax({
-      type: 'POST',
-      url: '/api/games/' + this.props.params.id + '/start',
-      data: formData,
-    })
-    .done((response) => {
-      console.log('Started Game', response.data);
-      this.setState({ game: response.data });
-      this.checkInterval();
-    });
-  }
+  };
 
   handlePause = () => {
     $.ajax({
@@ -43,7 +28,7 @@ export default class Game extends Component {
       console.log('Paused Game', response.data);
       this.setState({ game: response.data });
     });
-  }
+  };
 
   handleResume = () => {
     $.ajax({
@@ -55,7 +40,7 @@ export default class Game extends Component {
       this.setState({ game: response.data });
       this.checkInterval();
     });
-  }
+  };
 
   handleReplay = () => {
     console.log('Started Replay');
@@ -80,11 +65,11 @@ export default class Game extends Component {
     });
 
     this.setState({ isReplay: true });
-  }
+  };
 
   handleCancelReplay = () => {
     this.setState({ isReplay: false });
-  }
+  };
 
   handleClickNextTurn = () => {
     this.setState({ isLoading: true });
@@ -95,7 +80,7 @@ export default class Game extends Component {
     .done((response) => {
       this.handleGameState(response.data);
     });
-  }
+  };
 
   handleRematch = () => {
     this.setState({ isLoading: true });
@@ -111,10 +96,25 @@ export default class Game extends Component {
     .error((xhr, textStatus, errorThrown) => {
       this.setState({ isLoading: false });
     });
-  }
+  };
 
-  handleClickContinuous () {
+  handleClickContinuous = () => {
     this.interval = setInterval(this.handleClickNextTurn, 400);
+  };
+
+  handleStart (isManual) {
+    let formData = JSON.stringify({ manual: isManual })
+    console.log(formData);
+    $.ajax({
+      type: 'POST',
+      url: '/api/games/' + this.props.params.id + '/start',
+      data: formData,
+    })
+    .done((response) => {
+      console.log('Started Game', response.data);
+      this.setState({ game: response.data });
+      this.checkInterval();
+    });
   }
 
   handleGameState (gameState, ignoreEnd) {
@@ -230,7 +230,7 @@ export default class Game extends Component {
             isReplay={this.state.isReplay}
             isLoading={this.state.isLoading}
             latestGameState={this.state.latestGameState}
-            continueous={this.handleClickContinuous}
+            continuous={this.handleClickContinuous}
             startAutomated={this.handleStart.bind(this, false)}
             startManual={this.handleStart.bind(this, true)}
             startReplay={this.handleReplay}

@@ -7,7 +7,7 @@ export default class GameSidebarSnake extends Component {
     lastTaunt: this.props.snake.taunt,
     tauntToShow: this.props.snake.taunt,
     tauntCount: 0
-  }
+  };
 
   constructor (props) {
     super(props)

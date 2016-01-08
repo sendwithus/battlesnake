@@ -1,11 +1,16 @@
 from flask import request
 
+from lib.log import get_logger
 from lib.models.game import Game, GameState
 from lib.models.team import Team
 from lib.game import controller
 
 
+logger = get_logger(__name__)
+
+
 from lib.server import _json_response, _json_error, app
+
 
 @app.route('/api/games', methods=['POST'])
 def games_create():
@@ -113,6 +118,7 @@ def games_list():
             ]
         }
     }, limit=50)
+
     data = []
     for game in games:
         obj = game.to_dict()

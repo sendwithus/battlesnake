@@ -27,7 +27,6 @@ def _form_error(msg, view=None):
     flash(msg, 'error')
     return redirect(url_for(view))
 
-
 import lib.routes
 
 # Expose WSGI app

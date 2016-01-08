@@ -47,8 +47,14 @@ target/
 *.iml
 .idea
 
-# Frontend
-static/js/build/.module-cache
+# Frontend static dist folder
+static/dist
 
 # virtualenv
 env/
+
+# Ignore node_modules
+node_modules
+
+#ignore .DS_Store
+*.DS_Store

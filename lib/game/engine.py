@@ -192,6 +192,7 @@ class Engine(object):
         taken_tiles += [snake.coords for snake in game_state.snakes]
         taken_tiles += [food for food in game_state.food]
         taken_tiles += [gold for gold in game_state.gold]
+        taken_tiles += [wall for wall in game_state.walls]
 
         empty_tile_coords = []
         for x in range(game_state.width):
@@ -205,6 +206,9 @@ class Engine(object):
 
             if tile_type == GameState.TILE_STATE_GOLD:
                 game_state.gold.append(random.choice(empty_tile_coords))
+
+            if tile_type == GameState.TILE_STATE_WALL:
+                game_state.walls.append(random.choice(empty_tile_coords))
 
         return game_state
 

@@ -17,6 +17,7 @@ class Game(Model):
     STATE_DONE = 'done'
 
     MODE_CLASSIC = 'classic'
+    MODE_ADVANCED = 'advanced'
 
     ready_queue = Queue('games:ready')
 
@@ -101,7 +102,7 @@ class GameState(Model):
         TILE_STATE_WALL
     ]
 
-    def __init__(self, game_id, width, height):
+    def __init__(self, game_id, width, height, mode=Game.MODE_CLASSIC):
 
         super(GameState, self).__init__()
 
@@ -116,6 +117,7 @@ class GameState(Model):
         self.food = []
         self.gold = []
         self.walls = []
+        self.mode = mode
 
     def insert(self):
         if not self.id:
@@ -186,6 +188,7 @@ class GameState(Model):
             'walls': self.walls[:],
             'width': self.width,
             'height': self.height,
+            'mode': self.mode,
 
             # TODO: Remove the need to have this here
             # Should push this into lib.game.engine.resolve_moves
@@ -194,7 +197,7 @@ class GameState(Model):
 
     @classmethod
     def from_dict(cls, obj):
-        game_state = cls(obj['game_id'], obj['width'], obj['height'])
+        game_state = cls(obj['game_id'], obj['width'], obj['height'], obj['mode'])
         game_state.id = obj['_id']
         game_state.turn = obj['turn']
         game_state.is_done = obj['is_done']

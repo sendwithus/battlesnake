@@ -5,7 +5,7 @@ from lib.server import app
 
 @app.route('/')
 def index():
-    return app.send_static_file('src/html/index.html')
+    return app.send_static_file('html/index.html')
 
 
 @app.route('/play/')
@@ -14,4 +14,4 @@ def index():
 def play(path=None):
     # serve play.html for anything that starts with "play/"
     # frontend will show the correct route
-    return app.send_static_file('src/html/play.html')
+    return app.send_static_file('html/play.html')

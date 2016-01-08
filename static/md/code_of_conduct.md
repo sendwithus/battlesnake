@@ -21,7 +21,7 @@ frustration now and then, but we cannot allow that frustration to turn into a
 personal attack. It's important to remember that a community where
 people feel uncomfortable or threatened is not a productive one. Attendees
 should be respectful when working with each other and with anyone
-outside of our workplace.
+within the event.
 
 __Be careful in the words that you choose.__ We are a community of
 students and professionals, and we conduct ourselves professionally. Be kind to others.
@@ -39,9 +39,10 @@ exclusionary behavior aren't acceptable. This includes, but is not limited to:
 __When we disagree, try to understand why.__ Disagreements, both
 social and technical, happen all the time and BattleSnake is no exception. It
 is important that we resolve disagreements and differing views
-constructively. Remember that we're different. The strength of BattleSnake
-comes from our ability to work together to our goals. Different people have
+constructively. Remember that we're different. Different people have
 different perspectives on issues. Being unable to understand why someone
 holds a viewpoint doesn't mean that they're wrong. Don't forget that it is
 human to err and blaming each other doesn't get us anywhere. Instead,
 focus on helping to resolve issues and learning from mistakes.
+
+Sendwithus holds the right to expel any persons from the event that we feel is in opposition to this code of conduct.

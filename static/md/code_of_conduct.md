@@ -11,21 +11,20 @@ political belief, religion, and mental and physical ability.
 
 __Be considerate.__ Your work will be used by other people, and you in turn
 will depend on the work of others. Any decision you take will affect users
-and colleagues, and you should take those consequences into account when
-making decisions. Remember we are trying to build an international
-company and that means working and helping individuals from other
+and participants, and you should take those consequences into account when
+making decisions. Remember we are trying to build a fun competition and that means working and helping individuals from other
 countries and cultures.
 
 __Be respectful.__ Not all of us will agree all the time, but disagreement is no
 excuse for poor behavior and  poor manners. We might all experience some
 frustration now and then, but we cannot allow that frustration to turn into a
 personal attack. It's important to remember that a community where
-people feel uncomfortable or threatened is not a productive one. Swubies
+people feel uncomfortable or threatened is not a productive one. Attendees
 should be respectful when working with each other and with anyone
 outside of our workplace.
 
 __Be careful in the words that you choose.__ We are a community of
-professionals, and we conduct ourselves professionally. Be kind to others.
+students and professionals, and we conduct ourselves professionally. Be kind to others.
 Do not insult or put down other participants. Harassment and other
 exclusionary behavior aren't acceptable. This includes, but is not limited to:
 
@@ -38,9 +37,9 @@ exclusionary behavior aren't acceptable. This includes, but is not limited to:
 * Repeated harassment of others. In general, if someone asks you to stop, then stop.
 
 __When we disagree, try to understand why.__ Disagreements, both
-social and technical, happen all the time and sendwithus is no exception. It
+social and technical, happen all the time and BattleSnake is no exception. It
 is important that we resolve disagreements and differing views
-constructively. Remember that we're different. The strength of sendwithus
+constructively. Remember that we're different. The strength of BattleSnake
 comes from our ability to work together to our goals. Different people have
 different perspectives on issues. Being unable to understand why someone
 holds a viewpoint doesn't mean that they're wrong. Don't forget that it is

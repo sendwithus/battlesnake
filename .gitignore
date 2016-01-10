@@ -56,4 +56,4 @@ node_modules
 #ignore .DS_Store
 *.DS_Store
 
-static/dist
+static/dist/

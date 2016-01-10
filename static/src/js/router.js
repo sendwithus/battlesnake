@@ -7,9 +7,9 @@ import createBrowserHistory from 'history/lib/createBrowserHistory';
 import App from './app';
 
 // Game Components
-import GameCreate from './components/gameCreate';
-import GameList from './components/gameList';
-import Game from './components/game';
+import GameCreate from './components/GameCreate';
+import GameList from './components/GameList';
+import Game from './components/Game';
 
 // Team Components
 // to be completed?

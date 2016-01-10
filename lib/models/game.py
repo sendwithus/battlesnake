@@ -236,4 +236,3 @@ class GameState(Model):
         output += '\n'
 
         return output
-

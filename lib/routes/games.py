@@ -4,12 +4,9 @@ from lib.log import get_logger
 from lib.models.game import Game, GameState
 from lib.models.team import Team
 from lib.game import controller
-
+from lib.server import json_response, json_error, app
 
 logger = get_logger(__name__)
-
-
-from lib.server import _json_response, _json_error, app
 
 
 @app.route('/api/games', methods=['POST'])
@@ -17,7 +14,7 @@ def games_create():
     data = request.get_json()
 
     if data is None:
-        return _json_response(msg='Invalid request body', status=400)
+        return json_response(msg='Invalid request body', status=400)
 
     width = data.get('width', 20)
     height = data.get('height', 20)
@@ -31,10 +28,10 @@ def games_create():
     for teamname in teamnames:
         team = Team.find_one({'teamname': teamname})
         if not team:
-            return _json_response(msg='Team not found', status=404)
+            return json_response(msg='Team not found', status=404)
         if not team.ready_to_play():
             error = 'Team "%s" is not ready to play' % team.teamname
-            return _json_error(error)
+            return json_error(error)
 
         teams.append(team)
         snake_urls.append(team.snake_url)
@@ -47,14 +44,14 @@ def games_create():
             turn_time=turn_time
         )
     except Exception as e:
-        return _json_error(e)
+        return json_error(e)
 
     # Add the game ID to the team's list of games
     for team in teams:
         team.game_ids.append(game.id)
         team.save()
 
-    return _json_response({
+    return json_response({
         'game': game.to_dict(),
         'game_state': game_state.to_dict()
     })
@@ -69,9 +66,9 @@ def game_start(game_id):
     try:
         game = controller.start_game(game_id, manual)
     except Exception as e:
-        return _json_error(e)
+        return json_error(e)
 
-    return _json_response(game.to_dict())
+    return json_response(game.to_dict())
 
 
 @app.route('/api/games/<game_id>/rematch', methods=['POST'])
@@ -79,9 +76,9 @@ def game_rematch(game_id):
     try:
         game = controller.rematch_game(game_id)
     except Exception as e:
-        return _json_error(e)
+        return json_error(e)
 
-    return _json_response(game.to_dict())
+    return json_response(game.to_dict())
 
 
 @app.route('/api/games/<game_id>/pause', methods=['PUT'])
@@ -89,14 +86,14 @@ def game_pause(game_id):
     game = Game.find_one({'_id': game_id})
     game.state = Game.STATE_PAUSED
     game.save()
-    return _json_response(game.to_dict())
+    return json_response(game.to_dict())
 
 
 @app.route('/api/games/<game_id>/resume', methods=['PUT'])
 def game_resume(game_id):
     game = Game.find_one({'_id': game_id})
     game.mark_ready()
-    return _json_response(game.to_dict())
+    return json_response(game.to_dict())
 
 
 @app.route('/api/games/<game_id>/turn', methods=['POST'])
@@ -104,10 +101,10 @@ def game_turn(game_id):
     game = Game.find_one({'_id': game_id})
     game_state = controller.next_turn(game)
 
-    return _json_response(game_state.to_dict())
+    return json_response(game_state.to_dict())
 
 
-@app.route('/api/games')
+@app.route('/api/games', methods=['GET'])
 def games_list():
     games = Game.find({
         'is_live': True,
@@ -124,13 +121,16 @@ def games_list():
         obj = game.to_dict()
         data.append(obj)
 
-    return _json_response(data)
+    return json_response(data)
 
 
 @app.route('/api/games/<game_id>')
 def game_details(game_id):
     game = Game.find_one({'_id': game_id})
-    return _json_response(game.to_dict())
+    if game:
+        return json_response(game.to_dict())
+    else:
+        return json_response()
 
 
 @app.route('/api/games/<game_id>/gamestates/<game_state_id>')
@@ -140,7 +140,7 @@ def game_states_details(game_id, game_state_id):
     else:
         game_state = GameState.find_one({'_id': game_state_id})
 
-    return _json_response(game_state.to_dict())
+    return json_response(game_state.to_dict())
 
 
 @app.route('/api/games/<game_id>/gamestates')
@@ -149,4 +149,4 @@ def game_states_list(game_id):
     data = []
     for game_state in game_states:
         data.append(game_state.to_dict())
-    return _json_response(data)
+    return json_response(data)

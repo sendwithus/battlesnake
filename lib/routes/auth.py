@@ -12,7 +12,7 @@ from flask.ext.login import (
 import lib.ai as ai
 import lib.game.engine as engine
 
-from lib.server import app, _json_response, _form_error
+from lib.server import app, json_response, form_error
 from lib.models.game import Game
 from lib.models.team import Team
 
@@ -38,16 +38,16 @@ def signin_api():
 
     if team and team.check_password(password):
         login_user(team)
-        return _json_response(msg='Successfully signed in')
+        return json_response(msg='Successfully signed in')
     else:
-        return _json_response(msg='Incorrect teamname or password', status=401)
+        return json_response(msg='Incorrect teamname or password', status=401)
 
 
 @app.route("/api/signout", methods=['POST'])
 @login_required
 def signout_api():
     logout_user()
-    return _json_response(msg='Successfully signed out')
+    return json_response(msg='Successfully signed out')
 
 
 @login_manager.user_loader
@@ -71,24 +71,24 @@ def register():
         teamname = data['teamname']
         password = data['password']
     except KeyError as e:
-        return _form_error('Missing field: "%s"' % e.message)
+        return form_error('Missing field: "%s"' % e.message)
 
     if teamname == '':
-        return _form_error('Missing field: "teamname"')
+        return form_error('Missing field: "teamname"')
 
     if password == '':
-        return _form_error('Missing field: "password"')
+        return form_error('Missing field: "password"')
 
     existing_team = Team.find_one({'teamname': teamname})
     if existing_team:
-        return _form_error('Team name already exists')
+        return form_error('Team name already exists')
 
     team = Team(teamname=teamname, password=password)
 
     try:
         team.insert()
     except DuplicateKeyError:
-        return _form_error('Team name already exists')
+        return form_error('Team name already exists')
 
     login_user(team)
 
@@ -107,7 +107,7 @@ def login():
         teamname = data['teamname']
         password = data['password']
     except KeyError as e:
-        return _form_error('Missing field: "%s"' % e.message)
+        return form_error('Missing field: "%s"' % e.message)
 
     team = load_team(teamname)
 
@@ -115,7 +115,7 @@ def login():
         login_user(team)
         return redirect(next)
     else:
-        return _form_error('Bad team name or password')
+        return form_error('Bad team name or password')
 
 
 @app.route("/logout")

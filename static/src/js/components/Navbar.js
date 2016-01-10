@@ -7,7 +7,8 @@ export default class Navbar extends Component {
     links: [
       // Default nav links
       ['/play/games', 'Games'],
-      ['/play/new', 'New']
+      ['/play/new', 'New'],
+      ['/team', 'My Team']
     ]
   };
 
@@ -42,7 +43,7 @@ export default class Navbar extends Component {
         <div className="container-fluid">
           <div className="navbar-header">
             <a className="navbar-brand" href="/">
-              <img src="/static/dist/img/old/logo-battlesnake.png" />
+              <img src="/static/img/logo-bs.png" />
             </a>
             <button type="button"
                 className="navbar-toggle collapsed"

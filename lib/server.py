@@ -1,7 +1,9 @@
 from flask import (
     Flask,
     request,
-    jsonify, flash, redirect,
+    jsonify,
+    flash,
+    redirect,
     url_for,
 )
 
@@ -9,18 +11,18 @@ from flask import (
 app = Flask('battlesnake')
 
 
-def _json_response(data={}, msg=None, status=200):
+def json_response(data={}, msg=None, status=200):
     return jsonify(
         data=data,
         message=msg,
     ), status, {'Content-Type': 'application/json'}
 
 
-def _json_error(msg=None, status=400):
+def json_error(msg=None, status=400):
     return jsonify(message=str(msg)), status, {'Content-Type': 'application/json'}
 
 
-def _form_error(msg, view=None):
+def form_error(msg, view=None):
     if view is None:
         view = request.endpoint
 

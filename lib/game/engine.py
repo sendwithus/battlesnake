@@ -9,6 +9,7 @@ from lib.models.game import GameState, Game
 class Snake(object):
     STATUS_ALIVE = 'alive'
     STATUS_DEAD = 'dead'
+    FULL_HEALTH = 100
 
     def __init__(self, url, name='', color='', head='', taunt='', coords=[]):
 
@@ -22,7 +23,7 @@ class Snake(object):
         self.status = Snake.STATUS_ALIVE
         self.message = ''
         self.age = 0
-        self.health = 100
+        self.health = self.FULL_HEALTH
         self.coords = coords
         self.kills = 0
         self.food_eaten = 0
@@ -189,7 +190,8 @@ class Engine(object):
             return game_state
 
         taken_tiles = []
-        taken_tiles += [snake.coords for snake in game_state.snakes]
+        for snake in game_state.snakes:
+            taken_tiles += [coord for coord in snake.coords]
         taken_tiles += [food for food in game_state.food]
         taken_tiles += [gold for gold in game_state.gold]
         taken_tiles += [wall for wall in game_state.walls]
@@ -281,7 +283,7 @@ class Engine(object):
         # Track Snake Collisions
         kill = []       # [snake_name, snake_name]
         if game_state.mode == Game.MODE_ADVANCED:
-            health_decay = int(math.exp(constants.HEALTH_DECAY_RATE * game_state.turn)) # Health Decay Rate this turn
+            health_decay = int(math.exp(constants.HEALTH_DECAY_RATE * game_state.turn))  # Health Decay Rate this turn
         else:
             health_decay = 1
 
@@ -332,22 +334,23 @@ class Engine(object):
                     if len(snake.coords) <= len(check_snake.coords):
                         kill.append(snake.name)
                         snake.killed_by = check_snake.name
-                        check_snake.kills = check_snake.kills + 1
+                        check_snake.kills += 1
                     continue
 
                 # Head to Body Collision
                 if snake.coords[0] in check_snake.coords:
                     kill.append(snake.name)
                     snake.killed_by = check_snake.name
-                    check_snake.kills = check_snake.kills + 1
+                    check_snake.kills += 1
                     continue
 
             # Eat Food
             if snake.coords[0] in new_food:
                 if snake.name not in kill:
                     new_food.remove(snake.coords[0])
-                    snake.food_eaten = snake.food_eaten + 1
+                    snake.food_eaten += 1
                     snake.last_eaten = game_state.turn
+                    snake.health = Snake.FULL_HEALTH
                     snake.grow_by(1)
                     continue
 
@@ -355,16 +358,16 @@ class Engine(object):
             if snake.coords[0] in new_gold:
                 if snake.name not in kill:
                     new_gold = []
-                    snake.gold = snake.gold + 1
+                    snake.gold += 1
                     continue
 
-            # Kill any 0 Health Snakes
-            for snake in new_snakes:
-                snake.health = snake.health - health_decay
-                if snake.health < 1:
-                    kill.append(snake.name)
-                    snake.killed_by = Engine.STARVATION
-                    continue
+        # Kill any 0 Health Snakes
+        for snake in new_snakes:
+            snake.health -= health_decay
+            if snake.health < 1:
+                kill.append(snake.name)
+                snake.killed_by = Engine.STARVATION
+                continue
 
         # Check if any snakes have achieved Gold Victory
         for snake in new_snakes:
@@ -379,6 +382,7 @@ class Engine(object):
             if snake.name in kill:
                 snake.died_on_turn = game_state.turn
                 dead_snakes.append(snake)
+
         new_snakes = [snake for snake in new_snakes if snake.name not in kill]
 
         # Create new_game_state using new_snakes and new_food

@@ -1,7 +1,6 @@
 body {
-  background: #221E1D url('/static/dist/img/old/bg-battlesnake-dark.jpg') top center no-repeat;
-  background-size: cover;
-  color: #ddd;
+  background: #4371aa top center;
+  color: #efefef;
   font-size: 16px;
 }
 
@@ -60,15 +59,15 @@ form .btn {
 
 p,
 .muted {
-  color: #999;
+  color: #ddd;
 }
 
 a {
-  color: #aaa;
+  color: #eee;
 }
 
 a:hover {
-  color: #ccc;
+  color: #fff;
 }
 
 .navbar {
@@ -83,6 +82,10 @@ a:hover {
 .navbar-inverse {
   background-color: rgba(0, 0, 0, 0.2);
   border-bottom: 0;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #ddd;
 }
 
 .site-links {
@@ -271,7 +274,6 @@ a:hover {
 
 .game-summary .snake-name .url {
   font-size: 14px;
-  color: #888;
 }
 
 

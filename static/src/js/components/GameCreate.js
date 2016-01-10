@@ -120,7 +120,7 @@ export default class GameCreate extends Component {
     // fetch list of teams
     $.ajax({
       type: 'GET',
-      url: '/api/teams/',
+      url: '/api/teams/'
     })
     .done((response) => {
       this.setState({ availableTeams: response.data });
@@ -180,6 +180,11 @@ export default class GameCreate extends Component {
 
     let teamnames = this.state.teamnames.map((teamname, i) => {
       let team = teamsByName[teamname];
+      if (!team) {
+        // Team not found. That's alright. Maybe it was deleted.
+        return;
+      }
+
       return (
         <div key={'team_' + i}>
           <a href="#"

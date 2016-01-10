@@ -5,12 +5,9 @@ import time
 from gevent import signal as gevent_signal
 
 import lib.ai as ai
-
 from lib.game.engine import Engine, Snake
-from lib.models.game import Game, GameState
-
 from lib.log import get_logger
-
+from lib.models.game import Game, GameState
 
 BATTLESNAKE_URL = 'http://www.battlesnake.io/play/games'
 
@@ -191,7 +188,6 @@ def run_game(game):
 
 
 def generate_stats_object(game, game_state):
-    all_snakes = []
     stats = {
         'snake_names': [],
         'snakes': [],

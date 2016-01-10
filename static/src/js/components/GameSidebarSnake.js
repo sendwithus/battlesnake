@@ -21,7 +21,7 @@ export default class GameSidebarSnake extends Component {
   }
 
   componentDidMount () {
-    let img = this.refs.head_img;
+    let img = this.refs.head;
     img.onerror = () => {
       this.setAttribute('src', 'http://www.battlesnake.io/static/img/default_head.gif');
       this.onerror = undefined;
@@ -80,7 +80,7 @@ export default class GameSidebarSnake extends Component {
 
     return (
       <div className="snake-block">
-        <img src={this.props.snake.head_url} style={snakeStyles} ref='head_img' />
+        <img src={this.props.snake.head} style={snakeStyles} ref='head' />
         <h3>{this.props.snake.name} <span className="muted">({this.props.snake.coords.length})</span></h3>
         <div className="muted meta">
           <div className="col">

@@ -34,7 +34,7 @@ export default class GameListItem extends Component {
         return (
           <tr key={this.props.game.id + snake.name}>
             <td className="snake-name">
-              <img src={snake.head_url} style={snakeStyles} />
+              <img src={snake.head} style={snakeStyles} />
               <div className="name">
                 {snake.name}
               </div>

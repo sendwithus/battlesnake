@@ -7,7 +7,7 @@ export default class Snake {
   constructor (config_data) {
     this.id = config_data.name || config_data.id;
     this.name = config_data.name || config_data.id;
-    this.headImg = config_data.head_url;
+    this.headImg = config_data.head;
     this.color = config_data.color || 'red';
     this.img = null;
     this._loadImg();

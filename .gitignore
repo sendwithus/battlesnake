@@ -52,6 +52,7 @@ env/
 
 # Ignore node_modules
 node_modules
+npm-*
 
 #ignore .DS_Store
 *.DS_Store

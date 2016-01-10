@@ -14,8 +14,8 @@ class Snake(LocalSnake):
     def whois(self):
         return {
             'name': SNAKE_NAME,
-            'color': '#0F0',
-            'head': 'none'
+            'color': SNAKE_COLOR,
+            'head': SNAKE_HEAD
         }
 
     def start(self, payload):

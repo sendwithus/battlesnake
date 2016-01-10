@@ -2,7 +2,6 @@ import React from "react";
 
 import Navbar from "./components/navbar";
 
-
 export default class App extends React.Component {
   static propTypes = {
     children: React.PropTypes.node

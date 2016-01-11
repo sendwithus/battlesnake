@@ -38,7 +38,7 @@
   },
   "scripts": {
     "clean": "rimraf static/dist",
-    "make:static_folders": "mkdir -p static/dist/{css,js/lib}",
+    "make:static_folders": "mkdir -p static/dist/{css,js}",
     "lint": "esw static/src/js",
     "lesscss": "lessc --silent static/src/css/landing.less static/dist/css/landing.css",
     "postcss": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/src/css/*.css",

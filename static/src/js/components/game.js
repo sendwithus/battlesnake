@@ -198,13 +198,12 @@ export default class Game extends Component {
 
   componentDidUpdate (prevProps, prevState) {
     if (!this.state.latestGameState) { return; }
-
     if (!this.board) {
       this.board = this.getBoard();
-      this.board.init(this.state.game.width, this.state.game.height);
+      this.board.init(this.state.game.width, this.state.game.height, this.state.latestGameState);
     }
 
-    this.board.update(this.state.latestGameState );
+    this.board.update(this.state.latestGameState);
   }
 
   componentWillUnmount () {

@@ -3,7 +3,8 @@ section.blue {
   font-family: 'Open Sans', sans-serif;
   color: white;
   background: url(/static/img/bg-grid.png) #4371aa top center;
-  min-height: 5000px;
+  float: left;
+  width: 100%;
 }
 section.blue:after {
   position: fixed;
@@ -28,9 +29,8 @@ img {
 .container {
   z-index: 100;
   position: relative;
-  float: left;
-  width: 100%;
-  padding: 50px 0;
+  float: none;
+  max-width: 950px;
   text-align: center;
   background: none;
 }
@@ -38,6 +38,7 @@ img {
   font-weight: 800;
   font-size: 42px;
   text-shadow: 0 3px 0 #39659C;
+  margin: 100px 0 30px;
 }
 .container h3 img {
   width: 15px;
@@ -52,8 +53,78 @@ img {
   background: #FCBE42;
   border-radius: 100px;
 }
+.container.schedule .col-md-3 {
+  margin-bottom: 30px;
+}
+.container.schedule .col-md-3 p {
+  text-align: center;
+}
+.container.schedule .col-md-3 p b {
+  color: #FCBE42;
+}
+.container.sponsors .no-pad {
+  padding: 0;
+}
+.container.sponsors .logo-holder {
+  margin-bottom: 40px;
+}
+.container.sponsors h4 {
+  clear: both;
+  font-weight: 700;
+}
+.container.sponsors h4.gold {
+  color: #FEBF31;
+}
+.container.sponsors h4.silver {
+  margin-top: 30px;
+  color: #b1b1b1;
+}
+.container.sponsors .logo img {
+  opacity: .7;
+  transition: opacity .5s ease;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+  max-width: 100% !important;
+}
+.container.sponsors .logo img:hover {
+  opacity: 1;
+}
 .container .content {
   margin-top: 20px;
+}
+.container h4 {
+  font-size: 36px;
+  text-align: center;
+}
+.container p {
+  margin: 0 0 30px;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: left;
+}
+.container a {
+  color: #FFC843;
+}
+.container a:hover {
+  color: #FFB400;
+}
+.container .fill {
+  background: rgba(0, 0, 0, 0.2);
+  height: 200px;
+}
+.footer {
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  clear: both;
+  padding: 20px 0;
+  margin-top: 60px;
+  position: relative;
+  z-index: 100;
+  float: left;
+}
+.footer a {
+  color: white;
 }
 #sticky-anchor {
   float: left;
@@ -83,8 +154,8 @@ img {
 }
 #top-bar.sticky {
   position: fixed;
-  top: 0
-    left: 0;
+  top: 0;
+  left: 0;
   background: rgba(57, 101, 156, 0.9);
   border-bottom: rgba(255, 255, 255, 0.5) 1px solid;
   box-shadow: 0 4px 17px rgba(0, 0, 0, 0.3);
@@ -136,7 +207,23 @@ img {
   font-size: 9px;
   color: rgba(255, 255, 255, 0.5);
 }
+.row {
+  z-index: 100;
+  position: relative;
+  width: 100%;
+  margin: 0;
+}
 @media (max-width: 764px) {
+  img {
+    max-width: 60%;
+    margin-bottom: 20px;
+  }
+  img.logo {
+    max-width: 100%;
+  }
+  h3 img {
+    display: none;
+  }
   #top-bar .cta-holder .free {
     font-size: 9px;
     padding-right: 0;

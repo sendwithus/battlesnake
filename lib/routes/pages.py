@@ -42,10 +42,10 @@ def code_of_conduct():
     return render_template('code_of_conduct.html')
 
 
-@app.route('/play/')
-@app.route('/play/<path:path>')
+@app.route('/app/')
+@app.route('/app/<path:path>')
 @login_required
 def play(path=None):
     # serve play.html for anything that starts with "play/"
     # frontend will show the correct route
-    return render_template('play.html')
+    return render_template('app.html')

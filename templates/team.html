@@ -1,43 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!doctype html>
+<html>
+  <head>
     <meta charset="utf-8">
-    <title>Update Team</title>
-</head>
-<body>
+    <title>BattleSnake</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/dist/css/app.css">
+  </head>
+  <body class="page-team">
+    <div class="container">
+      <div class="row">
+        <a href="/play/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Go back</a>
+      </div>
+      <div class="row">
+        <h1 class="page-title">Update Team</h1>
+      </div>
 
-<h1>Update Team</h1>
+      <div class="row">
+        {% include "partials/flashed_messages.html" %}
+      </div>
 
-{% include "partials/flashed_messages.html" %}
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="row">
+            <h2>{{ team.teamname }}</h2>
+            <p><a href="/team/test">Test Snake @ {{ team.snake_url }}</a></p>
+          </div>
+          <div class="row">
+            <h2>Members</h2>
+            <ul>
+              {% for email in team.member_emails %}
+              <li>{{ email }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
 
-<form method="post">
-  <p>
-    <label for="teamname">Team Name:</label>
-    <input type="text" name="teamname" value="{{ team.teamname }}" disabled>
-  </p>
+        <div class="col-sm-6">
+          <form method="post">
+            <fieldset class="row">
+              <div class="form-group">
+                <label for="teamname" class="control-label">Team Name:</label>
+                <input type="text" id="teamname" name="teamname" class="form-control" value="{{ team.teamname }}" placeholder="" disabled />
+              </div>
+              <div class="form-group">
+                <label for="snake_url" class="control-label">Snake URL:</label>
+                <input type="text" id="snake_url"name="snake_url" class="form-control" value="{{ team.snake_url | default('', true) }}" placeholder="http://" />
+              </div>
+            </fieldset>
 
-  <p>
-    <label for="snake_url">Snake URL:</label>
-    <input type="text" name="snake_url" value="{{ team.snake_url | default('', true) }}" placeholder="http://">
-  </p>
-
-  <h2>Members</h2>
-  <ul>
-    {% for email in team.member_emails %}
-    <li>{{ email }}</li>
-    {% endfor %}
-  </ul>
-
-  <p>
-    <label for="add_member">Add a team member:</label>
-    <input type="text" name="add_member">
-  </p>
-
-  <button type="submit">Update Team</button>
-</form>
-
-<h2>Test Snake</h2>
-<p><a href="/team/test">Test Snake @ {{ team.snake_url }}</a></p>
-
-</body>
+            <fieldset class="row">
+              <div class="form-group">
+                <label for="add_member" class="control-label col-sm-3">Add a team member:</label>
+                <div class="col-sm-6">
+                  <input type="text" id="add_member" name="add_member" class="form-control" />
+                </div>
+                <div class="col-sm-3">
+                  <button type="submit" class="btn btn-primary btn-block">Update Team</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

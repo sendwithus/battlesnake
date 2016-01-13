@@ -1,27 +1,35 @@
+/**
+ * App CSS
+ */
+
+@blue: #4371aa;
+@white: #efefef;
+
+
 body {
-  background: #4371aa top center;
-  color: #efefef;
+  background: @blue top center;
+  color: @white;
   font-size: 16px;
 }
 
-canvas {
-  margin: auto;
-  display: block;
-}
+// canvas {
+//   margin: auto;
+//   display: block;
+// }
 
-form {
-  max-width: 500px;
-  margin: auto;
-}
-
-form .input-group {
-  margin-bottom: 20px;
-}
-
-form .input-group,
-form .btn {
-  width: 100%;
-}
+// form {
+//   max-width: 500px;
+//   margin: auto;
+// }
+//
+// form .input-group {
+//   margin-bottom: 20px;
+// }
+//
+// form .input-group,
+// form .btn {
+//   width: 100%;
+// }
 
 .game-summary img {
   height: 30px;
@@ -48,14 +56,14 @@ form .btn {
   background-color: #282828;
 }
 
-.form-control {
-  border-radius: 0;
-  margin-bottom: 15px;
-}
+// .form-control {
+//   border-radius: 0;
+//   margin-bottom: 15px;
+// }
 
-.form-control:focus {
-  border-color: #F8F568;
-}
+// .form-control:focus {
+//   border-color: #F8F568;
+// }
 
 p,
 .muted {
@@ -70,9 +78,9 @@ a:hover {
   color: #fff;
 }
 
-.navbar {
-  border-radius: 0;
-}
+// .navbar {
+//   border-radius: 0;
+// }
 
 .navbar .navbar-brand img {
   height: 37px;
@@ -96,11 +104,6 @@ a:hover {
 .btn {
   border: none;
   border-radius: 0;
-}
-
-.btn-big {
-  padding: 10px;
-  font-size: 16px;
 }
 
 .btn:focus,
@@ -272,16 +275,6 @@ a:hover {
 }
 
 
-/** HELPERS **/
-
-.float-right {
-  float: right;
-}
-
-.stretch {
-  width: 100%;
-}
-
 
 /** MEDIA QUERIES **/
 
@@ -293,4 +286,15 @@ a:hover {
     float: none;
     padding: 0 15px;
   }
+}
+
+
+
+/* PAGE SPECIFIC STYLES */
+.body-app {
+
+}
+
+.body-team {
+
 }

@@ -280,7 +280,7 @@ export default class GameCreate extends Component {
               </div>
             </div>
             <div className="input-group">
-              <button type="button" className="btn btn-big btn-success" onClick={this.handleGameCreate} disabled={this.state.isLoading}>
+              <button type="button" className="btn btn-lg btn-success" onClick={this.handleGameCreate} disabled={this.state.isLoading}>
                 {this.state.isLoading ? 'Contacting snakes...' : 'Start Game'}
               </button>
             </div>

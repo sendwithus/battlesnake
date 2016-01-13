@@ -140,6 +140,9 @@ def team():
         if field in data:
             setattr(team, field, data[field])
 
+    # Handling checkboxes is weird
+    team.is_public = True if data.get('is_public') else False
+
     email = data.get('add_member')
     if email and email not in team.member_emails:
         team.member_emails.append(email)
@@ -148,6 +151,7 @@ def team():
 
         flash('Member added to team')
         return redirect(url_for('team'))
+
 
     team.save()
 

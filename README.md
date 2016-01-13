@@ -38,15 +38,17 @@ This will walk you through setting up a game server instance. You probably don't
 
         $ CFLAGS='-std=c99' pip install -r requirements.txt
 
-6. We use foreman to run the game server. To install, you'll use Ruby's `gem`:
+6. The frontend uses node and react. If you don't have node V4 or above, you'll need to update your copy. First [install nvm](https://github.com/creationix/nvm). With nvm installed, run `nvm install` inside the project folder to use the right version of this project (defined in .nvmrc). You'll need to `nvm use` to activate the right version then run `npm install` (the node package manager) to install all of the required libraries.
+
+7. We use foreman to run the game server. To install, you'll use Ruby's `gem`:
 
         $ sudo gem install foreman
 
-7. With foreman installed, the python environment set up, and the vagrant VM setup finished, we're ready to run this shit!
+8. With foreman installed, the python environment set up, and the vagrant VM setup finished, we're ready to run this shit!
 
         $ bin/run
 
-8. If you get some messages about workers and pids, and nothing looks like an error, switch to your browser and visit [http://localhost:5000/](http://localhost:5000/).
+9. If you get some messages about workers and pids, and nothing looks like an error, switch to your browser and visit [http://localhost:5000/](http://localhost:5000/).
 
 You should be all set. To leave the project run:
 
@@ -56,8 +58,26 @@ You should be all set. To leave the project run:
 And to later re-enter the project, run:
 
     $ source env/bin/activate
+    $ nvm use
     $ vagrant resume
     $ bin/run
+
+__Managing database__
+
+Occasionally, you may need to blow away the MongoDB database or something. Hopefully not in production.
+
+    $ vagrant ssh
+    [Connects to VM]
+    $ mongo
+    MongoDB shell version: 3.0.8
+    connecting to: test
+    > use battlesnake
+    > show collections
+    system.indexes
+    team
+    user
+    > db.dropDatabase()
+    > exit
 
 __2015 Source Code__
 * [github.com/sendwithus/battlesnake-legacy](http://github.com/sendwithus/battlesnake-legacy)

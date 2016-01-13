@@ -1,5 +1,5 @@
 from flask import g, request, session
-from flask.ext.login import login_required, login_user
+from flask.ext.login import login_user
 from pymongo.errors import DuplicateKeyError
 
 from lib.server import json_response, json_error, app
@@ -52,14 +52,12 @@ def team_details(teamname):
 # Signed in team routes
 
 @app.route('/api/teams/current')
-@login_required
 def team_info():
     app.logger.info(session)
     return json_response(data=g.team.serialize())
 
 
 @app.route('/api/teams/current', methods=['PUT'])
-@login_required
 def team_update():
     team = g.team
     data = request.get_json()
@@ -87,7 +85,6 @@ def team_update():
 
 
 @app.route('/api/teams/current/members/<email>', methods=['PUT'])
-@login_required
 def team_member_create(email):
     """
     Add a new member to an existing team.

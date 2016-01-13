@@ -90,7 +90,7 @@ export default class Game extends Component {
       url: '/api/games/' + this.props.params.id + '/rematch'
     })
     .done((response) => {
-      this.props.history.push('/play/games/' + response.data._id);
+      this.props.history.push('/app/games/' + response.data._id);
       this.componentDidMount();
     })
     .error((xhr, textStatus, errorThrown) => {

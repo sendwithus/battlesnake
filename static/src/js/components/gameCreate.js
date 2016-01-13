@@ -54,7 +54,7 @@ export default class GameCreate extends Component {
       } else {
         this._savePastState();
         this.setState({ isLoading: false });
-        this.props.history.push('/play/games/' + response.data.game._id);
+        this.props.history.push('/app/games/' + response.data.game._id);
       }
     })
     .error((xhr, textStatus, errorThrown) => {

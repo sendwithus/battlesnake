@@ -21,6 +21,11 @@
     <input type="text" name="snake_url" value="{{ team.snake_url | default('', true) }}" placeholder="http://">
   </p>
 
+  <p>
+    <label for="snake_url">Public:</label>
+    <input type="checkbox" name="is_public" {% if team.is_public %} checked {% endif %}>
+  </p>
+
   <h2>Members</h2>
   <ul>
     {% for email in team.member_emails %}

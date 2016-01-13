@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class Team(Model):
 
-    def __init__(self, teamname=None, password='', snake_url=None, member_emails=None, game_ids=None):
+    def __init__(self, teamname=None, password='', snake_url=None, member_emails=None, game_ids=None, is_public=False):
         super(Team, self).__init__()
 
         if member_emails is None:
@@ -21,6 +21,7 @@ class Team(Model):
         self.snake_url = snake_url
         self.member_emails = member_emails
         self.game_ids = game_ids
+        self.is_public = is_public
 
     # Flask-Login interface method
     def is_active(self):
@@ -51,6 +52,7 @@ class Team(Model):
             'snake_url': self.snake_url,
             'member_emails': self.member_emails,
             'game_ids': self.game_ids,
+            'is_public': self.is_public,
         }
 
     def serialize(self):
@@ -59,6 +61,7 @@ class Team(Model):
             'snake_url': self.snake_url,
             'member_emails': self.member_emails,
             'game_ids': self.game_ids,
+            'is_public': self.is_public,
         }
 
     @classmethod
@@ -71,6 +74,7 @@ class Team(Model):
         instance.id = obj['_id']
         instance.pw_hash = obj['pw_hash']
         instance.game_ids = obj['game_ids']
+        instance.is_public = obj['is_public']
         return instance
 
     def ready_to_play(self):

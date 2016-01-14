@@ -9,7 +9,7 @@ from lib.game.engine import Engine, Snake
 from lib.log import get_logger
 from lib.models.game import Game, GameState
 
-BATTLESNAKE_URL = 'http://www.battlesnake.io/play/games'
+BATTLESNAKE_URL = 'http://www.battlesnake.io/app/games'
 
 logger = get_logger(__name__)
 

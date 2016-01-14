@@ -46,12 +46,12 @@ export default class GameSidebar extends Component {
     } else if (this.props.game.state === 'created') {
       buttons = (
         <div>
-          <button className="btn btn-success stretch" onClick={this.props.startAutomated}>
+          <button className="btn btn-success btn-block" onClick={this.props.startAutomated}>
             Start Automated
           </button>
           <br />
           <br />
-          <button className="btn btn-info stretch" onClick={this.props.startManual}>
+          <button className="btn btn-info btn-block" onClick={this.props.startManual}>
             Start Debug (Step Through)
           </button>
         </div>
@@ -59,7 +59,7 @@ export default class GameSidebar extends Component {
     } else if (this.props.game.state === 'manual') {
       buttons = (
         <div>
-          <button className="btn btn-success stretch" onClick={this.props.nextTurn} disabled={this.props.isLoading}>
+          <button className="btn btn-success btn-block" onClick={this.props.nextTurn} disabled={this.props.isLoading}>
             {this.props.isLoading ? '...' : 'Play Turn ' + (this.props.latestGameState.turn + 1)}
           </button>
         </div>
@@ -67,12 +67,12 @@ export default class GameSidebar extends Component {
     } else if (!this.props.isReplay && this.props.game.state === 'done') {
         buttons = (
           <div>
-            <button className="btn btn-success stretch" onClick={this.props.startReplay}>
+            <button className="btn btn-success btn-block" onClick={this.props.startReplay}>
               View Replay
             </button>
             <br />
             <br />
-            <button className="btn btn-info stretch" onClick={this.props.rematch}>
+            <button className="btn btn-info btn-block" onClick={this.props.rematch}>
               Rematch
             </button>
           </div>
@@ -80,7 +80,7 @@ export default class GameSidebar extends Component {
     } else if (this.props.isReplay && this.props.game.state === 'done') {
         buttons = (
           <div>
-            <button className="btn btn-info stretch" onClick={this.props.cancelReplay}>
+            <button className="btn btn-info btn-block" onClick={this.props.cancelReplay}>
               Cancel Replay
             </button>
           </div>
@@ -88,7 +88,7 @@ export default class GameSidebar extends Component {
     } else if (this.props.game.state === 'paused') {
         buttons = (
           <div>
-            <button className="btn btn-success stretch" onClick={this.props.resume}>
+            <button className="btn btn-success btn-block" onClick={this.props.resume}>
               Resume Game
             </button>
           </div>
@@ -97,7 +97,7 @@ export default class GameSidebar extends Component {
         // game is playing live
         buttons = (
           <div>
-            <button className="btn btn-info stretch" onClick={this.props.pause}>
+            <button className="btn btn-info btn-block" onClick={this.props.pause}>
               Pause Game
             </button>
           </div>

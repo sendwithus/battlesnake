@@ -54,7 +54,7 @@ export default class GameCreate extends Component {
       } else {
         this._savePastState();
         this.setState({ isLoading: false });
-        this.props.history.push('/play/games/' + response.data.game._id);
+        this.props.history.push('/app/games/' + response.data.game._id);
       }
     })
     .error((xhr, textStatus, errorThrown) => {
@@ -280,7 +280,7 @@ export default class GameCreate extends Component {
               </div>
             </div>
             <div className="input-group">
-              <button type="button" className="btn btn-big btn-success" onClick={this.handleGameCreate} disabled={this.state.isLoading}>
+              <button type="button" className="btn btn-lg btn-success" onClick={this.handleGameCreate} disabled={this.state.isLoading}>
                 {this.state.isLoading ? 'Contacting snakes...' : 'Start Game'}
               </button>
             </div>

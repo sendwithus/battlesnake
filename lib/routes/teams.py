@@ -108,6 +108,7 @@ def team_member_create(email):
 
     return json_response(g.team.member_emails, msg='Member already exists', status=200)
 
+
 # Super user routes
 # TODO: authorization on routes that modify teams
 

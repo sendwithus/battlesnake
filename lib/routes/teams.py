@@ -62,9 +62,11 @@ def team_update():
     data = request.get_json()
     if not data:
         return json_error(msg='Invalid team data', status=400)
+    if data.has_key('is_public') and not isinstance(data['is_public'], bool):
+        return json_error(msg='is_public must be a boolean or omitted', status=400)
 
     # TODO: check for duplicate team name and allow updating
-    for field in ['snake_url']:
+    for field in ['snake_url', 'is_public']:
         if field in data:
             setattr(team, field, data[field])
 
@@ -105,35 +107,6 @@ def team_member_create(email):
         return json_response(g.team.member_emails, msg='Member added', status=201)
 
     return json_response(g.team.member_emails, msg='Member already exists', status=200)
-
-
-@app.route('/api/teams/current/public/<value>', methods=['PUT'])
-@login_required
-def team_member_public(value):
-    """
-    Set team is_public flag to <value>
-    Sample request:
-    PUT /api/teams/TEAM1/members/true
-    Sample response:
-    HTTP 201
-    {
-      "data": {
-        "_id": "TEAM1",
-        ...
-        "is_public": true
-      },
-      "message": "is_public set to 'true'"
-    }
-    """
-
-    if value not in ['true', 'false']:
-        return json_error(msg='Invalid public value. Must be \'true\' or \'false\'', status=400)
-
-    g.team.is_public = (value == 'true')
-    g.team.save()
-
-    return json_response(data=g.team.serialize(), msg='Team public set to %s' % value, status=200)
-
 
 # Super user routes
 # TODO: authorization on routes that modify teams

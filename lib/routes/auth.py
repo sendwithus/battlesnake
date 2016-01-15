@@ -152,7 +152,6 @@ def team():
         flash('Member added to team')
         return redirect(url_for('team'))
 
-
     team.save()
 
     # Log in team again in case team name changed

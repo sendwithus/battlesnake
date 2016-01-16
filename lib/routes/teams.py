@@ -11,7 +11,7 @@ from lib.models.team import Team
 @app.route('/api/teams/')
 def teams_list():
     """
-    List all teams.
+    List all public teams as well as the current team (whether it's public or not).
     Sample response:
     {
       "data": [
@@ -23,7 +23,10 @@ def teams_list():
       ]
     }
     """
-    teams = Team.find({}, limit=50)
+    teams = Team.find({'$or': [
+        {'is_public': True},
+        {'teamname': g.team.teamname}
+        ]}, limit=50)
     return json_response([team.serialize() for team in teams])
 
 
@@ -69,6 +72,9 @@ def team_update():
     for field in ['snake_url', 'is_public']:
         if field in data:
             setattr(team, field, data[field])
+
+    # Handling checkboxes is weird
+    team.is_public = True if data.get('is_public') else False
 
     team.save()
     data = team.serialize()

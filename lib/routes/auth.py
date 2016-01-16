@@ -125,7 +125,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
+# TODO - Should this be removed in favor of /api/teams/current?
 @app.route('/team', methods=['GET', 'POST'])
 @login_required
 def team():
@@ -139,6 +139,9 @@ def team():
     for field in ['snake_url']:
         if field in data:
             setattr(team, field, data[field])
+
+    # Handling checkboxes is weird
+    team.is_public = True if data.get('is_public') else False
 
     email = data.get('add_member')
     if email and email not in team.member_emails:

@@ -48,6 +48,10 @@
                 <label for="snake_url" class="control-label">Snake URL:</label>
                 <input type="text" id="snake_url"name="snake_url" class="form-control" value="{{ team.snake_url | default('', true) }}" placeholder="http://" />
               </div>
+              <div class="form-group">
+                <label for="is_public" class="control-label">Public?</label>
+                <input type="checkbox" name="is_public" {% if team.is_public %} checked {% endif %}>
+              </div>
             </fieldset>
 
             <fieldset class="row">

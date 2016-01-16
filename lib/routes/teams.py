@@ -11,7 +11,7 @@ from lib.models.team import Team
 @app.route('/api/teams/')
 def teams_list():
     """
-    List all teams.
+    List all public teams as well as the current team (whether it's public or not).
     Sample response:
     {
       "data": [
@@ -23,7 +23,10 @@ def teams_list():
       ]
     }
     """
-    teams = Team.find({}, limit=50)
+    teams = Team.find({'$or': [
+        {'is_public': True},
+        {'teamname': g.team.teamname}
+        ]}, limit=50)
     return json_response([team.serialize() for team in teams])
 
 
@@ -62,11 +65,16 @@ def team_update():
     data = request.get_json()
     if not data:
         return json_error(msg='Invalid team data', status=400)
+    if data.has_key('is_public') and not isinstance(data['is_public'], bool):
+        return json_error(msg='is_public must be a boolean or omitted', status=400)
 
     # TODO: check for duplicate team name and allow updating
-    for field in ['snake_url']:
+    for field in ['snake_url', 'is_public']:
         if field in data:
             setattr(team, field, data[field])
+
+    # Handling checkboxes is weird
+    team.is_public = True if data.get('is_public') else False
 
     team.save()
     data = team.serialize()
@@ -84,7 +92,7 @@ def team_member_create(email):
     """
     Add a new member to an existing team.
     Sample request:
-    PUT /api/teams/TEAM1/members/user2@domain.com
+    PUT /api/teams/current/members/user2@domain.com
     Sample response:
     HTTP 201
     {

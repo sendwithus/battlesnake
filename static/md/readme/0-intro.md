@@ -12,13 +12,16 @@ For more event information or to register a team, visit [battlesnake.io](http://
 Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.com) or
 tweet [@send_with_us](http://twitter.com/send_with_us).
 
+On the day of the event, visit the Registration Desk or find any BattleSnake volunteer to get help or ask any questions.
+
 ### Table of Contents
 * [Location and Schedule](#1-location)
 * [Coming Prepared](#2-preparing)
-* [Prizes and Awards](#3-prizes)
+* [Tournament](#3-tournament)
 * [Bounty Snakes](#4-bounty)
-* [Game Rules](#5-rules)
-* [Advanced Game Rules](#6-advanced)
-* [Getting Started](#7-starting)
-* [Snake AI Documentation](#8-api)
-* [Testing Your Snake AI](#9-testing)
+* [Prizes and Awards](#5-prizes)
+* [Game Rules](#6-rules)
+* [Advanced Game Rules](#7-advanced)
+* [Getting Started](#8-starting)
+* [Snake AI Documentation](#9-api)
+* [Testing Your Snake AI](#10-testing)

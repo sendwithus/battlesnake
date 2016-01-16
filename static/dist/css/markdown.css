@@ -57,6 +57,10 @@
   box-sizing: border-box;
   padding: 0;
 }
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 .markdown-body td,
 .markdown-body th {
   padding: 0;
@@ -332,6 +336,28 @@
 }
 .markdown-body blockquote > :last-child {
   margin-bottom: 0;
+}
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+.markdown-body table th {
+  font-weight: bold;
+}
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
 }
 .markdown-body img {
   max-width: 100%;

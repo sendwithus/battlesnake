@@ -74,13 +74,14 @@ export default class Board {
   update (gameState) {
     this.gameState = gameState;
 
-    var innerBoardPadding = 10;
+    var innerBoardPadding = 10,
+      boardWidth = Math.min(this.width, this.height),
+      xOffs = (this.width - boardWidth) / 2,
+      yOffs = (this.height - boardWidth) / 2;
 
     this.canvas
       .attr('width', this.width)
       .attr('height', this.height);
-
-    var boardWidth = Math.min(this.width, this.height);
 
     this.boardGroup.select('rect.board')
       .attr('width', boardWidth)
@@ -88,10 +89,8 @@ export default class Board {
 
     // center the board on the canvas
     if (this.width > this.height) {
-      var xOffs = (this.width - boardWidth) / 2;
       this.boardGroup.attr('transform', 'translate(' + xOffs + ')');
     } else {
-      var yOffs = (this.height - boardWidth) / 2;
       this.boardGroup.attr('transform', 'translate(0, ' + yOffs + ')');
     }
 
@@ -119,7 +118,8 @@ export default class Board {
       food = this.svg.select('g.inner-board').selectAll('circle.food').data(gameState.food),
       snakes = this.svg.select('g.inner-board').selectAll('g.snake').data(gameState.snakes),
       snakeBits = snakes.selectAll('rect.snakeBit').data(function(d) { return d.coords; }),
-      gold = this.svg.select('g.inner-board').selectAll('circle.gold').data(gameState.gold);
+      gold = this.svg.select('g.inner-board').selectAll('circle.gold').data(gameState.gold),
+      heads = d3.select(this.container).selectAll('img.head').data(gameState.snakes);
 
     // enters
     rows.enter().append('g')
@@ -136,6 +136,8 @@ export default class Board {
       .attr('class', 'snake');
     snakeBits.enter().append('rect')
       .attr('class', 'snakeBit');
+    heads.enter().append('img')
+      .attr('class', 'head');
 
     // transitions
     rows.transition().duration(0);
@@ -172,12 +174,26 @@ export default class Board {
       .attr('width', bitWidth - spacing)
       .attr('height', bitWidth - spacing)
       .attr('fill', function(d, i, n) {
-        return gameState.snakes[n].color;
-      })
+        if (i === 0) {
+          return snakewithus.COLORS.EMPTY;
+        } else {
+          return gameState.snakes[n].color;
+        }
+
+      });
+    heads.transition().duration(0)
+      .attr('src', function(d) { return d.head; })
+      .attr('width', bitWidth - spacing)
+      .attr('height', bitWidth - spacing)
+      .style('position', 'absolute')
+      .style('left', function(d) {return xOffs + innerBoardPadding + spacing + 15 + d.coords[0][0] * bitWidth + 'px'; })
+      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d.coords[0][1] * bitWidth + 'px'; });
 
     // exits
     food.exit().remove();
     gold.exit().remove();
+    snakes.exit().remove();
     snakeBits.exit().remove();
+    heads.exit().remove();
   }
 }

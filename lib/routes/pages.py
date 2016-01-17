@@ -22,16 +22,17 @@ def readme():
         '0-intro',
         '1-location',
         '2-preparing',
-        '3-prizes',
+        '3-tournament',
         '4-bounty',
-        '5-rules',
-        '6-advanced',
-        '7-starting',
-        '8-api',
-        '9-testing',
+        '5-prizes',
+        '6-rules',
+        '7-advanced',
+        '8-starting',
+        '9-api',
+        '10-testing',
     )
     sections = [
-        (section, __load_markdown('static/md/%s.md' % section))
+        (section, __load_markdown('static/md/readme/%s.md' % section))
         for section in section_markdown
     ]
     return render_template('readme.html', sections=sections)

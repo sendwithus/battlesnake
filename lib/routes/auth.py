@@ -77,7 +77,7 @@ def login():
         return render_template('auth/login.html')
 
     data = request.form
-    next = request.values.get('next') or 'play'
+    next = request.values.get('next') or 'app'
 
     try:
         teamname = data['teamname']
@@ -108,7 +108,7 @@ def register():
         return render_template('auth/register.html')
 
     data = request.form
-    next = request.values.get('next') or 'play'
+    next = request.values.get('next') or 'app'
 
     try:
         teamname = data['teamname']

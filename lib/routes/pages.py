@@ -1,9 +1,9 @@
 import markdown
 
 from flask import Markup, render_template
-from flask.ext.login import login_required
 
 from lib.server import app
+from lib.routes.auth import public
 
 
 def __load_markdown(filepath):
@@ -12,11 +12,13 @@ def __load_markdown(filepath):
 
 
 @app.route('/')
+@public
 def index():
     return render_template('index.html')
 
 
 @app.route('/readme')
+@public
 def readme():
     section_markdown = (
         '0-intro',
@@ -39,13 +41,13 @@ def readme():
 
 
 @app.route('/code-of-conduct')
+@public
 def code_of_conduct():
     return render_template('code_of_conduct.html')
 
 
 @app.route('/app/')
 @app.route('/app/<path:path>')
-@login_required
 def play(path=None):
     # serve play.html for anything that starts with "play/"
     # frontend will show the correct route

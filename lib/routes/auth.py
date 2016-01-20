@@ -1,18 +1,18 @@
 from flask import (
-    request, g,
+    request, g, current_app,
     render_template, redirect, url_for, flash,
 )
 from pymongo.errors import DuplicateKeyError
 
 from flask.ext.login import (
     LoginManager,
-    login_required, login_user, logout_user, current_user
+    login_user, logout_user, current_user
 )
 
 import lib.ai as ai
 import lib.game.engine as engine
 
-from lib.server import app, json_response, form_error
+from lib.server import app, form_error
 from lib.models.game import Game
 from lib.models.team import Team
 
@@ -27,27 +27,38 @@ login_manager.login_view = 'login'
 
 @app.before_request
 def load_users():
+    if not current_user.is_authenticated and not is_public():
+        app.logger.info('no auth, redirecting')
+        return login_manager.unauthorized()
+
     g.team = current_user
 
 
-@app.route('/api/signin', methods=['POST'])
-def signin_api():
-    teamname = request.json.get('teamname')
-    password = request.json.get('password')
-    team = load_team(teamname)
+def public(func):
+    """
+    Decorator that marks a route as not needing authentication.
+    This needs to wrap the inner function, or it won't take effect, e.g.
 
-    if team and team.check_password(password):
-        login_user(team)
-        return json_response(msg='Successfully signed in')
-    else:
-        return json_response(msg='Incorrect teamname or password', status=401)
+    @app.route(...)
+    @public
+    def route...
+    """
+    func._public = True
+    return func
 
 
-@app.route("/api/signout", methods=['POST'])
-@login_required
-def signout_api():
-    logout_user()
-    return json_response(msg='Successfully signed out')
+def is_public():
+    """ Returns True if the current route is public, False otherwise """
+
+    # static files are always public
+    if request.endpoint == 'static':
+        return True
+
+    endpoint = current_app.view_functions.get(request.endpoint)
+    if not endpoint:
+        return True
+
+    return getattr(endpoint, '_public', False)
 
 
 @login_manager.user_loader
@@ -59,7 +70,39 @@ def load_team(teamname):
     return Team.find_one({'teamname': teamname})
 
 
+@app.route('/login', methods=['GET', 'POST'])
+@public
+def login():
+    if request.method == 'GET':
+        return render_template('auth/login.html')
+
+    data = request.form
+    next = request.values.get('next') or 'play'
+
+    try:
+        teamname = data['teamname']
+        password = data['password']
+    except KeyError as e:
+        return form_error('Missing field: "%s"' % e.message)
+
+    team = load_team(teamname)
+
+    if team and team.check_password(password):
+        login_user(team)
+        return redirect(next)
+    else:
+        return form_error('Bad team name or password')
+
+
+@app.route("/logout")
+def logout():
+    flash('You have been logged out')
+    logout_user()
+    return redirect(url_for('login'))
+
+
 @app.route('/register', methods=['GET', 'POST'])
+@public
 def register():
     if request.method == 'GET':
         return render_template('auth/register.html')
@@ -95,39 +138,7 @@ def register():
     return redirect(next)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'GET':
-        return render_template('auth/login.html')
-
-    data = request.form
-    next = request.values.get('next') or 'play'
-
-    try:
-        teamname = data['teamname']
-        password = data['password']
-    except KeyError as e:
-        return form_error('Missing field: "%s"' % e.message)
-
-    team = load_team(teamname)
-
-    if team and team.check_password(password):
-        login_user(team)
-        return redirect(next)
-    else:
-        return form_error('Bad team name or password')
-
-
-@app.route("/logout")
-@login_required
-def logout():
-    flash('You have been logged out')
-    logout_user()
-    return redirect(url_for('login'))
-
-# TODO - Should this be removed in favor of /api/teams/current?
 @app.route('/team', methods=['GET', 'POST'])
-@login_required
 def team():
     team = g.team
     data = request.form
@@ -161,7 +172,6 @@ def team():
 
 
 @app.route('/team/test', methods=['GET'])
-@login_required
 def team_test():
     team = g.team
 

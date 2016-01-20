@@ -125,6 +125,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
 # TODO - Should this be removed in favor of /api/teams/current?
 @app.route('/team', methods=['GET', 'POST'])
 @login_required

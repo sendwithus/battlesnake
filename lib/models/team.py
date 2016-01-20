@@ -1,14 +1,19 @@
+import logging
+import uuid
+
 from werkzeug.security import generate_password_hash, check_password_hash
+
 from lib.models.base import Model
 
-import logging
 logger = logging.getLogger(__name__)
 
 
 class Team(Model):
 
-    def __init__(self, teamname=None, password='', snake_url=None, member_emails=None, game_ids=None, is_public=False):
+    def __init__(self, id=None, teamname=None, password='', snake_url=None, member_emails=None, game_ids=None, is_public=False):
         super(Team, self).__init__()
+
+        # Set Defaults
 
         if member_emails is None:
             member_emails = []
@@ -16,12 +21,26 @@ class Team(Model):
         if game_ids is None:
             game_ids = []
 
+        if id is None:
+            id = Team._generate_id()
+
+        # Define Properties
+
+        self.id = id
         self.teamname = teamname
-        self.set_password(password)
+        self.pw_hash = None
         self.snake_url = snake_url
         self.member_emails = member_emails
         self.game_ids = game_ids
         self.is_public = is_public
+
+        # Other things
+
+        self.set_password(password)
+
+    @staticmethod
+    def _generate_id():
+        return str(uuid.uuid4())
 
     # Flask-Login interface method
     def is_active(self):
@@ -47,6 +66,7 @@ class Team(Model):
 
     def to_dict(self):
         return {
+            '_id': self.id,
             'teamname': self.teamname,
             'pw_hash': self.pw_hash,
             'snake_url': self.snake_url,
@@ -56,13 +76,9 @@ class Team(Model):
         }
 
     def serialize(self):
-        return {
-            'teamname': self.teamname,
-            'snake_url': self.snake_url,
-            'member_emails': self.member_emails,
-            'game_ids': self.game_ids,
-            'is_public': self.is_public,
-        }
+        d = self.to_dict()
+        del d['pw_hash']
+        return d
 
     @classmethod
     def from_dict(cls, obj):

@@ -75,9 +75,9 @@ img {
   color: #b1b1b1;
 }
 .container.sponsors .logo img {
-  opacity: .7;
-  -webkit-transition: opacity .5s ease;
-  transition: opacity .5s ease;
+  opacity: 0.7;
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   margin: 20px 0;
@@ -143,8 +143,8 @@ img {
   position: relative;
   float: left;
   background: rgba(67, 113, 170, 0);
-  -webkit-transition: all .5s ease;
-  transition: all .5s ease;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
   z-index: 999;
   border-bottom: rgba(255, 255, 255, 0) 1px solid;
   box-shadow: 0 4px 17px rgba(0, 0, 0, 0);
@@ -177,8 +177,8 @@ img {
   font-size: 20px;
   text-align: center;
   padding: 10px 0;
-  -webkit-transition: all .5s ease;
-  transition: all .5s ease;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
   border-radius: 100px;
   z-index: 100;
   position: absolute;

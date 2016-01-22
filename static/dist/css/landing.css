@@ -26,7 +26,6 @@ img {
   position: relative;
   float: none;
   max-width: 950px;
-  text-align: center;
   background: none;
 }
 .container h3 {
@@ -97,7 +96,6 @@ img {
   margin: 0 0 30px;
   font-size: 16px;
   line-height: 24px;
-  text-align: left;
 }
 .container a {
   color: #FFC843;

@@ -108,6 +108,46 @@ img {
     }
   }
 
+    &.code-review {
+    .no-pad {
+      padding: 0;
+    }
+
+    .logo-holder {
+      margin-bottom: 40px;
+    }
+
+    h4 {
+      clear: both;
+      font-weight: 700;
+
+      &.gold {
+        color: #FEBF31;
+      }
+
+      &.silver {
+        margin-top: 30px;
+        color: #b1b1b1;
+      }
+    }
+
+    .logo {
+      img {
+        opacity: 0.7;
+        transition: opacity 0.5s ease;
+        background: rgba(255, 255, 255, .1);
+        padding: 20px;
+        margin: 20px 0;
+        max-width: 100% !important;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+
   .content {
     margin-top: 20px;
   }

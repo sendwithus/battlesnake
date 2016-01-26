@@ -23,4 +23,4 @@ sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 from lib.server import app
 
 print "Running flask at {}:{}".format(HOST, PORT)
-app.run(host=HOST, port=PORT, debug=False)
+app.run(host=HOST, port=PORT, debug=True)

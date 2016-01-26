@@ -8,7 +8,8 @@ from lib.routes.auth import public
 
 def __load_markdown(filepath):
     with open(filepath) as f:
-        return Markup(markdown.markdown(f.read()))
+        html = markdown.markdown(f.read())
+    return Markup(html)
 
 
 @app.route('/')
@@ -27,6 +28,23 @@ def readme():
         '3-tournament',
         '4-bounty',
         '5-prizes',
+        '6-rules-tease',
+        '7-advanced-tease',
+        '8-starting-tease',
+        '9-api-tease',
+        '10-testing-tease',
+    )
+    sections = [
+        (section, __load_markdown('static/md/readme/%s.md' % section))
+        for section in section_markdown
+    ]
+    return render_template('readme.html', sections=sections)
+
+
+@app.route('/readme/secret')
+@public
+def secret_readme():
+    section_markdown = (
         '6-rules',
         '7-advanced',
         '8-starting',

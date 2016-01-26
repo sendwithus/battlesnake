@@ -1,16 +1,22 @@
+from lib.models.game import Game
+
 
 def serialize_game(game, game_state=None):
-    return {
+    data = {
         'game': game.id,
         'mode': game.mode,
         'height': game.height,
         'width': game.width,
         'turn': game_state.turn if game_state else 0,
         'snakes': serialize_snakes(game_state.snakes) if game_state else [],
-        'food': game_state.food,
-        'gold': game_state.gold,
-        'walls': game_state.walls
+        'food': game_state.food
     }
+    if game.mode == Game.MODE_ADVANCED:
+        data.update({
+            'gold': game_state.gold,
+            'walls': game_state.walls
+        })
+    return data
 
 
 def serialize_snake(snake):

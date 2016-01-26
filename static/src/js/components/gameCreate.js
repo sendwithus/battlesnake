@@ -17,7 +17,6 @@ export default class GameCreate extends Component {
       this.state = {
         availableTeams: [],
         addedTeams: [],
-        currentSnakeUrl: '',
         selectedTeam: null,
         currentWidth: 20,
         currentHeight: 20,
@@ -58,14 +57,6 @@ export default class GameCreate extends Component {
         alert(xhr.responseJSON.message);
         this.setState({isLoading: false});
       })
-  };
-
-  handleSubmitSnake = (e) => {
-    e.preventDefault();
-    let snakeUrl = this.state.currentSnakeUrl;
-    let snakeUrls = this.state.snakeUrls;
-    snakeUrls.push(snakeUrl.toLowerCase());
-    this.setState({snakeUrls: snakeUrls, currentSnakeUrl: ''});
   };
 
   handleWidthChange = (e) => {
@@ -149,14 +140,14 @@ export default class GameCreate extends Component {
              onClick={this.handleDeleteTeam.bind(null, i)}>
             &times;
           </a>
-          <p><strong>{team.teamname}</strong> - {team.snake_url}</p>
+          <p><strong>{team.teamname}</strong></p>
         </div>
       );
     });
 
     return (
       <div className="container">
-        <form onSubmit={this.handleSubmitSnake}>
+        <form>
           <h2>Create Game</h2>
           <br />
           {noTeamsMessage}
@@ -179,6 +170,7 @@ export default class GameCreate extends Component {
                 </button>
               </span>
           </div>
+          <br/>
 
           <div className="row">
             <div className="col-md-4">

@@ -45,6 +45,12 @@ def readme():
 @public
 def secret_readme():
     section_markdown = (
+        '0-intro',
+        '1-location',
+        '2-preparing',
+        '3-tournament',
+        '4-bounty',
+        '5-prizes',
         '6-rules',
         '7-advanced',
         '8-starting',

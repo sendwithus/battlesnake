@@ -6,7 +6,7 @@ The BattleSnake API uses JSON formatted HTTP requests and responses. Snake serve
 * with a 200 HTTP Status Code
 * with a properly formatted JSON response
 
-Failure to meet any of these requirements will disqualify your snake.
+Failure to meet any of these requirements may disqualify your snake from participating in a game.
 
 #### Commands
 
@@ -19,7 +19,9 @@ The BattleSnake HTTP API consists of four commands:
 
 ### COMMAND: INFO <br> _GET /_
 
-Return information about your snake, including it's name, color, and head image.
+Return information about your snake, including its name, color, and head image.
+
+Visiting your snake URL in a browser should return this information, which is a good way to make sure your server is working as expected. This command may also be called by the BattleSnake game servers at any point during or outside a game.
 
 #### Request Parameters
 
@@ -86,7 +88,7 @@ NOTE: Game IDs may be re-used throughout the day, however multiple games with th
 
 Request for your snake to move. This request is made to all snakes in a particular game simultaneously. Once all snakes have responded, moves are calculated and the game board will update.
 
-NOTE: Failing to properly respond to a MOVE command will forfeit your turn and your snake will move forward regardless of what lies ahead.
+NOTE: Failing to properly respond to a MOVE command will forfeit your turn and your snake will move forward regardless of what lies ahead. Repeated failures may disqualify your snake from the game.
 
 #### Request Parameters
 

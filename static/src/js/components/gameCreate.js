@@ -134,14 +134,14 @@ export default class GameCreate extends Component {
 
     let teamNames = this.state.addedTeams.map((team, i) => {
       return (
-        <div key={'team_' + i}>
+        <li key={'team_' + i}>
           <a href="#"
              className="pull-right"
              onClick={this.handleDeleteTeam.bind(null, i)}>
             &times;
           </a>
           <p><strong>{team.teamname}</strong></p>
-        </div>
+        </li>
       );
     });
 
@@ -151,9 +151,9 @@ export default class GameCreate extends Component {
           <h2>Create Game</h2>
           <br />
           {noTeamsMessage}
-          <div>
+          <ul>
             {teamNames}
-          </div>
+          </ul>
           <div className="input-group">
             <select name="teamname"
                     className="form-control"

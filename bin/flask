@@ -2,10 +2,18 @@
 
 import os
 from os.path import abspath, dirname, join
+import signal
 import sys
+
 
 HOST = os.environ.get('HOST', '127.0.0.1')
 PORT = int(os.environ.get('PORT', 5000))
+
+
+# Attach sigterm handler
+def sigterm_handler(_signo, _stack_frame):
+    sys.exit(0)
+signal.signal(signal.SIGTERM, sigterm_handler)
 
 
 # Add parent directory to path
@@ -15,4 +23,4 @@ sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 from lib.server import app
 
 print "Running flask at {}:{}".format(HOST, PORT)
-app.run(host=HOST, port=PORT, debug=True)
+app.run(host=HOST, port=PORT, debug=False)

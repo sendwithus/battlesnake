@@ -41,7 +41,7 @@ export default class Navbar extends Component {
       <nav className="navbar navbar-inverse">
         <div className="container-fluid">
           <div className="navbar-header">
-            <a className="navbar-brand" href="/">
+            <a className="navbar-brand" href="/app/games">
               <img src="/static/img/logo-bs.png" />
             </a>
             <button type="button"

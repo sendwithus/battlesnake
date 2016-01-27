@@ -12,59 +12,6 @@ body {
   font-size: 16px;
 }
 
-// canvas {
-//   margin: auto;
-//   display: block;
-// }
-
-// form {
-//   max-width: 500px;
-//   margin: auto;
-// }
-//
-// form .input-group {
-//   margin-bottom: 20px;
-// }
-//
-// form .input-group,
-// form .btn {
-//   width: 100%;
-// }
-
-.game-summary img {
-  height: 30px;
-  width: 30px;
-  margin-right: 15px;
-  padding: 3px;
-}
-
-.game-summary {
-  margin-bottom: 70px;
-}
-
-.game-summary,
-.game-summary td,
-.game-summary th {
-  border-color: #333 !important;
-}
-
-.game-summary th {
-  background-color: #333;
-}
-
-.game-summary .snakes-heading {
-  background-color: #282828;
-}
-
-// .form-control {
-//   border-radius: 0;
-//   margin-bottom: 15px;
-// }
-
-// .form-control:focus {
-//   border-color: #F8F568;
-// }
-
 p,
 .muted {
   color: #ddd;
@@ -77,10 +24,6 @@ a {
 a:hover {
   color: #fff;
 }
-
-// .navbar {
-//   border-radius: 0;
-// }
 
 .navbar .navbar-brand img {
   height: 37px;
@@ -112,35 +55,35 @@ a:hover {
   box-shadow: none !important;
 }
 
-.btn.btn-success {
+.btn-success {
   background: #F8F568;
   color: #000;
+
+  &:hover {
+    background-color: #C7C308;
+  }
+
+  &:active {
+    background-color: #ABA700;
+  }
 }
 
-.btn.btn-info {
+.btn-info {
   background-color: #9e0000;
   color: #fff;
+
+  &:hover {
+    background-color: #890000;
+    color: #ccc;
+  }
+
+  &:active {
+    background-color: #720000;
+    color: #aaa;
+  }
 }
 
-.btn.btn-success:hover {
-  background-color: #C7C308;
-}
-
-.btn.btn-success:active {
-  background-color: #ABA700;
-}
-
-.btn.btn-info:hover {
-  background-color: #890000;
-  color: #ccc;
-}
-
-.btn.btn-info:active {
-  background-color: #720000;
-  color: #aaa;
-}
-
-.btn.btn-lg {
+.btn-lg {
   text-transform: uppercase;
   font-weight: bold;
   margin-top: 20px;
@@ -148,18 +91,16 @@ a:hover {
   padding: 16px 32px;
 }
 
-.btn:hover {
-  cursor: pointer;
-  top: 3px;
-  transition: all 0.25s ease-in;
-}
+.btn {
+  &:hover {
+    cursor: pointer;
+    top: 3px;
+    transition: all 0.25s ease-in;
+  }
 
-.btn:active {
-  transition: all 0s ease-in;
-}
-
-.btn:hover {
-  top: 0;
+  &:active {
+    transition: all 0s ease-in;
+  }
 }
 
 .modal-content {
@@ -175,6 +116,33 @@ a:hover {
 .modal .close {
   color: #fff;
   text-shadow: none;
+}
+
+/** App overrides */
+
+.game-summary img {
+  height: 30px;
+  width: 30px;
+  margin-right: 15px;
+  padding: 3px;
+}
+
+.game-summary {
+  margin-bottom: 70px;
+}
+
+.game-summary,
+.game-summary td,
+.game-summary th {
+  border-color: #333 !important;
+}
+
+.game-summary th {
+  background-color: #333;
+}
+
+.game-summary .snakes-heading {
+  background-color: #282828;
 }
 
 .sidebar h1 {
@@ -291,6 +259,14 @@ a:hover {
 
 
 /* PAGE SPECIFIC STYLES */
+.body-register {
+
+}
+
+.body-login {
+
+}
+
 .body-app {
 
 }

@@ -117,8 +117,8 @@ class Engine(object):
     LARGE_NUMBER = 999999
 
     @classmethod
-    def create_game_state(cls, game_id, width, height):
-        return GameState(game_id=game_id, width=width, height=height)
+    def create_game_state(cls, game_id, width, height, mode=Game.MODE_CLASSIC):
+        return GameState(game_id=game_id, width=width, height=height, mode=mode)
 
     @staticmethod
     def add_snakes_to_board(game_state, snakes):

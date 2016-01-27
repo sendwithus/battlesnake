@@ -64,7 +64,7 @@ def rematch_game(game_id):
     for snake in game_state.snakes + game_state.dead_snakes:
         snake_urls.append(snake.url)
 
-    return create_game(snake_urls, game.width, game.height, game.turn_time)[0]
+    return create_game(snake_urls, game.width, game.height, game.turn_time, game.mode)[0]
 
 
 def create_game(snake_urls, width, height, turn_time, mode):

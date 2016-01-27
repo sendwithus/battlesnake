@@ -174,7 +174,7 @@ export default class GameCreate extends Component {
                   </select>
                   <span className="input-group-btn">
                     <button type="submit"
-                            disabled={this.state.selectedTeam ? 'false' : 'true'}
+                            disabled={this.state.selectedTeam ? false : 'on'}
                             className="btn btn-success"
                             onClick={this.handleAddTeam}>
                       Add Team

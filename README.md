@@ -62,6 +62,10 @@ And to later re-enter the project, run:
     $ vagrant resume
     $ bin/run
 
+__Admin accounts__
+
+Only the 'admin' team can make certain changes such as registering teams. The first time you run the server, you'll need to create an admin account which can be done by running `bin/admin`.
+
 __Managing database__
 
 Occasionally, you may need to blow away the MongoDB database or something. Hopefully not in production.
@@ -76,6 +80,8 @@ Occasionally, you may need to blow away the MongoDB database or something. Hopef
     system.indexes
     team
     user
+    > db.team.find()
+    > db.team.remove({})
     > db.dropDatabase()
     > exit
 

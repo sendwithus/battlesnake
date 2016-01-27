@@ -1,0 +1,19 @@
+#!/usr/bin/env python
+
+from os.path import abspath, dirname, join
+import sys
+
+# Add parent directory to path
+sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+
+from lib.models.team import Team
+
+pw = 'colt-kebab-truth'
+
+admin = Team.find_one({'teamname': 'admin'})
+if admin:
+    admin.set_password(pw)
+    admin.save()
+else:
+    admin = Team(teamname='admin', password=pw)
+    admin.insert()

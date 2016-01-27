@@ -1,11 +1,70 @@
-from flask import g, request, session
+from flask import (
+    request, g, session,
+    render_template, redirect, url_for, flash,
+)
 from flask.ext.login import login_user
 from pymongo.errors import DuplicateKeyError
 
 from lib.server import json_response, json_error, app
+from lib.models.game import Game
 from lib.models.team import Team
+from lib.routes.auth import admin_only
 
-# Public routes
+import lib.ai as ai
+import lib.game.engine as engine
+
+
+@app.route('/team', methods=['GET', 'POST'])
+def team():
+    team = g.team
+    data = request.form
+
+    if request.method == 'GET':
+        return render_template('team.html', team=team)
+
+    # TODO: check for duplicate team name and allow updating
+    for field in ['snake_url']:
+        if field in data:
+            setattr(team, field, data[field])
+
+    # Handling checkboxes is weird
+    team.is_public = True if data.get('is_public') else False
+
+    email = data.get('add_member')
+    if email and email not in team.member_emails:
+        team.member_emails.append(email)
+
+        team.save()
+
+        flash('Member added to team')
+        return redirect(url_for('team'))
+
+    team.save()
+
+    # Log in team again in case team name changed
+    login_user(team)
+
+    return redirect(url_for('team'))
+
+
+@app.route('/team/test', methods=['GET'])
+def team_test():
+    team = g.team
+
+    # Fake a game
+    game = Game(10, 10, 1)
+    snakes = [engine.Snake(g.team.snake_url)]
+    game_state = engine.Engine.create_game_state(game.id, game.width, game.height)
+    engine.Engine.add_random_snakes_to_board(game_state, snakes)
+
+    results = {
+        'whois': ai.whois(snakes)[0],
+        'start': ai.start(game, game_state)[0],
+        'move': ai.move(game, game_state)[0],
+        'end': ai.end(game, game_state)[0]
+    }
+
+    return render_template('team_test.html', team=team, results=results)
 
 
 @app.route('/api/teams/')
@@ -29,27 +88,6 @@ def teams_list():
         ]}, limit=50)
     return json_response([team.serialize() for team in teams])
 
-
-@app.route('/api/teams/<teamname>')
-def team_details(teamname):
-    """
-    Get data for a single team.
-    Sample response:
-    {
-      "data": {
-        "_id": "TEAM1",
-        "member_emails": ["user@domain.com"],
-        "snake_url": "http://localhost:6000/"
-      }
-    }
-    """
-    team = Team.find_one({'teamname': teamname})
-    if not team:
-        return json_error(msg='Team not found', status=404)
-    return json_response(team.serialize())
-
-
-# Signed in team routes
 
 @app.route('/api/teams/current')
 def team_info():
@@ -112,10 +150,28 @@ def team_member_create(email):
     return json_response(g.team.member_emails, msg='Member already exists', status=200)
 
 
-# Super user routes
-# TODO: authorization on routes that modify teams
+@app.route('/api/teams/<teamname>')
+@admin_only
+def team_details(teamname):
+    """
+    Get data for a single team.
+    Sample response:
+    {
+      "data": {
+        "_id": "TEAM1",
+        "member_emails": ["user@domain.com"],
+        "snake_url": "http://localhost:6000/"
+      }
+    }
+    """
+    team = Team.find_one({'teamname': teamname})
+    if not team:
+        return json_error(msg='Team not found', status=404)
+    return json_response(team.serialize())
+
 
 @app.route('/api/teams/', methods=['POST'])
+@admin_only
 def teams_create():
     """
     Create a new team and return it.

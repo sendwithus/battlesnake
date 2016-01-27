@@ -19,7 +19,7 @@ def games_create():
     width = data.get('width', 20)
     height = data.get('height', 20)
     turn_time = data.get('turn_time', 1)
-    mode = data.get('mode', Game.MODE_CLASSIC)
+    mode = data.get('mode', Game.MODE_ADVANCED)
 
     team_dicts = data['teams']
 

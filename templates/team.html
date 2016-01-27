@@ -10,19 +10,20 @@
       <div class="row">
         <a href="/app/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Go back</a>
       </div>
-      <div class="row">
-        <h1 class="page-title">Update Team</h1>
+      <div class="row text-center">
+        <h1 class="page-title"><img src="/static/img/img-coin.gif" style="width: 15px;margin: 5px 15px;border-radius: 100%;">Update Team<img src="/static/img/img-coin.gif" style="width: 15px;margin: 5px 15px;border-radius: 100%;"></h1>
       </div>
 
       <div class="row">
         {% include "partials/flashed_messages.html" %}
       </div>
-
+      <br>
       <div class="row">
         <div class="col-sm-6">
           <div class="row">
-            <h2>{{ team.teamname }}</h2>
-            <p><a href="/team/test">Test Snake @ {{ team.snake_url }}</a></p>
+            <h2>Team Info</h2>
+            <p style="font-weight: bold">Name: {{ team.teamname }}</p>
+            <p style="font-weight: bold">Snake URL: <a href="/team/test">Test Snake @ {{ team.snake_url }}</a></p>
           </div>
           <div class="row">
             <h2>Members</h2>
@@ -39,7 +40,7 @@
             <fieldset class="row">
               <div class="form-group">
                 <label for="teamname" class="control-label">Team Name:</label>
-                <input type="text" id="teamname" name="teamname" class="form-control" value="{{ team.teamname }}" placeholder="" disabled />
+                <input type="text" id="teamname" name="teamname" class="form-control" value="{{ team.teamname }}" placeholder="ie. John Smith" disabled />
               </div>
               <div class="form-group">
                 <label for="snake_url" class="control-label">Snake URL:</label>
@@ -55,10 +56,10 @@
               <div class="form-group">
                 <label for="add_member" class="control-label col-sm-3">Add a team member:</label>
                 <div class="col-sm-6">
-                  <input type="text" id="add_member" name="add_member" class="form-control" />
+                  <input type="text" id="add_member" name="add_member" class="form-control" placeholder="ie. John Smith" />
                 </div>
                 <div class="col-sm-3">
-                  <button type="submit" class="btn btn-primary btn-block">Update Team</button>
+                  <button type="submit" class="btn btn-block" style="background: #60F360; color: #154906; font-weight: bold">Update Team</button>
                 </div>
               </div>
             </fieldset>

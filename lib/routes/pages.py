@@ -2,6 +2,7 @@ import markdown
 
 from flask import Markup, render_template
 
+
 from lib.server import app
 from lib.routes.auth import public
 
@@ -72,7 +73,7 @@ def code_of_conduct():
 
 @app.route('/app/')
 @app.route('/app/<path:path>')
-def play(path=None):
+def app_paths(path=None):
     # serve app.html for anything that starts with "app/"
     # frontend will show the correct route
     return render_template('app.html')

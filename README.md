@@ -64,7 +64,7 @@ And to later re-enter the project, run:
 
 __Admin accounts__
 
-Only the 'admin' team can make certain changes such as registering teams. The first time you run the server, you'll need to create an admin account which can be done by running `bin/admin`.
+Only the 'admin' team can make certain changes such as registering teams. The first time you run the server, you'll need to create an admin account which can be done by running `bin/admin` or `heroku run bin/admin` in production.
 
 __Managing database__
 

@@ -8,7 +8,9 @@ sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 
 from lib.models.team import Team
 
-pw = 'colt-kebab-truth'
+import getpass
+
+pw = getpass.getpass('Set password for admin:')
 
 admin = Team.find_one({'teamname': 'admin'})
 if admin:

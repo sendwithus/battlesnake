@@ -81,11 +81,6 @@ def admin_only(func):
 
 def is_admin_only():
     """Returns True if the current route is only avail to admins, False otherwise """
-
-    # static files are always public
-    if request.endpoint == 'static':
-        return False
-
     endpoint = current_app.view_functions.get(request.endpoint)
     if not endpoint:
         return False

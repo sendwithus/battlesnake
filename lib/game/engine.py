@@ -404,5 +404,4 @@ class Engine(object):
             # Multi snake games go until one snake left
             new_game_state.is_done = True
 
-        print new_game_state.mode
         return new_game_state

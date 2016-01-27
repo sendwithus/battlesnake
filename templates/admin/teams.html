@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BattleSnake</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/dist/css/app.css">
+  </head>
+  <body class="page-team">
+    <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Team Name</th>
+                          <th>Snake URL</th>
+                          <th>Public?</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for team in teams %}
+                          <tr>
+                              <td>{{ team.id }}</td>
+                              <td>{{ team.teamname }}</td>
+                              <td>{{ team.snake_url }}</td>
+                              <td>{{ team.is_public }}</td>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

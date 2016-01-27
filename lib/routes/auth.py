@@ -11,18 +11,21 @@ from flask.ext.login import (
 
 import lib.ai as ai
 import lib.game.engine as engine
-
-from lib.server import app, form_error
+from lib.log import get_logger
 from lib.models.game import Game
 from lib.models.team import Team
+from lib.server import app, form_error
 
 import settings.secrets
+
 
 app.secret_key = settings.secrets.SESSION_KEY
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+logger = get_logger(__name__)
 
 
 @app.before_request
@@ -134,6 +137,8 @@ def register():
         return form_error('Team name already exists')
 
     login_user(team)
+
+    logger.slack('New Registered Team: %s' % team.teamname)
 
     return redirect(next)
 

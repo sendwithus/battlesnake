@@ -73,6 +73,6 @@ def code_of_conduct():
 @app.route('/app/')
 @app.route('/app/<path:path>')
 def play(path=None):
-    # serve play.html for anything that starts with "play/"
+    # serve app.html for anything that starts with "app/"
     # frontend will show the correct route
     return render_template('app.html')

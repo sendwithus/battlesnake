@@ -80,7 +80,7 @@ def create_game(snake_urls, width, height, turn_time, mode):
     game.insert()
 
     # Create the first GameState
-    game_state = Engine.create_game_state(game.id, game.width, game.height)
+    game_state = Engine.create_game_state(game.id, game.width, game.height, game.mode)
 
     # Init the first GameState
     Engine.add_random_snakes_to_board(game_state, snakes)

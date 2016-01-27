@@ -15,13 +15,13 @@
       <div class="row">
         <div class="col-sm-4 col-sm-push-4">
           <div class="row text-center">
-            <h1>Register a Team</h1>
+            <h3><img src="/static/img/img-coin.gif" style="width: 15px;margin: 5px 15px;border-radius: 100%;">Register a Team<img src="/static/img/img-coin.gif" style="width: 15px;margin: 5px 15px;border-radius: 100%;"></h3>
           </div>
 
           <div class="row">
             {% include "partials/flashed_messages.html" %}
           </div>
-
+          <br>
           <div class="row">
             <div class="col-sm-12">
               <form method="post">
@@ -29,15 +29,16 @@
                 <fieldset class="row">
                   <div class="form-group">
                     <label for="teamname" class="control-label">Team Name:</label>
-                    <input type="text" id="teamname" class="form-control" name="teamname" placeholder="Team Name">
+                    <input type="text" id="teamname" class="form-control" name="teamname" placeholder="The Can't-acondas">
                   </div>
                   <div class="form-group">
                     <label for="password" class="control-label">Password:</label>
-                    <input type="password" id="password" class="form-control" name="password" placeholder="Password">
+                    <input type="password" id="password" class="form-control" name="password" placeholder="******">
                   </div>
                   <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-block">Register</button>
-                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-block">Log In</a>
+                    <button type="submit" class="btn btn-block" style="background: #60F360; color: #154906; font-weight: bold">Register</button>
+                    <br>
+                    <p style="color: white">or if you already have a team, directly <a href="{{ url_for('login') }}" style="font-weight: bold; color: #F8F568" >log In</a></p>
                   </div>
                 </fieldset>
               </form>

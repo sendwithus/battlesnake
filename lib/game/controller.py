@@ -67,7 +67,7 @@ def rematch_game(game_id):
     return create_game(snake_urls, game.width, game.height, game.turn_time)[0]
 
 
-def create_game(snake_urls, width, height, turn_time):
+def create_game(snake_urls, width, height, turn_time, mode):
     if not snake_urls or len(snake_urls) == 0:
         raise Exception('No snake urls added. You need at least one...')
 
@@ -76,7 +76,7 @@ def create_game(snake_urls, width, height, turn_time):
     _update_snakes(snakes, ai.whois(snakes))
 
     # Create game
-    game = Game(width=width, height=height, turn_time=turn_time)
+    game = Game(width=width, height=height, turn_time=turn_time, mode=mode)
     game.insert()
 
     # Create the first GameState

@@ -113,25 +113,12 @@ class Engine(object):
     STARVATION = 'starvation'
     SUICIDE = 'itself'
     WALL = 'wall'
+    EDGE = 'edge'
     LARGE_NUMBER = 999999
 
     @classmethod
     def create_game_state(cls, game_id, width, height):
         return GameState(game_id=game_id, width=width, height=height)
-
-    @staticmethod
-    def create_board(width, height):
-        board = []
-        for x in range(width):
-            board.append([])
-
-            for y in range(height):
-                board[x].append({
-                    'state': GameState.TILE_STATE_EMPTY,
-                    'snake': None
-                })
-
-        return board
 
     @staticmethod
     def add_snakes_to_board(game_state, snakes):
@@ -186,8 +173,6 @@ class Engine(object):
 
     @staticmethod
     def add_tile_to_board(game_state, tile_type):
-        if len(game_state.food) >= constants.MAX_FOOD_ON_BOARD:
-            return game_state
 
         taken_tiles = []
         for snake in game_state.snakes:
@@ -203,7 +188,7 @@ class Engine(object):
                     empty_tile_coords.append([x, y])
 
         if empty_tile_coords:
-            if tile_type == GameState.TILE_STATE_FOOD:
+            if tile_type == GameState.TILE_STATE_FOOD and len(game_state.food) < constants.MAX_FOOD_ON_BOARD:
                 game_state.food.append(random.choice(empty_tile_coords))
 
             if tile_type == GameState.TILE_STATE_GOLD:
@@ -293,22 +278,22 @@ class Engine(object):
             # Check for edge collisions
             if snake.coords[0][0] < 0:
                 kill.append(snake.name)
-                snake.killed_by = Engine.WALL
+                snake.killed_by = Engine.EDGE
                 continue
 
             if snake.coords[0][1] < 0:
                 kill.append(snake.name)
-                snake.killed_by = Engine.WALL
+                snake.killed_by = Engine.EDGE
                 continue
 
             if snake.coords[0][0] >= game_state.width:
                 kill.append(snake.name)
-                snake.killed_by = Engine.WALL
+                snake.killed_by = Engine.EDGE
                 continue
 
             if snake.coords[0][1] >= game_state.height:
                 kill.append(snake.name)
-                snake.killed_by = Engine.WALL
+                snake.killed_by = Engine.EDGE
                 continue
 
             # Check Wall Collisions

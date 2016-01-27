@@ -9,7 +9,8 @@ const snakewithus = {
     SNAKE: 'body',
     SNAKE_HEAD: 'head',
     FOOD: 'food',
-    GOLD: 'gold'
+    GOLD: 'gold',
+    WALL: 'wall'
   },
   DIRECTIONS: {
     NORTH: 'n',
@@ -24,7 +25,8 @@ const snakewithus = {
   COLORS: {
     FOOD: '#E6D560',
     EMPTY: 'rgba(0, 0, 0, 0.2)',
-    GOLD: 'linear-gradient(to bottom, #AE8913, #FFEEB5)'
+    GOLD: 'rgba(255, 215, 0, 0.2)',
+    WALL: 'rgba(255, 0, 0, 0.2)'
   },
   MAX_COLOR: 255,
   MIN_COLOR: 120,

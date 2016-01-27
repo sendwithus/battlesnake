@@ -108,7 +108,8 @@ export default class Board {
         empty: snakewithus.COLORS.EMPTY,
         food: snakewithus.COLORS.EMPTY,
         snake_head: snakewithus.SQUARE_TYPES.SNAKE_HEAD,
-        gold: snakewithus.SQUARE_TYPES.GOLD
+        gold: snakewithus.SQUARE_TYPES.GOLD,
+        wall: snakewithus.SQUARE_TYPES.WALL
       },
       boardData = gameState.board,
       spacing = snakewithus.SQUARE_PADDING,
@@ -119,6 +120,7 @@ export default class Board {
       snakes = this.svg.select('g.inner-board').selectAll('g.snake').data(gameState.snakes),
       snakeBits = snakes.selectAll('rect.snakeBit').data(function(d) { return d.coords; }),
       gold = this.svg.select('g.inner-board').selectAll('circle.gold').data(gameState.gold),
+      walls = this.svg.select('g.inner-board').selectAll('rect.wall').data(gameState.walls),
       heads = d3.select(this.container).selectAll('img.head').data(gameState.snakes);
 
     // enters
@@ -132,6 +134,9 @@ export default class Board {
     gold.enter().append('circle')
       .attr('class', 'gold')
       .attr('fill', snakewithus.COLORS.GOLD);
+    walls.enter().append('rect')
+      .attr('class', 'wall')
+      .attr('fill', snakewithus.COLORS.WALL);
     snakes.enter().append('g')
       .attr('class', 'snake');
     snakeBits.enter().append('rect')
@@ -167,6 +172,12 @@ export default class Board {
       .duration(0)
       .attr('cx', function(d){ return spacing + d[0] * bitWidth + bitWidth / 2 - spacing / 2; })
       .attr('cy', function(d){ return spacing + d[1] * bitWidth + bitWidth / 2 - spacing / 2; });
+    walls.transition()
+      .duration(0)
+      .attr('x', function(d) { return spacing + d[0] * bitWidth })
+      .attr('y', function(d) { return spacing + d[1] * bitWidth })
+      .attr('width', bitWidth - spacing)
+      .attr('height', bitWidth - spacing);
     snakes.transition().duration(0);
     snakeBits.transition().duration(0)
       .attr('x', function(d) { return spacing + d[0] * bitWidth })
@@ -192,6 +203,7 @@ export default class Board {
     // exits
     food.exit().remove();
     gold.exit().remove();
+    walls.exit().remove();
     snakes.exit().remove();
     snakeBits.exit().remove();
     heads.exit().remove();

@@ -19,6 +19,7 @@ def games_create():
     width = data.get('width', 20)
     height = data.get('height', 20)
     turn_time = data.get('turn_time', 1)
+    mode = data.get('mode', Game.MODE_CLASSIC)
 
     team_dicts = data['teams']
 
@@ -41,7 +42,8 @@ def games_create():
             width=width,
             height=height,
             snake_urls=snake_urls,
-            turn_time=turn_time
+            turn_time=turn_time,
+            mode=mode
         )
     except Exception as e:
         return json_error(e)

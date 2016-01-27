@@ -163,15 +163,14 @@ export default class GameCreate extends Component {
             </select>
               <span className="input-group-btn">
                 <button type="submit"
-                        disabled={this.state.selectedTeam ? false : 'on'}
-                        className="btn btn-info big form-control"
+                        disabled={this.state.selectedTeam ? 'false' : 'true'}
+                        className="btn btn-success"
                         onClick={this.handleAddTeam}>
                   Add Team
                 </button>
               </span>
           </div>
           <br/>
-
           <div className="row">
             <div className="col-md-4">
               <label>width</label>
@@ -207,12 +206,14 @@ export default class GameCreate extends Component {
               />
             </div>
           </div>
-          <div className="input-group">
-            <button type="button" className="btn btn-lg btn-success"
-                    onClick={this.handleGameCreate}
-                    disabled={this.state.isLoading}>
-              {this.state.isLoading ? 'Contacting snakes...' : 'Start Game'}
-            </button>
+          <div className="row">
+            <div className="input-group">
+              <button type="button" className="btn btn-lg btn-success"
+                      onClick={this.handleGameCreate}
+                      disabled={this.state.isLoading}>
+                {this.state.isLoading ? 'Contacting snakes...' : 'Start Game'}
+              </button>
+            </div>
           </div>
         </form>
       </div>

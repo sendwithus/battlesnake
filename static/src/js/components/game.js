@@ -198,13 +198,12 @@ export default class Game extends Component {
 
   componentDidUpdate (prevProps, prevState) {
     if (!this.state.latestGameState) { return; }
-
     if (!this.board) {
       this.board = this.getBoard();
-      this.board.init(this.state.game.width, this.state.game.height);
+      this.board.init(this.state.latestGameState);
     }
 
-    this.board.update(this.state.latestGameState );
+    this.board.update(this.state.latestGameState);
   }
 
   componentWillUnmount () {
@@ -212,16 +211,14 @@ export default class Game extends Component {
   }
 
   getBoard () {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
-    return new Board(ctx, canvas);
+    return new Board(this.refs.board);
   }
 
   render () {
     return (
       <div className="row">
         <div className="col-md-9">
-          <canvas ref="canvas">Your browser does not support canvas</canvas>
+          <div ref="board"></div>
         </div>
         <div className="col-md-3 sidebar">
           <GameSidebar

@@ -9,218 +9,203 @@ import Snake from './snake';
 
 export default class Board {
 
-  constructor (ctx, canvas) {
-    this.ctx = ctx;
-    this.canvas = canvas;
-    this.dimensions = null;
-    this.snakeCache = {};
-    this.gameState = {
-      id: 'None',
-      board: [],
-      snakes: [],
-      turn: 0
-    }
+  constructor (container) {
+    this.container = container;
 
-    this.testPlayer = false;
-    this.isStarted = false;
-    this.lastTick = 0;
-    this.devicePixelRatio = 1.25;
+    this.svg = d3.select(this.container)
+      .append('svg')
+      .attr('width', this.width)
+      .attr('height', this.height);
+
+    this.svg.append('defs')
+      .append('pattern')
+      .attr('id', 'bricks')
+      .attr('patternUnits', 'userSpaceOnUse')
+      .attr('width', 300)
+      .attr('height', 225)
+      .append('image')
+      .attr('width', 300)
+      .attr('height', 225)
+      .attr('xlink:href', '/static/img/bricks.jpg');
+
+    this.canvas = this.svg.append('rect')
+      .attr('fill', 'none');
+
+    this.boardGroup = this.svg.append('g');
+
+    this.boardGroup.append('rect')
+      .attr('class', 'board')
+      .attr('fill', 'url(#bricks)');
+
+    var innerBoardGroup = this.boardGroup.append('g')
+      .attr('class', 'inner-board');
+
+    innerBoardGroup.append('rect')
+      .attr('class', 'inner-board')
+      .attr('fill', '#4371aa');
+
+    this.boardGroup.append('g')
+      .attr('class', 'cell-container');
   }
 
-  init (width, height) {
-    console.log('INIT BOARD', width, height);
-    this.gameState = null;
-    this.dimensions = [ width, height ];
+  init (gameState) {
+    this.gameState = gameState;
 
-    this.resize();
-
-    // <RENDER_IMAGES_HACK>
-    let interval = setInterval(() => {
-        this.update(this.gameState);
-    }, 50);
-
-    setTimeout(() => {
-        clearInterval(interval);
-    }, 5000);
-    // </RENDER_IMAGES_HACK>
-
-    window.onresize = this.resize;
+    this.resize.call(this);
+    window.onresize = this.resize.bind(this);
   }
 
   resize () {
-    let board = this.canvas.parentNode;
+    var containerParent = this.container.parentNode;
 
-    let width  = board.clientWidth - 40;
-    let height = window.innerHeight - 105;
+    var width  = containerParent.clientWidth - 40;
+    var height = window.innerHeight - 105;
 
-    let size1 = Math.ceil(width / this.dimensions[0]);
-    let size2 = Math.ceil(height / this.dimensions[1]);
+    this.width = width;
+    this.height = height;
 
-    this.SQUARE_SIZE = Math.min(size1, size2);
-
-    if (window.devicePixelRatio > this.devicePixelRatio) {
-      this.SQUARE_SIZE = this.SQUARE_SIZE * 2;
-    }
-
-    this.canvas.width  = this.SQUARE_SIZE * this.dimensions[0];
-    this.canvas.height = this.SQUARE_SIZE * this.dimensions[1];
-
-    if (window.devicePixelRatio > this.devicePixelRatio) {
-      this.canvas.style.width = (this.canvas.width / 2) + 'px';
-      this.canvas.style.height = (this.canvas.height / 2) + 'px';
-      this.ctx.scale(2,2); // fix blurry board on retina screens
-    }
+    d3.select(this.container).select('svg')
+      .attr('width', this.width)
+      .attr('height', this.height);
 
     if (this.gameState) { this.update(this.gameState); }
-  }
-
-  beginAnimation () {
-    let that = this;
-    this.animate();
-    this.animationLoop = setInterval(() => {
-      that.animate.call(that);
-    }, 300);
-  }
-
-  animate () {
-    let boardData = this.gameState.board;
-    for (var x = 0; x < boardData.length; x++) {
-      let col = boardData[x];
-      for (var y = 0; y < col.length; y++) {
-        let square = col[y];
-        let color = generateColor();
-        color = makeNonGray(color, 150);
-        let colorStr = 'rgb(' + color.join(',') + ')';
-        this.fillSquare(x, y, colorStr);
-      }
-    }
   }
 
   update (gameState) {
     this.gameState = gameState;
 
-    this.canvas.width = this.canvas.width;
+    var innerBoardPadding = 10,
+      boardWidth = Math.min(this.width, this.height),
+      xOffs = (this.width - boardWidth) / 2,
+      yOffs = (this.height - boardWidth) / 2;
 
-    let boardData = gameState.board;
+    this.canvas
+      .attr('width', this.width)
+      .attr('height', this.height);
 
-    for (var x = 0; x < boardData.length; x++) {
-      let col = boardData[x];
-      for (var y = 0; y < col.length; y++) {
-        let square = col[y];
-        this.drawSquare(x, y, square);
-      }
+    this.boardGroup.select('rect.board')
+      .attr('width', boardWidth)
+      .attr('height', boardWidth);
+
+    // center the board on the canvas
+    if (this.width > this.height) {
+      this.boardGroup.attr('transform', 'translate(' + xOffs + ')');
+    } else {
+      this.boardGroup.attr('transform', 'translate(0, ' + yOffs + ')');
     }
 
-    if (typeof this.updateCallback === 'function') {
-      this.updateCallback(gameState);
-    }
+    this.boardGroup.select('g.inner-board')
+      .attr('transform', 'translate(' + innerBoardPadding + ',' + innerBoardPadding + ')');
 
-    // if (this.isGameOver()) {
-    //   clearInterval(this.loop);
-    //   this.beginAnimation();
-    // }
+    this.boardGroup.select('rect.inner-board')
+      .attr('width', boardWidth - innerBoardPadding * 2)
+      .attr('height', boardWidth - innerBoardPadding * 2);
+
+
+
+    var colours = {
+        body: snakewithus.SQUARE_TYPES.SNAKE,
+        empty: snakewithus.COLORS.EMPTY,
+        food: snakewithus.COLORS.EMPTY,
+        snake_head: snakewithus.SQUARE_TYPES.SNAKE_HEAD,
+        gold: snakewithus.SQUARE_TYPES.GOLD,
+        wall: snakewithus.SQUARE_TYPES.WALL
+      },
+      boardData = gameState.board,
+      spacing = snakewithus.SQUARE_PADDING,
+      bitWidth = (boardWidth - spacing - innerBoardPadding * 2) / gameState.width,
+      rows = this.svg.select('g.inner-board').selectAll('g.row').data(boardData),
+      cells = rows.selectAll('rect.cell').data(_.identity),
+      food = this.svg.select('g.inner-board').selectAll('circle.food').data(gameState.food),
+      snakes = this.svg.select('g.inner-board').selectAll('g.snake').data(gameState.snakes),
+      snakeBits = snakes.selectAll('rect.snakeBit').data(function(d) { return d.coords; }),
+      gold = this.svg.select('g.inner-board').selectAll('circle.gold').data(gameState.gold),
+      walls = this.svg.select('g.inner-board').selectAll('rect.wall').data(gameState.walls),
+      heads = d3.select(this.container).selectAll('img.head').data(gameState.snakes);
+
+    // enters
+    rows.enter().append('g')
+      .attr('class', 'row');
+    cells.enter().append('rect')
+      .attr('class', 'cell');
+    food.enter().append('circle')
+      .attr('class', 'food')
+      .attr('fill', snakewithus.COLORS.FOOD);
+    gold.enter().append('circle')
+      .attr('class', 'gold')
+      .attr('fill', snakewithus.COLORS.GOLD);
+    walls.enter().append('rect')
+      .attr('class', 'wall')
+      .attr('fill', snakewithus.COLORS.WALL);
+    snakes.enter().append('g')
+      .attr('class', 'snake');
+    snakeBits.enter().append('rect')
+      .attr('class', 'snakeBit');
+    heads.enter().append('img')
+      .attr('class', 'head');
+
+    // transitions
+    rows.transition().duration(0);
+    cells.transition().duration(0)
+      .attr('x', function(d, x, y){ return spacing + y * bitWidth; })
+      .attr('y', function(d, x, y){ return spacing + x * bitWidth; })
+      .attr('width', bitWidth - spacing)
+      .attr('height', bitWidth - spacing)
+      .attr('fill', _.constant(snakewithus.COLORS.EMPTY));
+    food.transition()
+      .each('start', function() {
+        d3.select(this).attr('r', 0);
+      })
+      .each('end', function() {
+        d3.select(this).attr('r', (bitWidth / 3) - spacing);
+      })
+      .duration(0)
+      .attr('cx', function(d){ return spacing + d[0] * bitWidth + bitWidth / 2 - spacing / 2; })
+      .attr('cy', function(d){ return spacing + d[1] * bitWidth + bitWidth / 2 - spacing / 2; });
+    gold.transition()
+      .each('start', function() {
+        d3.select(this).attr('r', 0);
+      })
+      .each('end', function() {
+        d3.select(this).attr('r', (bitWidth / 2) - spacing);
+      })
+      .duration(0)
+      .attr('cx', function(d){ return spacing + d[0] * bitWidth + bitWidth / 2 - spacing / 2; })
+      .attr('cy', function(d){ return spacing + d[1] * bitWidth + bitWidth / 2 - spacing / 2; });
+    walls.transition()
+      .duration(0)
+      .attr('x', function(d) { return spacing + d[0] * bitWidth })
+      .attr('y', function(d) { return spacing + d[1] * bitWidth })
+      .attr('width', bitWidth - spacing)
+      .attr('height', bitWidth - spacing);
+    snakes.transition().duration(0);
+    snakeBits.transition().duration(0)
+      .attr('x', function(d) { return spacing + d[0] * bitWidth })
+      .attr('y', function(d) { return spacing + d[1] * bitWidth })
+      .attr('width', bitWidth - spacing)
+      .attr('height', bitWidth - spacing)
+      .attr('fill', function(d, i, n) {
+        if (i === 0) {
+          return snakewithus.COLORS.EMPTY;
+        } else {
+          return gameState.snakes[n].color;
+        }
+
+      });
+    heads.transition().duration(0)
+      .attr('src', function(d) { return d.head; })
+      .attr('width', bitWidth - spacing)
+      .attr('height', bitWidth - spacing)
+      .style('position', 'absolute')
+      .style('left', function(d) {return xOffs + innerBoardPadding + spacing + 15 + d.coords[0][0] * bitWidth + 'px'; })
+      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d.coords[0][1] * bitWidth + 'px'; });
+
+    // exits
+    food.exit().remove();
+    gold.exit().remove();
+    walls.exit().remove();
+    snakes.exit().remove();
+    snakeBits.exit().remove();
+    heads.exit().remove();
   }
-
-  drawSquare (x, y, square) {
-    if (square.length > 1) {
-      console.error(
-        'ERROR: More than one object returned at square', x, y
-      );
-    }
-
-    // console.log('DRAWING SQUARE', x, y, square.state);
-    let snake;
-    let head;
-
-    this.fillSquare(x, y, snakewithus.COLORS.EMPTY);
-
-    if (square.state === snakewithus.SQUARE_TYPES.EMPTY) {
-      // Nothing
-    }
-
-    // Draw body
-    else if (square.state === snakewithus.SQUARE_TYPES.SNAKE) {
-      snake = this.getSnake(square.snake || square.snake_id);
-      this.fillSquare(x, y, snake.getColor());
-    }
-
-    // Draw head
-    else if (square.state === snakewithus.SQUARE_TYPES.SNAKE_HEAD) {
-      snake = this.getSnake(square.snake || square.snake_id);
-      head = snake.getHeadImage();
-      if (head) {
-        this.drawImage(x, y, head);
-      } else {
-        this.fillSquare(x, y, snake.getHeadColor());
-      }
-    }
-
-    // Draw food
-    else if (square.state === snakewithus.SQUARE_TYPES.FOOD) {
-      this.fillCircle(x, y, snakewithus.COLORS.FOOD);
-    }
-
-    else {
-      console.error('INVALID SQUARE TYPE', square.state);
-    }
-  }
-
-  getSnake (id) {
-    let snake_data = null;
-
-    if (this.snakeCache[id]) { return this.snakeCache[id]; }
-
-    for (var i = 0; i < this.gameState.snakes.length; i++) {
-      let s = this.gameState.snakes[i];
-      if ((s.name || s.id) === id) {
-        snake_data = s;
-        break;
-      }
-    }
-
-    let snake = new Snake(snake_data);
-    this.snakeCache[id] = snake;
-    return snake;
-  }
-
-  getBoardDimensions (board) {
-    return this.dimensions;
-  }
-
-  fillSquare (x, y, color) {
-    let xStart = x * this.SQUARE_SIZE;
-    let yStart = y * this.SQUARE_SIZE;
-
-    this.ctx.beginPath();
-    this.ctx.rect(
-      xStart + snakewithus.SQUARE_PADDING,
-      yStart + snakewithus.SQUARE_PADDING,
-      this.SQUARE_SIZE - snakewithus.SQUARE_PADDING * 2,
-      this.SQUARE_SIZE - snakewithus.SQUARE_PADDING * 2
-    );
-    this.ctx.fillStyle = color;
-    this.ctx.fill();
-  }
-
-  drawImage (x, y, img) {
-    let size = this.SQUARE_SIZE - snakewithus.SQUARE_PADDING * 2;
-
-    let xStart = x * this.SQUARE_SIZE + snakewithus.SQUARE_PADDING;
-    let yStart = y * this.SQUARE_SIZE + snakewithus.SQUARE_PADDING;
-
-    this.ctx.drawImage(img, xStart, yStart, size, size);
-  }
-
-  fillCircle (x, y, color) {
-    let halfSquare = Math.round(this.SQUARE_SIZE / 2);
-    let xCenter = x * this.SQUARE_SIZE + halfSquare;
-    let yCenter = y * this.SQUARE_SIZE + halfSquare;
-    let radius = this.SQUARE_SIZE / 2 * snakewithus.FOOD_SIZE;
-
-    this.ctx.beginPath();
-    this.ctx.arc(xCenter, yCenter, radius, 0, 2 * Math.PI);
-    this.ctx.fillStyle = color;
-    this.ctx.fill();
-  }
-
 }

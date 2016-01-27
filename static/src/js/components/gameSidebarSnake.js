@@ -70,12 +70,6 @@ export default class GameSidebarSnake extends Component {
       tauntStyles.borderColor = this.props.snake.color;
     }
 
-    let life = 100 - (this.props.turn - (this.props.snake.last_eaten || 0))
-
-    if (this.props.isDead || life < 0) {
-      life = 0;
-    }
-
     let tauntClass = this.props.isDead ? 'dead' : 'alive';
 
     return (
@@ -84,7 +78,7 @@ export default class GameSidebarSnake extends Component {
         <h3>{this.props.snake.name} <span className="muted">({this.props.snake.coords.length})</span></h3>
         <div className="muted meta">
           <div className="col">
-            life: <strong>{life}</strong>
+            life: <strong>{this.props.snake.health}</strong>
           </div>
           <div className="col">
             food: {this.props.snake.food_eaten || 0}

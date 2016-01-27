@@ -20,13 +20,13 @@ def games_create():
     height = data.get('height', 20)
     turn_time = data.get('turn_time', 1)
 
-    snake_urls = data.get('snake_urls', [])
-    teamnames = data.get('teamnames', [])
+    team_dicts = data['teams']
 
     # Add all team snake URLs to snake_urls
+    snake_urls = []
     teams = []
-    for teamname in teamnames:
-        team = Team.find_one({'teamname': teamname})
+    for team_dict in team_dicts:
+        team = Team.find_one({'_id': team_dict['_id']})
         if not team:
             return json_response(msg='Team not found', status=404)
         if not team.ready_to_play():

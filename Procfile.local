@@ -1,3 +1,4 @@
 web: python bin/flask
 worker: python -m lib.worker
-static: npm run build:dev
+static: npm run build_dev
+watch_css: npm run watch_css

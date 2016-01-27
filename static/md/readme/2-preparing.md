@@ -31,13 +31,3 @@ BattleSnake is a team competition and we recommended teams of 2-4. You are welco
 Team registration will open at 11:00 am.
 
 To register, you'll need a team name and the email address of all team members.
-
-### Tournament Brackets
-
-This year's competition will be split into two brackets: one for beginner competitors and another for advanced teams.
-
-The _Beginner Bracket_ will feature basic gameplay mechanics and is ideal for first time attendees and/or novice programmers.
-
-The _Advanced Bracket_ will introduce new challenging gameplay mechanics and even greater prizes, ideal for BattleSnake veterans and teams wanting to compete against the best.
-
-Teams may decide which bracket they wish to enter during registration.

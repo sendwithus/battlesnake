@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 export default class GameListItem extends Component {
 
   render () {
-    let path = '/play/games/' + this.props.game._id
+    let path = '/app/games/' + this.props.game._id
     let tdStyles = { width: '20%' };
     let tbody = <tbody><tr></tr></tbody>;
 

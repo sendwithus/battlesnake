@@ -14,14 +14,9 @@ section.blue:after {
   z-index: 1;
   top: 0;
   left: 0;
-  background: rgba(67, 113, 170, 0);
-  background: -moz-linear-gradient(top, rgba(67, 113, 170, 0) 0%, #4371aa 100%);
-  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(67, 113, 170, 0)), color-stop(100%, #4371aa));
-  background: -webkit-linear-gradient(top, rgba(67, 113, 170, 0) 0%, #4371aa 100%);
-  background: -o-linear-gradient(top, rgba(67, 113, 170, 0) 0%, #4371aa 100%);
-  background: -ms-linear-gradient(top, rgba(67, 113, 170, 0) 0%, #4371aa 100%);
-  background: linear-gradient(to bottom, rgba(67, 113, 170, 0) 0%, #4371aa 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@blue', endColorstr='@blue', GradientType=0);
+  background: rgba(67, 113, 170, 0.5);
+  background: -webkit-linear-gradient(top, rgba(67, 113, 170, 0.5) 0%, #4371aa 100%);
+  background: linear-gradient(to bottom, rgba(67, 113, 170, 0.5) 0%, #4371aa 100%);
 }
 img {
   max-width: 90%;
@@ -31,7 +26,6 @@ img {
   position: relative;
   float: none;
   max-width: 950px;
-  text-align: center;
   background: none;
 }
 .container h3 {
@@ -80,14 +74,44 @@ img {
   color: #b1b1b1;
 }
 .container.sponsors .logo img {
-  opacity: .7;
-  transition: opacity .5s ease;
+  opacity: 0.7;
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   margin: 20px 0;
   max-width: 100% !important;
 }
 .container.sponsors .logo img:hover {
+  opacity: 1;
+}
+.container.code-review .no-pad {
+  padding: 0;
+}
+.container.code-review .logo-holder {
+  margin-bottom: 40px;
+}
+.container.code-review h4 {
+  clear: both;
+  font-weight: 700;
+}
+.container.code-review h4.gold {
+  color: #FEBF31;
+}
+.container.code-review h4.silver {
+  margin-top: 30px;
+  color: #b1b1b1;
+}
+.container.code-review .logo img {
+  opacity: 0.7;
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+  max-width: 100% !important;
+}
+.container.code-review .logo img:hover {
   opacity: 1;
 }
 .container .content {
@@ -101,7 +125,6 @@ img {
   margin: 0 0 30px;
   font-size: 16px;
   line-height: 24px;
-  text-align: left;
 }
 .container a {
   color: #FFC843;
@@ -147,7 +170,8 @@ img {
   position: relative;
   float: left;
   background: rgba(67, 113, 170, 0);
-  transition: all .5s ease;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
   z-index: 999;
   border-bottom: rgba(255, 255, 255, 0) 1px solid;
   box-shadow: 0 4px 17px rgba(0, 0, 0, 0);
@@ -180,7 +204,8 @@ img {
   font-size: 20px;
   text-align: center;
   padding: 10px 0;
-  transition: all .5s ease;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
   border-radius: 100px;
   z-index: 100;
   position: absolute;

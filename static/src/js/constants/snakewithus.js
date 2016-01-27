@@ -26,7 +26,7 @@ const snakewithus = {
     FOOD: '#E6D560',
     EMPTY: 'rgba(0, 0, 0, 0.2)',
     GOLD: 'rgba(255, 215, 0, 0.2)',
-    WALL: 'rgba(255, 0, 0, 0.2)'
+    WALL: 'rgba(0, 0, 0, 1)'
   },
   MAX_COLOR: 255,
   MIN_COLOR: 120,

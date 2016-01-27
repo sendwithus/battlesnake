@@ -148,67 +148,88 @@ export default class GameCreate extends Component {
     return (
       <div className="container">
         <form>
-          <h2>Create Game</h2>
-          <br />
-          {noTeamsMessage}
-          <ul>
-            {teamNames}
-          </ul>
-          <div className="input-group">
-            <select name="teamname"
-                    className="form-control"
-                    onChange={this.handleTeamChange}>
-              <option value="">Select a team</option>
-              {teamOpts}
-            </select>
-              <span className="input-group-btn">
-                <button type="submit"
-                        disabled={this.state.selectedTeam ? 'false' : 'true'}
-                        className="btn btn-success"
-                        onClick={this.handleAddTeam}>
-                  Add Team
-                </button>
-              </span>
-          </div>
-          <br/>
           <div className="row">
-            <div className="col-md-4">
-              <label>width</label>
-              <input type="number"
-                     className="form-control"
-                     placeholder="width"
-                     min="5"
-                     max="50"
-                     value={this.state.currentWidth}
-                     onChange={this.handleWidthChange}
-              />
-            </div>
-            <div className="col-md-4">
-              <label>height</label>
-              <input type="number"
-                     className="form-control"
-                     placeholder="height"
-                     min="5"
-                     max="50"
-                     value={this.state.currentHeight}
-                     onChange={this.handleHeightChange}
-              />
-            </div>
-            <div className="col-md-4">
-              <label>turn time</label>
-              <input type="number"
-                     step="0.1"
-                     min="0.1"
-                     className="form-control"
-                     placeholder="1.0 (seconds)"
-                     value={this.state.currentTimeout}
-                     onChange={this.handleTimeoutChange}
-              />
+            <div className="col-md-12">
+              <h2>Create Game</h2>
             </div>
           </div>
           <div className="row">
-            <div className="input-group">
-              <button type="button" className="btn btn-lg btn-success"
+            <div className="col-md-12">
+              {noTeamsMessage}
+              <br />
+              <ul className="">
+                {teamNames}
+              </ul>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="form-group">
+                <div className="input-group ">
+                  <select name="teamname"
+                          className="form-control "
+                          onChange={this.handleTeamChange}>
+                    <option value="">Select a team</option>
+                    {teamOpts}
+                  </select>
+                  <span className="input-group-btn">
+                    <button type="submit"
+                            disabled={this.state.selectedTeam ? false : 'on'}
+                            className="btn btn-success"
+                            onClick={this.handleAddTeam}>
+                      Add Team
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <br/>
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>width</label>
+                    <input type="number"
+                           className="form-control "
+                           placeholder="width"
+                           min="5"
+                           max="50"
+                           value={this.state.currentWidth}
+                           onChange={this.handleWidthChange}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>height</label>
+                    <input type="number"
+                           className="form-control "
+                           placeholder="height"
+                           min="5"
+                           max="50"
+                           value={this.state.currentHeight}
+                           onChange={this.handleHeightChange}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>turn time</label>
+                    <input type="number"
+                           step="0.1"
+                           min="0.1"
+                           className="form-control "
+                           placeholder="1.0 (seconds)"
+                           value={this.state.currentTimeout}
+                           onChange={this.handleTimeoutChange}
+                    />
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <br />
+              <button type="button" className="btn btn-lg btn-block btn-success"
                       onClick={this.handleGameCreate}
                       disabled={this.state.isLoading}>
                 {this.state.isLoading ? 'Contacting snakes...' : 'Start Game'}

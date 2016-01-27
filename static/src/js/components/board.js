@@ -42,7 +42,7 @@ export default class Board {
 
     innerBoardGroup.append('rect')
       .attr('class', 'inner-board')
-      .attr('fill', '#4371aa');
+      .attr('fill', '#333');
 
     this.boardGroup.append('g')
       .attr('class', 'cell-container');

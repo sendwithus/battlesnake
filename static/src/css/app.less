@@ -3,11 +3,12 @@
  */
 
 @blue: #4371aa;
+@black: #222;
 @white: #efefef;
 
 
 body {
-  background: @blue top center;
+  background: @black;
   color: @white;
   font-size: 16px;
 }
@@ -23,6 +24,14 @@ a {
 
 a:hover {
   color: #fff;
+}
+
+.text-white {
+  color: @white;
+}
+
+.text-yellow {
+  color: #F8F568;
 }
 
 .navbar .navbar-brand img {
@@ -53,6 +62,19 @@ a:hover {
 .btn:active {
   outline: 0 !important;
   box-shadow: none !important;
+}
+
+.btn-primary {
+  background: #60F360;
+  color: #154906;
+
+  // &:hover {
+  //   background-color: lighten();
+  // }
+  //
+  // &:active {
+  //   background-color: ;
+  // }
 }
 
 .btn-success {

@@ -2,7 +2,7 @@
  * App CSS
  */
 body {
-  background: #4371aa top center;
+  background: #222;
   color: #efefef;
   font-size: 16px;
 }
@@ -15,6 +15,12 @@ a {
 }
 a:hover {
   color: #fff;
+}
+.text-white {
+  color: #efefef;
+}
+.text-yellow {
+  color: #F8F568;
 }
 .navbar .navbar-brand img {
   height: 37px;
@@ -39,6 +45,10 @@ a:hover {
 .btn:active {
   outline: 0 !important;
   box-shadow: none !important;
+}
+.btn-primary {
+  background: #60F360;
+  color: #154906;
 }
 .btn-success {
   background: #F8F568;

@@ -63,13 +63,13 @@ class Snake(LocalSnake):
                 move = 'east'
 
         if not move:
-            if [head[0], head[1]-1] not in bad_tiles and head[1] != 0:
+            if [head[0], head[1]-1] not in bad_tiles and head[1] > 0:
                 move = 'north'
-            if [head[0], head[1]+1] not in bad_tiles and head[1] != len(payload['board'][0]):
+            if [head[0], head[1]+1] not in bad_tiles and head[1] < len(payload['board'][0]-1):
                 move = 'south'
-            if [head[0]-1, head[1]] not in bad_tiles and head[0] != 0:
+            if [head[0]-1, head[1]] not in bad_tiles and head[0] > 0:
                 move = 'west'
-            if [head[0]+1, head[1]] not in bad_tiles and head[0] != len(payload['board']):
+            if [head[0]+1, head[1]] not in bad_tiles and head[0] < len(payload['board']-1):
                 move = 'east'
 
         if payload['turn'] % 10 == 0:

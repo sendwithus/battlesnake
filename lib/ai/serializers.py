@@ -20,7 +20,7 @@ def serialize_game(game, game_state=None):
 
 
 def serialize_snake(snake):
-    return {
+    data = {
         'name': snake.name,
         'taunt': snake.taunt,
         'status': snake.status,
@@ -30,7 +30,11 @@ def serialize_snake(snake):
         'coords': snake.coords,
         'kills': snake.kills,
     }
-
+    if game.mode == Game.MODE_ADVANCED:
+        data.update({
+            'gold': snake.gold
+        })
+    return data
 
 def serialize_snakes(snakes):
     return [serialize_snake(snake) for snake in snakes]

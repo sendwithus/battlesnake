@@ -114,6 +114,7 @@ class Engine(object):
     SUICIDE = 'itself'
     WALL = 'wall'
     EDGE = 'edge'
+    GOLD = 'gold victory'
     LARGE_NUMBER = 999999
 
     @classmethod
@@ -163,20 +164,17 @@ class Engine(object):
         return Engine.add_snakes_to_board(game_state, snakes)
 
     @staticmethod
-    def check_snake_starvation(game_state):
-        for snake in copy.deepcopy(game_state.snakes):
-            if game_state.turn - snake.last_eaten > constants.HUNGER_THRESHOLD:
-                game_state.snakes.remove(snake)
-                snake.died_on_turn = game_state.turn
-                snake.killed_by = Engine.STARVATION
-                game_state.dead_snakes.append(snake)
-
-    @staticmethod
     def add_tile_to_board(game_state, tile_type):
 
         taken_tiles = []
         for snake in game_state.snakes:
             taken_tiles += [coord for coord in snake.coords]
+            # Give every snake head a 1 move buffer (so walls dont spawn in front of them)
+            taken_tiles.append([snake.coords[0][0]+1, snake.coords[0][1]])
+            taken_tiles.append([snake.coords[0][0]-1, snake.coords[0][1]])
+            taken_tiles.append([snake.coords[0][0], snake.coords[0][1]+1])
+            taken_tiles.append([snake.coords[0][0], snake.coords[0][1]-1])
+
         taken_tiles += [food for food in game_state.food]
         taken_tiles += [gold for gold in game_state.gold]
         taken_tiles += [wall for wall in game_state.walls]
@@ -361,6 +359,7 @@ class Engine(object):
                 for other_snake in new_snakes:
                     if other_snake.name not in kill and snake.name != other_snake.name:
                         kill.append(other_snake.name)
+                        snake.killed_by = Engine.GOLD
 
         # Kill Off Snakes
         for snake in new_snakes:

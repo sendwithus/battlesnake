@@ -13,17 +13,19 @@
                   <thead>
                       <tr>
                           <th>ID</th>
-                          <th>Name</th>
+                          <th>Team name</th>
                           <th>URL</th>
+                          <th>Type</th>
                           <th>Public?</th>
                       </tr>
                   </thead>
                   <tbody>
                       {% for team in teams %}
                           <tr>
-                              <td>{{ team.id }}</td>
+                              <td><a href="/team?admin_override_id={{ team.id }}">{{ team.id }}<a></td>
                               <td>{{ team.teamname }}</td>
                               <td>{{ team.snake_url }}</td>
+                              <td>{{ team.type }}</td>
                               <td>{{ team.is_public }}</td>
                           </tr>
                       {% endfor %}

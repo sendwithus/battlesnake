@@ -63,4 +63,4 @@ def register():
     logger.slack('New Registered Team: %s' % team.teamname)
 
     flash('New Registered Team: %s' % team.teamname)
-    return redirect(url_for('team'))
+    return redirect(url_for('register'))

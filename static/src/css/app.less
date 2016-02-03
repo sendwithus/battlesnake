@@ -6,6 +6,9 @@
 @black: #222;
 @white: #efefef;
 
+.text-bold {
+  font-weight: bold;
+}
 
 body {
   background: @black;
@@ -68,13 +71,15 @@ a:hover {
   background: #60F360;
   color: #154906;
 
-  // &:hover {
-  //   background-color: lighten();
-  // }
-  //
-  // &:active {
-  //   background-color: ;
-  // }
+  &:hover {
+    background-color: desaturate(darken(#60F360, 20%), 20%);
+    color: #154906;
+  }
+
+  &:active {
+    background-color: desaturate(darken(#60F360, 35%), 35%);
+    color: #154906;
+  }
 }
 
 .btn-success {

@@ -38,9 +38,6 @@ export default class GameListItem extends Component {
               <div className="name">
                 {snake.name}
               </div>
-              <div className="url muted">
-                {snake.url}
-              </div>
             </td>
             <td className="text-center stat">{snake.coords.length}</td>
             <td className="text-center stat">{snake.food_eaten || 0}</td>

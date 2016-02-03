@@ -21,7 +21,7 @@ def _update_slack(game_id, message):
 def _update_snakes(snakes, ai_responses):
     for snake in snakes:
         for ai_response in ai_responses:
-            if ai_response.snake.url == snake.url:
+            if ai_response.snake.team_id == snake.team_id:
                 if ai_response.error:
                     snake.error = ai_response.error
 
@@ -60,19 +60,19 @@ def rematch_game(game_id):
     game = Game.find_one({'_id': game_id})
     game_state = GameState.find({'game_id': game.id}, limit=1)[0]
 
-    snake_urls = []
+    team_ids = []
     for snake in game_state.snakes + game_state.dead_snakes:
-        snake_urls.append(snake.url)
+        team_ids.append(snake.team_id)
 
-    return create_game(snake_urls, game.width, game.height, game.turn_time, game.mode)[0]
+    return create_game(team_ids, game.width, game.height, game.turn_time, game.mode)[0]
 
 
-def create_game(snake_urls, width, height, turn_time, mode):
-    if not snake_urls or len(snake_urls) == 0:
-        raise Exception('No snake urls added. You need at least one...')
+def create_game(team_ids, width, height, turn_time, mode):
+    if not team_ids or len(team_ids) == 0:
+        raise Exception('No teams added. You need at least one...')
 
     # Create snakes and fetch whois for each
-    snakes = [Snake(url=snake_url) for snake_url in snake_urls]
+    snakes = [Snake(team_id=team_id) for team_id in team_ids]
     _update_snakes(snakes, ai.whois(snakes))
 
     # Create game

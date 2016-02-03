@@ -115,7 +115,6 @@ class Engine(object):
     WALL = 'wall'
     EDGE = 'edge'
     GOLD = 'gold victory'
-    LARGE_NUMBER = 999999
 
     @classmethod
     def create_game_state(cls, game_id, width, height, mode=Game.MODE_CLASSIC):

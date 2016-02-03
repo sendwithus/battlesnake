@@ -136,6 +136,14 @@ def _is_on_board(gs, point):
     return True
 
 
+def _is_wall(gs, point):
+    return point in gs.get('walls', [])
+
+
+def _is_gold(gs, point):
+    return point in gs.get('gold', [])
+
+
 def _is_snake(gs, point):
     for snake in gs['snakes']:
         if _has_just_eaten(snake):
@@ -172,6 +180,8 @@ def _get_safe_points(gs, start, min_moves=None):
             continue
         if _is_snake(gs, point):
             continue
+        if _is_wall(gs, point):
+            continue
 
         safe_points.append(point)
 
@@ -201,6 +211,18 @@ def _get_closest_food(gs, point):
             closest = food
         elif _calc_distance(point, food) < _calc_distance(point, closest):
             closest = food
+
+    return closest
+
+
+def _get_closest_gold(gs, point):
+    closest = None
+
+    for gold in gs.get('gold', []):
+        if not closest:
+            closest = gold
+        elif _calc_distance(point, gold) < _calc_distance(point, closest):
+            closest = gold
 
     return closest
 
@@ -246,18 +268,28 @@ def _generate_board(gs):
 def _stay_safe(gs, snake, head):
     tail = snake['coords'][-1]
 
-    # TODO: Choose food that's closest to your own body (Stay tight)
-    food = _get_closest_food(gs, head)
+    gold = _get_closest_gold(gs, head)
 
-    if food is None:
-        food_distance = 999999999
+    if gold is None:
+        gold_distance = 999999999
     else:
-        food_distance = _calc_distance(food, head)
+        gold_distance = _calc_distance(gold, head)
 
-    if food_distance < 3 or random.randint(0, 15) == 0:
-        dest = food
+    if gold_distance < 3 or random.randint(0, 15) == 0:
+        dest = gold
     else:
-        dest = tail
+        # TODO: Choose food that's closest to your own body (Stay tight)
+        food = _get_closest_food(gs, head)
+
+        if food is None:
+            food_distance = 999999999
+        else:
+            food_distance = _calc_distance(food, head)
+
+        if food_distance < 3 or random.randint(0, 15) == 0:
+            dest = food
+        else:
+            dest = tail
 
     # Get a direction vector (might be diagonal)
     move = _make_move_from_points(head, dest)

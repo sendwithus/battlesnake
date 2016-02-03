@@ -37,7 +37,6 @@ None
 {
     "color": "#FF0000",
     "head": "http://www.clker.com/cliparts/D/i/A/w/J/R/snake-no-white-drule-hi.png",
-    "name": "Well Documented Snake"
 }
 </code></pre>
 
@@ -176,6 +175,7 @@ Ignored, game is over.
 
 Snake objects have the following properties:
 
+* **id** - Snake ID. Use this value to find your snake, [find your ID here](http://www.battlesnake.io/team).
 * **name** - Snake Name
 * **status** - Status, either `alive` or `dead`
 * **message** - Friendly message describing this snakes last move
@@ -188,6 +188,7 @@ Snake objects have the following properties:
 
 <code><pre>
 {
+    "id": "1234-567890-123456-7890",
     "name": "Well Documented Snake",
     "status": "alive",
     "message": "Moved north",

@@ -17,5 +17,5 @@ if admin:
     admin.set_password(pw)
     admin.save()
 else:
-    admin = Team(teamname='admin', password=pw)
+    admin = Team(teamname='admin', password=pw, member_emails=['admin@battlesnake.io'])
     admin.insert()

@@ -8,7 +8,7 @@ from lib.ai import grequests
 from lib.ai.local import create_local_snake
 from lib.ai.serializers import serialize_game
 from lib.log import get_logger
-from lib.models.team import Team
+
 
 DEFAULT_TIMEOUT_SECONDS = 1.0
 
@@ -40,10 +40,6 @@ def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
     remote_snakes = []
 
     for snake in snakes:
-        # FIRST: Add url to snake
-        team = Team.find_one({'_id': snake.team_id})
-        snake.url = team.snake_url
-
         if snake.url.startswith('http://') or snake.url.startswith('https://'):
             remote_snakes.append(snake)
         elif snake.url.startswith('localsnake://'):
@@ -54,10 +50,6 @@ def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
     # Handle remote snakes first
     ai_responses = __call_remote_snakes(remote_snakes, method, endpoint, payload, timeout_seconds)
     ai_responses.extend(__call_local_snakes(local_snakes, endpoint, payload))
-
-    # LAST: Remove url from snakes
-    for response in ai_responses:
-        delattr(response.snake, 'url')
 
     return ai_responses
 
@@ -169,7 +161,6 @@ def __call_remote_snakes(snakes, method, endpoint, payload, timeout_seconds):
 def whois(snakes, timeout_seconds=DEFAULT_TIMEOUT_SECONDS):
     """
     Response:
-        - name
         - color
         - head
     """

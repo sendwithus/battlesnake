@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RouterContext from 'react-router';
 
+const GAME_MODES = [ "classic", "advanced" ];
 
 export default class GameCreate extends Component {
 
@@ -33,7 +34,8 @@ export default class GameCreate extends Component {
       teams: this.state.addedTeams,
       width: parseInt(this.state.currentWidth),
       height: parseInt(this.state.currentHeight),
-      turn_time: parseFloat(this.state.currentTimeout)
+      turn_time: parseFloat(this.state.currentTimeout),
+      mode: this.state.mode
     };
 
     this.setState({isLoading: true});
@@ -105,6 +107,10 @@ export default class GameCreate extends Component {
     this.setState(state);
   };
 
+  handleModeSelect = (e) => {
+    this.setState({ mode: e.target.value })
+  };
+
   componentDidMount () {
     // fetch list of teams
     $.ajax({
@@ -151,6 +157,14 @@ export default class GameCreate extends Component {
       );
     });
 
+    let gameModes = GAME_MODES.map((mode, i) => {
+      return (
+        <option key={'mode_opt_' + i} value={mode}>
+          {mode}
+        </option>
+      )
+    })
+
     if (this.state.addedTeams.length === 0) {
       teamNames.push(
         <li key="team_no_team_selected">
@@ -196,7 +210,7 @@ export default class GameCreate extends Component {
                 </div>
               </div>
               <div className="form-group">
-                <label>width</label>
+                <label>Width</label>
                 <input type="number"
                        className="form-control "
                        placeholder="width"
@@ -207,7 +221,7 @@ export default class GameCreate extends Component {
                 />
               </div>
               <div className="form-group">
-                <label>height</label>
+                <label>Height</label>
                 <input type="number"
                        className="form-control "
                        placeholder="height"
@@ -218,7 +232,7 @@ export default class GameCreate extends Component {
                 />
               </div>
               <div className="form-group">
-                <label>turn time</label>
+                <label>Turn time</label>
                 <input type="number"
                        step="0.1"
                        min="0.1"
@@ -227,6 +241,15 @@ export default class GameCreate extends Component {
                        value={this.state.currentTimeout}
                        onChange={this.handleTimeoutChange}
                 />
+              </div>
+              <div className="form-group">
+                <label>GAME MODE</label>
+                <select name="mode"
+                        className="form-control"
+                        onChange={this.handleModeSelect}>
+                  <option value="">Select a Game Mode</option>
+                  {gameModes}
+                </select>
               </div>
             </div>
           </div>

@@ -10,8 +10,18 @@ logger = logging.getLogger(__name__)
 
 
 class Team(Model):
+    def __init__(
+            self,
+            id=None,
+            teamname=None,
+            password='',
+            snake_url=None,
+            member_emails=None,
+            game_ids=None,
+            game_mode=Game.MODE_CLASSIC,
+            is_public=False,
+            is_bounty=False):
 
-    def __init__(self, id=None, teamname=None, password='', snake_url=None, member_emails=None, game_ids=None, is_public=False):
         super(Team, self).__init__()
 
         # Set Defaults
@@ -34,6 +44,8 @@ class Team(Model):
         self.member_emails = member_emails
         self.game_ids = game_ids
         self.is_public = is_public
+        self.game_mode = game_mode
+        self.is_bounty = is_bounty
 
         # Other things
 

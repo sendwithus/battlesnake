@@ -13,7 +13,7 @@
         <a href="/app/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Go back</a>
       </div>
       <div class="row text-center">
-        <h1 class="page-title"><img src="/static/img/img-coin.gif" style="width: 15px;margin: 5px 15px;border-radius: 100%;">Update Team<img src="/static/img/img-coin.gif" style="width: 15px;margin: 5px 15px;border-radius: 100%;"></h1>
+        <h1 class="page-title">{% include "partials/gold_coin_gif.html" %} Update Team {% include "partials/gold_coin_gif.html" %}</h1>
       </div>
 
       <div class="row">
@@ -61,7 +61,7 @@
                   <input type="text" id="add_member" name="add_member" class="form-control" placeholder="ie. John Smith" />
                 </div>
                 <div class="col-sm-3">
-                  <button type="submit" class="btn btn-block" style="background: #60F360; color: #154906; font-weight: bold">Update Team</button>
+                  <button type="submit" class="btn btn-block btn-primary text-bold">Update Team</button>
                 </div>
               </div>
             </fieldset>

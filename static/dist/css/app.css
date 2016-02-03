@@ -1,6 +1,9 @@
 /**
  * App CSS
  */
+.text-bold {
+  font-weight: bold;
+}
 body {
   background: #222;
   color: #efefef;
@@ -48,6 +51,14 @@ a:hover {
 }
 .btn-primary {
   background: #60F360;
+  color: #154906;
+}
+.btn-primary:hover {
+  background-color: #28c528;
+  color: #154906;
+}
+.btn-primary:active {
+  background-color: #277927;
   color: #154906;
 }
 .btn-success {

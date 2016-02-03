@@ -6,9 +6,7 @@ import snakewithus from '../constants/snakewithus';
 
 import Snake from './snake';
 
-
 export default class Board {
-
   constructor (container) {
     this.container = container;
 
@@ -119,9 +117,9 @@ export default class Board {
       food = this.svg.select('g.inner-board').selectAll('circle.food').data(gameState.food),
       snakes = this.svg.select('g.inner-board').selectAll('g.snake').data(gameState.snakes),
       snakeBits = snakes.selectAll('rect.snakeBit').data(function(d) { return d.coords; }),
-      gold = this.svg.select('g.inner-board').selectAll('circle.gold').data(gameState.gold),
       walls = this.svg.select('g.inner-board').selectAll('rect.wall').data(gameState.walls),
-      heads = d3.select(this.container).selectAll('img.head').data(gameState.snakes);
+      heads = d3.select(this.container).selectAll('img.head').data(gameState.snakes),
+      gold = d3.select(this.container).selectAll('img.gold').data(gameState.gold);
 
     // enters
     rows.enter().append('g')
@@ -131,12 +129,12 @@ export default class Board {
     food.enter().append('circle')
       .attr('class', 'food')
       .attr('fill', snakewithus.COLORS.FOOD);
-    gold.enter().append('circle')
+    gold.enter().append('img')
       .attr('class', 'gold')
       .attr('fill', snakewithus.COLORS.GOLD);
     walls.enter().append('rect')
       .attr('class', 'wall')
-      .attr('fill', snakewithus.COLORS.WALL);
+      .attr('fill', 'url(#bricks)');
     snakes.enter().append('g')
       .attr('class', 'snake');
     snakeBits.enter().append('rect')
@@ -162,16 +160,6 @@ export default class Board {
       .duration(0)
       .attr('cx', function(d){ return spacing + d[0] * bitWidth + bitWidth / 2 - spacing / 2; })
       .attr('cy', function(d){ return spacing + d[1] * bitWidth + bitWidth / 2 - spacing / 2; });
-    gold.transition()
-      .each('start', function() {
-        d3.select(this).attr('r', 0);
-      })
-      .each('end', function() {
-        d3.select(this).attr('r', (bitWidth / 2) - spacing);
-      })
-      .duration(0)
-      .attr('cx', function(d){ return spacing + d[0] * bitWidth + bitWidth / 2 - spacing / 2; })
-      .attr('cy', function(d){ return spacing + d[1] * bitWidth + bitWidth / 2 - spacing / 2; });
     walls.transition()
       .duration(0)
       .attr('x', function(d) { return spacing + d[0] * bitWidth })
@@ -190,15 +178,22 @@ export default class Board {
         } else {
           return gameState.snakes[n].color;
         }
-
       });
     heads.transition().duration(0)
       .attr('src', function(d) { return d.head; })
       .attr('width', bitWidth - spacing)
       .attr('height', bitWidth - spacing)
       .style('position', 'absolute')
-      .style('left', function(d) {return xOffs + innerBoardPadding + spacing + 15 + d.coords[0][0] * bitWidth + 'px'; })
+      .style('left', function(d) { return xOffs + innerBoardPadding + spacing + 15 + d.coords[0][0] * bitWidth + 'px'; })
       .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d.coords[0][1] * bitWidth + 'px'; });
+    gold.transition().duration(0)
+      .attr('src', '/static/img/img-coin.gif')
+      .style('border-radius', '100%')
+      .attr('width', bitWidth - spacing)
+      .attr('height', bitWidth - spacing)
+      .style('position', 'absolute')
+      .style('left', function(d) { return xOffs + innerBoardPadding + spacing + 15 + d[0] * bitWidth + 'px'; })
+      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d[1] * bitWidth + 'px'; });
 
     // exits
     food.exit().remove();

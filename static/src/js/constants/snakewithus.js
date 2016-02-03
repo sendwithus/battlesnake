@@ -23,7 +23,7 @@ const snakewithus = {
     DEAD: 'dead'
   },
   COLORS: {
-    FOOD: '#E6D560',
+    FOOD: '#5BC236',
     EMPTY: 'rgba(0, 0, 0, 0.2)',
     GOLD: 'rgba(255, 215, 0, 0.2)',
     WALL: 'rgba(0, 0, 0, 1)'

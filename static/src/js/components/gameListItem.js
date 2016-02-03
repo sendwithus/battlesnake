@@ -80,9 +80,9 @@ export default class GameListItem extends Component {
 
     let watchLink;
     if (this.props.game.state === 'done') {
-      watchLink = <a href={path} className="btn btn-info pull-right">Watch Replay</a>
+      watchLink = <a href={path} className="btn btn-primary pull-right">Watch Replay</a>
     } else {
-      watchLink = <a href={path} className="btn btn-success pull-right">View Live</a>
+      watchLink = <a href={path} className="btn btn-primary pull-right">View Live</a>
     }
 
     return (

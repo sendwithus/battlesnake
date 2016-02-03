@@ -71,26 +71,38 @@ a:hover {
   background: #60F360;
   color: #154906;
 
+  &.active,
+  &.active:hover,
   &:hover {
     background-color: desaturate(darken(#60F360, 20%), 20%);
     color: #154906;
   }
 
-  &:active {
-    background-color: desaturate(darken(#60F360, 35%), 35%);
+  &.active:focus,
+  &:active:focus,
+  &:active,
+  &:focus {
+    background-color: desaturate(darken(#60F360, 20%), 35%);
     color: #154906;
   }
 }
 
 .btn-success {
   background: #F8F568;
-  color: #000;
+  color: #222;
 
+  &.active,
+  &.active:hover,
   &:hover {
+    color: #222;
     background-color: #C7C308;
   }
 
-  &:active {
+  &.active:focus,
+  &:active:focus,
+  &:active,
+  &:focus {
+    color: #222;
     background-color: #ABA700;
   }
 }
@@ -99,12 +111,17 @@ a:hover {
   background-color: #9e0000;
   color: #fff;
 
+  &.active,
+  &.active:hover,
   &:hover {
     background-color: #890000;
     color: #ccc;
   }
 
-  &:active {
+  &.active:focus,
+  &:active:focus,
+  &:active,
+  &:focus {
     background-color: #720000;
     color: #aaa;
   }
@@ -260,6 +277,23 @@ a:hover {
   font-size: 14px;
 }
 
+
+/** Team create page **/
+.team-member-list {
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  li {
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    border: solid 1px #333;
+    background: rgba(0,0,0,.2);
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
 
 
 /** MEDIA QUERIES **/

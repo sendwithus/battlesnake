@@ -117,7 +117,7 @@ def login():
         login_user(team)
         return redirect(next)
     else:
-        return form_error('Bad team name or password')
+        return form_error('Bad email or password')
 
 
 @app.route("/logout")

@@ -152,10 +152,10 @@ def run_game(game):
     # We have exclusive game access now
     logger.info('Starting game: %s', game.id)
 
-    while game.state != Game.STATE_DONE:
+    while True:
         start_time = time.time()
 
-        # moves = fetch_moves_async
+        # Refresh game data
         game = game.refetch()
 
         if game.state == Game.STATE_PAUSED:
@@ -166,23 +166,18 @@ def run_game(game):
             logger.info('Aborted game: %s', game)
             break
 
-        try:
-            new_game_state = next_turn(game)
-        except Exception:
-            logger.exception('Failed to insert game state for %s', game)
-            break
-
+        new_game_state = next_turn(game)
         logger.info('Finished turn: %s', new_game_state)
 
         if new_game_state.is_done:
             end_game(game, new_game_state)
+            break
 
-        else:
-            # Wait at least
-            elasped_time = time.time() - start_time
-            sleep_for = max(0, float(game.turn_time) - elasped_time)
-            logger.info('Sleeping for %.2f: %s', sleep_for, new_game_state.id)
-            time.sleep(sleep_for)
+        # Wait at least turn_time
+        elasped_time = time.time() - start_time
+        sleep_for = max(0, float(game.turn_time) - elasped_time)
+        logger.info('Sleeping for %.2f: %s', sleep_for, new_game_state.id)
+        time.sleep(sleep_for)
 
     logger.info('Done: %s', new_game_state)
 

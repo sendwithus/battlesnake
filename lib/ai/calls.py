@@ -193,5 +193,7 @@ def end(game, game_state):
     Response:
         None
     """
+    all_snakes = (game_state.snakes + game_state.dead_snakes)
+
     payload = serialize_game(game, game_state)
-    return __call_snakes(game_state.snakes, 'POST', 'end', payload, game.turn_time)
+    return __call_snakes(all_snakes, 'POST', 'end', payload, game.turn_time)

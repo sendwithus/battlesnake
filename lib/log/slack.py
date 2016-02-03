@@ -42,7 +42,7 @@ class SlackLogHandler(logging.Handler):
                     'text': self.format(record),
                     'username': 'logger.slack',
                     'icon_emoji': ':snake:',
-                    'channel': '#general'
+                    'channel': '#logger'
                 }
 
                 requests.post(

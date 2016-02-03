@@ -23,12 +23,13 @@
       <div class="row">
         <div class="col-sm-6">
           <div class="row">
-            <h2>Team Info</h2>
+            <h2>Snake Info</h2>
+            <p class="text-bold">ID: <code>{{ team.id }}</code></p>
             <p class="text-bold">Name: {{ team.teamname }}</p>
-            <p class="text-bold">Snake URL: <a href="/team/test">Test Snake @ {{ team.snake_url }}</a></p>
+            <p class="text-bold">URL: <a href="{{ team.snake_url }}" target="_blank">{{ team.snake_url }}</a></p>
           </div>
           <div class="row">
-            <h2>Members</h2>
+            <h2>Team Members</h2>
             <ul>
               {% for email in team.member_emails %}
               <li>{{ email }}</li>
@@ -42,7 +43,7 @@
             <fieldset class="row">
               <div class="form-group">
                 <label for="teamname" class="control-label">Team Name:</label>
-                <input type="text" id="teamname" name="teamname" class="form-control" value="{{ team.teamname }}" placeholder="ie. John Smith" />
+                <input type="text" id="teamname" name="teamname" class="form-control" value="{{ team.teamname }}" placeholder="Jane Doe" />
               </div>
               <div class="form-group">
                 <label for="snake_url" class="control-label">Snake URL:</label>
@@ -58,7 +59,8 @@
               <div class="form-group">
                 <label for="add_member" class="control-label col-sm-3">Add a team member:</label>
                 <div class="col-sm-6">
-                  <input type="text" id="add_member" name="add_member" class="form-control" placeholder="ie. John Smith" />
+                  <input type="email" id="add_member" name="add_member" class="form-control"
+                         placeholder="member@domain.com" />
                 </div>
                 <div class="col-sm-3">
                   <button type="submit" class="btn btn-block btn-primary text-bold">Update Team</button>

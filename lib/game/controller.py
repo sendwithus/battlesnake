@@ -8,6 +8,8 @@ import lib.ai as ai
 from lib.game.engine import Engine, Snake
 from lib.log import get_logger
 from lib.models.game import Game, GameState
+from lib.models.team import Team
+
 
 BATTLESNAKE_URL = 'http://www.battlesnake.io/app/games'
 
@@ -27,8 +29,6 @@ def _update_snakes(snakes, ai_responses):
 
                 else:
                     snake.error = None
-                    if hasattr(ai_response, 'name'):
-                        snake.name = ai_response.name
                     if hasattr(ai_response, 'color'):
                         snake.color = ai_response.color
                     if hasattr(ai_response, 'head'):
@@ -60,19 +60,22 @@ def rematch_game(game_id):
     game = Game.find_one({'_id': game_id})
     game_state = GameState.find({'game_id': game.id}, limit=1)[0]
 
-    team_ids = []
-    for snake in game_state.snakes + game_state.dead_snakes:
-        team_ids.append(snake.team_id)
+    teams = [
+        Team.find_one({'_id': snake.team_id})
+        for snake in game_state.snakes + game_state.dead_snakes
+    ]
+    return create_game(teams, game.width, game.height, game.turn_time, game.mode)[0]
 
-    return create_game(team_ids, game.width, game.height, game.turn_time, game.mode)[0]
 
-
-def create_game(team_ids, width, height, turn_time, mode):
-    if not team_ids or len(team_ids) == 0:
+def create_game(teams, width, height, turn_time, mode):
+    if not teams or len(teams) == 0:
         raise Exception('No teams added. You need at least one...')
 
     # Create snakes and fetch whois for each
-    snakes = [Snake(team_id=team_id) for team_id in team_ids]
+    snakes = [
+        Snake(team_id=team.id, url=team.snake_url, name=team.teamname)
+        for team in teams
+    ]
     _update_snakes(snakes, ai.whois(snakes))
 
     # Create game

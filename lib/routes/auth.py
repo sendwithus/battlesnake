@@ -78,7 +78,6 @@ def admin_only(func):
     return func
 
 
-
 def is_admin_only():
     """Returns True if the current route is only avail to admins, False otherwise """
     endpoint = current_app.view_functions.get(request.endpoint)
@@ -89,12 +88,12 @@ def is_admin_only():
 
 
 @login_manager.user_loader
-def load_team(teamname):
-    """Given teamname, return the associated Team object.
+def load_team(id):
+    """Given id, return the associated Team object.
 
-    :param teamname: team to retrieve
+    :param id: team to retrieve
     """
-    return Team.find_one({'teamname': teamname})
+    return Team.find_one({'_id': id})
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -107,18 +106,18 @@ def login():
     next = request.values.get('next') or 'app'
 
     try:
-        teamname = data['teamname']
+        email = data['email']
         password = data['password']
     except KeyError as e:
         return form_error('Missing field: "%s"' % e.message)
 
-    team = load_team(teamname)
+    team = Team.find_one({'member_emails': email})
 
     if team and team.check_password(password):
         login_user(team)
         return redirect(next)
     else:
-        return form_error('Bad team name or password')
+        return form_error('Bad email or password')
 
 
 @app.route("/logout")

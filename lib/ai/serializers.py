@@ -22,6 +22,7 @@ def serialize_game(game, game_state=None):
 
 def serialize_snake(game, snake):
     data = {
+        'id': snake.team_id,
         'name': snake.name,
         'taunt': snake.taunt,
         'status': snake.status,

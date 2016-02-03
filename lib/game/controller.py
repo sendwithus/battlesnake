@@ -163,7 +163,7 @@ def run_game(game):
             break
 
         if game.state != Game.STATE_PLAYING:
-            logger.info('Abored game: %s', game)
+            logger.info('Aborted game: %s', game)
             break
 
         try:

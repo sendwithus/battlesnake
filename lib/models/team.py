@@ -39,6 +39,14 @@ class Team(Model):
 
         self.set_password(password)
 
+    # Override save to enforce some things
+    def save(self):
+        # Remove trailing slashes from Snake URLS
+        if self.snake_url:
+            self.snake_url = self.snake_url.rstrip("/")
+
+        super(Team, self).save()
+
     @staticmethod
     def _generate_id():
         return str(uuid.uuid4())

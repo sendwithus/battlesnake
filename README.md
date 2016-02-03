@@ -68,22 +68,22 @@ Only the 'admin' team can make certain changes such as registering teams. The fi
 
 __Managing database__
 
-Occasionally, you may need to blow away the MongoDB database or something. Hopefully not in production.
+Occasionally, you may need to drop a collection in the MongoDB database (obv not in production).
 
     $ vagrant ssh
     [Connects to VM]
-    $ mongo
+    $ mongo battlesnake
     MongoDB shell version: 3.0.8
-    connecting to: test
-    > use battlesnake
+    connecting to: battlesnake
     > show collections
     system.indexes
     team
     user
-    > db.team.find()
-    > db.team.remove({})
-    > db.dropDatabase()
+    > db.COLLECTION_NAME_HERE.remove({})
     > exit
+    bye
+    $ exit
+    [logout of VM]
 
 __2015 Source Code__
 * [github.com/sendwithus/battlesnake-legacy](http://github.com/sendwithus/battlesnake-legacy)

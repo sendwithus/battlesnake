@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import RouterContext from 'react-router';
 
-const GAME_MODES = [ "classic", "advanced" ];
+const GAME_MODES = [
+  'classic',
+  'advanced'
+];
 
 export default class GameCreate extends Component {
 
@@ -76,14 +79,21 @@ export default class GameCreate extends Component {
   handleTeamChange = (e) => {
     let i = parseInt(e.target.value, 10);
     let team = this.state.availableTeams[i];
-    // window.EEE = e;
+    console.dir(this.state.availableTeams);
     this.setState({selectedTeam: team});
   };
 
   handleDeleteTeam = (i, e) => {
-    let teams = this.state.addedTeams;
-    teams.splice(i, 1);
-    this.setState({addedTeams: teams});
+    let availableTeams = this.state.availableTeams;
+    let addedTeams = this.state.addedTeams;
+
+    availableTeams.push(addedTeams[i]);
+    addedTeams.splice(i, 1);
+
+    this.setState({
+      addedTeams: addedTeams,
+      availableTeams: availableTeams
+    });
   };
 
   handleAddTeam = (e) => {
@@ -93,7 +103,6 @@ export default class GameCreate extends Component {
     let availableTeams = this.state.availableTeams;
 
     allTeams.push(currentTeam);
-
     _.remove(availableTeams, (team) => {
       return team._id === currentTeam._id
     });

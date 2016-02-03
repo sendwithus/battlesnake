@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 export default class GameSidebarSnake extends Component {
 
   state = {
@@ -23,7 +22,7 @@ export default class GameSidebarSnake extends Component {
   componentDidMount () {
     let img = this.refs.head;
     img.onerror = () => {
-      this.setAttribute('src', 'http://www.battlesnake.io/static/img/default_head.gif');
+      img.setAttribute('src', `${window.location.origin}/static/img/default_head.gif`);
       this.onerror = undefined;
     }
   }

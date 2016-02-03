@@ -7,7 +7,8 @@ export default class Navbar extends Component {
       // Default nav links
       ['/app/games', 'Games'],
       ['/app/game/new', 'New'],
-      ['/team', 'My Team']
+      ['/team', 'My Team'],
+      ['/logout', 'Logout']
     ]
   };
 

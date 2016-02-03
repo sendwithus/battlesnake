@@ -4,6 +4,7 @@ import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from lib.models.base import Model
+from lib.models.game import Game
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +73,9 @@ class Team(Model):
             'snake_url': self.snake_url,
             'member_emails': self.member_emails,
             'game_ids': self.game_ids,
+            'game_mode': self.game_mode,
             'is_public': self.is_public,
+            'is_bounty': self.is_bounty,
         }
 
     def serialize(self):
@@ -91,6 +94,10 @@ class Team(Model):
         instance.pw_hash = obj['pw_hash']
         instance.game_ids = obj['game_ids']
         instance.is_public = obj['is_public']
+        instance.game_mode = obj.get('game_mode', Game.MODE_CLASSIC)
+        instance.is_bounty = obj.get('is_bounty', False)
+        # NOTE: Using dict.get() on some of these so we don't have to do migrations
+
         return instance
 
     def ready_to_play(self):

@@ -8,6 +8,7 @@ from lib.models.team import Team
 from lib.routes.auth import admin_only
 from lib.server import app, form_error
 
+
 logger = get_logger(__name__)
 
 

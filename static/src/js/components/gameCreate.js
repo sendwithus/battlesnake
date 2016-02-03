@@ -151,13 +151,13 @@ export default class GameCreate extends Component {
           <div className="row">
             <div className="col-md-12">
               <h2>Create Game</h2>
+              <br />
             </div>
           </div>
           <div className="row">
             <div className="col-md-12">
-              {noTeamsMessage}
-              <br />
-              <ul className="">
+              <h3>Team Members</h3>
+              <ul className="team-member-list list-unstyled">
                 {teamNames}
               </ul>
             </div>

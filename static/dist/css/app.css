@@ -53,33 +53,50 @@ a:hover {
   background: #60F360;
   color: #154906;
 }
+.btn-primary.active,
+.btn-primary.active:hover,
 .btn-primary:hover {
   background-color: #28c528;
   color: #154906;
 }
-.btn-primary:active {
-  background-color: #277927;
+.btn-primary.active:focus,
+.btn-primary:active:focus,
+.btn-primary:active,
+.btn-primary:focus {
+  background-color: #3ab33a;
   color: #154906;
 }
 .btn-success {
   background: #F8F568;
-  color: #000;
+  color: #222;
 }
+.btn-success.active,
+.btn-success.active:hover,
 .btn-success:hover {
+  color: #222;
   background-color: #C7C308;
 }
-.btn-success:active {
+.btn-success.active:focus,
+.btn-success:active:focus,
+.btn-success:active,
+.btn-success:focus {
+  color: #222;
   background-color: #ABA700;
 }
 .btn-info {
   background-color: #9e0000;
   color: #fff;
 }
+.btn-info.active,
+.btn-info.active:hover,
 .btn-info:hover {
   background-color: #890000;
   color: #ccc;
 }
-.btn-info:active {
+.btn-info.active:focus,
+.btn-info:active:focus,
+.btn-info:active,
+.btn-info:focus {
   background-color: #720000;
   color: #aaa;
 }
@@ -206,6 +223,20 @@ a:hover {
 }
 .game-summary .snake-name .url {
   font-size: 14px;
+}
+/** Team create page **/
+.team-member-list {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.team-member-list li {
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  border: solid 1px #333;
+  background: rgba(0, 0, 0, 0.2);
+}
+.team-member-list p {
+  margin-bottom: 0;
 }
 /** MEDIA QUERIES **/
 @media (max-width: 767px) {

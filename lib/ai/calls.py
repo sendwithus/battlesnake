@@ -8,7 +8,7 @@ from lib.ai import grequests
 from lib.ai.local import create_local_snake
 from lib.ai.serializers import serialize_game
 from lib.log import get_logger
-
+from lib.models.team import Team
 
 DEFAULT_TIMEOUT_SECONDS = 1.0
 
@@ -36,11 +36,14 @@ class AIResponse(object):
 
 
 def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
-
     local_snakes = []
     remote_snakes = []
 
     for snake in snakes:
+        # FIRST: Add url to snake
+        team = Team.find_one({'_id': snake.team_id})
+        snake.url = team.snake_url
+
         if snake.url.startswith('http://') or snake.url.startswith('https://'):
             remote_snakes.append(snake)
         elif snake.url.startswith('localsnake://'):
@@ -51,6 +54,10 @@ def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
     # Handle remote snakes first
     ai_responses = __call_remote_snakes(remote_snakes, method, endpoint, payload, timeout_seconds)
     ai_responses.extend(__call_local_snakes(local_snakes, endpoint, payload))
+
+    # LAST: Remove url from snakes
+    for response in ai_responses:
+        delattr(response.snake, 'url')
 
     return ai_responses
 
@@ -193,5 +200,7 @@ def end(game, game_state):
     Response:
         None
     """
+    all_snakes = (game_state.snakes + game_state.dead_snakes)
+
     payload = serialize_game(game, game_state)
-    return __call_snakes(game_state.snakes, 'POST', 'end', payload, game.turn_time)
+    return __call_snakes(all_snakes, 'POST', 'end', payload, game.turn_time)

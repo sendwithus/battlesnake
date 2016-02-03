@@ -11,11 +11,11 @@ class Snake(object):
     STATUS_DEAD = 'dead'
     FULL_HEALTH = 100
 
-    def __init__(self, url, name='', color='', head='', taunt='', coords=[]):
+    def __init__(self, team_id, name='', color='', head='', taunt='', coords=[]):
 
         super(Snake, self).__init__()
 
-        self.url = url
+        self.team_id = team_id
         self.name = name
         self.color = color
         self.head = head
@@ -42,7 +42,7 @@ class Snake(object):
 
     def to_dict(self):
         return {
-            'url': self.url,
+            'team_id': self.team_id,
             'name': self.name,
             'color': self.color,
             'head': self.head,
@@ -62,7 +62,7 @@ class Snake(object):
 
     @classmethod
     def from_dict(cls, obj):
-        snake = cls(obj['url'], obj['name'], obj['color'], obj['head'], obj['taunt'])
+        snake = cls(obj['team_id'], obj['name'], obj['color'], obj['head'], obj['taunt'])
         snake.status = obj['status']
         snake.message = obj['message']
         snake.age = obj['age']

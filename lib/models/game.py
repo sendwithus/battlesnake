@@ -160,7 +160,7 @@ class GameState(Model):
         for snake in self.snakes:
             for coord in snake.coords:
                 for check_snake in self.snakes:
-                    if snake.url == check_snake.url:
+                    if snake.team_id == check_snake.team_id:
                         continue
                     if coord in check_snake.coords:
                         raise ValueError('board.snakes contains overlapping coords.')

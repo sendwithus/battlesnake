@@ -23,13 +23,13 @@
       <div class="row">
         <div class="col-sm-6">
           <div class="row">
-            <h2>Team Info</h2>
+            <h2>Snake Info</h2>
             <p class="text-bold">ID: <code>{{ team.id }}</code></p>
             <p class="text-bold">Name: {{ team.teamname }}</p>
-            <p class="text-bold">Snake URL: <a href="{{ team.snake_url }}" target="_blank">{{ team.snake_url }}</a></p>
+            <p class="text-bold">URL: <a href="{{ team.snake_url }}" target="_blank">{{ team.snake_url }}</a></p>
           </div>
           <div class="row">
-            <h2>Members</h2>
+            <h2>Team Members</h2>
             <ul>
               {% for email in team.member_emails %}
               <li>{{ email }}</li>

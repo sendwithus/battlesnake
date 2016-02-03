@@ -69,7 +69,7 @@ class Team(Model):
 
     # Flask-Login interface method
     def get_id(self):
-        return self.teamname
+        return self.id
 
     # Flask-Login interface method
     def is_authenticated(self):

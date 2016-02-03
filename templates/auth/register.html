@@ -28,12 +28,16 @@
                 <input type="hidden" name="next" value="{{ request.args.next }}">
                 <fieldset class="row">
                   <div class="form-group">
-                    <label for="teamname" class="control-label">Team Name:</label>
+                    <label for="teamname" class="control-label">Team Name (can change later):</label>
                     <input type="text" id="teamname" class="form-control" name="teamname" placeholder="The Can't-acondas">
                   </div>
                   <div class="form-group">
+                    <label for="email" class="control-label">Primary Email:</label>
+                    <input type="email" id="email" class="form-control" name="email" placeholder="email@domain.com">
+                  </div>
+                  <div class="form-group">
                     <label for="password" class="control-label">Password:</label>
-                    <input type="password" id="password" class="form-control" name="password" placeholder="******">
+                    <input type="password" id="password" class="form-control" name="password" placeholder="**************">
                   </div>
                   <div class="form-group text-center">
                     <button type="submit" class="btn btn-primary btn-block text-bold">Register</button>

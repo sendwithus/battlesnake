@@ -32,20 +32,28 @@ def register():
     try:
         teamname = data['teamname']
         password = data['password']
+        email = data['email']
     except KeyError as e:
         return form_error('Missing field: "%s"' % e.message)
 
-    if teamname == '':
-        return form_error('Missing field: "teamname"')
+    if not teamname:
+        return form_error('Missing team name')
 
-    if password == '':
-        return form_error('Missing field: "password"')
+    if len(password) < 6:
+        return form_error('Password must be at least 6 characters')
+
+    if not email:
+        return form_error('Missing email address')
 
     existing_team = Team.find_one({'teamname': teamname})
     if existing_team:
         return form_error('Team name already exists')
 
-    team = Team(teamname=teamname, password=password)
+    team = Team(
+        teamname=teamname,
+        password=password,
+        member_emails=[email]
+    )
 
     try:
         team.insert()

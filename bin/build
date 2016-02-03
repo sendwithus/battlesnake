@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Run the compilation
+npm run build_dev

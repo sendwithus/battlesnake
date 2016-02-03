@@ -23,8 +23,8 @@ def games_create():
 
     team_dicts = data['teams']
 
-    # Add all team snake URLs to snake_urls
-    snake_urls = []
+    # Add all teams to snake_urls
+    team_ids = []
     teams = []
     for team_dict in team_dicts:
         team = Team.find_one({'_id': team_dict['_id']})
@@ -35,13 +35,13 @@ def games_create():
             return json_error(error)
 
         teams.append(team)
-        snake_urls.append(team.snake_url)
+        team_ids.append(team.id)
 
     try:
         game, game_state = controller.create_game(
             width=width,
             height=height,
-            snake_urls=snake_urls,
+            team_ids=team_ids,
             turn_time=turn_time,
             mode=mode
         )

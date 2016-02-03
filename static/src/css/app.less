@@ -67,14 +67,28 @@ a:hover {
   box-shadow: none !important;
 }
 
+.btn-primary,
+.btn-success,
+.btn-info {
+  &.disabled,
+  &:disabled,
+  &.disabled:hover,
+  &:disabled:hover {
+    cursor: not-allowed;
+    background-color: desaturate(darken(#60F360, 35%), 20%);
+    color: #000;
+  }
+}
+
 .btn-primary {
   background: #60F360;
   color: #154906;
 
-  &.active,
-  &.active:hover,
-  &:hover {
-    background-color: desaturate(darken(#60F360, 20%), 20%);
+  &.active:focus,
+  &:active:focus,
+  &:active,
+  &:focus {
+    background-color: desaturate(darken(#60F360, 20%), 35%);
     color: #154906;
   }
 

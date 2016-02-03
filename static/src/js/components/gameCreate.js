@@ -117,13 +117,6 @@ export default class GameCreate extends Component {
   }
 
   render () {
-    let noTeamsMessage = '';
-    if (!this.state.addedTeams.length) {
-      noTeamsMessage = (
-        <p>You have no teams added. Select a team in the box below...</p>
-      );
-    }
-
     let teamOpts = this.state.availableTeams.map((team, i) => {
       return (
         <option key={'team_opt_' + i} value={i}>
@@ -145,6 +138,16 @@ export default class GameCreate extends Component {
       );
     });
 
+    if (this.state.addedTeams.length === 0) {
+      teamNames.concat(() => {
+        return (
+          <li>
+            <p>You have no teams added. Select a team in the box below...</p>
+          </li>
+        )
+      });
+    }
+
     return (
       <div className="container">
         <form>
@@ -155,15 +158,13 @@ export default class GameCreate extends Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-4">
               <h3>Team Members</h3>
               <ul className="team-member-list list-unstyled">
                 {teamNames}
               </ul>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-6 col-md-push-2">
               <div className="form-group">
                 <div className="input-group ">
                   <select name="teamname"
@@ -196,8 +197,7 @@ export default class GameCreate extends Component {
                            onChange={this.handleWidthChange}
                     />
                   </div>
-                </div>
-                <div className="col-md-4">
+
                   <div className="form-group">
                     <label>height</label>
                     <input type="number"
@@ -209,8 +209,7 @@ export default class GameCreate extends Component {
                            onChange={this.handleHeightChange}
                     />
                   </div>
-                </div>
-                <div className="col-md-4">
+
                   <div className="form-group">
                     <label>turn time</label>
                     <input type="number"

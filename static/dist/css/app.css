@@ -49,14 +49,31 @@ a:hover {
   outline: 0 !important;
   box-shadow: none !important;
 }
+.btn-primary.disabled,
+.btn-success.disabled,
+.btn-info.disabled,
+.btn-primary:disabled,
+.btn-success:disabled,
+.btn-info:disabled,
+.btn-primary.disabled:hover,
+.btn-success.disabled:hover,
+.btn-info.disabled:hover,
+.btn-primary:disabled:hover,
+.btn-success:disabled:hover,
+.btn-info:disabled:hover {
+  cursor: not-allowed;
+  background-color: #1b851b;
+  color: #000;
+}
 .btn-primary {
   background: #60F360;
   color: #154906;
 }
-.btn-primary.active,
-.btn-primary.active:hover,
-.btn-primary:hover {
-  background-color: #28c528;
+.btn-primary.active:focus,
+.btn-primary:active:focus,
+.btn-primary:active,
+.btn-primary:focus {
+  background-color: #3ab33a;
   color: #154906;
 }
 .btn-primary.active:focus,

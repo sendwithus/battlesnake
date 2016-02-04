@@ -32,7 +32,7 @@ def load_users():
         app.logger.info('no auth, redirecting')
         return login_manager.unauthorized()
 
-    if is_admin_only() and not current_user.teamname == 'admin':
+    if is_admin_only() and not current_user.type == Team.TYPE_ADMIN:
         return "You do not have access", 403
 
     g.team = current_user

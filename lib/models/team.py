@@ -10,6 +10,12 @@ logger = logging.getLogger(__name__)
 
 
 class Team(Model):
+    TYPE_NORMAL = 'normal' # Standard contestant snake, only type allowed in tournament
+    TYPE_ADMIN  = 'admin'  # Is an super user team (doesn't appear in the UI at all)
+    TYPE_BOUNTY = 'bounty' # Bounty snake from a sponsor
+    TYPE_TEST   = 'test'   # Snake to test against
+    TYPE_VALUES = [TYPE_NORMAL, TYPE_ADMIN, TYPE_BOUNTY, TYPE_TEST]
+
     def __init__(
             self,
             id=None,
@@ -20,7 +26,7 @@ class Team(Model):
             game_ids=None,
             game_mode=Game.MODE_CLASSIC,
             is_public=False,
-            is_bounty=False):
+            type=TYPE_NORMAL):
 
         super(Team, self).__init__()
 
@@ -45,7 +51,7 @@ class Team(Model):
         self.game_ids = game_ids
         self.is_public = is_public
         self.game_mode = game_mode
-        self.is_bounty = is_bounty
+        self.type = type
 
         # Other things
 
@@ -95,7 +101,7 @@ class Team(Model):
             'game_ids': self.game_ids,
             'game_mode': self.game_mode,
             'is_public': self.is_public,
-            'is_bounty': self.is_bounty,
+            'type': self.type,
         }
 
     def serialize(self):
@@ -115,7 +121,9 @@ class Team(Model):
         instance.game_ids = obj['game_ids']
         instance.is_public = obj['is_public']
         instance.game_mode = obj.get('game_mode', Game.MODE_CLASSIC)
-        instance.is_bounty = obj.get('is_bounty', False)
+
+        legacy_type = Team.TYPE_BOUNTY if obj.get('is_bounty', False) else Team.TYPE_NORMAL
+        instance.type = obj.get('type', legacy_type)
         # NOTE: Using dict.get() on some of these so we don't have to do migrations
 
         return instance

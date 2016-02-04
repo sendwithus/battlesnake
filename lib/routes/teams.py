@@ -1,11 +1,12 @@
 from flask import (
     request, g, session,
     render_template, redirect, url_for, flash,
+    abort,
 )
 from flask.ext.login import login_user
 from pymongo.errors import DuplicateKeyError
 
-from lib.server import json_response, json_error, app
+from lib.server import form_error, json_response, json_error, app
 from lib.models.game import Game
 from lib.models.team import Team
 from lib.routes.auth import admin_only
@@ -13,38 +14,72 @@ from lib.routes.auth import admin_only
 import lib.ai as ai
 import lib.game.engine as engine
 
+@app.route('/team', methods=['GET'])
+def get_team():
+    is_admin = (g.team.type == Team.TYPE_ADMIN)
+    team = g.team
 
-@app.route('/team', methods=['GET', 'POST'])
-def team():
+    # Admin override
+    admin_override_id = request.args.get('admin_override_id', None)
+    if admin_override_id and is_admin:
+        team = Team.find_one({'_id': admin_override_id})
+        if not team:
+            abort(500)
+
+    return render_template('team.html', team=team, is_admin=is_admin)
+
+
+@app.route('/team', methods=['POST'])
+def post_team():
+    is_admin = (g.team.type == Team.TYPE_ADMIN)
     team = g.team
     data = request.form
 
-    if request.method == 'GET':
-        return render_template('team.html', team=team)
+    # Admin override
+    admin_override_id = request.args.get('admin_override_id', None)
+    if admin_override_id and is_admin:
+        team = Team.find_one({'_id': admin_override_id})
+        if not team:
+            abort(500)
 
-    # TODO: check for duplicate team name and allow updating
-    for field in ['snake_url']:
-        if field in data:
-            setattr(team, field, data[field])
+    # Validate teamname
+    teamname = data.get('teamname')
+    other_team = Team.find_one({'$and': [
+        {'teamname': teamname},
+        {'_id': {'$ne': team.id}},
+    ]})
+    if other_team:
+        return form_error('Team name already in use')
+    team.teamname = teamname
 
-    # Handling checkboxes is weird
+    # Validate snake_url
+    if data.get('snake_url'):
+        team.snake_url = data.get('snake_url')
+
+    # Validate is_public
     team.is_public = True if data.get('is_public') else False
 
+    # Validate member_emails
     email = data.get('add_member')
     if email and email not in team.member_emails:
         team.member_emails.append(email)
 
-        team.save()
+    # Validate password
+    if data.get('password'):
+        team.set_password(data.get('password'))
 
-        flash('Member added to team')
-        return redirect(url_for('team'))
+    # Validate game_mode
+    if data.get('game_mode') in Game.MODE_VALUES:
+        team.game_mode = data.get('game_mode')
+
+    # Validate type
+    if is_admin and data.get('type') in Team.TYPE_VALUES:
+        team.type = data.get('type')
 
     team.save()
 
-    # Log in team again in case team name changed
-    login_user(team)
-
-    return redirect(url_for('team'))
+    flash('Team updated')
+    return redirect(url_for('get_team', admin_override_id=admin_override_id))
 
 
 @app.route('/team/test', methods=['GET'])
@@ -82,9 +117,13 @@ def teams_list():
       ]
     }
     """
-    teams = Team.find({'$or': [
-        {'is_public': True},
-        {'teamname': g.team.teamname}
+    teams = Team.find(
+        {'$or': [
+            {'$and': [
+                {'is_public': True},
+                {'type': {'$ne': Team.TYPE_ADMIN}},
+            ]},
+            {'_id': g.team.id}
         ]}, limit=50)
     return json_response([team.serialize() for team in teams])
 
@@ -95,6 +134,7 @@ def team_info():
     return json_response(data=g.team.serialize())
 
 
+# TODO remove this?
 @app.route('/api/teams/current', methods=['PUT'])
 def team_update():
     team = g.team
@@ -122,6 +162,7 @@ def team_update():
     return json_response(data=data)
 
 
+# TODO remove this?
 @app.route('/api/teams/current/members/<email>', methods=['PUT'])
 def team_member_create(email):
     """
@@ -150,6 +191,7 @@ def team_member_create(email):
     return json_response(g.team.member_emails, msg='Member already exists', status=200)
 
 
+# TODO remove this?
 @app.route('/api/teams/<teamname>')
 @admin_only
 def team_details(teamname):
@@ -170,6 +212,7 @@ def team_details(teamname):
     return json_response(team.serialize())
 
 
+# TODO remove this?
 @app.route('/api/teams/', methods=['POST'])
 @admin_only
 def teams_create():

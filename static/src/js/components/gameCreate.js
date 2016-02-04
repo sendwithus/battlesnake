@@ -146,9 +146,14 @@ export default class GameCreate extends Component {
 
   render () {
     let teamOpts = this.state.availableTeams.map((team, i) => {
+      let teamname = team.teamname
+      if (['bounty', 'test'].includes(team.type)) {
+        teamname = `${teamname} (${team.type} snake)`
+      }
+
       return (
         <option key={'team_opt_' + i} value={i}>
-          {team.teamname}
+          {teamname}
         </option>
       );
     });

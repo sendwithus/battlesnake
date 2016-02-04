@@ -18,6 +18,7 @@ class Game(Model):
 
     MODE_CLASSIC = 'classic'
     MODE_ADVANCED = 'advanced'
+    MODE_VALUES = [MODE_CLASSIC, MODE_ADVANCED]
 
     ready_queue = Queue('games:ready')
 

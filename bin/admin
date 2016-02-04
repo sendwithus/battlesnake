@@ -10,12 +10,13 @@ from lib.models.team import Team
 
 import getpass
 
-pw = getpass.getpass('Set password for admin:')
+pw = getpass.getpass('Set password for admin@battlesnake.io:')
 
 admin = Team.find_one({'teamname': 'admin'})
 if admin:
+    admin.type = Team.TYPE_ADMIN
     admin.set_password(pw)
     admin.save()
 else:
-    admin = Team(teamname='admin', password=pw, member_emails=['admin@battlesnake.io'])
+    admin = Team(teamname='admin', password=pw, member_emails=['admin@battlesnake.io'], type=Team.TYPE_ADMIN)
     admin.insert()

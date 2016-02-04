@@ -14,6 +14,7 @@ pw = getpass.getpass('Set password for admin@battlesnake.io:')
 
 admin = Team.find_one({'teamname': 'admin'})
 if admin:
+    admin.type = Team.TYPE_ADMIN
     admin.set_password(pw)
     admin.save()
 else:

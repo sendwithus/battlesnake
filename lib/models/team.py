@@ -121,7 +121,9 @@ class Team(Model):
         instance.game_ids = obj['game_ids']
         instance.is_public = obj['is_public']
         instance.game_mode = obj.get('game_mode', Game.MODE_CLASSIC)
-        instance.type = obj.get('type', Team.TYPE_NORMAL)
+
+        legacy_type = Team.TYPE_BOUNTY if obj.get('is_bounty', False) else Team.TYPE_NORMAL
+        instance.type = obj.get('type', legacy_type)
         # NOTE: Using dict.get() on some of these so we don't have to do migrations
 
         return instance

@@ -1,5 +1,8 @@
+import StringIO, csv
+
 from flask import (
     request, render_template, redirect, url_for, flash,
+    make_response,
 )
 from pymongo.errors import DuplicateKeyError
 
@@ -9,23 +12,43 @@ from lib.routes.auth import admin_only
 from lib.server import app, form_error
 
 
+
+
 logger = get_logger(__name__)
 
 
 @app.route('/admin/teams')
 @admin_only
-def teams():
+def list_teams():
     teams = Team.find({})
     teams.sort(key=lambda x: x.teamname)
 
-    return render_template('admin/teams.html', teams=teams)
+    fmt = request.args.get('format', 'default')
 
+    if fmt == 'csv':
+        si = StringIO.StringIO()
+        cw = csv.writer(si)
+
+        for team in teams:
+            cw.writerow([
+                team.id,
+                team.teamname,
+                team.type,
+                team.game_mode,
+                team.is_public
+            ])
+        output = make_response(si.getvalue())
+        output.headers["Content-Disposition"] = "attachment; filename=teams.csv"
+        output.headers["Content-type"] = "text/csv"
+        return output
+
+    return render_template('admin/teams.html', teams=teams)
 
 @app.route('/admin/register', methods=['GET', 'POST'])
 @admin_only
 def register():
     if request.method == 'GET':
-        return render_template('auth/register.html')
+        return render_template('admin/register.html')
 
     data = request.form
 

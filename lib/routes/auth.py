@@ -103,7 +103,6 @@ def login():
         return render_template('auth/login.html')
 
     data = request.form
-    next = request.values.get('next') or 'app'
 
     try:
         email = data['email']
@@ -115,7 +114,9 @@ def login():
 
     if team and team.check_password(password):
         login_user(team)
-        return redirect(next)
+
+        nextp = request.values.get('next') or ('list_teams' if team.type == Team.TYPE_ADMIN else 'app')
+        return redirect(nextp)
     else:
         return form_error('Bad email or password')
 

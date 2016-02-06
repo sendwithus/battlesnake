@@ -8,7 +8,7 @@ This year we have more prizes than ever, including $2,500 cash for the tournamen
     <thead>
         <tr>
             <th>Prize</th>
-            <th>Beginner Bracket</th>
+            <th>Classic Bracket</th>
             <th>Advanced Bracket</th>
         </tr>
     </thead>
@@ -47,7 +47,7 @@ This year we have more prizes than ever, including $2,500 cash for the tournamen
             <td><a href="https://www.sendwithus.com">sendwithus</a></td>
             <td>TakenSnake</td>
             <td>$100</td>
-            <td><em>The first team to defeat TakenSnake 1-on-1 in the Beginner game mode.</em></td>
+            <td><em>The first team to defeat TakenSnake 1-on-1 in the Classic game mode.</em></td>
         </tr>
         <tr>
             <td><a href="www.heroku.com">Heroku</a></td>

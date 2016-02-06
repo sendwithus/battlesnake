@@ -1,8 +1,8 @@
 ## Tournament
 
-This year's tournament will be split into two brackets: one for beginner competitors and another for advanced teams.
+This year's tournament will be split into two brackets: Classic and Advanced.
 
-The _Beginner Bracket_ will feature basic gameplay mechanics and is ideal for first time attendees and/or novice programmers.
+The _Classic Bracket_ will feature familiar snake gameplay mechanics and is ideal for first time attendees and/or novice programmers.
 
 The _Advanced Bracket_ will introduce new challenging gameplay mechanics and even greater prizes, ideal for BattleSnake veterans and teams wanting to compete against the best.
 

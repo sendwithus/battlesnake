@@ -115,8 +115,8 @@ def login():
     if team and team.check_password(password):
         login_user(team)
 
-        nextp = request.values.get('next') or ('list_teams' if team.type == Team.TYPE_ADMIN else 'app')
-        return redirect(nextp)
+        default_next = url_for('list_teams') if team.type == Team.TYPE_ADMIN else url_for('app_paths')
+        return redirect(request.values.get('next') or default_next)
     else:
         return form_error('Bad email or password')
 

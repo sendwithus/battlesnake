@@ -2,7 +2,6 @@ from flask import (
     request, g, current_app,
     render_template, redirect, url_for, flash,
 )
-from pymongo.errors import DuplicateKeyError
 
 from flask.ext.login import (
     LoginManager,
@@ -100,6 +99,8 @@ def load_team(id):
 @public
 def login():
     if request.method == 'GET':
+        if current_user.is_authenticated:
+            return redirect(url_for('app_paths'))
         return render_template('auth/login.html')
 
     data = request.form

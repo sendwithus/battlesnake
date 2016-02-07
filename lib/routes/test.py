@@ -1,4 +1,4 @@
-from flask import request, g, render_template
+from flask import abort, request, g, render_template
 
 import lib.ai as ai
 import lib.game.engine as engine
@@ -8,12 +8,16 @@ from lib.server import app
 
 
 @app.route('/test', methods=['GET'])
+@app.route('/admin/test', methods=['GET'])
 def test_snake():
     is_admin = (g.team.type == Team.TYPE_ADMIN)
+    snake_url = g.team.snake_url
 
-    snake_url = request.args.get('url')
-    if not snake_url:
-        snake_url = g.team.snake_url
+    if is_admin and request.args.get('url'):
+        snake_url = request.args.get('url')
+    else:
+        if 'admin' in request.url:
+            abort(404)
 
     # Fake a game
     game = Game(10, 10, 1)

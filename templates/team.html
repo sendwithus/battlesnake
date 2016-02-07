@@ -85,7 +85,16 @@
             <h3>Snake URL</h3>
             <p>{{ team.snake_url }}</p>
             {% if team.snake_url %}
-            <p><a href="/test?url={{ team.snake_url }}" class="text-bold btn btn-primary btn-xs">Run Snake Test</a></p>
+            <p>
+              <a class="text-bold btn btn-primary btn-xs"
+                {% if is_admin %}
+                    href="/admin/test?url={{ team.snake_url }}"
+                {% else %}
+                    href="/test"
+                {% endif %}>
+                    Run Snake Test
+              </a>
+            </p>
             {% endif %}
           </div>
           <div class="row">

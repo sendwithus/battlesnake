@@ -1,38 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!doctype html>
+<html>
+  <head>
     <meta charset="utf-8">
-    <title>Test</title>
-</head>
-<body>
+    <title>BattleSnake</title>
+    {% include "partials/app_head.html" %}
+  </head>
+  <body class="page-team">
+    <div class="container">
+      <div class="row">
+        <br />
+        <br />
+        <a href="/app/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back to Games</a>
 
-<h1>Snake URL: {{ snake_url }}</h1>
+        {% if is_admin %}
+            <p class="pull-right">ADMIN MODE</p>
+        {% endif %}
+      </div>
 
-<h3>snake.whois</h3>
-<p>
-    Error: {{ results.whois.error }}<br>
-    Data: {{ results.whois.data }}</pre>
-</p>
+      <div class="row text-center">
+        <h1 class="page-title">{% include "partials/gold_coin_gif.html" %} Test Snake {% include "partials/gold_coin_gif.html" %}</h1>
+      </div>
 
-<h3>snake.start</h3>
-<p>
-    Error: {{ results.start.error }}<br>
-    Data: {{ results.start.data }}</pre>
-</p>
+      <div class="row">
+        {% include "partials/flashed_messages.html" %}
+      </div>
+      <br>
+      <div class="row">
 
-<h3>snake.move</h3>
-<p>
-    Error: {{ results.move.error }}<br>
-    Data: {{ results.move.data }}</pre>
-</p>
+          <h2>
+              {{ snake_url }}
+              <a href="/test?url={{ snake_url }}" class="btn btn-primary pull-right">Run Again</a>
+          </h2>
+          {% for command_name, response in [
+                ('GET /', results.info),
+                ('POST /start', results.start),
+                ('POST /move', results.move),
+                ('POST /end', results.end)]%}
+              <h3>{{ command_name }}</h3>
+              {% if response.error %}
+                <p class="alert alert-block alert-danger">{{ response.error }}</p>
+              {% else %}
+<pre>{
+{% for key, value in response.data.items() %}    "{{ key }}": "{{ value }}",
+{% endfor %}}</pre>
+              {% endif %}
+          {% endfor %}
+      </div>
+    </div>
 
-<h3>snake.end</h3>
-<p>
-    Error: {{ results.end.error }}<br>
-    Data: {{ results.end.data }}</pre>
-</p>
-
-
-
-</body>
+    {% include "partials/app_foot.html" %}
+  </body>
 </html>

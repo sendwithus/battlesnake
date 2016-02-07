@@ -6,7 +6,7 @@
 }
 body {
   background: #4371aa;
-  color: #efefef;
+  color: #dfdfdf;
   font-size: 16px;
 }
 body.page-play {
@@ -26,7 +26,7 @@ a:hover {
   color: #fff;
 }
 .text-white {
-  color: #efefef;
+  color: #dfdfdf;
 }
 .text-yellow {
   color: #F8F568;

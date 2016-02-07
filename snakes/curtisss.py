@@ -5,7 +5,6 @@ class Snake(LocalSnake):
 
     def whois(self):
         return {
-            'name': 'Pac-Man',
             'color': '#000000',
             'head': 'http://www.animated-gifs.eu/leisure-games-pacman/0009.gif'
         }
@@ -20,7 +19,7 @@ class Snake(LocalSnake):
         bad_tiles = []
 
         for snake in payload['snakes']:
-            
+
             if snake['name'] == 'Pac-Man':
                 bad_tiles += snake['coords'][1:]
                 head = snake['coords'][0]

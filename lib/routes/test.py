@@ -3,11 +3,14 @@ from flask import request, g, render_template
 import lib.ai as ai
 import lib.game.engine as engine
 from lib.models.game import Game
+from lib.models.team import Team
 from lib.server import app
 
 
 @app.route('/test', methods=['GET'])
 def test_snake():
+    is_admin = (g.team.type == Team.TYPE_ADMIN)
+
     snake_url = request.args.get('url')
     if not snake_url:
         snake_url = g.team.snake_url
@@ -19,10 +22,10 @@ def test_snake():
     engine.Engine.add_random_snakes_to_board(game_state, snakes)
 
     results = {
-        'whois': ai.whois(snakes)[0],
+        'info': ai.whois(snakes)[0],
         'start': ai.start(game, game_state)[0],
         'move': ai.move(game, game_state)[0],
         'end': ai.end(game, game_state)[0]
     }
 
-    return render_template('test.html', snake_url=snake_url, results=results)
+    return render_template('test.html', is_admin=is_admin, snake_url=snake_url, results=results)

@@ -10,14 +10,14 @@
       <div class="row">
         <br />
         <br />
-        <a href="/app/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Go back</a>
+        <a href="/app/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back to Games</a>
 
         {% if is_admin %}
             <p class="pull-right">ADMIN MODE</p>
         {% endif %}
       </div>
       <div class="row text-center">
-        <h1 class="page-title">{% include "partials/gold_coin_gif.html" %} Team Profile {% include "partials/gold_coin_gif.html" %}</h1>
+        <h1 class="page-title">{% include "partials/gold_coin_gif.html" %} Team: {{ team.teamname }} {% include "partials/gold_coin_gif.html" %}</h1>
       </div>
 
       <div class="row">

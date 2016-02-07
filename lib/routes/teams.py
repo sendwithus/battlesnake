@@ -1,15 +1,12 @@
 from flask import (
     request, g, session,
-    render_template, redirect, url_for, flash,
+    render_template, redirect, flash,
     abort
 )
 
 from lib.server import form_error, json_response, app
 from lib.models.game import Game
 from lib.models.team import Team
-
-import lib.ai as ai
-import lib.game.engine as engine
 
 
 @app.route('/team', methods=['GET'])

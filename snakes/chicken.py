@@ -8,7 +8,6 @@ class Snake(LocalSnake):
 
     def whois(self):
         return {
-            'name': 'Chicken Snake',
             'color': '#FFFFFF',
             'head': '/static/img/chicken.jpg',
         }

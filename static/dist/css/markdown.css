@@ -11,6 +11,8 @@
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
+  background: #4371aa;
+  color: #dfdfdf;
 }
 .markdown-body a {
   background-color: transparent;
@@ -72,7 +74,7 @@
   font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 .markdown-body a {
-  color: #4078c0;
+  color: #FFC843;
   text-decoration: none;
 }
 .markdown-body a:hover,
@@ -353,11 +355,14 @@
   border: 1px solid #ddd;
 }
 .markdown-body table tr {
-  background-color: #fff;
+  background-color: #4371aa;
   border-top: 1px solid #ccc;
 }
+.markdown-body .table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #608bc0;
+}
 .markdown-body table tr:nth-child(2n) {
-  background-color: #f8f8f8;
+  background-color: #4371aa;
 }
 .markdown-body img {
   max-width: 100%;

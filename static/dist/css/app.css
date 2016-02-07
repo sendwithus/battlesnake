@@ -5,9 +5,12 @@
   font-weight: bold;
 }
 body {
-  background: #222;
+  background: #4371aa;
   color: #efefef;
   font-size: 16px;
+}
+body.page-play {
+  background: #222;
 }
 p,
 .muted {

@@ -16,7 +16,7 @@
       </div>
       <div class="row">
           <div class="col-md-12">
-              <table class="table">
+              <table class="table table-hover">
                   <thead>
                       <tr>
                           <th>Team ID</th>
@@ -30,8 +30,8 @@
                   <tbody>
                       {% for team in teams %}
                           <tr>
-                              <td><a href="/admin/teams/{{ team.id }}">{{ team.id }}<a></td>
-                              <td>{{ team.teamname }}</td>
+                              <td><a href="/admin/teams/{{ team.id }}" style="font-family: courier; font-size: 12px">{{ team.id }}<a></td>
+                              <td>{{ team.teamname }}</span></td>
                               <td>{{ team.snake_url }}</td>
                               <td>{{ team.game_mode|capitalize }}</td>
                               <td>{{ team.type|capitalize }}</td>

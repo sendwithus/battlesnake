@@ -12,6 +12,9 @@ body {
 body.page-play {
   background: #222;
 }
+body.page-team .table-hover > tbody > tr:hover {
+  background-color: #608bc0;
+}
 p,
 .muted {
   color: #ddd;

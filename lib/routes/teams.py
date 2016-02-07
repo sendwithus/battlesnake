@@ -90,26 +90,6 @@ def update_team(team_id=None):
     return redirect(request.url)
 
 
-@app.route('/team/test', methods=['GET'])
-def team_test():
-    team = g.team
-
-    # Fake a game
-    game = Game(10, 10, 1)
-    snakes = [engine.Snake(g.team.id, g.team.snake_url)]
-    game_state = engine.Engine.create_game_state(game.id, game.width, game.height)
-    engine.Engine.add_random_snakes_to_board(game_state, snakes)
-
-    results = {
-        'whois': ai.whois(snakes)[0],
-        'start': ai.start(game, game_state)[0],
-        'move': ai.move(game, game_state)[0],
-        'end': ai.end(game, game_state)[0]
-    }
-
-    return render_template('team_test.html', team=team, results=results)
-
-
 @app.route('/api/teams/')
 def teams_list():
     """

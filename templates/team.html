@@ -82,6 +82,13 @@
             <p class="text-bold"><code>{{ team.id }}</code></p>
           </div>
           <div class="row">
+            <h3>Snake URL</h3>
+            <p>{{ team.snake_url }}</p>
+            {% if team.snake_url %}
+            <p><a href="/test?url={{ team.snake_url }}" class="btn btn-primary btn-xs">Run Snake Test</a></p>
+            {% endif %}
+          </div>
+          <div class="row">
             <h3>Team Members</h3>
             <ul>
               {% for email in team.member_emails %}
@@ -89,6 +96,18 @@
               {% endfor %}
             </ul>
           </div>
+          {% if test_results %}
+          <div class="row">
+            <h3>Snake Test Results</h3>
+            <ul>
+                <li>INFO: {{ test_results.whois }}</li>
+                <li>START: {{ test_results.start }}</li>
+                <li>MOVE: {{ test_results.move }}</li>
+                <li>END: {{ test_results.end }}</li>
+            </ul>
+
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>

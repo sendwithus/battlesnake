@@ -5,9 +5,15 @@
   font-weight: bold;
 }
 body {
-  background: #222;
-  color: #efefef;
+  background: #4371aa;
+  color: #dfdfdf;
   font-size: 16px;
+}
+body.page-play {
+  background: #222;
+}
+body.page-team .table-hover > tbody > tr:hover {
+  background-color: #608bc0;
 }
 p,
 .muted {
@@ -20,7 +26,7 @@ a:hover {
   color: #fff;
 }
 .text-white {
-  color: #efefef;
+  color: #dfdfdf;
 }
 .text-yellow {
   color: #F8F568;

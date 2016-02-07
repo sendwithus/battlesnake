@@ -1,6 +1,6 @@
 from flask import (
     request, g, session,
-    render_template, redirect, url_for, flash,
+    render_template, redirect, flash,
     abort
 )
 
@@ -8,11 +8,10 @@ from lib.server import form_error, json_response, app
 from lib.models.game import Game
 from lib.models.team import Team
 
-import lib.ai as ai
-import lib.game.engine as engine
 
 @app.route('/team', methods=['GET'])
-def get_team():
+@app.route('/admin/teams/<team_id>', methods=['GET'])
+def get_team(team_id=None):
     """
     Show team profile page
 
@@ -22,17 +21,17 @@ def get_team():
     team = g.team
 
     # Admin override
-    admin_override_id = request.args.get('admin_override_id', None)
-    if admin_override_id and is_admin:
-        team = Team.find_one({'_id': admin_override_id})
-        if not team:
-            abort(500)
+    if team_id:
+        team = Team.find_one({'_id': team_id})
+        if not is_admin or not team:
+            abort(404)
 
     return render_template('team.html', team=team, is_admin=is_admin)
 
 
 @app.route('/team', methods=['POST'])
-def update_team():
+@app.route('/admin/teams/<team_id>', methods=['POST'])
+def update_team(team_id=None):
     """
     Update team profile
 
@@ -43,11 +42,10 @@ def update_team():
     data = request.form
 
     # Admin override
-    admin_override_id = request.args.get('admin_override_id', None)
-    if admin_override_id and is_admin:
-        team = Team.find_one({'_id': admin_override_id})
-        if not team:
-            abort(500)
+    if team_id:
+        team = Team.find_one({'_id': team_id})
+        if not is_admin or not team:
+            abort(404)
 
     # Validate teamname
     teamname = data.get('teamname')
@@ -86,27 +84,7 @@ def update_team():
     team.save()
 
     flash('Team updated')
-    return redirect(url_for('get_team', admin_override_id=admin_override_id))
-
-
-@app.route('/team/test', methods=['GET'])
-def team_test():
-    team = g.team
-
-    # Fake a game
-    game = Game(10, 10, 1)
-    snakes = [engine.Snake(g.team.id, g.team.snake_url)]
-    game_state = engine.Engine.create_game_state(game.id, game.width, game.height)
-    engine.Engine.add_random_snakes_to_board(game_state, snakes)
-
-    results = {
-        'whois': ai.whois(snakes)[0],
-        'start': ai.start(game, game_state)[0],
-        'move': ai.move(game, game_state)[0],
-        'end': ai.end(game, game_state)[0]
-    }
-
-    return render_template('team_test.html', team=team, results=results)
+    return redirect(request.url)
 
 
 @app.route('/api/teams/')

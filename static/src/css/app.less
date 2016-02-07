@@ -4,16 +4,24 @@
 
 @blue: #4371aa;
 @black: #222;
-@white: #efefef;
+@white: #dfdfdf;
 
 .text-bold {
   font-weight: bold;
 }
 
 body {
-  background: @black;
+  background: @blue;
   color: @white;
   font-size: 16px;
+}
+
+body.page-play {
+    background: @black;
+}
+
+body.page-team .table-hover>tbody>tr:hover {
+    background-color: lighten(@blue, 10%);
 }
 
 p,

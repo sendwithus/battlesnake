@@ -10,10 +10,14 @@
       <div class="row">
         <br />
         <br />
-        <a href="/app/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Go back</a>
+        <a href="/app/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back to Games</a>
+
+        {% if is_admin %}
+            <p class="pull-right">ADMIN MODE</p>
+        {% endif %}
       </div>
       <div class="row text-center">
-        <h1 class="page-title">{% include "partials/gold_coin_gif.html" %} Team profile {% include "partials/gold_coin_gif.html" %}</h1>
+        <h1 class="page-title">{% include "partials/gold_coin_gif.html" %} Team: {{ team.teamname }} {% include "partials/gold_coin_gif.html" %}</h1>
       </div>
 
       <div class="row">
@@ -21,68 +25,89 @@
       </div>
       <br>
       <div class="row">
-        <div class="col-sm-6">
-          <div class="row">
-            <h2>Snake Info</h2>
-            <p class="text-bold">ID: <code>{{ team.id }}</code></p>
-          </div>
-          <div class="row">
-            <h2>Team Members</h2>
-            <ul>
-              {% for email in team.member_emails %}
-              <li>{{ email }}</li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-
-        <div class="col-sm-6">
+        <div class="col-sm-5">
           <form method="post">
             <fieldset class="row">
               <div class="form-group">
-                <label for="teamname" class="control-label">Team Name:</label>
+                <label for="teamname" class="control-label">Team Name</label>
                 <input type="text" id="teamname" name="teamname" class="form-control" value="{{ team.teamname }}" placeholder="Jane Doe" />
               </div>
               <div class="form-group">
-                <label for="snake_url" class="control-label">Snake URL:</label>
+                <label for="snake_url" class="control-label">Snake URL</label>
                 <input type="text" id="snake_url" name="snake_url" class="form-control" value="{{ team.snake_url | default('', true) }}" placeholder="http://" />
               </div>
               <div class="form-group">
-                <label for="password" class="control-label">Set new password</label>
+                <label for="password" class="control-label">Change Password</label>
                 <input type="password" id="password" name="password" class="form-control" value="" />
               </div>
               <div class="form-group">
-                <label for="add_member" class="control-label">Add a team member:</label>
+                <label for="add_member" class="control-label">Add Team Member</label>
                 <input type="email" id="add_member" name="add_member" class="form-control"
                        placeholder="member@domain.com" />
               </div>
               {% if is_admin %}
                 <div class="form-group">
-                  <label for="type" class="control-label">Team type:</label>
+                  <label for="type" class="control-label">Team Type</label> <br>
                   <select name="type">
                     <option value="normal" {% if team.type == "normal" %} selected {% endif %}>Normal</option>
-                    <option value="admin"  {% if team.type == "admin" %}  selected {% endif %}>Admin</option>
                     <option value="bounty" {% if team.type == "bounty" %} selected {% endif %}>Bounty</option>
                     <option value="test"   {% if team.type == "test" %}   selected {% endif %}>Test</option>
+                    <option value="admin"  {% if team.type == "admin" %}  selected {% endif %}>Admin</option>
                   </select>
                 </div>
               {% endif %}
               <div class="form-group">
-                <label for="game_mode" class="control-label">Division:</label>
+                <label for="game_mode" class="control-label">Division</label> <br>
                 <select name="game_mode">
                   <option value="classic"  {% if team.game_mode == "classic" %}  selected {% endif %}>Classic</option>
                   <option value="advanced" {% if team.game_mode == "advanced" %} selected {% endif %}>Advanced</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="is_public" class="control-label">Public?</label>
-                <input type="checkbox" name="is_public" {% if team.is_public %} checked {% endif %}>
+                <label for="is_public" class="control-label">
+                    <input type="checkbox" name="is_public" {% if team.is_public %} checked {% endif %}>
+                    Make snake public?
+                </label>
+                <p><em>(public snakes can be added to games created by other teams)</em></p>
               </div>
               <div class="form-group">
                 <button type="submit" class="btn btn-block btn-primary text-bold">Update Team</button>
               </div>
             </fieldset>
           </form>
+        </div>
+        <div class="col-sm-6 col-sm-offset-1">
+          <div class="row">
+            <h3>Snake ID</h3>
+            <p class="text-bold"><code>{{ team.id }}</code></p>
+          </div>
+          <div class="row">
+            <h3>Snake URL</h3>
+            <p>{{ team.snake_url }}</p>
+            {% if team.snake_url %}
+            <p><a href="/test?url={{ team.snake_url }}" class="text-bold btn btn-primary btn-xs">Run Snake Test</a></p>
+            {% endif %}
+          </div>
+          <div class="row">
+            <h3>Team Members</h3>
+            <ul>
+              {% for email in team.member_emails %}
+              <li>{{ email }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% if test_results %}
+          <div class="row">
+            <h3>Snake Test Results</h3>
+            <ul>
+                <li>INFO: {{ test_results.whois }}</li>
+                <li>START: {{ test_results.start }}</li>
+                <li>MOVE: {{ test_results.move }}</li>
+                <li>END: {{ test_results.end }}</li>
+            </ul>
+
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>

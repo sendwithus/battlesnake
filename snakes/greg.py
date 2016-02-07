@@ -4,7 +4,6 @@ import random
 
 from lib.ai.local import LocalSnake
 
-SNAKE_NAME = 'Sleepy Snake'
 SNAKE_HEAD = 'http://insomnia.rest/images/icon-small-back.png'
 SNAKE_COLOR = '#423c70'
 
@@ -13,7 +12,6 @@ class Snake(LocalSnake):
 
     def whois(self):
         return {
-            'name': SNAKE_NAME,
             'color': SNAKE_COLOR,
             'head': SNAKE_HEAD
         }
@@ -328,4 +326,3 @@ def next_move(gs):
         'move': _get_move(move),
         'taunt': None
     }
-

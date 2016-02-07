@@ -7,11 +7,10 @@ from flask import (
 from pymongo.errors import DuplicateKeyError
 
 from lib.log import get_logger
+from lib.models.game import Game
 from lib.models.team import Team
 from lib.routes.auth import admin_only
 from lib.server import app, form_error
-
-
 
 
 logger = get_logger(__name__)
@@ -44,6 +43,7 @@ def list_teams():
 
     return render_template('admin/teams.html', teams=teams)
 
+
 @app.route('/admin/register', methods=['GET', 'POST'])
 @admin_only
 def register():
@@ -56,6 +56,7 @@ def register():
         teamname = data['teamname']
         password = data['password']
         email = data['email']
+        game_mode = data['game_mode']
     except KeyError as e:
         return form_error('Missing field: "%s"' % e.message)
 
@@ -68,6 +69,12 @@ def register():
     if not email:
         return form_error('Missing email address')
 
+    if not game_mode:
+        return form_error('Missing game mode')
+
+    if game_mode not in Game.MODE_VALUES:
+        return form_error('Invalid game mode')
+
     existing_team = Team.find_one({'teamname': teamname})
     if existing_team:
         return form_error('Team name already exists')
@@ -75,7 +82,8 @@ def register():
     team = Team(
         teamname=teamname,
         password=password,
-        member_emails=[email]
+        member_emails=[email],
+        game_mode=game_mode
     )
 
     try:

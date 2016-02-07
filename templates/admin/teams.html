@@ -16,12 +16,13 @@
       </div>
       <div class="row">
           <div class="col-md-12">
-              <table class="table">
+              <table class="table table-hover">
                   <thead>
                       <tr>
-                          <th>ID</th>
-                          <th>Team name</th>
+                          <th>Team ID</th>
+                          <th>Team Name</th>
                           <th>URL</th>
+                          <th>Game Mode</th>
                           <th>Type</th>
                           <th>Public?</th>
                       </tr>
@@ -29,11 +30,12 @@
                   <tbody>
                       {% for team in teams %}
                           <tr>
-                              <td><a href="/team?admin_override_id={{ team.id }}">{{ team.id }}<a></td>
-                              <td>{{ team.teamname }}</td>
+                              <td><a href="/admin/teams/{{ team.id }}" style="font-family: courier; font-size: 12px">{{ team.id }}<a></td>
+                              <td>{{ team.teamname }}</span></td>
                               <td>{{ team.snake_url }}</td>
-                              <td>{{ team.type }}</td>
-                              <td>{{ team.is_public }}</td>
+                              <td>{{ team.game_mode|capitalize }}</td>
+                              <td>{{ team.type|capitalize }}</td>
+                              <td>{{ team.is_public|capitalize }}</td>
                           </tr>
                       {% endfor %}
                   </tbody>

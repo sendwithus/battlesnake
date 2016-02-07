@@ -1,4 +1,5 @@
-import StringIO, csv
+import csv
+import StringIO
 
 from flask import (
     request, render_template, redirect, url_for, flash,

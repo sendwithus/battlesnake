@@ -1,6 +1,6 @@
 ## Snake API Documentation
 
-The BattleSnake API uses JSON formatted HTTP requests and responses. Snake servers must reply to each command:
+The BattleSnake API uses JSON formatted HTTP requests and responses. Snakes must reply to each command:
 
 * within one second
 * with a 200 HTTP Status Code
@@ -10,7 +10,7 @@ Failure to meet any of these requirements may disqualify your snake from partici
 
 #### Commands
 
-The BattleSnake HTTP API consists of four commands:
+The BattleSnake API consists of four commands:
 
 * INFO
 * START GAME
@@ -19,7 +19,7 @@ The BattleSnake HTTP API consists of four commands:
 
 ### COMMAND: INFO <br> _GET /_
 
-Return information about your snake, including its name, color, and head image.
+Returns information about your snake.
 
 Visiting your snake URL in a browser should return this information, which is a good way to make sure your server is working as expected. This command may also be called by the BattleSnake game servers at any point during or outside a game.
 
@@ -31,7 +31,6 @@ None
 
 * **color** - CSS color for your snake's body
 * **head** - Full URL to a 20x20 image for your snake's head
-* **name** - Friendly name of your snake
 
 <code><pre>
 {

@@ -8,8 +8,8 @@ We strongly recommend that teams [use Heroku to deploy their snake](#preparing) 
 
 To help teams get started quickly we've provided starter snakes for some common web languages. These starter snakes come preconfigured to deploy to Heroku; we suggesting forking them to start building your own snake.
 
+* [Go](http://github.com/sendwithus/battlesnake-go)
+* [Java](http://github.com/sendwithus/battlesnake-java)
 * [NodeJS](http://github.com/sendwithus/battlesnake-node)
 * [Python](http://github.com/sendwithus/battlesnake-python)
-* [Java](http://github.com/sendwithus/battlesnake-java)
 * [Ruby](http://github.com/sendwithus/battlesnake-ruby)
-* [Go](http://github.com/sendwithus/battlesnake-go)

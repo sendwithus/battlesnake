@@ -19,15 +19,13 @@ All provided code samples and example AIs will be deployable to Heroku as is.
 
 Suggested Readings:
 
-* Getting Started on Heroku
-* Heroku Toolbelt
-* Deploying to Heroku with Git
-* Deploying to Heroku with Dropbox
+* [Getting Started on Heroku](https://devcenter.heroku.com/start)
+* [Heroku Toolbelt](https://toolbelt.heroku.com/)
+* [Deploying to Heroku with Git](https://devcenter.heroku.com/articles/git)
+* [Deploying to Heroku from Github](https://devcenter.heroku.com/articles/github-integration)
 
 ### Team Registration
 
-BattleSnake is a team competition and we recommended teams of 2-4. You are welcome to register and compete as an individual although we don't recommend it.
+BattleSnake is a team competition and we recommended teams of 2-5. You are welcome to register and compete as an individual, although we don't recommend it.
 
-Team registration will open at 11:00 am.
-
-To register, you'll need a team name and the email address of all team members.
+Team registration will open at 11:00 am in ECS Lobby. To register, you'll need a team name and the email address of all team members.

@@ -10,9 +10,9 @@ Teams may decide which bracket they wish to enter during registration.
 
 #### Tournament Format
 
-Each tournament will consist of groups of 4-8 snakes. Snakes in the same group will compete at the same time in a best of 3, and the winning snakes will move on to the next round. Groups are assigned at random, and will be announced around 5pm.
+Each tournament will consist of a group stage, semi-finals, and finals. Groups will be assigned randomly and the winning snake (or snakes) will move on to the next round.
 
-The tournament itself will start at 6pm, and all tournament games will be live casted on stage in ECS 123. Cheering and friendly shouting are strongly encouraged. Bring your friends!
+Tournament format and group assignments will be announced at 5pm. The tournament itself will start at 6pm. All tournament games will be live casted on stage in ECS 123. Cheering and friendly shouting are strongly encouraged. Bring your friends!
 
 #### Tournament Prizes
 

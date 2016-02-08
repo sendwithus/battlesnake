@@ -11,7 +11,9 @@ def max_workers():
     return environ.get('WEB_CONCURRENCY', 1)
 
 
-bind = '0.0.0.0:' + environ.get('PORT', '8080')
+loglevel = 'debug'
+
+bind = '0.0.0.0:' + environ.get('PORT', '5000')
 
 workers = max_workers()
 worker_class = 'gevent'  # 'sync'

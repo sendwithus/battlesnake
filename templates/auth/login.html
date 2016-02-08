@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>BattleSnake - Log In</title>
+    <title>BattleSnake - Login</title>
     {% include "partials/app_head.html" %}
   </head>
   <body class="page-login">
@@ -15,7 +15,7 @@
       <div class="row">
         <div class="col-sm-4 col-sm-push-4">
           <div class="row text-center">
-            <h3>{% include "partials/gold_coin_gif.html" %} Log In {% include "partials/gold_coin_gif.html" %}</h3>
+            <h3>{% include "partials/gold_coin_gif.html" %} Team Login {% include "partials/gold_coin_gif.html" %}</h3>
           </div>
 
           <div class="row">
@@ -28,11 +28,11 @@
                 <input type="hidden" name="next" value="{{ request.args.next }}">
                 <fieldset class="row">
                   <div class="form-group">
-                    <label for="email" class="control-label">Email:</label>
+                    <label for="email" class="control-label">Email</label>
                     <input type="email" id="email" class="form-control" name="email" placeholder="email@domain.com">
                   </div>
                   <div class="form-group">
-                    <label for="password" class="control-label">Password:</label>
+                    <label for="password" class="control-label">Password</label>
                     <input type="password" id="password" class="form-control" name="password" placeholder="**************">
                   </div>
                   <div class="form-group text-center">

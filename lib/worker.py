@@ -1,5 +1,7 @@
 import time
 
+import newrelic.agent
+
 import lib.game.controller as controller
 from lib.log import get_logger
 from lib.models.game import Game
@@ -28,8 +30,13 @@ def maybe_run_game():
         return
 
     logger.info('Running game: %s', game_to_run.id)
-    controller.run_game(game_to_run)
+    run_game(game_to_run)
     logger.info('Finished game: %s', game_to_run.id)
+
+
+@newrelic.agent.background_task(name='run_game', group='Worker')
+def run_game(game_to_run):
+    controller.run_game(game_to_run)
 
 
 def main():

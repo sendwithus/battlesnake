@@ -54,10 +54,10 @@ def register():
     if not form.validate_on_submit():
         return render_template('admin/register.html', form=form)
 
-    teamname = form.data['teamname']
-    password = form.data['password']
-    email = form.data['email']
-    game_mode = form.data['game_mode']
+    teamname = form.teamname.data
+    password = form.password.data
+    email = form.email.data
+    game_mode = form.game_mode.data
 
     existing_team = Team.find_one({'teamname': teamname})
     if existing_team:

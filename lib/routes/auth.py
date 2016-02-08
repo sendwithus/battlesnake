@@ -113,8 +113,8 @@ def login():
     if not form.validate_on_submit():
         return render_template('auth/login.html', form=form)
 
-    email = form.data['email']
-    password = form.data['password']
+    email = form.email.data
+    password = form.password.data
 
     team = Team.find_one({'member_emails': email})
 

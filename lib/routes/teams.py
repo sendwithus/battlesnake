@@ -74,7 +74,7 @@ def update_team(team_id=None):
     team.is_public = form.is_public.data
 
     # Add member_email if provided
-    email = form.data.get('add_member')
+    email = form.add_member.data
     if email and email not in team.member_emails:
         team.member_emails.append(email)
 

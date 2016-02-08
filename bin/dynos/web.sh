@@ -1,1 +1,1 @@
-gunicorn -c settings/gunicorn.py settings.wsgi --log-level debug
+newrelic-admin run-program gunicorn -c settings/gunicorn.py lib.server.application

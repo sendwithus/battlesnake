@@ -28,7 +28,13 @@ logger = get_logger(__name__)
 
 @app.before_request
 def load_users():
-    if not current_user.is_authenticated and not is_public():
+
+    # You should know what you're doing if you're using this
+    # This will leave the request context team as None, which will break shit
+    override_auth_check = 'X-Override-Auth' in request.headers and \
+            request.headers['X-Override-Auth'] == settings.secrets.OVERRIDE_AUTH_HEADER
+
+    if not current_user.is_authenticated and not is_public() and not override_auth_check:
         app.logger.info('no auth, redirecting')
         return login_manager.unauthorized()
 

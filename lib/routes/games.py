@@ -11,7 +11,6 @@ logger = get_logger(__name__)
 
 
 @app.route('/api/games', methods=['POST'])
-@public # Hacky solution to allow Google App Script to create games
 def games_create():
     data = request.get_json()
 
@@ -23,11 +22,16 @@ def games_create():
     turn_time = data.get('turn_time', 1)
     mode = data.get('mode', Game.MODE_ADVANCED)
 
-    team_dicts = data['teams']
+    team_dicts = data.get('teams', None)
+
+    if not team_dicts:
+        return json_response(msg='No teams provided', status=400)
 
     # Add all teams to snake_urls
     teams = []
     for team_dict in team_dicts:
+        if not '_id' in team_dict:
+            return json_response(msg='Invalid team object, missing \'_id\'', status=400)
         team = Team.find_one({'_id': team_dict['_id']})
         if not team:
             return json_response(msg='Team not found', status=404)

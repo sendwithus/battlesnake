@@ -25,37 +25,49 @@
           <div class="row">
             <div class="col-sm-12">
               <form method="post">
+                {{ form.hidden_tag() }}
                 <input type="hidden" name="next" value="{{ request.args.next }}">
                 <fieldset class="row">
-                  <div class="form-group">
+                  <div class="form-group {% if form.teamname.errors %}has-error{% endif %}">
                     <label for="teamname" class="control-label">Team Name (can change later)</label>
-                    <input type="text" id="teamname" class="form-control" name="teamname" placeholder="The Can't-Acondas">
+                    {{ form.teamname(class="form-control", placeholder="The Can't-Acondas") }}
+                    {% for error in form.teamname.errors %}
+                      <span class="help-block">{{ error }}</span>
+                    {% endfor %}
                   </div>
-                  <div class="form-group">
+                  <div class="form-group {% if form.email.errors %}has-error{% endif %}">
                     <label for="email" class="control-label">Primary Email Address</label>
-                    <input type="email" id="email" class="form-control" name="email" placeholder="email@domain.com">
+                    {{ form.email(class="form-control", placeholder="email@domain.com") }}
+                    {% for error in form.email.errors %}
+                      <span class="help-block">{{ error }}</span>
+                    {% endfor %}
                   </div>
-                  <div class="form-group">
+                  <div class="form-group {% if form.password.errors %}has-error{% endif %}">
                     <label for="password" class="control-label">Team Password</label>
-                    <input type="password" id="password" class="form-control" name="password" placeholder="**************">
+                    {{ form.password(class="form-control", placeholder="**************") }}
+                    {% for error in form.password.errors %}
+                      <span class="help-block">{{ error }}</span>
+                    {% endfor %}
                   </div>
-                  <div class="form-group">
+                  <div class="form-group {% if form.game_mode.errors %}has-error{% endif %}">
                     <label for="game_mode" class="control-label">Tournament Division</label>
+                    {% for option in form.game_mode %}
                     <div class="radio">
                       <label>
-                        <input type="radio" name="game_mode" value="classic" checked>
-                        Classic ($300 Grand Prize)
+                        {{ option }}
+                        {{ option.label.text }}
                       </label>
                     </div>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="game_mode" value="advanced">
-                        Advanced ($1,000 Grand Prize)
-                      </label>
-                    </div>
+                    {% endfor %}
+                    {% for error in form.game_mode.errors %}
+                      <span class="help-block">{{ error }}</span>
+                    {% endfor %}
                   </div>
-                  <div class="form-group text-center">
+                  <div class="form-group text-center {% if form.csrf_token.errors %}has-error{% endif %}">
                     <button type="submit" class="btn btn-primary btn-block text-bold">Register</button>
+                    {% for error in form.csrf_token.errors %}
+                      <span class="help-block">{{ error }}</span>
+                    {% endfor %}
                   </div>
                 </fieldset>
               </form>

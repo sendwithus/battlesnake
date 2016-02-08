@@ -12,6 +12,7 @@ from lib.models.game import Game
 from lib.models.team import Team
 from lib.routes.auth import admin_only
 from lib.server import app, form_error
+from lib.forms import RegisterForm
 
 
 logger = get_logger(__name__)
@@ -48,33 +49,15 @@ def list_teams():
 @app.route('/admin/register', methods=['GET', 'POST'])
 @admin_only
 def register():
-    if request.method == 'GET':
-        return render_template('admin/register.html')
+    form = RegisterForm()
 
-    data = request.form
+    if not form.validate_on_submit():
+        return render_template('admin/register.html', form=form)
 
-    try:
-        teamname = data['teamname']
-        password = data['password']
-        email = data['email']
-        game_mode = data['game_mode']
-    except KeyError as e:
-        return form_error('Missing field: "%s"' % e.message)
-
-    if not teamname:
-        return form_error('Missing team name')
-
-    if len(password) < 6:
-        return form_error('Password must be at least 6 characters')
-
-    if not email:
-        return form_error('Missing email address')
-
-    if not game_mode:
-        return form_error('Missing game mode')
-
-    if game_mode not in Game.MODE_VALUES:
-        return form_error('Invalid game mode')
+    teamname = form.data['teamname']
+    password = form.data['password']
+    email = form.data['email']
+    game_mode = form.data['game_mode']
 
     existing_team = Team.find_one({'teamname': teamname})
     if existing_team:

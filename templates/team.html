@@ -27,51 +27,72 @@
       <div class="row">
         <div class="col-sm-5">
           <form method="post">
+            {{ form.hidden_tag() }}
             <fieldset class="row">
-              <div class="form-group">
+              <div class="form-group {% if form.teamname.errors %}has-error{% endif %}">
                 <label for="teamname" class="control-label">Team Name</label>
-                <input type="text" id="teamname" name="teamname" class="form-control" value="{{ team.teamname }}" placeholder="Jane Doe" />
+                {{ form.teamname(class="form-control", placeholder="The Can't-Acondas") }}
+                {% for error in form.teamname.errors %}
+                  <span class="help-block">{{ error }}</span>
+                {% endfor %}
               </div>
-              <div class="form-group">
+              <div class="form-group {% if form.snake_url.errors %}has-error{% endif %}">
                 <label for="snake_url" class="control-label">Snake URL</label>
-                <input type="text" id="snake_url" name="snake_url" class="form-control" value="{{ team.snake_url | default('', true) }}" placeholder="http://" />
+                {{ form.snake_url(class="form-control", placeholder="http://") }}
+                {% for error in form.snake_url.errors %}
+                  <span class="help-block">{{ error }}</span>
+                {% endfor %}
               </div>
-              <div class="form-group">
+              <div class="form-group {% if form.password.errors %}has-error{% endif %}">
                 <label for="password" class="control-label">Change Password</label>
-                <input type="password" id="password" name="password" class="form-control" value="" />
+                {{ form.password(class="form-control") }}
+                {% for error in form.password.errors %}
+                  <span class="help-block">{{ error }}</span>
+                {% endfor %}
               </div>
-              <div class="form-group">
+              <div class="form-group {% if form.add_member.errors %}has-error{% endif %}">
                 <label for="add_member" class="control-label">Add Team Member</label>
-                <input type="email" id="add_member" name="add_member" class="form-control"
-                       placeholder="member@domain.com" />
+                {{ form.add_member(class="form-control", placeholder="member@domain.com") }}
+                {% for error in form.add_member.errors %}
+                  <span class="help-block">{{ error }}</span>
+                {% endfor %}
               </div>
               {% if is_admin %}
-                <div class="form-group">
-                  <label for="type" class="control-label">Team Type</label> <br>
-                  <select name="type">
-                    <option value="normal" {% if team.type == "normal" %} selected {% endif %}>Normal</option>
-                    <option value="bounty" {% if team.type == "bounty" %} selected {% endif %}>Bounty</option>
-                    <option value="test"   {% if team.type == "test" %}   selected {% endif %}>Test</option>
-                    <option value="admin"  {% if team.type == "admin" %}  selected {% endif %}>Admin</option>
-                  </select>
-                </div>
+              <div class="form-group {% if form.type.errors %}has-error{% endif %}">
+                <label for="type" class="control-label">Team Type</label> <br>
+                <select name="type">
+                  {% for option in form.type %}
+                    {{ option }}
+                  {% endfor %}
+                </select>
+                {% for error in form.type.errors %}
+                  <span class="help-block">{{ error }}</span>
+                {% endfor %}
+              </div>
               {% endif %}
-              <div class="form-group">
+              <div class="form-group {% if form.game_mode.errors %}has-error{% endif %}">
                 <label for="game_mode" class="control-label">Division</label> <br>
                 <select name="game_mode">
-                  <option value="classic"  {% if team.game_mode == "classic" %}  selected {% endif %}>Classic</option>
-                  <option value="advanced" {% if team.game_mode == "advanced" %} selected {% endif %}>Advanced</option>
+                  {% for option in form.game_mode %}
+                    {{ option }}
+                  {% endfor %}
                 </select>
+                {% for error in form.game_mode.errors %}
+                  <span class="help-block">{{ error }}</span>
+                {% endfor %}
               </div>
-              <div class="form-group">
+              <div class="form-group {% if form.is_public.errors %}has-error{% endif %}">
                 <label for="is_public" class="control-label">
-                    <input type="checkbox" name="is_public" {% if team.is_public %} checked {% endif %}>
+                    {{ form.is_public() }}
                     Make snake public?
                 </label>
                 <p><em>(public snakes can be added to games created by other teams)</em></p>
               </div>
-              <div class="form-group">
+              <div class="form-group {% if form.csrf_token.errors %}has-error{% endif %}">
                 <button type="submit" class="btn btn-block btn-primary text-bold">Update Team</button>
+                {% for error in form.csrf_token.errors %}
+                  <span class="help-block">{{ error }}</span>
+                {% endfor %}
               </div>
             </fieldset>
           </form>

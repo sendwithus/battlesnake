@@ -7,6 +7,7 @@ from flask import (
 from lib.server import form_error, json_response, app
 from lib.models.game import Game
 from lib.models.team import Team
+from lib.forms import TeamUpdateForm
 
 
 @app.route('/team', methods=['GET'])
@@ -26,7 +27,9 @@ def get_team(team_id=None):
         if not is_admin or not team:
             abort(404)
 
-    return render_template('team.html', team=team, is_admin=is_admin)
+    form = TeamUpdateForm(obj=team)
+
+    return render_template('team.html', team=team, is_admin=is_admin, form=form)
 
 
 @app.route('/team', methods=['POST'])
@@ -39,7 +42,6 @@ def update_team(team_id=None):
     """
     is_admin = (g.team.type == Team.TYPE_ADMIN)
     team = g.team
-    data = request.form
 
     # Admin override
     if team_id:
@@ -47,8 +49,15 @@ def update_team(team_id=None):
         if not is_admin or not team:
             abort(404)
 
+    form = TeamUpdateForm(obj=team)
+    if not form.validate_on_submit():
+        app.logger.error('form errors: %s', form.errors)
+
+        # render errors in form
+        return render_template('team.html', team=team, is_admin=is_admin, form=form)
+
     # Validate teamname
-    teamname = data.get('teamname')
+    teamname = form.teamname.data
     other_team = Team.find_one({'$and': [
         {'teamname': teamname},
         {'_id': {'$ne': team.id}},
@@ -57,29 +66,27 @@ def update_team(team_id=None):
         return form_error('Team name already in use')
     team.teamname = teamname
 
-    # Validate snake_url
-    if data.get('snake_url'):
-        team.snake_url = data.get('snake_url')
+    # Set snake_url if provided
+    if form.snake_url.data:
+        team.snake_url = form.snake_url.data
 
-    # Validate is_public
-    team.is_public = True if data.get('is_public') else False
+    # Set is_public
+    team.is_public = form.is_public.data
 
-    # Validate member_emails
-    email = data.get('add_member')
+    # Add member_email if provided
+    email = form.data.get('add_member')
     if email and email not in team.member_emails:
         team.member_emails.append(email)
 
-    # Validate password
-    if data.get('password'):
-        team.set_password(data.get('password'))
+    # Set password if provided
+    if form.password.data:
+        team.set_password(form.password.data)
 
-    # Validate game_mode
-    if data.get('game_mode') in Game.MODE_VALUES:
-        team.game_mode = data.get('game_mode')
+    # Set game_mode
+    team.game_mode = form.game_mode.data
 
-    # Validate type
-    if is_admin and data.get('type') in Team.TYPE_VALUES:
-        team.type = data.get('type')
+    # Set team type
+    team.type = form.type.data
 
     team.save()
 

@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+from os.path import abspath, dirname, join
+import sys
+try:
+    from IPython import start_ipython
+except ImportError:
+    print 'Install IPython to use this: pip install IPython'
+    exit(1)
+
+# Add parent directory to path
+sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+
+from lib.server import app
+import lib.models
+from lib.mongo import get_mongodb
+from lib.redis_client import get_redis
+import lib.forms
+
+env = {
+    'app': app,
+    'models': lib.models,
+    'mongo': get_mongodb(),
+    'redis': get_redis(),
+    'forms': lib.forms,
+}
+with app.app_context():
+    start_ipython(argv=['--no-banner'], user_ns=env)

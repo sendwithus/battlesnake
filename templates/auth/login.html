@@ -25,15 +25,22 @@
           <div class="row">
             <div class="col-sm-12">
               <form method="post">
+                {{ form.hidden_tag() }}
                 <input type="hidden" name="next" value="{{ request.args.next }}">
                 <fieldset class="row">
-                  <div class="form-group">
+                  <div class="form-group {% if form.email.errors %}has-error{% endif %}">
                     <label for="email" class="control-label">Email</label>
-                    <input type="email" id="email" class="form-control" name="email" placeholder="email@domain.com">
+                    {{ form.email(class="form-control", placeholder="email@domain.com") }}
+                    {% for error in form.email.errors %}
+                      <span class="help-block">{{ error }}</span>
+                    {% endfor %}
                   </div>
-                  <div class="form-group">
+                  <div class="form-group {% if form.password.errors %}has-error{% endif %}">
                     <label for="password" class="control-label">Password</label>
-                    <input type="password" id="password" class="form-control" name="password" placeholder="**************">
+                    {{ form.password(class="form-control", placeholder="**************") }}
+                    {% for error in form.password.errors %}
+                      <span class="help-block">{{ error }}</span>
+                    {% endfor %}
                   </div>
                   <div class="form-group text-center">
                     <button type="submit" class="btn btn-primary btn-block text-bold">Start Playing!</button>

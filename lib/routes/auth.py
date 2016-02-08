@@ -12,6 +12,7 @@ from flask.ext.login import (
 from lib.log import get_logger
 from lib.models.team import Team
 from lib.server import app, form_error
+from lib.forms import LoginForm
 
 import settings.secrets
 
@@ -104,18 +105,16 @@ def load_team(id):
 @app.route('/login', methods=['GET', 'POST'])
 @public
 def login():
-    if request.method == 'GET':
-        if current_user.is_authenticated:
-            return redirect(url_for('app_paths'))
-        return render_template('auth/login.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('app_paths'))
 
-    data = request.form
+    form = LoginForm()
 
-    try:
-        email = data['email']
-        password = data['password']
-    except KeyError as e:
-        return form_error('Missing field: "%s"' % e.message)
+    if not form.validate_on_submit():
+        return render_template('auth/login.html', form=form)
+
+    email = form.data['email']
+    password = form.data['password']
 
     team = Team.find_one({'member_emails': email})
 

@@ -20,7 +20,7 @@ class RegisterForm(Form):
 
 class TeamUpdateForm(Form):
     teamname = StringField('Team Name', validators=[validators.InputRequired()])
-    snake_url = StringField('Snake URL', validators=[validators.Optional(), validators.URL()])
+    snake_url = StringField('Snake URL', validators=[validators.Optional()])
     password = PasswordField('Change Password', validators=[validators.Optional(), validators.Length(min=6)])
     add_member = StringField('Add Team Member', validators=[validators.Optional(), validators.Email()])
     type = SelectField('Team Type', choices=[

@@ -33,7 +33,7 @@ export default class Board {
 
     this.boardGroup.append('rect')
       .attr('class', 'board')
-      .attr('fill', 'url(#bricks)');
+      .attr('fill', 'steelblue');
 
     var innerBoardGroup = this.boardGroup.append('g')
       .attr('class', 'inner-board');
@@ -53,6 +53,7 @@ export default class Board {
     window.onresize = this.resize.bind(this);
   }
 
+  // TODO debounce this
   resize () {
     var containerParent = this.container.parentNode;
 
@@ -72,46 +73,16 @@ export default class Board {
   update (gameState) {
     this.gameState = gameState;
 
-    var innerBoardPadding = 10,
-      boardWidth = Math.min(this.width, this.height),
+    var scale = Math.min(this.width / gameState.width, this.height / gameState.height),
+      boardWidth = scale * gameState.width,
+      boardHeight = scale * gameState.height,
       xOffs = (this.width - boardWidth) / 2,
-      yOffs = (this.height - boardWidth) / 2;
-
-    this.canvas
-      .attr('width', this.width)
-      .attr('height', this.height);
-
-    this.boardGroup.select('rect.board')
-      .attr('width', boardWidth)
-      .attr('height', boardWidth);
-
-    // center the board on the canvas
-    if (this.width > this.height) {
-      this.boardGroup.attr('transform', 'translate(' + xOffs + ')');
-    } else {
-      this.boardGroup.attr('transform', 'translate(0, ' + yOffs + ')');
-    }
-
-    this.boardGroup.select('g.inner-board')
-      .attr('transform', 'translate(' + innerBoardPadding + ',' + innerBoardPadding + ')');
-
-    this.boardGroup.select('rect.inner-board')
-      .attr('width', boardWidth - innerBoardPadding * 2)
-      .attr('height', boardWidth - innerBoardPadding * 2);
-
-
-
-    var colours = {
-        body: snakewithus.SQUARE_TYPES.SNAKE,
-        empty: snakewithus.COLORS.EMPTY,
-        food: snakewithus.COLORS.EMPTY,
-        snake_head: snakewithus.SQUARE_TYPES.SNAKE_HEAD,
-        gold: snakewithus.SQUARE_TYPES.GOLD,
-        wall: snakewithus.SQUARE_TYPES.WALL
-      },
-      boardData = gameState.board,
+      yOffs = (this.height - boardHeight) / 2,
+      innerBoardPadding = 10,
       spacing = snakewithus.SQUARE_PADDING,
-      bitWidth = (boardWidth - spacing - innerBoardPadding * 2) / gameState.width,
+      bitWidth = (boardWidth - innerBoardPadding * 2 - spacing) / gameState.width,
+      bitHeight = (boardHeight - innerBoardPadding * 2 - spacing) / gameState.height,
+      boardData = gameState.board,
       rows = this.svg.select('g.inner-board').selectAll('g.row').data(boardData),
       cells = rows.selectAll('rect.cell').data(_.identity),
       food = this.svg.select('g.inner-board').selectAll('circle.food').data(gameState.food),
@@ -120,6 +91,28 @@ export default class Board {
       walls = this.svg.select('g.inner-board').selectAll('rect.wall').data(gameState.walls),
       heads = d3.select(this.container).selectAll('img.head').data(gameState.snakes),
       gold = d3.select(this.container).selectAll('img.gold').data(gameState.gold);
+
+    this.canvas
+      .attr('width', this.width)
+      .attr('height', this.height);
+
+    this.boardGroup.select('rect.board')
+      .attr('width', boardWidth)
+      .attr('height', boardHeight);
+
+    //// center the board on the canvas
+    if (Math.floor(this.width) === Math.floor(boardWidth)) {
+      this.boardGroup.attr('transform', 'translate(0, ' + yOffs + ')');
+    } else {
+      this.boardGroup.attr('transform', 'translate(' + xOffs + ')');
+    }
+
+    this.boardGroup.select('g.inner-board')
+      .attr('transform', 'translate(' + innerBoardPadding + ',' + innerBoardPadding + ')');
+
+    this.boardGroup.select('rect.inner-board')
+      .attr('width', boardWidth - innerBoardPadding * 2)
+      .attr('height', boardHeight - innerBoardPadding * 2);
 
     // enters
     rows.enter().append('g')
@@ -134,7 +127,7 @@ export default class Board {
       .attr('fill', snakewithus.COLORS.GOLD);
     walls.enter().append('rect')
       .attr('class', 'wall')
-      .attr('fill', 'url(#bricks)');
+      .attr('fill', 'steelblue');
     snakes.enter().append('g')
       .attr('class', 'snake');
     snakeBits.enter().append('rect')
@@ -145,10 +138,10 @@ export default class Board {
     // transitions
     rows.transition().duration(0);
     cells.transition().duration(0)
-      .attr('x', function(d, x, y){ return spacing + y * bitWidth; })
-      .attr('y', function(d, x, y){ return spacing + x * bitWidth; })
+      .attr('x', function(d, x, y){ return y * bitWidth + spacing; })
+      .attr('y', function(d, x, y){ return x * bitHeight + spacing; })
       .attr('width', bitWidth - spacing)
-      .attr('height', bitWidth - spacing)
+      .attr('height', bitHeight - spacing)
       .attr('fill', _.constant(snakewithus.COLORS.EMPTY));
     food.transition()
       .each('start', function() {
@@ -159,19 +152,19 @@ export default class Board {
       })
       .duration(0)
       .attr('cx', function(d){ return spacing + d[0] * bitWidth + bitWidth / 2 - spacing / 2; })
-      .attr('cy', function(d){ return spacing + d[1] * bitWidth + bitWidth / 2 - spacing / 2; });
+      .attr('cy', function(d){ return spacing + d[1] * bitHeight + bitWidth / 2 - spacing / 2; });
     walls.transition()
       .duration(0)
       .attr('x', function(d) { return spacing + d[0] * bitWidth })
-      .attr('y', function(d) { return spacing + d[1] * bitWidth })
+      .attr('y', function(d) { return spacing + d[1] * bitHeight })
       .attr('width', bitWidth - spacing)
-      .attr('height', bitWidth - spacing);
+      .attr('height', bitHeight - spacing);
     snakes.transition().duration(0);
     snakeBits.transition().duration(0)
       .attr('x', function(d) { return spacing + d[0] * bitWidth })
-      .attr('y', function(d) { return spacing + d[1] * bitWidth })
+      .attr('y', function(d) { return spacing + d[1] * bitHeight })
       .attr('width', bitWidth - spacing)
-      .attr('height', bitWidth - spacing)
+      .attr('height', bitHeight - spacing)
       .attr('fill', function(d, i, n) {
         if (i === 0) {
           return snakewithus.COLORS.EMPTY;
@@ -182,18 +175,18 @@ export default class Board {
     heads.transition().duration(0)
       .attr('src', function(d) { return d.head; })
       .attr('width', bitWidth - spacing)
-      .attr('height', bitWidth - spacing)
+      .attr('height', bitHeight - spacing)
       .style('position', 'absolute')
       .style('left', function(d) { return xOffs + innerBoardPadding + spacing + 15 + d.coords[0][0] * bitWidth + 'px'; })
-      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d.coords[0][1] * bitWidth + 'px'; });
+      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d.coords[0][1] * bitHeight + 'px'; });
     gold.transition().duration(0)
       .attr('src', '/static/img/img-coin.gif')
       .style('border-radius', '100%')
       .attr('width', bitWidth - spacing)
-      .attr('height', bitWidth - spacing)
+      .attr('height', bitHeight - spacing)
       .style('position', 'absolute')
       .style('left', function(d) { return xOffs + innerBoardPadding + spacing + 15 + d[0] * bitWidth + 'px'; })
-      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d[1] * bitWidth + 'px'; });
+      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d[1] * bitHeight + 'px'; });
 
     // exits
     food.exit().remove();

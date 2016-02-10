@@ -19,9 +19,14 @@ def test_snake():
         if 'admin' in request.url:
             abort(404)
 
+    if snake_url.startswith('localsnake'):
+        team_id = snake_url.replace('://', '.')
+    else:
+        team_id = g.team.id
+
     # Fake a game
     game = Game(10, 10, 1)
-    snakes = [engine.Snake('test-snake-id', snake_url)]
+    snakes = [engine.Snake(team_id, snake_url)]
     game_state = engine.Engine.create_game_state(game.id, game.width, game.height)
     engine.Engine.add_random_snakes_to_board(game_state, snakes)
 

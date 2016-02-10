@@ -6,6 +6,7 @@ from lib.ai.local import LocalSnake
 
 SNAKE_HEAD = 'http://insomnia.rest/images/icon-small-back.png'
 SNAKE_COLOR = '#423c70'
+TEAM_ID = 'localsnake.greg'
 
 
 class Snake(LocalSnake):
@@ -53,7 +54,7 @@ def _count_moves(gs, start, count=0):
     for point in points:
         if _is_on_board(gs, point) and not _is_snake(gs, point):
             # Add new position to snake
-            snake = _get_snake(gs, SNAKE_NAME)
+            snake = _get_snake(gs, TEAM_ID)
             snake['coords'].insert(0, point)
 
             # Mark position on board
@@ -194,9 +195,10 @@ def _get_move(vector):
     return moves[vector[0]][vector[1]]
 
 
-def _get_snake(gs, snake_name):
+def _get_snake(gs, team_id):
     for snake in gs['snakes']:
-        if snake['name'] == snake_name:
+        print snake['id'], team_id
+        if snake['id'] == team_id:
             return snake
     return None
 
@@ -308,7 +310,8 @@ def _stay_safe(gs, snake, head):
 
 
 def next_move(gs):
-    snake = _get_snake(gs, SNAKE_NAME)
+    print gs
+    snake = _get_snake(gs, TEAM_ID)
 
     # Legacy board
     gs['board'] = _generate_board(gs)

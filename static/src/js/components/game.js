@@ -216,11 +216,11 @@ export default class Game extends Component {
 
   render () {
     return (
-      <div className="row">
-        <div className="col-md-9">
+      <div className={"row game-wrapper hash-" + window.location.hash.replace('#', '')}>
+        <div className="col-md-9 left">
           <div ref="board"></div>
         </div>
-        <div className="col-md-3 sidebar">
+        <div className="col-md-3 sidebar right">
           <GameSidebar
             id={this.props.params.id}
             game={this.state.game}

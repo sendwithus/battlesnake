@@ -15,6 +15,9 @@ class Snake(object):
 
         super(Snake, self).__init__()
 
+        if url.startswith('localsnake'):
+            team_id = url.replace('://', '.')
+
         self.team_id = team_id
         self.url = url
         self.name = name

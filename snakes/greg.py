@@ -6,7 +6,7 @@ from lib.ai.local import LocalSnake
 
 SNAKE_HEAD = 'http://insomnia.rest/images/icon-small-back.png'
 SNAKE_COLOR = '#423c70'
-TEAM_ID = 'localsnake.greg'
+TEAM_ID = 'localsnake://greg'
 
 
 class Snake(LocalSnake):
@@ -197,7 +197,7 @@ def _get_move(vector):
 
 def _get_snake(gs, team_id):
     for snake in gs['snakes']:
-        if snake['id'] == team_id:
+        if snake['name'] == team_id:
             return snake
     return None
 

@@ -134,31 +134,37 @@ class Engine(object):
     def add_random_snakes_to_board(game_state, snakes):
 
         # Generate starting positions
-        def get_quarter_dimensions(dimension):
-            mid = (dimension - 1) / 2
-            diff = (mid / 2) + 1
-            return [mid - diff, mid, mid + diff]
+        def get_fifth_dimensions(dimension):
+            interval = int(math.floor(dimension / 5))
+            return [interval - 1, (interval * 2) -1, dimension - (interval * 2), dimension - interval]
 
-        width_quarters = get_quarter_dimensions(game_state.width)
-        height_quarters = get_quarter_dimensions(game_state.height)
+        width_fifths = get_fifth_dimensions(game_state.width)
+        height_fifths = get_fifth_dimensions(game_state.height)
 
         first_four = [
-            [width_quarters[0], height_quarters[0]],  # top left
-            [width_quarters[2], height_quarters[0]],  # top right
-            [width_quarters[2], height_quarters[2]],  # bottom right
-            [width_quarters[0], height_quarters[2]]  # bottom left
+            [width_fifths[0], height_fifths[0]],  # top left
+            [width_fifths[3], height_fifths[0]],  # top right
+            [width_fifths[3], height_fifths[3]],  # bottom right
+            [width_fifths[0], height_fifths[3]]  # bottom left
         ]
         second_four = [
-            [width_quarters[1], height_quarters[0]],  # mid top
-            [width_quarters[2], height_quarters[1]],  # mid right
-            [width_quarters[1], height_quarters[2]],  # mid bottom
-            [width_quarters[0], height_quarters[1]],  # mid left
+            [width_fifths[1], height_fifths[0]],  # mid top
+            [width_fifths[3], height_fifths[1]],  # mid right
+            [width_fifths[1], height_fifths[3]],  # mid bottom
+            [width_fifths[0], height_fifths[1]],  # mid left
+        ]
+        third_four = [
+            [width_fifths[2], height_fifths[0]],  # mid top
+            [width_fifths[3], height_fifths[2]],  # mid right
+            [width_fifths[2], height_fifths[3]],  # mid bottom
+            [width_fifths[0], height_fifths[2]],  # mid left
         ]
 
         random.shuffle(first_four)
         random.shuffle(second_four)
+        random.shuffle(third_four)
 
-        starting_coords = (first_four + second_four)
+        starting_coords = (first_four + second_four + third_four)
 
         # Place snakes
 

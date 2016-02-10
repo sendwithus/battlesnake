@@ -30,7 +30,7 @@
             {{ form.hidden_tag() }}
             <fieldset class="row">
               <div class="form-group {% if form.teamname.errors %}has-error{% endif %}">
-                <label for="teamname" class="control-label">Team Name</label>
+                <label for="teamname" class="control-label">Snake Name</label>
                 {{ form.teamname(class="form-control", placeholder="The Can't-Acondas") }}
                 {% for error in form.teamname.errors %}
                   <span class="help-block">{{ error }}</span>

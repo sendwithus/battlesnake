@@ -9,7 +9,7 @@ class LoginForm(Form):
 
 
 class RegisterForm(Form):
-    teamname = StringField('Team Name', validators=[validators.InputRequired()])
+    teamname = StringField('Snake Name', validators=[validators.InputRequired()])
     email = StringField('Email', validators=[validators.InputRequired(), validators.Email()])
     password = PasswordField('Password', validators=[validators.InputRequired(), validators.Length(min=6)])
     game_mode = RadioField('Game Mode', choices=[
@@ -19,7 +19,7 @@ class RegisterForm(Form):
 
 
 class TeamUpdateForm(Form):
-    teamname = StringField('Team Name', validators=[validators.InputRequired()])
+    teamname = StringField('Snake Name', validators=[validators.InputRequired()])
     snake_url = StringField('Snake URL', validators=[validators.Optional()])
     password = PasswordField('Change Password', validators=[validators.Optional(), validators.Length(min=6)])
     add_member = StringField('Add Team Member', validators=[validators.Optional(), validators.Email()])

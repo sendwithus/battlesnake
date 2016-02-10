@@ -11,7 +11,7 @@ None
 
 ##### Response
 * **data** - A list of team objects
-  * **teamname** - Team name
+  * **teamname** - Snake name
   * **member_emails** - List of emails for members of this team
   * **snake_url** - Full URL to the team's current snake AI, or null if not set
 
@@ -36,7 +36,7 @@ None
 
 ##### Response
 * **data** - A team object for the team that's currently signed in
-  * **teamname** - Team name
+  * **teamname** - Snake name
   * **member_emails** - List of emails for members of this team
   * **snake_url** - Full URL to the team's current snake AI, or null if not set
 

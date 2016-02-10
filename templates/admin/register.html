@@ -29,7 +29,7 @@
                 <input type="hidden" name="next" value="{{ request.args.next }}">
                 <fieldset class="row">
                   <div class="form-group {% if form.teamname.errors %}has-error{% endif %}">
-                    <label for="teamname" class="control-label">Team Name (can change later)</label>
+                    <label for="teamname" class="control-label">Snake Name (can change later)</label>
                     {{ form.teamname(class="form-control", placeholder="The Can't-Acondas") }}
                     {% for error in form.teamname.errors %}
                       <span class="help-block">{{ error }}</span>

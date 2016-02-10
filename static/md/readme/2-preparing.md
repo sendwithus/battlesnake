@@ -28,4 +28,4 @@ Suggested Readings:
 
 BattleSnake is a team competition and we recommended teams of 2-5. You are welcome to register and compete as an individual, although we don't recommend it.
 
-Team registration will open at 11:00 am in ECS Lobby. To register, you'll need a team name and the email address of all team members.
+Team registration will open at 11:00 am in ECS Lobby. To register, you'll need a snake name and the email address of all team members.

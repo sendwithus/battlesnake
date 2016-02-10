@@ -166,6 +166,10 @@ class Engine(object):
 
         starting_coords = (first_four + second_four + third_four)
 
+        # Stop giving first 4 snakes the corners when there are more than 4 snakes
+        if len(snakes) > 4:
+            random.shuffle(starting_coords)
+
         # Place snakes
 
         for snake, coords in zip(snakes, starting_coords):

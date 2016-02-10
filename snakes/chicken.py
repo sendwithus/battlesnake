@@ -50,6 +50,7 @@ class Snake(LocalSnake):
 class Constants(object):
     NAME = 'Chicken Snake'
     URL = 'localsnake://chicken'
+    TEAM_ID = 'localsnake.chicken'
 
     UP = 'north'
     DOWN = 'south'
@@ -103,7 +104,11 @@ def manhattan_dist(pos1, pos2):
 
 def get_snake(snakes):
     for snake in snakes:
-        if (snake.get('teamname') == Constants.URL or snake.get('name') == Constants.NAME):
+        if (
+            snake.get('teamname') == Constants.URL or
+            snake.get('id') == 'test-snake-id' or
+            snake.get('id') == Constants.TEAM_ID
+           ):
             return snake
 
     raise KeyError('Failed to find snake')

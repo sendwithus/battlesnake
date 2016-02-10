@@ -3,10 +3,12 @@ from lib.ai.local import LocalSnake
 
 class Snake(LocalSnake):
 
+    SNAKE_NAME = 'localsnake.' + __name__.split('.')[-1]
+
     def whois(self):
         return {
             'color': '#f0f087',
-            'head': 'barf'
+            'head': 'http://www.voxy.co.nz/files/imagecache/news_item_image/files/brad-pitt-square.jpg'
         }
 
     def start(self, payload):
@@ -18,7 +20,7 @@ class Snake(LocalSnake):
         bad_tiles = []
         for snake in payload['snakes']:
             bad_tiles += snake['coords']
-            if snake['name'] == 'BradSnake':
+            if snake['id'] == self.SNAKE_NAME:
                 head = snake['coords'][0]
 
         smallest = 999

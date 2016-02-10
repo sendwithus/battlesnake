@@ -82,9 +82,6 @@ class Snake(object):
 
         return snake
 
-    def is_localsnake(self):
-        return self.url.startswith('localsnake://')
-
     def move_north(self):
         new_head = list(sum(x) for x in zip(self.coords[0], [0, -1]))
         self.coords.insert(0, new_head)

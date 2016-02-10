@@ -197,7 +197,6 @@ def _get_move(vector):
 
 def _get_snake(gs, team_id):
     for snake in gs['snakes']:
-        print snake['id'], team_id
         if snake['id'] == team_id:
             return snake
     return None
@@ -275,7 +274,7 @@ def _stay_safe(gs, snake, head):
     else:
         gold_distance = _calc_distance(gold, head)
 
-    if gold_distance < 3 or random.randint(0, 15) == 0:
+    if gold_distance < 3:
         dest = gold
     else:
         # TODO: Choose food that's closest to your own body (Stay tight)
@@ -286,7 +285,7 @@ def _stay_safe(gs, snake, head):
         else:
             food_distance = _calc_distance(food, head)
 
-        if food_distance < 3 or random.randint(0, 15) == 0:
+        if food and (food_distance < 3 or random.randint(0, 15) == 0):
             dest = food
         else:
             dest = tail
@@ -310,7 +309,6 @@ def _stay_safe(gs, snake, head):
 
 
 def next_move(gs):
-    print gs
     snake = _get_snake(gs, TEAM_ID)
 
     # Legacy board

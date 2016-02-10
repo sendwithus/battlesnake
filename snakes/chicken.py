@@ -105,7 +105,7 @@ def manhattan_dist(pos1, pos2):
 def get_snake(snakes):
     for snake in snakes:
         if (
-            snake.get('teamname') == Constants.URL or
+            snake.get('url') == Constants.URL or
             snake.get('id') == 'test-snake-id' or
             snake.get('id') == Constants.TEAM_ID
            ):

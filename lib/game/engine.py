@@ -15,6 +15,9 @@ class Snake(object):
 
         super(Snake, self).__init__()
 
+        if url.startswith('localsnake'):
+            team_id = url.replace('://', '.')
+
         self.team_id = team_id
         self.url = url
         self.name = name
@@ -78,6 +81,9 @@ class Snake(object):
         snake.died_on_turn = obj['died_on_turn']
 
         return snake
+
+    def is_localsnake(self):
+        return self.url.startswith('localsnake://')
 
     def move_north(self):
         new_head = list(sum(x) for x in zip(self.coords[0], [0, -1]))

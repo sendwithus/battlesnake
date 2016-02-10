@@ -63,7 +63,7 @@ def update_team(team_id=None):
         {'_id': {'$ne': team.id}},
     ]})
     if other_team:
-        return form_error('Team name already in use')
+        return form_error('Snake name already in use')
     team.teamname = teamname
 
     # Set snake_url if provided

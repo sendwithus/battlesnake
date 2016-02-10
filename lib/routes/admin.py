@@ -61,7 +61,7 @@ def register():
 
     existing_team = Team.find_one({'teamname': teamname})
     if existing_team:
-        return form_error('Team name already exists')
+        return form_error('Snake name already exists')
 
     team = Team(
         teamname=teamname,
@@ -73,7 +73,7 @@ def register():
     try:
         team.insert()
     except DuplicateKeyError:
-        return form_error('Team name already exists')
+        return form_error('Got DuplicateKeyError')
 
     logger.slack('New Registered Team: %s' % team.teamname)
 

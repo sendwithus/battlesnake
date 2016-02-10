@@ -247,6 +247,14 @@ a:hover {
 .game-summary .snake-name .url {
   font-size: 14px;
 }
+.game-wrapper.hash-left .left,
+.game-wrapper.hash-right .right {
+  width: 100%;
+}
+.game-wrapper.hash-left .right,
+.game-wrapper.hash-right .left {
+  display: none;
+}
 /** Team create page **/
 .team-member-list {
   margin-top: 20px;

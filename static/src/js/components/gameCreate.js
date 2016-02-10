@@ -8,27 +8,15 @@ const GAME_MODES = [
 
 export default class GameCreate extends Component {
 
-  constructor () {
-    super();
-
-    let state = this._loadPastState();
-    if (state) {
-      state.isLoading = false;
-      state.addedTeams = state.addedTeams || [];
-      state.availableTeams = state.availableTeams || [];
-      this.state = state;
-    } else {
-      this.state = {
-        availableTeams: [],
-        addedTeams: [],
-        selectedTeam: null,
-        currentWidth: 20,
-        currentHeight: 20,
-        currentTimeout: 1,
-        isLoading: false
-      };
-    }
-  }
+  state = {
+    availableTeams: [],
+    addedTeams: [],
+    selectedTeam: null,
+    currentWidth: 20,
+    currentHeight: 20,
+    currentTimeout: 1,
+    isLoading: false
+  };
 
   handleGameCreate = (e) => {
     e.preventDefault();
@@ -53,7 +41,6 @@ export default class GameCreate extends Component {
           alert(response.data.message);
           this.setState({isLoading: false});
         } else {
-          this._savePastState();
           this.setState({isLoading: false});
           this.props.history.push('/app/games/' + response.data.game._id);
         }
@@ -79,7 +66,6 @@ export default class GameCreate extends Component {
   handleTeamChange = (e) => {
     let i = parseInt(e.target.value, 10);
     let team = this.state.availableTeams[i];
-    console.dir(this.state.availableTeams);
     this.setState({selectedTeam: team});
   };
 
@@ -103,60 +89,60 @@ export default class GameCreate extends Component {
     let availableTeams = this.state.availableTeams;
 
     allTeams.push(currentTeam);
-    _.remove(availableTeams, (team) => {
-      return team._id === currentTeam._id
+
+    let mappedAvailableTeams = availableTeams.map((team, i) => {
+      if (team._id === currentTeam._id) {
+        team.disabled = 'disabled'
+      }
+      return team;
     });
 
-    let state = {
+    this.setState({
       selectedTeam: null,
       addedTeams: allTeams,
-      availableTeams: availableTeams
-    }
-
-    this.setState(state);
+      availableTeams: mappedAvailableTeams
+    });
   };
 
   handleModeSelect = (e) => {
-    this.setState({ mode: e.target.value })
+    this.setState({mode: e.target.value})
   };
 
   componentDidMount () {
     // fetch list of teams
     $.ajax({
-        type: 'GET',
-        url: '/api/teams/'
-      })
-      .done((response) => {
-        this.setState({availableTeams: response.data});
-      });
-  }
-
-  _loadPastState () {
-    try {
-      return JSON.parse(window.localStorage['battlesnake.new_game_state']);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  _savePastState () {
-    let json = JSON.stringify(this.state);
-    window.localStorage['battlesnake.new_game_state'] = json;
+      type: 'GET',
+      url: '/api/teams/'
+    })
+    .done((response) => {
+      this.setState({availableTeams: response.data});
+    });
   }
 
   render () {
-    let teamOpts = this.state.availableTeams.map((team, i) => {
-      let teamname = team.teamname
-      if (['bounty', 'test'].includes(team.type)) {
-        teamname = `${teamname} (${team.type} snake)`
-      }
+    let teamOpts = []
 
-      return (
-        <option key={'team_opt_' + i} value={i}>
-          {teamname}
-        </option>
-      );
-    });
+    teamOpts.push(
+      <option key="team_opt_none" value="none">Select a team</option>
+    )
+    teamOpts = teamOpts.concat(
+      this.state.availableTeams.map((team, i) => {
+        let teamname = team.teamname
+        if (['bounty', 'test'].includes(team.type)) {
+          teamname = `${teamname} (${team.type} snake)`
+        }
+
+        if (team.disabled) {
+          teamname = `${teamname} - Added`
+        }
+
+        return (
+          <option key={'team_opt_' + i} value={i} disabled={team.disabled || false}>
+            {teamname}
+          </option>
+        );
+      })
+    )
 
     let teamNames = this.state.addedTeams.map((team, i) => {
       return (
@@ -208,15 +194,14 @@ export default class GameCreate extends Component {
                 <label>Add a team</label>
                 <div className="input-group ">
                   <select name="teamname"
-                          className="form-control "
+                          className="form-control"
                           onChange={this.handleTeamChange}>
-                    <option value="">Select a team</option>
                     {teamOpts}
                   </select>
                   <span className="input-group-btn">
                     <button type="submit"
                             className="btn btn-success"
-                            disabled={this.state.selectedTeam || this.state.availableTeams.length !== 0 ? false : 'disabled'}
+                            disabled={this.state.selectedTeam ? false : 'disabled'}
                             onClick={this.handleAddTeam}>
                       Add Team
                     </button>
@@ -226,7 +211,7 @@ export default class GameCreate extends Component {
               <div className="form-group">
                 <label>Width</label>
                 <input type="number"
-                       className="form-control "
+                       className="form-control"
                        placeholder="width"
                        min="5"
                        max="50"
@@ -237,7 +222,7 @@ export default class GameCreate extends Component {
               <div className="form-group">
                 <label>Height</label>
                 <input type="number"
-                       className="form-control "
+                       className="form-control"
                        placeholder="height"
                        min="5"
                        max="50"
@@ -250,7 +235,7 @@ export default class GameCreate extends Component {
                 <input type="number"
                        step="0.1"
                        min="0.1"
-                       className="form-control "
+                       className="form-control"
                        placeholder="1.0 (seconds)"
                        value={this.state.currentTimeout}
                        onChange={this.handleTimeoutChange}

@@ -11,8 +11,6 @@ import GameCreate from './components/gameCreate';
 import GameList from './components/gameList';
 import Game from './components/game';
 
-// Team Components
-// to be completed?
 
 const history = createBrowserHistory();
 

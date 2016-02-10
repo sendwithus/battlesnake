@@ -91,7 +91,7 @@ __2015 Source Code__
 __2015 Starter Snakes__
 * [NodeJS](http://github.com/sendwithus/battlesnake-node)
 * [Python](http://github.com/sendwithus/battlesnake-python)
-* [Java](http://github.com/sendwithus/battlesnake-java)
+* [Java (Deprecated)](http://github.com/sendwithus/battlesnake-legacy-java)
 * [Ruby](http://github.com/sendwithus/battlesnake-ruby)
 * [Go](http://github.com/sendwithus/battlesnake-go)
 * [Clojure](https://github.com/sendwithus/battlesnake-clojure)

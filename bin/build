@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Run the compilation
-npm run build_dev
+npm run build_prod

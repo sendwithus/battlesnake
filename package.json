@@ -47,7 +47,7 @@
     "postcss": "postcss --use autoprefixer -b 'last 2 versions' --dir static/dist/css static/dist/css/*.css",
     "build_css": "npm run lesscss_app && npm run lesscss_markdown && npm run lesscss_landing && npm run postcss",
     "build_js_dev": "BABEL_ENV=development watchify static/src/js/index.js -v -d -p livereactload -o static/dist/js/app.js",
-    "build_js_prod": "BABEL_ENV=production browserify -g uglifyify static/src/js/index.js > static/dist/js/app.js",
+    "build_js_prod": "BABEL_ENV=production browserify static/src/js/index.js > static/dist/js/app.js",
     "build_dev": "npm run make_static_folders && npm run lint_js && npm run build_js_dev",
     "build_prod": "npm run make_static_folders && npm run build_css && npm run lint_js && npm run build_js_prod",
     "watch_css": "nodemon --quiet --watch static/src/css/ --ext less --exec 'npm run build_css'"

@@ -145,33 +145,33 @@ class Engine(object):
             [width_fifths[0], height_fifths[0]],  # top left
             [width_fifths[3], height_fifths[0]],  # top right
             [width_fifths[3], height_fifths[3]],  # bottom right
-            [width_fifths[0], height_fifths[3]]  # bottom left
+            [width_fifths[0], height_fifths[3]],  # bottom left
         ]
         second_four = [
-            [width_fifths[1], height_fifths[0]],  # mid top
-            [width_fifths[3], height_fifths[1]],  # mid right
-            [width_fifths[1], height_fifths[3]],  # mid bottom
-            [width_fifths[0], height_fifths[1]],  # mid left
+            [width_fifths[1], height_fifths[0]],  # mid top 1
+            [width_fifths[3], height_fifths[1]],  # mid right 1
+            [width_fifths[1], height_fifths[3]],  # mid bottom 1
+            [width_fifths[0], height_fifths[1]],  # mid left 1
         ]
         third_four = [
-            [width_fifths[2], height_fifths[0]],  # mid top
-            [width_fifths[3], height_fifths[2]],  # mid right
-            [width_fifths[2], height_fifths[3]],  # mid bottom
-            [width_fifths[0], height_fifths[2]],  # mid left
+            [width_fifths[2], height_fifths[0]],  # mid top 2
+            [width_fifths[3], height_fifths[2]],  # mid right 2
+            [width_fifths[2], height_fifths[3]],  # mid bottom 2
+            [width_fifths[0], height_fifths[2]],  # mid left 2
         ]
 
         random.shuffle(first_four)
         random.shuffle(second_four)
         random.shuffle(third_four)
 
-        starting_coords = (first_four + second_four + third_four)
-
         # Stop giving first 4 snakes the corners when there are more than 4 snakes
         if len(snakes) > 4:
+            starting_coords = (first_four + second_four + third_four)
             random.shuffle(starting_coords)
+        else:
+            starting_coords = first_four
 
         # Place snakes
-
         for snake, coords in zip(snakes, starting_coords):
             snake.coords = [coords for _ in range(constants.SNAKE_STARTING_LENGTH)]
 

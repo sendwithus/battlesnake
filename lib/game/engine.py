@@ -136,7 +136,7 @@ class Engine(object):
         # Generate starting positions
         def get_fifth_dimensions(dimension):
             interval = int(math.floor(dimension / 5))
-            return [interval - 1, (interval * 2) -1, dimension - (interval * 2), dimension - interval]
+            return [interval, (interval * 2), dimension - (interval * 2) - 1, dimension - interval - 1]
 
         width_fifths = get_fifth_dimensions(game_state.width)
         height_fifths = get_fifth_dimensions(game_state.height)

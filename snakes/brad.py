@@ -3,7 +3,7 @@ from lib.ai.local import LocalSnake
 
 class Snake(LocalSnake):
 
-    SNAKE_NAME = 'localsnake.' + __name__.split('.')[-1]
+    SNAKE_URL = 'localsnake://' + __name__.split('.')[-1]
 
     def whois(self):
         return {
@@ -20,7 +20,7 @@ class Snake(LocalSnake):
         bad_tiles = []
         for snake in payload['snakes']:
             bad_tiles += snake['coords']
-            if snake['id'] == self.SNAKE_NAME:
+            if 'url' in snake and snake['url'] == self.SNAKE_URL:
                 head = snake['coords'][0]
 
         smallest = 999

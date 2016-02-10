@@ -43,7 +43,7 @@ export default class Navbar extends Component {
         <div className="container-fluid">
           <div className="navbar-header">
             <a className="navbar-brand" href="/app/games">
-              <img src="/static/img/logo-bs.png" />
+              <img src="/static/img/logo-slim.png" />
             </a>
             <button type="button"
                 className="navbar-toggle collapsed"

@@ -20,7 +20,7 @@ def test_snake():
             abort(404)
 
     # Fake a game
-    game = Game(10, 10, 1)
+    game = Game(id=1, width=10, height=10)
     snakes = [engine.Snake('test-snake-id', snake_url)]
     game_state = engine.Engine.create_game_state(game.id, game.width, game.height)
     engine.Engine.add_random_snakes_to_board(game_state, snakes)

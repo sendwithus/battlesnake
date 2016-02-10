@@ -110,12 +110,12 @@ def teams_list():
     }
     """
     teams = Team.find(
-        {'$or': [
-            {'$and': [
+        {'$and': [
+            {'$or': [
                 {'is_public': True},
-                {'type': {'$ne': Team.TYPE_ADMIN}},
+                {'_id': g.team.id}
             ]},
-            {'_id': g.team.id}
+            {'type': {'$ne': Team.TYPE_ADMIN}},
         ]}, limit=50)
     return json_response([team.serialize() for team in teams])
 

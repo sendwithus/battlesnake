@@ -6,6 +6,7 @@ from lib.ai.local import LocalSnake
 
 SNAKE_HEAD = 'http://insomnia.rest/images/icon-small-back.png'
 SNAKE_COLOR = '#423c70'
+TEAM_ID = 'localsnake.greg'
 
 
 class Snake(LocalSnake):
@@ -53,7 +54,7 @@ def _count_moves(gs, start, count=0):
     for point in points:
         if _is_on_board(gs, point) and not _is_snake(gs, point):
             # Add new position to snake
-            snake = _get_snake(gs, SNAKE_NAME)
+            snake = _get_snake(gs, TEAM_ID)
             snake['coords'].insert(0, point)
 
             # Mark position on board
@@ -194,9 +195,9 @@ def _get_move(vector):
     return moves[vector[0]][vector[1]]
 
 
-def _get_snake(gs, snake_name):
+def _get_snake(gs, team_id):
     for snake in gs['snakes']:
-        if snake['name'] == snake_name:
+        if snake['id'] == team_id:
             return snake
     return None
 
@@ -273,7 +274,7 @@ def _stay_safe(gs, snake, head):
     else:
         gold_distance = _calc_distance(gold, head)
 
-    if gold_distance < 3 or random.randint(0, 15) == 0:
+    if gold_distance < 3:
         dest = gold
     else:
         # TODO: Choose food that's closest to your own body (Stay tight)
@@ -284,7 +285,7 @@ def _stay_safe(gs, snake, head):
         else:
             food_distance = _calc_distance(food, head)
 
-        if food_distance < 3 or random.randint(0, 15) == 0:
+        if food and (food_distance < 3 or random.randint(0, 15) == 0):
             dest = food
         else:
             dest = tail
@@ -308,7 +309,7 @@ def _stay_safe(gs, snake, head):
 
 
 def next_move(gs):
-    snake = _get_snake(gs, SNAKE_NAME)
+    snake = _get_snake(gs, TEAM_ID)
 
     # Legacy board
     gs['board'] = _generate_board(gs)

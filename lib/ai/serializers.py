@@ -33,6 +33,10 @@ def serialize_snake(game, snake):
         'kills': snake.kills,
     }
 
+    # Pass urls to localsnakes only (so they can find themselves)
+    if snake.is_localsnake():
+        data['url'] = snake.url
+
     if game.mode == Game.MODE_ADVANCED:
         data.update({
             'gold': snake.gold

@@ -15,10 +15,6 @@ class Snake(object):
 
         super(Snake, self).__init__()
 
-        if url.startswith('localsnake'):
-            # Localsnake names are set to the URLs to be deterministic
-            name = url
-
         self.team_id = team_id
         self.url = url
         self.name = name
@@ -44,6 +40,9 @@ class Snake(object):
 
     def __unicode__(self):
         return u'Snake[{}]'.format(self.name)
+
+    def is_localsnake(self):
+        return self.url.startswith('localsnake://')
 
     def to_dict(self):
         return {

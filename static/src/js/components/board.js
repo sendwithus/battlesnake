@@ -53,7 +53,6 @@ export default class Board {
     window.onresize = this.resize.bind(this);
   }
 
-  // TODO debounce this
   resize () {
     var containerParent = this.container.parentNode;
 
@@ -91,6 +90,28 @@ export default class Board {
       walls = this.svg.select('g.inner-board').selectAll('rect.wall').data(gameState.walls),
       heads = d3.select(this.container).selectAll('img.head').data(gameState.snakes),
       gold = d3.select(this.container).selectAll('img.gold').data(gameState.gold);
+
+    function isAbove(dx, dy) { return dx === 0 && dy === -1; }
+    function isLeftOf(dx, dy) { return dx === -1 && dy === 0; }
+    function isBelow(dx, dy) { return dx === 0 && dy === 1; }
+    function isRightOf(dx, dy) { return dx === 1 && dy === 0; }
+
+
+    function directionRotation(snake) {
+      var rotation = 0;
+      if (snake.coords.length > 1) {
+        var head = _.head(snake.coords),
+          neck = snake.coords[1],
+          dx = head[0] - neck[0],
+          dy = head[1] - neck[1];
+
+        if (isLeftOf(dx, dy)) rotation = 270;
+        else if (isBelow(dx, dy)) rotation = 180;
+        else if (isRightOf(dx, dy)) rotation = 90;
+      }
+
+      return ['rotate(',rotation,'deg)'].join('');
+    }
 
     this.canvas
       .attr('width', this.width)
@@ -178,7 +199,8 @@ export default class Board {
       .attr('height', bitHeight - spacing)
       .style('position', 'absolute')
       .style('left', function(d) { return xOffs + innerBoardPadding + spacing + 15 + d.coords[0][0] * bitWidth + 'px'; })
-      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d.coords[0][1] * bitHeight + 'px'; });
+      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d.coords[0][1] * bitHeight + 'px'; })
+      .style('transform', directionRotation);
     gold.transition().duration(0)
       .attr('src', '/static/img/img-coin.gif')
       .style('border-radius', '100%')

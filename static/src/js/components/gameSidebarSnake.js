@@ -85,7 +85,6 @@ export default class GameSidebarSnake extends Component {
 
     var healthScale = d3.scale.linear().domain([0,50,100]).range(['red', 'orange', 'green']);
 
-
     return (
       <div className="snake-block">
         <img src={this.props.snake.head} style={snakeStyles} ref='head' />

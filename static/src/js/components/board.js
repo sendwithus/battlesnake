@@ -82,6 +82,7 @@ export default class Board {
       bitWidth = (boardWidth - innerBoardPadding * 2 - spacing) / gameState.width,
       bitHeight = (boardHeight - innerBoardPadding * 2 - spacing) / gameState.height,
       boardData = gameState.board,
+      deathAnimationDuration = 1000,
       rows = this.svg.select('g.inner-board').selectAll('g.row').data(boardData),
       cells = rows.selectAll('rect.cell').data(_.identity),
       food = this.svg.select('g.inner-board').selectAll('circle.food').data(gameState.food),
@@ -151,7 +152,8 @@ export default class Board {
       .attr('fill', 'steelblue');
     snakes.enter().append('g')
       .attr('class', 'snake');
-    snakeBits.enter().append('rect')
+    snakeBits.enter()
+      .append('rect')
       .attr('class', 'snakeBit');
     heads.enter().append('img')
       .attr('class', 'head');
@@ -214,8 +216,24 @@ export default class Board {
     food.exit().remove();
     gold.exit().remove();
     walls.exit().remove();
-    snakes.exit().remove();
-    snakeBits.exit().remove();
-    heads.exit().remove();
+    snakes.exit().transition()
+      .duration(deathAnimationDuration).remove();
+    snakes.exit().selectAll('rect.snakeBit').transition()
+      .duration(deathAnimationDuration)
+      .attr('width', 100)
+      .attr('height', 100)
+      .attr('x', function(d) { return spacing + d[0] * bitWidth - 50 })
+      .attr('y', function(d) { return spacing + d[1] * bitHeight - 50 })
+      .style('opacity', 0);
+    snakeBits.exit().transition()
+      .duration(deathAnimationDuration).remove();
+    heads.exit().transition()
+      .duration(deathAnimationDuration)
+      .attr('width', 100)
+      .attr('height', 100)
+      .style('left', function(d) { return xOffs + innerBoardPadding + spacing + 15 + d.coords[0][0] * bitWidth - 50 + 'px'; })
+      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d.coords[0][1] * bitHeight - 50 + 'px'; })
+      .style('opacity', 0)
+      .remove();
   }
 }

@@ -83,9 +83,11 @@ export default class Board {
       bitHeight = (boardHeight - innerBoardPadding * 2 - spacing) / gameState.height,
       boardData = gameState.board,
       deathAnimationDuration = 1000,
+      explodeSize = 1000,
       rows = this.svg.select('g.inner-board').selectAll('g.row').data(boardData),
       cells = rows.selectAll('rect.cell').data(_.identity),
-      food = this.svg.select('g.inner-board').selectAll('circle.food').data(gameState.food, _.identity),
+      //food = this.svg.select('g.inner-board').selectAll('circle.food').data(gameState.food, _.identity),
+      food = d3.select(this.container).selectAll('img.food').data(gameState.food, _.identity),
       snakes = this.svg.select('g.inner-board').selectAll('g.snake').data(gameState.snakes),
       snakeBits = snakes.selectAll('rect.snakeBit').data(function(d) { return d.coords; }),
       walls = this.svg.select('g.inner-board').selectAll('rect.wall').data(gameState.walls),
@@ -96,7 +98,6 @@ export default class Board {
     function isLeftOf(dx, dy) { return dx === -1 && dy === 0; }
     function isBelow(dx, dy) { return dx === 0 && dy === 1; }
     function isRightOf(dx, dy) { return dx === 1 && dy === 0; }
-
 
     function directionRotation(snake) {
       var rotation = 0;
@@ -141,9 +142,14 @@ export default class Board {
       .attr('class', 'row');
     cells.enter().append('rect')
       .attr('class', 'cell');
-    food.enter().append('circle')
+    //food.enter().append('circle')
+    //  .attr('class', 'food')
+    //  .attr('r', 0)
+    //  .attr('fill', snakewithus.COLORS.FOOD);
+    food.enter().append('img')
       .attr('class', 'food')
-      .attr('r', 0)
+      .attr('width', bitWidth - spacing)
+      .attr('width', bitWidth - spacing)
       .attr('fill', snakewithus.COLORS.FOOD);
     gold.enter().append('img')
       .attr('class', 'gold')
@@ -171,11 +177,11 @@ export default class Board {
       .attr('width', bitWidth - spacing)
       .attr('height', bitHeight - spacing)
       .attr('fill', _.constant(snakewithus.COLORS.EMPTY));
-    food.transition()
-      .duration(250)
-      .attr('r', (bitWidth / 3) - spacing)
-      .attr('cx', function(d){ return spacing + d[0] * bitWidth + bitWidth / 2 - spacing / 2; })
-      .attr('cy', function(d){ return spacing + d[1] * bitHeight + bitWidth / 2 - spacing / 2; });
+    //food.transition()
+    //  .duration(250)
+    //  .attr('r', (bitWidth / 3) - spacing)
+    //  .attr('cx', function(d){ return spacing + d[0] * bitWidth + bitWidth / 2 - spacing / 2; })
+    //  .attr('cy', function(d){ return spacing + d[1] * bitHeight + bitWidth / 2 - spacing / 2; });
     walls.transition()
       .duration(100)
       .attr('x', function(d) { return spacing + d[0] * bitWidth })
@@ -211,10 +217,15 @@ export default class Board {
       .style('position', 'absolute')
       .style('left', function(d) { return xOffs + innerBoardPadding + spacing + 15 + d[0] * bitWidth  + 5 + 'px'; })
       .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d[1] * bitHeight + 5 + 'px'; });
+    food.transition().duration(0)
+      .attr('src', '/static/img/eco-green-apple.png')
+      .attr('width', bitWidth - spacing)
+      .attr('height', bitHeight - spacing)
+      .style('position', 'absolute')
+      .style('left', function(d) { return xOffs + innerBoardPadding + spacing + 15 + d[0] * bitWidth + 'px'; })
+      .style('top', function(d) { return yOffs + innerBoardPadding + spacing + d[1] * bitHeight + 'px'; });
 
     // exits
-    var explodeSize = 500;
-
     food.exit().remove();
     gold.exit().remove();
     walls.exit().remove();
@@ -224,8 +235,8 @@ export default class Board {
       .duration(deathAnimationDuration)
       .attr('width', explodeSize)
       .attr('height', explodeSize)
-      .attr('x', function(d) { return spacing + d[0] * bitWidth - 50 })
-      .attr('y', function(d) { return spacing + d[1] * bitHeight - 50 })
+      .attr('x', function(d) { return spacing + d[0] * bitWidth - (explodeSize / 2) })
+      .attr('y', function(d) { return spacing + d[1] * bitHeight - (explodeSize / 2) })
       .style('opacity', 0);
     snakeBits.exit().transition()
       .duration(deathAnimationDuration).remove();

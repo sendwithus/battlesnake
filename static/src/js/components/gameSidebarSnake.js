@@ -76,7 +76,7 @@ export default class GameSidebarSnake extends Component {
     if (this.props.showGold) {
       _.times(this.props.snake.gold || 0, function() {
         goldIndicator.push(
-          <div style={{width: 30 + 'px', height: 30 + 'px', position: 'relative', display: 'inline-block'}}>
+          <div style={{width: 30 + 'px', height: 30 + 'px', position: 'relative', display: 'inline-block', marginLeft: '-3'}}>
             <img src='/static/img/img-coin.gif' style={{borderRadius: '100%', width: '30px', height: '30px'}} />
           </div>
         );
@@ -89,7 +89,7 @@ export default class GameSidebarSnake extends Component {
       <div className="snake-block">
         <img src={this.props.snake.head} style={snakeStyles} ref='head' />
         <h3 style={{marginBottom: '10px'}}>{this.props.snake.name} <span className="muted">({this.props.snake.coords.length})</span></h3>
-        <div className="muted meta" style={{height: 20 + 'px'}}>
+        <div className="muted meta" style={{height: 20 + 'px', marginBottom: '3px'}}>
           <div className="inner" style={{width: this.props.snake.health + '%', height: 20 + 'px', backgroundColor: healthScale(this.props.snake.health), borderRadius: 5 + 'px'}}>
           </div>
         </div>

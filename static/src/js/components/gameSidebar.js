@@ -22,6 +22,7 @@ export default class GameSidebar extends Component {
           snake={snake}
           isDead={false}
           turn={this.props.latestGameState.turn}
+          showGold={this.props.latestGameState.mode === 'advanced'}
         />
       )
     });
@@ -33,6 +34,7 @@ export default class GameSidebar extends Component {
           snake={snake}
           isDead={true}
           turn={this.props.latestGameState.turn}
+          showGold={this.props.latestGameState.mode === 'advanced'}
         />
       )
     });

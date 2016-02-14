@@ -71,24 +71,34 @@ export default class GameSidebarSnake extends Component {
 
     let tauntClass = this.props.isDead ? 'dead' : 'alive';
 
+    var goldIndicator = [];
+
+    if (this.props.showGold) {
+      _.times(this.props.snake.gold || 0, function() {
+        goldIndicator.push(
+          <div style={{width: 30 + 'px', height: 30 + 'px', position: 'relative', display: 'inline-block'}}>
+            <img src='/static/img/img-coin.gif' style={{borderRadius: '100%', width: '30px', height: '30px'}} />
+          </div>
+        );
+      })
+    }
+
+    var healthScale = d3.scale.linear().domain([0,50,100]).range(['red', 'orange', 'green']);
+
+
     return (
       <div className="snake-block">
         <img src={this.props.snake.head} style={snakeStyles} ref='head' />
-        <h3>{this.props.snake.name} <span className="muted">({this.props.snake.coords.length})</span></h3>
+        <h3 style={{marginBottom: '10px'}}>{this.props.snake.name} <span className="muted">({this.props.snake.coords.length})</span></h3>
+        <div className="muted meta" style={{height: 20 + 'px'}}>
+          <div className="inner" style={{width: this.props.snake.health + '%', height: 20 + 'px', backgroundColor: healthScale(this.props.snake.health), borderRadius: 5 + 'px'}}>
+          </div>
+        </div>
         <div className="muted meta">
-          <div className="col">
-            life: <strong>{this.props.snake.health}</strong>
-          </div>
-          <div className="col">
-            food: {this.props.snake.food_eaten || 0}
-          </div>
-          <div className="col">
-            kills: {this.props.snake.kills || 0}
-          </div>
+          {goldIndicator}
         </div>
         <div className={'taunt ' + tauntClass} style={tauntStyles}>{this.state.tauntToShow}</div>
       </div>
     )
   }
-
 }

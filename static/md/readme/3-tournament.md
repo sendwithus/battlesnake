@@ -1,12 +1,12 @@
 ## Tournament
 
-This year's tournament will be split into two brackets: Classic and Advanced.
+This year's tournament will be split into two divisions: Classic and Advanced.
 
-The _Classic Bracket_ will feature familiar snake gameplay mechanics and is ideal for first time attendees and/or novice programmers.
+The _Classic Division_ will feature familiar snake gameplay mechanics and is ideal for first time attendees and/or novice programmers.
 
-The _Advanced Bracket_ will introduce new challenging gameplay mechanics and even greater prizes, ideal for BattleSnake veterans and teams wanting to compete against the best.
+The _Advanced Division_ will introduce new challenging gameplay mechanics and even greater prizes, ideal for BattleSnake veterans and teams wanting to compete against the best.
 
-Teams may decide which bracket they wish to enter during registration.
+Teams may decide which division they wish to enter during registration.
 
 #### Tournament Format
 

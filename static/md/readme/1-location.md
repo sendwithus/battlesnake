@@ -29,7 +29,7 @@ Teams begin building and testing their Snake AIs.
 
 #### 6:00 PM - Tournament Group Stages Begin
 
-Tournament schedule and brackets will be announced during the BattleSnake event.
+Tournament schedule and divisions will be announced during the BattleSnake event.
 
 #### 7:30 PM - Prizes and Awards
 

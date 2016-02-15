@@ -8,8 +8,8 @@ This year we have more prizes than ever, including $2,500 cash for the tournamen
     <thead>
         <tr>
             <th>Prize</th>
-            <th>Classic Bracket</th>
-            <th>Advanced Bracket</th>
+            <th>Classic Division</th>
+            <th>Advanced Division</th>
         </tr>
     </thead>
     <tbody>

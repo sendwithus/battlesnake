@@ -30,6 +30,7 @@ def serialize_snake(game, snake):
         'health': snake.health,
         'coords': snake.coords,
         'kills': snake.kills,
+        'age': snake.age,
     }
 
     # Pass urls to localsnakes only (so they can find themselves)

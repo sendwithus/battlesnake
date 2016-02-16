@@ -30,7 +30,7 @@ class Snake(object):
         self.last_eaten = 0
         self.gold = 0
         self.killed_by = ''
-        self.died_on_turn = 0
+        self.age = 0
         self.move = ''
         self.error = None
 
@@ -60,7 +60,7 @@ class Snake(object):
             'last_eaten': self.last_eaten,
             'gold': self.gold,
             'killed_by': self.killed_by,
-            'died_on_turn': self.died_on_turn,
+            'age': self.age,
         }
 
     @classmethod
@@ -75,7 +75,7 @@ class Snake(object):
         snake.last_eaten = obj['last_eaten']
         snake.gold = obj['gold']
         snake.killed_by = obj['killed_by']
-        snake.died_on_turn = obj['died_on_turn']
+        snake.age = obj['age']
 
         return snake
 
@@ -271,6 +271,9 @@ class Engine(object):
             elif snake.move == cls.MOVE_WEST:
                 new_snake.move_west()
 
+            # Increase age by 1
+            new_snake.age += 1
+
             # Save snake in New Position
             new_snakes.append(new_snake)
 
@@ -375,7 +378,6 @@ class Engine(object):
         # Kill Off Snakes
         for snake in new_snakes:
             if snake.name in kill:
-                snake.died_on_turn = game_state.turn
                 dead_snakes.append(snake)
 
         new_snakes = [snake for snake in new_snakes if snake.name not in kill]

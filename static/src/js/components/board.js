@@ -183,7 +183,7 @@ export default class Board {
     //  .attr('cx', function(d){ return spacing + d[0] * bitWidth + bitWidth / 2 - spacing / 2; })
     //  .attr('cy', function(d){ return spacing + d[1] * bitHeight + bitWidth / 2 - spacing / 2; });
     walls.transition()
-      .duration(100)
+      .duration(0)
       .attr('x', function(d) { return spacing + d[0] * bitWidth })
       .attr('y', function(d) { return spacing + d[1] * bitHeight })
       .attr('width', bitWidth - spacing)

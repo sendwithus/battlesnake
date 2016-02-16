@@ -30,7 +30,7 @@ class Snake(LocalSnake):
                 bad_tiles.append([snake['coords'][0][0], snake['coords'][0][1]+1])
                 bad_tiles.append([snake['coords'][0][0], snake['coords'][0][1]-1])
 
-        for wall in payload['walls']:
+        for wall in payload.get('walls', []):
             bad_tiles.append(wall)
 
         smallest = 999
@@ -43,7 +43,7 @@ class Snake(LocalSnake):
                 smallest = distance
                 target = food
 
-        if len(payload['gold']) > 0 and health > 35:
+        if len(payload.get('gold', [])) > 0 and health > 35:
             target = payload['gold'][0]
 
         move = None

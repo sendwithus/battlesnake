@@ -23,7 +23,6 @@ class Snake(object):
         self.taunt = taunt
         self.status = Snake.STATUS_ALIVE
         self.message = ''
-        self.age = 0
         self.health = self.FULL_HEALTH
         self.coords = coords
         self.kills = 0
@@ -54,7 +53,6 @@ class Snake(object):
             'taunt': self.taunt,
             'status': self.status,
             'message': self.message,
-            'age': self.age,
             'health': self.health,
             'coords': self.coords,
             'kills': self.kills,
@@ -70,7 +68,6 @@ class Snake(object):
         snake = cls(obj['team_id'], obj['url'], obj['name'], obj['color'], obj['head'], obj['taunt'])
         snake.status = obj['status']
         snake.message = obj['message']
-        snake.age = obj['age']
         snake.health = obj['health']
         snake.coords = obj['coords']
         snake.kills = obj['kills']

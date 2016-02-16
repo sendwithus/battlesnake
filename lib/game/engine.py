@@ -409,9 +409,10 @@ class Engine(object):
 
         # Check if the game is over
         total_snakes = len(new_game_state.snakes) + len(new_game_state.dead_snakes)
-        if total_snakes == 1 and len(new_game_state.snakes) == 0:
-            # Single snake games go until the end
-            new_game_state.is_done = True
+        if total_snakes == 1: 
+            if len(new_game_state.snakes) == 0 or new_game_state.snakes[0].gold == constants.GOLD_VICTORY:
+                # Single snake games go until the end
+                new_game_state.is_done = True
 
         elif total_snakes > 1 and len(new_game_state.snakes) <= 1:
             # Multi snake games go until one snake left

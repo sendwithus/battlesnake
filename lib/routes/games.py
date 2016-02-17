@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, g
 
 from lib.log import get_logger
 from lib.models.game import Game, GameState
@@ -30,7 +30,7 @@ def games_create():
     # Add all teams to snake_urls
     teams = []
     for team_dict in team_dicts:
-        if not '_id' in team_dict:
+        if '_id' not in team_dict:
             return json_response(msg='Invalid team object, missing \'_id\'', status=400)
         team = Team.find_one({'_id': team_dict['_id']})
         if not team:
@@ -43,6 +43,7 @@ def games_create():
 
     try:
         game, game_state = controller.create_game(
+            team_id=g.team.id,
             teams=teams,
             width=width,
             height=height,
@@ -114,6 +115,7 @@ def game_turn(game_id):
 def games_list():
     games = Game.find({
         'is_live': True,
+        'team_id': g.team.id,
         'state': {
             '$in': [
                 Game.STATE_PLAYING,

@@ -17,7 +17,9 @@ The BattleSnake API consists of four commands:
 * MOVE
 * END GAME
 
-### COMMAND: INFO <br> _GET /_
+<hr>
+
+### INFO <br> _GET /_
 
 Returns information about your snake.
 
@@ -39,7 +41,9 @@ None
 }
 </code></pre>
 
-### COMMAND: START GAME <br> _POST /start_
+<hr>
+
+### START GAME <br> _POST /start_
 
 Signals the start of a BattleSnake game.
 
@@ -55,6 +59,8 @@ NOTE: Game IDs may be re-used throughout the day, however multiple games with th
     * **width** - Width of game board
 * **snakes** - List of snakes, including their status and position
 * **food** - List of coordinates of available food
+* **walls** - List of coordinates of extra walls (Advanced Only)
+* **gold** - Coordinates of available gold coins (Advanced Only)
 
 <code><pre>
 {
@@ -66,9 +72,11 @@ NOTE: Game IDs may be re-used throughout the day, however multiple games with th
         "width": 30
     },
     "snakes": [
-        <Snake>, <Snake>, ...
+        &lt;Snake Object&gt;, &lt;Snake Object&gt;, ...
     ],
-    "food": []
+    "food": [],
+    "walls": [],  // Advanced Only
+    "gold": []    // Advanced Only
 }
 </code></pre>
 
@@ -82,7 +90,9 @@ NOTE: Game IDs may be re-used throughout the day, however multiple games with th
 }
 </code></pre>
 
-### COMMAND: MOVE <br> _POST /move_
+<hr>
+
+### MOVE <br> _POST /move_
 
 Request for your snake to move. This request is made to all snakes in a particular game simultaneously. Once all snakes have responded, moves are calculated and the game board will update.
 
@@ -98,6 +108,9 @@ NOTE: Failing to properly respond to a MOVE command will forfeit your turn and y
     * **width** - Width of game board
 * **snakes** - List of snakes, including their status and position
 * **food** - List of coordinates of available food
+* **walls** - List of coordinates of extra walls (Advanced Only)
+* **gold** - Coordinates of available gold coins (Advanced Only)
+
 
 <code><pre>
 {
@@ -109,10 +122,16 @@ NOTE: Failing to properly respond to a MOVE command will forfeit your turn and y
         "width": 30
     },
     "snakes": [
-        <Snake>, <Snake>, ...
+        &lt;Snake Object&gt;, &lt;Snake Object&gt;, ...
     ],
     "food": [
         [1, 2], [9, 3], ...
+    ],
+    "walls": [    // Advanced Only
+        [2, 2]
+    ],
+    "gold": [     // Advanced Only
+        [5, 5]
     ]
 }
 </code></pre>
@@ -129,7 +148,9 @@ NOTE: Failing to properly respond to a MOVE command will forfeit your turn and y
 }
 </code></pre>
 
-### COMMAND: END <br> _POST /end_
+<hr>
+
+### END GAME <br> _POST /end_
 
 Signals the end of a specific game. After this request, future requests for this Game will not be made and the Game ID may be re-used.
 
@@ -143,6 +164,8 @@ Signals the end of a specific game. After this request, future requests for this
     * **width** - Width of game board
 * **snakes** - List of snakes, including their status and position
 * **food** - List of coordinates of available food
+* **walls** - List of coordinates of extra walls (Advanced Only)
+* **gold** - Coordinates of available gold coins (Advanced Only)
 
 <code><pre>
 {
@@ -154,10 +177,16 @@ Signals the end of a specific game. After this request, future requests for this
         "width": 30
     },
     "snakes": [
-        <Snake>, <Snake>, ...
+        &lt;Snake Object&gt;, &lt;Snake Object&gt;, ...
     ],
     "food": [
         [1, 2], [9, 3], ...
+    ],
+    "walls": [    // Advanced Only
+        [2, 2]
+    ],
+    "gold": [     // Advanced Only
+        [5, 5]
     ]
 }
 </code></pre>
@@ -170,20 +199,23 @@ Ignored, game is over.
 {}
 </code></pre>
 
+<hr>
+
 ### Snake Objects
 
 Snake objects have the following properties:
 
-* **id** - Snake ID. Use this value to find your snake, [find your ID here](http://www.battlesnake.io/team).
+* **id** - Snake ID. Use this value to find your snake [(find your ID here)](http://www.battlesnake.io/team).
 * **name** - Snake Name
 * **status** - Status, either `alive` or `dead`
 * **message** - Friendly message describing this snakes last move
 * **taunt** - Snake's latest taunt
 * **age** - How many turns this snake has survived
-* **health** - Current snake health (0 - 100)
+* **health** - Current snake health [0 - 100]
 * **coords** - List of [x, y] coordinates describing snake position, ordered from head to tail
 * **kills** - Number of snake deaths this snake is responsible for
 * **food** - Number of food eaten by this snake
+* **gold** - Number of gold coins acquired by this snake
 
 <code><pre>
 {
@@ -196,6 +228,7 @@ Snake objects have the following properties:
     "health": 83,
     "coords": [ [1, 1], [1, 2], [2, 2] ],
     "kills": 4,
-    "food": 12
+    "food": 12,
+    "gold": 2
 }
 </code></pre>

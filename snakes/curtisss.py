@@ -19,7 +19,7 @@ class Snake(LocalSnake):
         bad_tiles = []
 
         for snake in payload['snakes']:
-            if snake['id'] == '9fb16e7e-e366-4ff0-985b-7e7b41dd598d':
+            if snake['url'] == 'localsnake://curtisss':
                 bad_tiles += snake['coords'][1:]
                 head = snake['coords'][0]
                 health = snake['health']

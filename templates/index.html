@@ -459,12 +459,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar.js/0.6.2/jquery.stellar.min.js"></script>
     <script>
-      $(function() {
-        $.stellar({
-          horizontalScrolling: false,
-          verticalOffset: 0,
-        });
-      });
       //STICKY TABS
       function sticky_relocate() {
           var window_top = $(window).scrollTop();
@@ -481,6 +475,11 @@
       $(function () {
           $(window).scroll(sticky_relocate);
           sticky_relocate();
+
+          $.stellar({
+            horizontalScrolling: false,
+            verticalOffset: 0,
+          });
       });
     </script>
 

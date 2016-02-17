@@ -19,6 +19,13 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/setup')
+@public
+def setup():
+    html = __load_markdown('static/md/setup.md')
+    return render_template('markdown.html', html=html, title='Getting Started')
+
+
 @app.route('/readme')
 @public
 def readme():

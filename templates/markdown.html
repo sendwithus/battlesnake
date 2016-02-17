@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>BattleSnake - {{ title }}</title>
+  {% include "partials/app_head.html" %}
+  <link rel="stylesheet" href="/static/dist/css/markdown.css">
+</head>
+<body class="markdown-body">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      {{ html }}
+      {% include "partials/app_foot.html" %}
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -70,7 +70,7 @@ def __call_local_snakes(snakes, endpoint, payload):
         try:
             with gevent.Timeout(0.1):
                 if payload:
-                    response_data = getattr(local_snake, endpoint)(payload)
+                    response_data = getattr(local_snake, endpoint)(payload.copy())
                 else:
                     response_data = getattr(local_snake, endpoint)()
         except gevent.Timeout:
@@ -94,9 +94,8 @@ def __call_remote_snakes(snakes, method, endpoint, payload, timeout_seconds):
         headers = {
             'content-type': 'application/json'
         }
-        data = json.dumps(payload)
         reqs = [
-            grequests.post(url, data=data.copy(), headers=headers, timeout=timeout_seconds)
+            grequests.post(url, data=json.dumps(payload), headers=headers, timeout=timeout_seconds)
             for url in urls
         ]
     elif method == 'GET':

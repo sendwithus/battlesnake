@@ -104,7 +104,6 @@ export default class Game extends Component {
 
   handleStart (isManual) {
     let formData = JSON.stringify({ manual: isManual })
-    console.log(formData);
     $.ajax({
       type: 'POST',
       url: '/api/games/' + this.props.params.id + '/start',
@@ -182,7 +181,6 @@ export default class Game extends Component {
       url: '/api/games/' + this.props.params.id
     })
     .done((response) => {
-      console.log(response);
       if (this._isMounted) {
         this.setState({ game: response.data });
       }

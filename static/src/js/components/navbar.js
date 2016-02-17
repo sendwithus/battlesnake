@@ -5,6 +5,7 @@ export default class Navbar extends Component {
   static defaultProps = {
     links: [
       // Default nav links
+      ['/readme', 'README', true],
       ['/app/games', 'Games'],
       ['/app/game/new', 'New'],
       ['/team', 'My Team'],
@@ -31,7 +32,7 @@ export default class Navbar extends Component {
     let navLinks = this.props.links.map((link, i) => {
       return (
         <li key={i}>
-          <a href={link[0]} onClick={this.handleNavChange.bind(null, link[0])}>
+          <a href={link[0]} onClick={this.handleNavChange.bind(null, link[0])} target={link[2] ? '_blank' : '_parent'}>
             {link[1]}
           </a>
         </li>

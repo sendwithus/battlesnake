@@ -31,6 +31,7 @@ class Game(Model):
             stats=None,
             turn_time=2.0,
             is_live=True,
+            team_id=None,
             mode=MODE_CLASSIC):
 
         super(Game, self).__init__()
@@ -42,6 +43,7 @@ class Game(Model):
         self.height = height
         self.turn_time = turn_time
         self.is_live = is_live
+        self.team_id = team_id
         self.mode = mode
 
     def to_dict(self):
@@ -53,6 +55,7 @@ class Game(Model):
             'height': self.height,
             'turn_time': self.turn_time,
             'is_live': self.is_live,
+            'team_id': self.team_id,
             'mode': self.mode
         }
 
@@ -79,6 +82,7 @@ class Game(Model):
             height=obj['height'],
             turn_time=obj['turn_time'],
             is_live=obj.get('is_live', False),
+            team_id=obj.get('team_id', None),
             mode=obj.get('mode', cls.MODE_CLASSIC)
         )
 

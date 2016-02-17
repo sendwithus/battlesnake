@@ -175,8 +175,14 @@ class Engine(object):
         return Engine.add_snakes_to_board(game_state, snakes)
 
     @staticmethod
-    def add_tile_to_board(game_state, tile_type):
+    def get_mid_coords(dimension):
+        half = (dimension - 1) / 2
+        if (dimension % 2) == 0:
+            return [half, half + 1]
+        return [half]
 
+    @staticmethod
+    def add_tile_to_board(game_state, tile_type):
         taken_tiles = []
         for snake in game_state.snakes:
             taken_tiles += [coord for coord in snake.coords]
@@ -187,8 +193,9 @@ class Engine(object):
             taken_tiles.append([snake.coords[0][0], snake.coords[0][1]-1])
 
         taken_tiles += [food for food in game_state.food]
-        taken_tiles += [gold for gold in game_state.gold]
         taken_tiles += [wall for wall in game_state.walls]
+        taken_tiles += [gold for gold in game_state.gold]
+        
 
         empty_tile_coords = []
         for x in range(game_state.width):
@@ -201,7 +208,14 @@ class Engine(object):
                 game_state.food.append(random.choice(empty_tile_coords))
 
             if tile_type == GameState.TILE_STATE_GOLD:
-                game_state.gold.append(random.choice(empty_tile_coords))
+
+                x_options = Engine.get_mid_coords(game_state.width)
+                y_options = Engine.get_mid_coords(game_state.height)
+                for x in x_options:
+                    for y in y_options:
+                        if [x, y] in empty_tile_coords:
+                            game_state.gold.append([x, y])
+                            return game_state
 
             if tile_type == GameState.TILE_STATE_WALL:
                 game_state.walls.append(random.choice(empty_tile_coords))
@@ -210,15 +224,12 @@ class Engine(object):
 
     @staticmethod
     def add_starting_food_to_board(game_state):
-        def get_mid_coords(dimension):
-            half = (dimension - 1) / 2
-            if (dimension % 2) == 0:
-                return [half, half + 1]
-            return [half]
-
-        for x in get_mid_coords(game_state.width):
-            for y in get_mid_coords(game_state.height):
-                game_state.food.append([x, y])
+        x = random.choice(Engine.get_mid_coords(game_state.width))
+        y = random.choice(Engine.get_mid_coords(game_state.height))
+        if game_state.mode == Game.MODE_ADVANCED:
+            game_state.gold.append([x, y])
+        else:
+            game_state.food.append([x, y])
 
         return game_state
 
@@ -347,7 +358,14 @@ class Engine(object):
                     new_food.remove(snake.coords[0])
                     snake.food_eaten += 1
                     snake.last_eaten = game_state.turn
-                    snake.health = Snake.FULL_HEALTH
+
+                    if game_state.mode == Game.MODE_ADVANCED:
+                        snake.health += constants.FOOD_VALUE
+                        if snake.health > Snake.FULL_HEALTH:
+                            snake.health = Snake.FULL_HEALTH
+                    else:
+                        snake.health = Snake.FULL_HEALTH
+
                     snake.grow_by(1)
                     continue
 

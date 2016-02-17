@@ -57,7 +57,7 @@ export default class Game extends Component {
       let next = () => {
         this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
         if (++framesCompleted < response.data.length && this.state.isReplay) {
-          setTimeout(next, 350);
+          requestTimeout(next, 350);
         }
       };
 
@@ -104,7 +104,6 @@ export default class Game extends Component {
 
   handleStart (isManual) {
     let formData = JSON.stringify({ manual: isManual })
-    console.log(formData);
     $.ajax({
       type: 'POST',
       url: '/api/games/' + this.props.params.id + '/start',
@@ -125,7 +124,6 @@ export default class Game extends Component {
 
       if (gameState.is_done) {
         $('#game-summary-modal').off('shown.bs.modal').on('shown.bs.modal', () => {
-          console.log('hello');
           $(this).find('button').focus();
         }).modal('show');
 
@@ -162,7 +160,7 @@ export default class Game extends Component {
         let sleepFor = Math.max(0, this.state.game.turn_time * 1000 - elapsedMillis);
 
         if (this._isMounted && shouldTick && !gameState.is_done) {
-          setTimeout(_, sleepFor);
+          requestTimeout(_, sleepFor);
         }
 
         if (gameState.is_done) {
@@ -183,7 +181,6 @@ export default class Game extends Component {
       url: '/api/games/' + this.props.params.id
     })
     .done((response) => {
-      console.log(response);
       if (this._isMounted) {
         this.setState({ game: response.data });
       }

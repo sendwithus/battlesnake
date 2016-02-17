@@ -2,12 +2,13 @@
 
 #### Objective
 
-BattleSnake is an adaptation of the classic video game "Snake". Snake AIs control a snake as it moves around the game board interacting with food, walls, and other snakes. Each round may contain up to 8 snakes and the last snake alive wins the round.
+BattleSnake is an adaptation of the classic arcade game "Snake". Teams build AIs to control a snake as it moves around the game board interacting with food, walls, and other snakes.
 
+Each game may contain up to 12 snakes. The last snake alive wins the game.
 
-#### Snakes will be killed if they...
+#### Snakes will die if they...
 
-* collide with the wall surrounding the game board
+* collide with the edges of the game board
 * collide with their own body
 * collide with another snake**
 * reach 0 health and starve (see below)
@@ -17,7 +18,7 @@ BattleSnake is an adaptation of the classic video game "Snake". Snake AIs contro
 
 #### Starvation
 
-Snakes must eat regularly to survive. Your snake starts the game with 100 health points and loses 1 point each turn of game. If a snake reaches 0 health it will die of starvation.
+Snakes must eat regularly to survive. Each snake starts the game with 100 health and loses 1 health each turn of the game. If a snake reaches 0 health it will die of starvation.
 
 To avoid starving to death you must ensure that your snake is well fed.
 

@@ -96,7 +96,7 @@ def __call_remote_snakes(snakes, method, endpoint, payload, timeout_seconds):
         }
         data = json.dumps(payload)
         reqs = [
-            grequests.post(url, data=data, headers=headers, timeout=timeout_seconds)
+            grequests.post(url, data=data.copy(), headers=headers, timeout=timeout_seconds)
             for url in urls
         ]
     elif method == 'GET':

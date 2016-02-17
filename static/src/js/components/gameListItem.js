@@ -25,8 +25,8 @@ export default class GameListItem extends Component {
         };
 
         let deathMessage;
-        if (snake.died_on_turn) {
-          deathMessage = snake.killed_by + ' on turn ' + snake.died_on_turn;
+        if (snake.status == "dead") {
+          deathMessage = snake.killed_by + ' on turn ' + snake.age;
         } else {
           deathMessage= 'n/a';
         }

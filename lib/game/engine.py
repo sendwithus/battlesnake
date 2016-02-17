@@ -23,7 +23,6 @@ class Snake(object):
         self.taunt = taunt
         self.status = Snake.STATUS_ALIVE
         self.message = ''
-        self.age = 0
         self.health = self.FULL_HEALTH
         self.coords = coords
         self.kills = 0
@@ -31,7 +30,7 @@ class Snake(object):
         self.last_eaten = 0
         self.gold = 0
         self.killed_by = ''
-        self.died_on_turn = 0
+        self.age = 0
         self.move = ''
         self.error = None
 
@@ -54,7 +53,6 @@ class Snake(object):
             'taunt': self.taunt,
             'status': self.status,
             'message': self.message,
-            'age': self.age,
             'health': self.health,
             'coords': self.coords,
             'kills': self.kills,
@@ -62,7 +60,7 @@ class Snake(object):
             'last_eaten': self.last_eaten,
             'gold': self.gold,
             'killed_by': self.killed_by,
-            'died_on_turn': self.died_on_turn,
+            'age': self.age,
         }
 
     @classmethod
@@ -70,7 +68,6 @@ class Snake(object):
         snake = cls(obj['team_id'], obj['url'], obj['name'], obj['color'], obj['head'], obj['taunt'])
         snake.status = obj['status']
         snake.message = obj['message']
-        snake.age = obj['age']
         snake.health = obj['health']
         snake.coords = obj['coords']
         snake.kills = obj['kills']
@@ -78,7 +75,7 @@ class Snake(object):
         snake.last_eaten = obj['last_eaten']
         snake.gold = obj['gold']
         snake.killed_by = obj['killed_by']
-        snake.died_on_turn = obj['died_on_turn']
+        snake.age = obj['age']
 
         return snake
 
@@ -178,8 +175,14 @@ class Engine(object):
         return Engine.add_snakes_to_board(game_state, snakes)
 
     @staticmethod
-    def add_tile_to_board(game_state, tile_type):
+    def get_mid_coords(dimension):
+        half = (dimension - 1) / 2
+        if (dimension % 2) == 0:
+            return [half, half + 1]
+        return [half]
 
+    @staticmethod
+    def add_tile_to_board(game_state, tile_type):
         taken_tiles = []
         for snake in game_state.snakes:
             taken_tiles += [coord for coord in snake.coords]
@@ -190,8 +193,9 @@ class Engine(object):
             taken_tiles.append([snake.coords[0][0], snake.coords[0][1]-1])
 
         taken_tiles += [food for food in game_state.food]
-        taken_tiles += [gold for gold in game_state.gold]
         taken_tiles += [wall for wall in game_state.walls]
+        taken_tiles += [gold for gold in game_state.gold]
+        
 
         empty_tile_coords = []
         for x in range(game_state.width):
@@ -204,7 +208,14 @@ class Engine(object):
                 game_state.food.append(random.choice(empty_tile_coords))
 
             if tile_type == GameState.TILE_STATE_GOLD:
-                game_state.gold.append(random.choice(empty_tile_coords))
+
+                x_options = Engine.get_mid_coords(game_state.width)
+                y_options = Engine.get_mid_coords(game_state.height)
+                for x in x_options:
+                    for y in y_options:
+                        if [x, y] in empty_tile_coords:
+                            game_state.gold.append([x, y])
+                            return game_state
 
             if tile_type == GameState.TILE_STATE_WALL:
                 game_state.walls.append(random.choice(empty_tile_coords))
@@ -213,15 +224,12 @@ class Engine(object):
 
     @staticmethod
     def add_starting_food_to_board(game_state):
-        def get_mid_coords(dimension):
-            half = (dimension - 1) / 2
-            if (dimension % 2) == 0:
-                return [half, half + 1]
-            return [half]
-
-        for x in get_mid_coords(game_state.width):
-            for y in get_mid_coords(game_state.height):
-                game_state.food.append([x, y])
+        x = random.choice(Engine.get_mid_coords(game_state.width))
+        y = random.choice(Engine.get_mid_coords(game_state.height))
+        if game_state.mode == Game.MODE_ADVANCED:
+            game_state.gold.append([x, y])
+        else:
+            game_state.food.append([x, y])
 
         return game_state
 
@@ -273,6 +281,9 @@ class Engine(object):
                 new_snake.move_east()
             elif snake.move == cls.MOVE_WEST:
                 new_snake.move_west()
+
+            # Increase age by 1
+            new_snake.age += 1
 
             # Save snake in New Position
             new_snakes.append(new_snake)
@@ -347,7 +358,14 @@ class Engine(object):
                     new_food.remove(snake.coords[0])
                     snake.food_eaten += 1
                     snake.last_eaten = game_state.turn
-                    snake.health = Snake.FULL_HEALTH
+
+                    if game_state.mode == Game.MODE_ADVANCED:
+                        snake.health += constants.FOOD_VALUE
+                        if snake.health > Snake.FULL_HEALTH:
+                            snake.health = Snake.FULL_HEALTH
+                    else:
+                        snake.health = Snake.FULL_HEALTH
+
                     snake.grow_by(1)
                     continue
 
@@ -378,7 +396,6 @@ class Engine(object):
         # Kill Off Snakes
         for snake in new_snakes:
             if snake.name in kill:
-                snake.died_on_turn = game_state.turn
                 dead_snakes.append(snake)
 
         new_snakes = [snake for snake in new_snakes if snake.name not in kill]
@@ -409,9 +426,10 @@ class Engine(object):
 
         # Check if the game is over
         total_snakes = len(new_game_state.snakes) + len(new_game_state.dead_snakes)
-        if total_snakes == 1 and len(new_game_state.snakes) == 0:
-            # Single snake games go until the end
-            new_game_state.is_done = True
+        if total_snakes == 1: 
+            if len(new_game_state.snakes) == 0 or new_game_state.snakes[0].gold == constants.GOLD_VICTORY:
+                # Single snake games go until the end
+                new_game_state.is_done = True
 
         elif total_snakes > 1 and len(new_game_state.snakes) <= 1:
             # Multi snake games go until one snake left

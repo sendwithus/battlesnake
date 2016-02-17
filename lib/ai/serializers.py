@@ -9,13 +9,13 @@ def serialize_game(game, game_state=None):
         'width': game.width,
         'turn': game_state.turn if game_state else 0,
         'snakes': serialize_snakes(game, game_state.snakes) if game_state else [],
-        'food': game_state.food
+        'food': game_state.food if game_state else []
     }
 
     if game.mode == Game.MODE_ADVANCED:
         data.update({
-            'gold': game_state.gold,
-            'walls': game_state.walls
+            'gold': game_state.gold if game_state else [],
+            'walls': game_state.walls if game_state else []
         })
     return data
 
@@ -27,10 +27,10 @@ def serialize_snake(game, snake):
         'taunt': snake.taunt,
         'status': snake.status,
         'message': snake.message,
-        'age': snake.age,
         'health': snake.health,
         'coords': snake.coords,
         'kills': snake.kills,
+        'age': snake.age,
     }
 
     # Pass urls to localsnakes only (so they can find themselves)

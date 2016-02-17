@@ -64,10 +64,10 @@ def rematch_game(game_id):
         Team.find_one({'_id': snake.team_id})
         for snake in game_state.snakes + game_state.dead_snakes
     ]
-    return create_game(teams, game.width, game.height, game.turn_time, game.mode)[0]
+    return create_game(game.team_id, teams, game.width, game.height, game.turn_time, game.mode)[0]
 
 
-def create_game(teams, width, height, turn_time, mode):
+def create_game(team_id, teams, width, height, turn_time, mode):
     if not teams or len(teams) == 0:
         raise Exception('No teams added. You need at least one...')
 
@@ -79,7 +79,7 @@ def create_game(teams, width, height, turn_time, mode):
     _update_snakes(snakes, ai.whois(snakes))
 
     # Create game
-    game = Game(width=width, height=height, turn_time=turn_time, mode=mode)
+    game = Game(width=width, height=height, turn_time=turn_time, mode=mode, team_id=team_id)
     game.insert()
 
     # Create the first GameState

@@ -30,7 +30,7 @@ class Snake(LocalSnake):
                 bad_tiles.append([snake['coords'][0][0], snake['coords'][0][1]+1])
                 bad_tiles.append([snake['coords'][0][0], snake['coords'][0][1]-1])
 
-        for wall in payload['walls']:
+        for wall in payload.get('walls', []):
             bad_tiles.append(wall)
 
         smallest = 999
@@ -43,7 +43,7 @@ class Snake(LocalSnake):
                 smallest = distance
                 target = food
 
-        if len(payload['gold']) > 0 and health > 35:
+        if len(payload.get('gold', [])) > 0 and health > 35:
             target = payload['gold'][0]
 
         move = None
@@ -63,11 +63,11 @@ class Snake(LocalSnake):
         if not move:
             if [head[0], head[1]-1] not in bad_tiles and head[1] > 0:
                 move = 'north'
-            if [head[0], head[1]+1] not in bad_tiles and head[1] < len(payload['board'][0]-1):
+            if [head[0], head[1]+1] not in bad_tiles and head[1] < payload['height']:
                 move = 'south'
             if [head[0]-1, head[1]] not in bad_tiles and head[0] > 0:
                 move = 'west'
-            if [head[0]+1, head[1]] not in bad_tiles and head[0] < len(payload['board']-1):
+            if [head[0]+1, head[1]] not in bad_tiles and head[0] < payload['width']:
                 move = 'east'
 
         if payload['turn'] % 10 == 0:

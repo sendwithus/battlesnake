@@ -107,7 +107,7 @@ export default class Game extends Component {
     $.ajax({
       type: 'POST',
       url: '/api/games/' + this.props.params.id + '/start',
-      data: formData,
+      data: formData
     })
     .done((response) => {
       console.log('Started Game', response.data);
@@ -118,7 +118,7 @@ export default class Game extends Component {
 
   handleGameState (gameState, ignoreEnd) {
     if (this._isMounted) {
-      console.log('GAME STATE', gameState);
+      //console.log('GAME STATE', gameState);
       this.state.latestGameState = gameState;
       this.state.isLoading = false;
 

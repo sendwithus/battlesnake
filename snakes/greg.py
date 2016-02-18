@@ -285,7 +285,7 @@ def _stay_safe(gs, snake, head):
         else:
             food_distance = _calc_distance(food, head)
 
-        if food and (food_distance < 3 or snake['health'] < 10):
+        if food and (food_distance < 3 or snake['health'] < 20):
             dest = food
         else:
             dest = tail

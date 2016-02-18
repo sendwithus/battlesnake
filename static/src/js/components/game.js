@@ -134,7 +134,13 @@ export default class Game extends Component {
   }
 
   tick (callback) {
-    let url = `/api/games/${this.props.params.id}/gamestates/turn/${this.state.turnNumber}`;
+    let url = '';
+    if (this.state.turnNumber > 0) {
+      url = `/api/games/${this.props.params.id}/gamestates/turn/${this.state.turnNumber}`;
+    } else {
+      // If we're on the first turn, get the latest. This is so we always start at the latest state
+      url = `/api/games/${this.props.params.id}/gamestates/latest`;
+    }
 
     $.ajax({type: 'GET', url: url})
       .done((response) => {

@@ -141,6 +141,19 @@ def game_details(game_id):
         return json_response()
 
 
+@app.route('/api/games/<game_id>/gamestates/turn/<turn_number>')
+def game_states_turn(game_id, turn_number):
+    game_state = GameState.find_one({
+        'game_id': game_id,
+        'turn': int(turn_number)
+    })
+
+    if game_state is None:
+        return json_error('not found')
+
+    return json_response(game_state.to_dict())
+
+
 @app.route('/api/games/<game_id>/gamestates/<game_state_id>')
 def game_states_details(game_id, game_state_id):
     if game_state_id == 'latest':

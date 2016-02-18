@@ -74,9 +74,10 @@ export default class GameSidebarSnake extends Component {
     var goldIndicator = [];
 
     if (this.props.showGold) {
+      let i = 0;
       _.times(this.props.snake.gold || 0, function() {
         goldIndicator.push(
-          <div style={{width: 30 + 'px', height: 30 + 'px', position: 'relative', display: 'inline-block', marginLeft: '-3'}}>
+          <div key={i++} style={{width: 30 + 'px', height: 30 + 'px', position: 'relative', display: 'inline-block', marginLeft: '-3'}}>
             <img src='/static/img/img-coin.gif' style={{borderRadius: '100%', width: '30px', height: '30px'}} />
           </div>
         );

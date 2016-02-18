@@ -274,7 +274,7 @@ def _stay_safe(gs, snake, head):
     else:
         gold_distance = _calc_distance(gold, head)
 
-    if gold_distance < 3:
+    if gold_distance < 6:
         dest = gold
     else:
         # TODO: Choose food that's closest to your own body (Stay tight)
@@ -285,7 +285,7 @@ def _stay_safe(gs, snake, head):
         else:
             food_distance = _calc_distance(food, head)
 
-        if food and (food_distance < 3 or random.randint(0, 15) == 0):
+        if food and (food_distance < 3 or snake['health'] < 20):
             dest = food
         else:
             dest = tail

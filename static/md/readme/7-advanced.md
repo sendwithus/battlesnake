@@ -1,13 +1,25 @@
 ## Advanced Game Rules
 
-#### Extra Walls
+Advanced games include all the rules and gameplay mechanics of Classic mode games (see above), with the addition of three new mechanics...
 
-Walls will spawn.
+### Extra Walls
 
-#### Gold Coins
+Additional walls will spawn on the game board. Snakes will die if they collide with walls.
 
-Gold coins will spawn.
+Each wall will permanently occupy a 1x1 area on the game board. Walls will not spawn immediately in front of your snake, and will generally prefer open areas.
 
-#### Max Health
+Wall positions will be available in the API during Advanced games.
 
-Max health will decrease.
+### Hungry Hungry Snakes
+
+Eating food will only replenish 30 health to your snake, up to a maximum of 100.
+
+Snakes will still die of starvation when they reach 0 health.
+
+### Gold Coins
+
+Gold coins will spawn on the game board. The first snake to collect 5 gold coins will immediately win the game.
+
+Snakes can collect a gold coin by colliding with it. Coins will prefer to spawn near the middle of the board, and there will be never be more than one coin on the board at any given time.
+
+The position of any gold coins will be available in the API during Advanced games.

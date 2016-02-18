@@ -1,4 +1,4 @@
-## Snake API Documentation
+## BattleSnake API Documentation
 
 The BattleSnake API uses JSON formatted HTTP requests and responses. Snakes must reply to each command:
 
@@ -52,7 +52,7 @@ NOTE: Game IDs may be re-used throughout the day, however multiple games with th
 #### Request Parameters
 
 * **game** - ID of game being played
-* **mode** - Game mode, either `classic` or `advanced`
+* **mode** - Game mode, either _"classic"_ or _"advanced"_
 * **turn** - Turn number for this move
 * **board**
     * **height** - Height of game board
@@ -101,7 +101,7 @@ NOTE: Failing to properly respond to a MOVE command will forfeit your turn and y
 #### Request Parameters
 
 * **game** - ID of game being played
-* **mode** - Game mode, either `classic` or `advanced`
+* **mode** - Game mode, either _"classic"_ or _"advanced"_
 * **turn** - Turn number for this move
 * **board**
     * **height** - Height of game board
@@ -138,7 +138,7 @@ NOTE: Failing to properly respond to a MOVE command will forfeit your turn and y
 
 #### Response
 
-* **move** - Direction of your next move, must be one of `["north", "south", "east", "west"]`
+* **move** - Direction of your next move, must be one of _["north", "south", "east", "west"]_
 * **taunt** - String message for other snakes
 
 <code><pre>
@@ -157,7 +157,7 @@ Signals the end of a specific game. After this request, future requests for this
 #### Parameters
 
 * **game** - ID of game being played
-* **mode** - Game mode, either `classic` or `advanced`
+* **mode** - Game mode, either _"classic"_ or _"advanced"_
 * **turn** - Turn number for this move
 * **board**
     * **height** - Height of game board
@@ -207,7 +207,7 @@ Snake objects have the following properties:
 
 * **id** - Snake ID. Use this value to find your snake [(find your ID here)](http://www.battlesnake.io/team).
 * **name** - Snake Name
-* **status** - Status, either `alive` or `dead`
+* **status** - Status, either _"alive"_ or _"dead"_
 * **message** - Friendly message describing this snakes last move
 * **taunt** - Snake's latest taunt
 * **age** - How many turns this snake has survived

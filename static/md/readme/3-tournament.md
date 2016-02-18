@@ -10,7 +10,7 @@ Teams may decide which division they wish to enter during registration.
 
 #### Tournament Format
 
-Each tournament will consist of a group stage, semi-finals, and finals. Groups will be assigned randomly and the winning snake (or snakes) will move on to the next round.
+Each tournament will consist of a group stage, semi-finals, and finals. Groups will be assigned randomly and the winning snake will move on to the next round.
 
 Tournament format and group assignments will be announced at 5pm. The tournament itself will start at 6pm. All tournament games will be live casted on stage in ECS 123. Cheering and friendly shouting are strongly encouraged. Bring your friends!
 

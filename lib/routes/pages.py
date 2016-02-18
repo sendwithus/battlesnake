@@ -41,6 +41,7 @@ def readme():
         '8-starting-tease',
         '9-api-tease',
         '10-testing-tease',
+        '11-outro'
     )
     sections = [
         (section, __load_markdown('static/md/readme/%s.md' % section))
@@ -64,6 +65,7 @@ def secret_readme():
         '8-starting',
         '9-api',
         '10-testing',
+        '11-outro'
     )
     sections = [
         (section, __load_markdown('static/md/readme/%s.md' % section))

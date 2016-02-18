@@ -1,7 +1,9 @@
 ## Coming Prepared
 
 
-__Your team will be writing code.__ You should come prepared with the following:
+__Your team will be writing code. Teams must come prepared to do so.__
+
+All team members should have basic computer programming skills and come prepared with the following:
 
 * Laptop with a functioning development environment, including:
     * Git Command Line
@@ -13,7 +15,7 @@ __Your team will be writing code.__ You should come prepared with the following:
 
 ### Learning Heroku
 
-We __strongly__ recommend familiarizing yourself with Heroku before the event. Using Heroku to power your Snake AI is not required but is __highly recommended__ in order to maximize time spent developing your Snake AI (and not messing around with servers).
+We strongly recommend familiarizing yourself with Heroku before the event. Using Heroku to power your snake is not required but is highly recommended in order to maximize time spent developing your AI.
 
 All provided code samples and example AIs will be deployable to Heroku as is.
 
@@ -28,4 +30,4 @@ Suggested Readings:
 
 BattleSnake is a team competition and we recommended teams of 2-5. You are welcome to register and compete as an individual, although we don't recommend it.
 
-Team registration will open at 11:00 am in ECS Lobby. To register, you'll need a snake name and the email address of all team members.
+Team registration will open at 11:00 am in ECS Lobby. To register, you'll need a team name and the email address of a primary contact.

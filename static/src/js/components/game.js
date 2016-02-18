@@ -163,7 +163,7 @@ export default class Game extends Component {
       let endTimestamp = Date.now();
       let elapsedMillis = endTimestamp - startTimestamp;
 
-      let sleepFor = Math.max(300, this.state.game.turn_time * 1000 - elapsedMillis);
+      let sleepFor = Math.max(this.state.game.turn_time, this.state.game.turn_time * 1000 - elapsedMillis);
 
       if (err) {
         // If there was an error fetching state, just retry it later...

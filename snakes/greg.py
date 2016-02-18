@@ -52,7 +52,7 @@ def _count_moves(gs, start, count=0):
 
     best_count = 0
     for point in points:
-        if _is_on_board(gs, point) and not _is_snake(gs, point):
+        if _is_on_board(gs, point) and not _is_snake(gs, point) and not _is_wall(gs, point):
             # Add new position to snake
             snake = _get_snake(gs, SNAKE_URL)
             snake['coords'].insert(0, point)
@@ -285,7 +285,7 @@ def _stay_safe(gs, snake, head):
         else:
             food_distance = _calc_distance(food, head)
 
-        if food and (food_distance < 3 or snake['health'] < 20):
+        if food and (food_distance < 3 or snake['health'] < 10):
             dest = food
         else:
             dest = tail

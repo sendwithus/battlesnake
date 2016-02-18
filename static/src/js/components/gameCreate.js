@@ -7,7 +7,6 @@ const GAME_MODES = [
 ];
 
 export default class GameCreate extends Component {
-
   state = {
     availableTeams: [],
     addedTeams: [],
@@ -16,6 +15,19 @@ export default class GameCreate extends Component {
     currentHeight: 20,
     currentTimeout: 1,
     isLoading: false
+  };
+
+  _persistState () {
+    localStorage['GameCreate.state'] = JSON.stringify(this.state);
+  };
+
+  _restoreState () {
+    try {
+      let oldState = JSON.parse(localStorage['GameCreate.state']);
+      this.setState($.extend(this.state, oldState));
+    } catch (e) {
+      // No state saved yet. Default it
+    }
   };
 
   handleGameCreate = (e) => {
@@ -44,11 +56,12 @@ export default class GameCreate extends Component {
           this.setState({isLoading: false});
           this.props.history.push('/app/games/' + response.data.game._id);
         }
+        this._persistState();
       })
       .error((xhr, textStatus, errorThrown) => {
         alert(xhr.responseJSON.message);
         this.setState({isLoading: false});
-      })
+      });
   };
 
   handleWidthChange = (e) => {
@@ -73,7 +86,8 @@ export default class GameCreate extends Component {
     let availableTeams = this.state.availableTeams;
     let addedTeams = this.state.addedTeams;
 
-    availableTeams.push(addedTeams[i]);
+    let team = addedTeams[i];
+    availableTeams.push(team);
     addedTeams.splice(i, 1);
 
     this.setState({
@@ -85,22 +99,13 @@ export default class GameCreate extends Component {
   handleAddTeam = (e) => {
     e.preventDefault();
     let currentTeam = this.state.selectedTeam;
-    let allTeams = this.state.addedTeams;
-    let availableTeams = this.state.availableTeams;
+    let addedTeams = this.state.addedTeams;
 
-    allTeams.push(currentTeam);
-
-    let mappedAvailableTeams = availableTeams.map((team, i) => {
-      if (team._id === currentTeam._id) {
-        team.disabled = 'disabled'
-      }
-      return team;
-    });
+    addedTeams.push(currentTeam);
 
     this.setState({
       selectedTeam: null,
-      addedTeams: allTeams,
-      availableTeams: mappedAvailableTeams
+      addedTeams: addedTeams
     });
   };
 
@@ -109,40 +114,49 @@ export default class GameCreate extends Component {
   };
 
   componentDidMount () {
+    this._restoreState();
+
     // fetch list of teams
     $.ajax({
-      type: 'GET',
-      url: '/api/teams/'
-    })
-    .done((response) => {
-      this.setState({availableTeams: response.data});
-    });
+        type: 'GET',
+        url: '/api/teams/'
+      })
+      .done((response) => {
+        this.setState({availableTeams: response.data});
+      });
   }
 
   render () {
-    let teamOpts = []
+    let teamOpts = [];
 
     teamOpts.push(
       <option key="team_opt_none" value="none">Select a team</option>
-    )
+    );
     teamOpts = teamOpts.concat(
       this.state.availableTeams.map((team, i) => {
-        let teamname = team.teamname
+        let teamname = team.teamname;
         if (['bounty', 'test'].includes(team.type)) {
           teamname = `${teamname} (${team.type} snake)`
         }
 
-        if (team.disabled) {
-          teamname = `${teamname} - Added`
+        let disabled = false;
+        for (let j = 0; j < this.state.addedTeams.length; j++) {
+          let t = this.state.addedTeams[j];
+          let isAddedAlready = t._id === team._id;
+          if (isAddedAlready) {
+            disabled = true;
+            teamname = `${teamname} - Added`;
+            break;
+          }
         }
 
         return (
-          <option key={'team_opt_' + i} value={i} disabled={team.disabled || false}>
+          <option key={'team_opt_' + i} value={i} disabled={disabled}>
             {teamname}
           </option>
         );
       })
-    )
+    );
 
     let teamNames = this.state.addedTeams.map((team, i) => {
       return (
@@ -163,7 +177,7 @@ export default class GameCreate extends Component {
           {mode}
         </option>
       )
-    })
+    });
 
     if (this.state.addedTeams.length === 0) {
       teamNames.push(
@@ -246,7 +260,6 @@ export default class GameCreate extends Component {
                 <select name="mode"
                         className="form-control"
                         onChange={this.handleModeSelect}>
-                  <option value="">Select a Game Mode</option>
                   {gameModes}
                 </select>
               </div>

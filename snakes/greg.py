@@ -267,26 +267,24 @@ def _generate_board(gs):
 def _stay_safe(gs, snake, head):
     tail = snake['coords'][-1]
 
-    gold = _get_closest_gold(gs, head)
-
-    if gold is None:
-        gold_distance = 999999999
+    food = _get_closest_food(gs, head)
+    if food is None:
+        food_distance = 999999999
     else:
-        gold_distance = _calc_distance(gold, head)
+        food_distance = _calc_distance(food, head)
 
-    if gold_distance < 6:
-        dest = gold
+    if food and (food_distance < 3 or snake['health'] < 20):
+        dest = food
     else:
-        # TODO: Choose food that's closest to your own body (Stay tight)
-        food = _get_closest_food(gs, head)
+        gold = _get_closest_gold(gs, head)
 
-        if food is None:
-            food_distance = 999999999
+        if gold is None:
+            gold_distance = 999999999
         else:
-            food_distance = _calc_distance(food, head)
+            gold_distance = _calc_distance(gold, head)
 
-        if food and (food_distance < 3 or snake['health'] < 20):
-            dest = food
+        if gold_distance < 6:
+            dest = gold
         else:
             dest = tail
 

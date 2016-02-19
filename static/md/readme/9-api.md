@@ -54,9 +54,8 @@ NOTE: Game IDs may be re-used throughout the day, however multiple games with th
 * **game** - ID of game being played
 * **mode** - Game mode, either _"classic"_ or _"advanced"_
 * **turn** - Turn number for this move
-* **board**
-    * **height** - Height of game board
-    * **width** - Width of game board
+* **height** - Height of game board
+* **width** - Width of game board
 * **snakes** - List of snakes, including their status and position
 * **food** - List of coordinates of available food
 * **walls** - List of coordinates of extra walls (Advanced Only)
@@ -67,12 +66,10 @@ NOTE: Game IDs may be re-used throughout the day, however multiple games with th
     "game": "hairy-cheese",
     "mode": "advanced",
     "turn": 0,
-    "board": {
-        "height": 20,
-        "width": 30
-    },
+    "height": 20,
+    "width": 30,
     "snakes": [
-        &lt;Snake Object&gt;, &lt;Snake Object&gt;, ...
+        <Snake Object>, <Snake Object>, ...
     ],
     "food": [],
     "walls": [],  // Advanced Only
@@ -103,9 +100,8 @@ NOTE: Failing to properly respond to a MOVE command will forfeit your turn and y
 * **game** - ID of game being played
 * **mode** - Game mode, either _"classic"_ or _"advanced"_
 * **turn** - Turn number for this move
-* **board**
-    * **height** - Height of game board
-    * **width** - Width of game board
+* **height** - Height of game board
+* **width** - Width of game board
 * **snakes** - List of snakes, including their status and position
 * **food** - List of coordinates of available food
 * **walls** - List of coordinates of extra walls (Advanced Only)
@@ -117,12 +113,10 @@ NOTE: Failing to properly respond to a MOVE command will forfeit your turn and y
     "game": "hairy-cheese",
     "mode": "advanced",
     "turn": 4,
-    "board": {
-        "height": 20,
-        "width": 30
-    },
+    "height": 20,
+    "width": 30,
     "snakes": [
-        &lt;Snake Object&gt;, &lt;Snake Object&gt;, ...
+        <Snake Object>, <Snake Object>, ...
     ],
     "food": [
         [1, 2], [9, 3], ...
@@ -159,9 +153,8 @@ Signals the end of a specific game. After this request, future requests for this
 * **game** - ID of game being played
 * **mode** - Game mode, either _"classic"_ or _"advanced"_
 * **turn** - Turn number for this move
-* **board**
-    * **height** - Height of game board
-    * **width** - Width of game board
+* **height** - Height of game board
+* **width** - Width of game board
 * **snakes** - List of snakes, including their status and position
 * **food** - List of coordinates of available food
 * **walls** - List of coordinates of extra walls (Advanced Only)
@@ -172,12 +165,10 @@ Signals the end of a specific game. After this request, future requests for this
     "game": "hairy-cheese",
     "mode": "advanced",
     "turn": 4,
-    "board": {
-        "height": 20,
-        "width": 30
-    },
+    "height": 20,
+    "width": 30,
     "snakes": [
-        &lt;Snake Object&gt;, &lt;Snake Object&gt;, ...
+        <Snake Object>, <Snake Object>, ...
     ],
     "food": [
         [1, 2], [9, 3], ...
@@ -232,4 +223,3 @@ Snake objects have the following properties:
     "gold": 2
 }
 ```
-

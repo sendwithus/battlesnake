@@ -15,6 +15,7 @@ section.blue:after {
   top: 0;
   left: 0;
   background: rgba(67, 113, 170, 0.5);
+  background: -webkit-linear-gradient(top, rgba(67, 113, 170, 0.5) 0%, #4371aa 100%);
   background: linear-gradient(to bottom, rgba(67, 113, 170, 0.5) 0%, #4371aa 100%);
 }
 img {
@@ -74,6 +75,7 @@ img {
 }
 .container.sponsors .logo img {
   opacity: 0.7;
+  -webkit-transition: opacity 0.5s ease;
   transition: opacity 0.5s ease;
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
@@ -102,6 +104,7 @@ img {
 }
 .container.code-review .logo img {
   opacity: 0.7;
+  -webkit-transition: opacity 0.5s ease;
   transition: opacity 0.5s ease;
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
@@ -167,6 +170,7 @@ img {
   position: relative;
   float: left;
   background: rgba(67, 113, 170, 0);
+  -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
   z-index: 999;
   border-bottom: rgba(255, 255, 255, 0) 1px solid;
@@ -200,6 +204,7 @@ img {
   font-size: 20px;
   text-align: center;
   padding: 10px 0;
+  -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
   border-radius: 100px;
   z-index: 100;

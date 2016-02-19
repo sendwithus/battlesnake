@@ -153,10 +153,10 @@ export default class Game extends Component {
   }
 
   checkInterval () {
-    let shouldTick = this.state.game.state === 'playing' || this.state.game.state === 'ready';
-    if (!shouldTick) {
-      return;
-    }
+    //let shouldTick = this.state.game.state === 'playing' || this.state.game.state === 'ready';
+    //if (!shouldTick) {
+    //  return;
+    //}
 
     let startTimestamp = Date.now();
     this.tick((gameState, err) => {
@@ -171,7 +171,7 @@ export default class Game extends Component {
         return;
       }
 
-      if (this._isMounted && shouldTick && !gameState.is_done) {
+      if (this._isMounted && !gameState.is_done) {
         requestTimeout(this.checkInterval.bind(this), sleepFor);
       }
 

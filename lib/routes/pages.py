@@ -9,7 +9,10 @@ from lib.routes.auth import public
 
 def __load_markdown(filepath):
     with open(filepath) as f:
-        html = markdown.markdown(f.read())
+        html = markdown.markdown(
+            f.read(),
+            extensions=['markdown.extensions.fenced_code']
+        )
     return Markup(html)
 
 
@@ -23,6 +26,13 @@ def index():
 @public
 def setup():
     html = __load_markdown('static/md/setup.md')
+    return render_template('markdown.html', html=html, title='Getting Started')
+
+
+@app.route('/easy')
+@public
+def easy():
+    html = __load_markdown('static/md/easy.md')
     return render_template('markdown.html', html=html, title='Getting Started')
 
 

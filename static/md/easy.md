@@ -6,21 +6,15 @@ Python snake, but the experience should be similar for other languages.
 
 ## What You'll Need
 
-- [Heroku](https://heroku.com)
-- [Github](https://github.com)
-
-
-### If You're on Windows
-
-You can sign up for Cloud9 to get a Unix-like environment in the cloud
-
+- [Heroku Account](https://heroku.com)
 - [Cloud9](https://c9.io)
+- [Github](https://github.com)
 
 
 ## Install Python Packages
 
 Install required Python packages by clicking on the terminal and running
-`sudo pip install -r requirements.txt`
+ `sudo pip install -r requirements.txt`
 
 **NOTE: This may take a couple minutes to complete**.
 

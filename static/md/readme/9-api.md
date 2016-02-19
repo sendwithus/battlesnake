@@ -17,7 +17,7 @@ The BattleSnake API consists of four commands:
 * MOVE
 * END GAME
 
-<hr>
+---
 
 ### INFO <br> _GET /_
 
@@ -34,12 +34,12 @@ None
 * **color** - CSS color for your snake's body
 * **head** - Full URL to a 20x20 image for your snake's head
 
-<code><pre>
+```json
 {
     "color": "#FF0000",
     "head": "http://www.clker.com/cliparts/D/i/A/w/J/R/snake-no-white-drule-hi.png",
 }
-</code></pre>
+```
 
 <hr>
 
@@ -62,7 +62,7 @@ NOTE: Game IDs may be re-used throughout the day, however multiple games with th
 * **walls** - List of coordinates of extra walls (Advanced Only)
 * **gold** - Coordinates of available gold coins (Advanced Only)
 
-<code><pre>
+```json
 {
     "game": "hairy-cheese",
     "mode": "advanced",
@@ -78,19 +78,19 @@ NOTE: Game IDs may be re-used throughout the day, however multiple games with th
     "walls": [],  // Advanced Only
     "gold": []    // Advanced Only
 }
-</code></pre>
+```
 
 #### Response
 
 * **taunt** - String message for other snakes
 
-<code><pre>
+```json
 {
     "taunt": "Let's rock!"
 }
-</code></pre>
+```
 
-<hr>
+---
 
 ### MOVE <br> _POST /move_
 
@@ -112,7 +112,7 @@ NOTE: Failing to properly respond to a MOVE command will forfeit your turn and y
 * **gold** - Coordinates of available gold coins (Advanced Only)
 
 
-<code><pre>
+```json
 {
     "game": "hairy-cheese",
     "mode": "advanced",
@@ -134,21 +134,21 @@ NOTE: Failing to properly respond to a MOVE command will forfeit your turn and y
         [5, 5]
     ]
 }
-</code></pre>
+```
 
 #### Response
 
 * **move** - Direction of your next move, must be one of _["north", "south", "east", "west"]_
 * **taunt** - String message for other snakes
 
-<code><pre>
+```json
 {
    "move": "north",
    "taunt": "To the north pole!!"
 }
-</code></pre>
+```
 
-<hr>
+---
 
 ### END GAME <br> _POST /end_
 
@@ -167,7 +167,7 @@ Signals the end of a specific game. After this request, future requests for this
 * **walls** - List of coordinates of extra walls (Advanced Only)
 * **gold** - Coordinates of available gold coins (Advanced Only)
 
-<code><pre>
+```json
 {
     "game": "hairy-cheese",
     "mode": "advanced",
@@ -189,17 +189,17 @@ Signals the end of a specific game. After this request, future requests for this
         [5, 5]
     ]
 }
-</code></pre>
+```
 
 #### Response
 
 Ignored, game is over.
 
-<code><pre>
+```json
 {}
-</code></pre>
+```
 
-<hr>
+---
 
 ### Snake Objects
 
@@ -217,7 +217,7 @@ Snake objects have the following properties:
 * **food** - Number of food eaten by this snake
 * **gold** - Number of gold coins acquired by this snake
 
-<code><pre>
+```json
 {
     "id": "1234-567890-123456-7890",
     "name": "Well Documented Snake",
@@ -231,4 +231,5 @@ Snake objects have the following properties:
     "food": 12,
     "gold": 2
 }
-</code></pre>
+```
+

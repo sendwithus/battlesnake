@@ -34,7 +34,7 @@ def list_teams():
             cw.writerow([
                 team.id,
                 team.teamname.encode('utf-8'),
-                team.snake_url.encode('utf-8'),
+                team.snake_url.encode('utf-8') if team.snake_url else '',
                 team.game_mode,
                 team.type,
                 team.is_public

@@ -6,9 +6,44 @@
 @black: #222;
 @white: #dfdfdf;
 
+/* Utilities */
+
 .text-bold {
   font-weight: bold;
 }
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+
+  &.infinite {
+    animation-iteration-count: infinite;
+  }
+}
+
+@keyframes pulse {
+  from { transform: scale3d(1, 1, 1); }
+  50% { transform: scale3d(1.05, 1.05, 1.05); }
+  to { transform: scale3d(1, 1, 1); }
+}
+
+@keyframes pulseRotate {
+  from { transform: rotate(315deg) scale3d(1, 1, 1); }
+  50% { transform: rotate(315deg) scale3d(1.15, 1.15, 1.15); }
+  to { transform: rotate(315deg) scale3d(1, 1, 1); }
+}
+
+.pulse {
+  animation-name: pulse;
+}
+
+.pulseRotate {
+  animation-name: pulseRotate;
+}
+
+
+
+/* App styles */
 
 body {
   background: @blue;
@@ -16,11 +51,11 @@ body {
   font-size: 16px;
 }
 
-body.page-play {
+.page-play {
     background: @black;
 }
 
-body.page-team .table-hover>tbody>tr:hover {
+.page-team .table-hover>tbody>tr:hover {
     background-color: lighten(@blue, 10%);
 }
 
@@ -91,6 +126,9 @@ a:hover {
   background: #60F360;
   color: #154906;
 
+  &.active,
+  &.active:hover,
+  &:hover,
   &.active:focus,
   &:active:focus,
   &:active,
@@ -114,7 +152,11 @@ a:hover {
 
   &.active,
   &.active:hover,
-  &:hover {
+  &:hover,
+  &.active:focus,
+  &:active:focus,
+  &:active,
+  &:focus {
     color: #222;
     background-color: #C7C308;
   }
@@ -134,7 +176,11 @@ a:hover {
 
   &.active,
   &.active:hover,
-  &:hover {
+  &:hover,
+  &.active:focus,
+  &:active:focus,
+  &:active,
+  &:focus {
     background-color: #890000;
     color: #ccc;
   }
@@ -176,15 +222,8 @@ a:hover {
 
 /** App overrides */
 
-.game-summary img {
-  height: 30px;
-  width: 30px;
-  margin-right: 15px;
-  padding: 3px;
-}
-
 .game-summary {
-  margin-bottom: 70px;
+  // margin-bottom: 70px;
 }
 
 .game-summary,
@@ -193,13 +232,40 @@ a:hover {
   border-color: #333 !important;
 }
 
-.game-summary th {
-  background-color: #333;
+.game-summary-snake {
+  position: relative;
+  border: solid 1px #333;
+  margin-right: 4px;
+  display: inline-block;
+  height: 64px;
+  width: 64px;
+  vertical-align: middle;
+
+  img {
+    height: auto;
+    width: 100%;
+  }
 }
 
-.game-summary .snakes-heading {
-  background-color: #282828;
+.game-summary-snake-winner:before {
+  content: 'Winner!';
+  .animated;
+  .animated.infinite;
+  .pulseRotate;
+  display: block;
+  position: absolute;
+  top: 15px;
+  left: -5px;
+  color: red;
+  font-size: 20px;
+  font-weight: bold;
 }
+
+.game-summary-buttons {
+  margin-top: 10px;
+}
+
+/* Sidebar */
 
 .sidebar h1 {
   text-transform: uppercase;

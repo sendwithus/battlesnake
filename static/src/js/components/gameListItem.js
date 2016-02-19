@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
 
+const MAX_SNAKES = 12
 
 export default class GameListItem extends Component {
 
   render () {
     let path = '/app/games/' + this.props.game._id
-    let tdStyles = { width: '20%' };
-    let tbody = <tbody><tr></tr></tbody>;
+    let body = <div className="pull-left"></div>
 
     if (this.props.game.state === 'done') {
-      let snakeHeader = (
-        <tr className="snakes-heading">
-          <td>Snake Stats</td>
-          <td>length</td>
-          <td>food</td>
-          <td>kills</td>
-          <td>killed by...</td>
-        </tr>
-      );
+      let snakes = this.props.game.stats.snakes.sort((a, b) => {
+        if(a.name < b.name) { return -1 }
+        if(a.name > b.name) { return 1 }
+        return 0
+      })
 
-      let snakeRows = this.props.game.stats.snakes.map((snake, i) => {
+      let snakeImages = snakes.map((snake, i) => {
         let snakeStyles = {
           backgroundColor: snake.color
-        };
+        }
 
         let deathMessage;
         if (snake.status == "dead") {
@@ -31,73 +27,40 @@ export default class GameListItem extends Component {
           deathMessage= 'n/a';
         }
 
+        let classNames = 'game-summary-snake'
+        if (snake.name === this.props.game.stats.winner) {
+          classNames += ' game-summary-snake-winner'
+        }
+
         return (
-          <tr key={this.props.game.id + snake.name}>
-            <td className="snake-name">
-              <img src={snake.head} style={snakeStyles} />
-              <div className="name">
-                {snake.name}
-              </div>
-            </td>
-            <td className="text-center stat">{snake.coords.length}</td>
-            <td className="text-center stat">{snake.food_eaten || 0}</td>
-            <td className="text-center stat">{snake.kills || 0}</td>
-            <td className="text-center stat">{deathMessage}</td>
-          </tr>
+          <div className={classNames} key={this.props.game._id  + '-' + snake.name}>
+            <img src={snake.head} style={snakeStyles} title={snake.name} />
+          </div>
         )
-      });
+      })
 
-      tbody = (
-        <tbody>
-          <tr>
-            <td style={tdStyles}>
-              <h4>Winner</h4>
-              <p>{this.props.game.stats.winner || '--'}</p>
-            </td>
-            <td style={tdStyles}>
-              <h4>Longest</h4>
-              <p>{this.props.game.stats.longest || '--'}</p>
-            </td>
-            <td style={tdStyles}>
-              <h4>Hungriest</h4>
-              <p>{this.props.game.stats.hungriest || '--'}</p>
-            </td>
-            <td style={tdStyles}>
-              <h4>Deadliest</h4>
-              <p>{this.props.game.stats.deadliest || '--'}</p>
-            </td>
-            <td style={tdStyles}>
-            </td>
-          </tr>
-          {snakeHeader}
-          {snakeRows}
-        </tbody>
-      );
-    }
 
-    let watchLink;
-    if (this.props.game.state === 'done') {
-      watchLink = <a href={path} className="btn btn-primary pull-right">Watch Replay</a>
-    } else {
-      watchLink = <a href={path} className="btn btn-primary pull-right">View Live</a>
+      do {
+        snakeImages.push(<div className="game-summary-snake" key={snakeImages.length}></div>)
+      } while (snakeImages.length < MAX_SNAKES)
+
+      body = snakeImages
     }
 
     return (
       <table className="table table-bordered game-summary">
-        <thead>
-          <tr>
-            <th colSpan="5">
-              {watchLink}
-              <h1>
-                <a href={path}>{this.props.game._id}</a>
-                <span className="muted small">
-                  {this.props.game.width} &times; {this.props.game.height}
-                </span>
-              </h1>
-            </th>
+          <tbody>
+            <tr>
+              <td>
+              <div className="pull-left">
+                {body}
+              </div>
+              <div className="game-summary-buttons pull-right">
+                <a href={path} className="btn btn-primary btn-lg pull-right" style={{ verticalAlign: 'middle' }}>{this.props.game.state === 'done' ? 'Watch Replay' : 'View Live'}</a>
+              </div>
+            </td>
           </tr>
-        </thead>
-        {tbody}
+        </tbody>
       </table>
     )
   }

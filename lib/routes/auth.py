@@ -41,7 +41,13 @@ def load_users():
     if is_admin_only() and not current_user.type == Team.TYPE_ADMIN:
         return "You do not have access", 403
 
-    g.team = current_user
+    if override_auth_check:
+        admin_team = Team.find_one({'teamname': 'admin'})
+        if not admin_team:
+            return "No admin team configured", 500
+        g.team = admin_team
+    else:
+        g.team = current_user
 
 
 def public(func):

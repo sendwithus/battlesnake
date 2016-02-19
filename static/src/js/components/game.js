@@ -153,17 +153,12 @@ export default class Game extends Component {
   }
 
   checkInterval () {
-    //let shouldTick = this.state.game.state === 'playing' || this.state.game.state === 'ready';
-    //if (!shouldTick) {
-    //  return;
-    //}
-
     let startTimestamp = Date.now();
     this.tick((gameState, err) => {
       let endTimestamp = Date.now();
       let elapsedMillis = endTimestamp - startTimestamp;
 
-      let sleepFor = Math.max(this.state.game.turn_time, this.state.game.turn_time * 1000 - elapsedMillis);
+      let sleepFor = Math.max(0, this.state.game.turn_time * 1000 - elapsedMillis);
 
       if (err) {
         // If there was an error fetching state, just retry it later...

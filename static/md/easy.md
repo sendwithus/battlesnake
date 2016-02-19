@@ -6,9 +6,7 @@ Python snake, but the experience should be similar for other languages.
 
 ## What You'll Need
 
-- [Heroku Account](https://heroku.com)
 - [Cloud9](https://c9.io)
-- [Github](https://github.com)
 
 
 ## Install Python Packages

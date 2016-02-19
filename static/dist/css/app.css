@@ -1,18 +1,94 @@
 /**
  * App CSS
  */
+/* Utilities */
 .text-bold {
   font-weight: bold;
 }
+.animated {
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+}
+.animated.infinite {
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+@-webkit-keyframes pulse {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.05, 1.05, 1.05);
+            transform: scale3d(1.05, 1.05, 1.05);
+  }
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes pulse {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.05, 1.05, 1.05);
+            transform: scale3d(1.05, 1.05, 1.05);
+  }
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+@-webkit-keyframes pulseRotate {
+  from {
+    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
+            transform: rotate(315deg) scale3d(1, 1, 1);
+  }
+  50% {
+    -webkit-transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
+            transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
+  }
+  to {
+    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
+            transform: rotate(315deg) scale3d(1, 1, 1);
+  }
+}
+@keyframes pulseRotate {
+  from {
+    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
+            transform: rotate(315deg) scale3d(1, 1, 1);
+  }
+  50% {
+    -webkit-transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
+            transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
+  }
+  to {
+    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
+            transform: rotate(315deg) scale3d(1, 1, 1);
+  }
+}
+.pulse {
+  -webkit-animation-name: pulse;
+          animation-name: pulse;
+}
+.pulseRotate {
+  -webkit-animation-name: pulseRotate;
+          animation-name: pulseRotate;
+}
+/* App styles */
 body {
   background: #4371aa;
   color: #dfdfdf;
   font-size: 16px;
 }
-body.page-play {
+.page-play {
   background: #222;
 }
-body.page-team .table-hover > tbody > tr:hover {
+.page-team .table-hover > tbody > tr:hover {
   background-color: #608bc0;
 }
 p,
@@ -74,6 +150,9 @@ a:hover {
   background: #60F360;
   color: #154906;
 }
+.btn-primary.active,
+.btn-primary.active:hover,
+.btn-primary:hover,
 .btn-primary.active:focus,
 .btn-primary:active:focus,
 .btn-primary:active,
@@ -94,7 +173,11 @@ a:hover {
 }
 .btn-success.active,
 .btn-success.active:hover,
-.btn-success:hover {
+.btn-success:hover,
+.btn-success.active:focus,
+.btn-success:active:focus,
+.btn-success:active,
+.btn-success:focus {
   color: #222;
   background-color: #C7C308;
 }
@@ -111,7 +194,11 @@ a:hover {
 }
 .btn-info.active,
 .btn-info.active:hover,
-.btn-info:hover {
+.btn-info:hover,
+.btn-info.active:focus,
+.btn-info:active:focus,
+.btn-info:active,
+.btn-info:focus {
   background-color: #890000;
   color: #ccc;
 }
@@ -144,26 +231,50 @@ a:hover {
   text-shadow: none;
 }
 /** App overrides */
-.game-summary img {
-  height: 30px;
-  width: 30px;
-  margin-right: 15px;
-  padding: 3px;
-}
-.game-summary {
-  margin-bottom: 70px;
-}
 .game-summary,
 .game-summary td,
 .game-summary th {
   border-color: #333 !important;
 }
-.game-summary th {
-  background-color: #333;
+.game-summary-snake {
+  position: relative;
+  border: solid 1px #333;
+  margin-right: 4px;
+  display: inline-block;
+  height: 64px;
+  width: 64px;
+  vertical-align: middle;
 }
-.game-summary .snakes-heading {
-  background-color: #282828;
+.game-summary-snake img {
+  height: auto;
+  width: 100%;
 }
+.game-summary-snake-winner:before {
+  content: 'Winner!';
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-name: pulseRotate;
+          animation-name: pulseRotate;
+  display: block;
+  position: absolute;
+  top: 15px;
+  left: -5px;
+  color: red;
+  font-size: 20px;
+  font-weight: bold;
+}
+.game-summary-snake-winner:before.infinite {
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+.game-summary-buttons {
+  margin-top: 10px;
+}
+/* Sidebar */
 .sidebar h1 {
   text-transform: uppercase;
   font-size: 25px;

@@ -33,9 +33,10 @@ def list_teams():
         for team in teams:
             cw.writerow([
                 team.id,
-                team.teamname,
-                team.type,
+                team.teamname.encode('utf-8'),
+                team.snake_url.encode('utf-8') if team.snake_url else '',
                 team.game_mode,
+                team.type,
                 team.is_public
             ])
         output = make_response(si.getvalue())

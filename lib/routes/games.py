@@ -129,7 +129,15 @@ def games_list():
         obj = game.to_dict()
         game_state = GameState.find({'game_id': game.id}, limit=1)[0]
         state = game_state.to_dict()
-        obj['snakes'] = state['snakes']
+
+        snakes = state['snakes'] + state['dead_snakes']
+        obj['snakes'] = snakes
+
+        obj['teams'] = []
+        for snake in snakes:
+            team = Team.find_one({'_id': snake['team_id']})
+            obj['teams'].append(team.serialize())
+
         data.append(obj)
 
     return json_response(data)

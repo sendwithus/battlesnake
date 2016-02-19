@@ -369,6 +369,7 @@
   display: block;
   margin: 2em auto;
   box-sizing: content-box;
+  max-height: 300px;
   background-color: #fff;
   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
 }

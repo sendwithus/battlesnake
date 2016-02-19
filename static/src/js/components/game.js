@@ -84,7 +84,7 @@ export default class Game extends Component {
   };
 
   handleRematch = () => {
-    this.setState({isLoading: true});
+    this.setState({isLoading: true, turn: 0});
 
     $.ajax({
         type: 'POST',

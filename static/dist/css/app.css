@@ -6,78 +6,39 @@
   font-weight: bold;
 }
 .animated {
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
+  animation-duration: 1s;
+  animation-fill-mode: both;
 }
 .animated.infinite {
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-}
-@-webkit-keyframes pulse {
-  from {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-  50% {
-    -webkit-transform: scale3d(1.05, 1.05, 1.05);
-            transform: scale3d(1.05, 1.05, 1.05);
-  }
-  to {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
+  animation-iteration-count: infinite;
 }
 @keyframes pulse {
   from {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
   50% {
-    -webkit-transform: scale3d(1.05, 1.05, 1.05);
-            transform: scale3d(1.05, 1.05, 1.05);
+    transform: scale3d(1.05, 1.05, 1.05);
   }
   to {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-}
-@-webkit-keyframes pulseRotate {
-  from {
-    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
-            transform: rotate(315deg) scale3d(1, 1, 1);
-  }
-  50% {
-    -webkit-transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
-            transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
-  }
-  to {
-    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
-            transform: rotate(315deg) scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
 }
 @keyframes pulseRotate {
   from {
-    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
-            transform: rotate(315deg) scale3d(1, 1, 1);
+    transform: rotate(315deg) scale3d(1, 1, 1);
   }
   50% {
-    -webkit-transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
-            transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
+    transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
   }
   to {
-    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
-            transform: rotate(315deg) scale3d(1, 1, 1);
+    transform: rotate(315deg) scale3d(1, 1, 1);
   }
 }
 .pulse {
-  -webkit-animation-name: pulse;
-          animation-name: pulse;
+  animation-name: pulse;
 }
 .pulseRotate {
-  -webkit-animation-name: pulseRotate;
-          animation-name: pulseRotate;
+  animation-name: pulseRotate;
 }
 /* App styles */
 body {
@@ -211,11 +172,9 @@ a:hover {
 }
 .btn:hover {
   cursor: pointer;
-  -webkit-transition: all 0.25s ease-in;
   transition: all 0.25s ease-in;
 }
 .btn:active {
-  -webkit-transition: all 0s ease-in;
   transition: all 0s ease-in;
 }
 .modal-content {
@@ -236,6 +195,17 @@ a:hover {
 .game-summary th {
   border-color: #333 !important;
 }
+.game-summary h1 {
+  font-size: 18px;
+  text-transform: uppercase;
+  margin: 5px;
+}
+.game-summary h1 a {
+  padding-right: 10px;
+}
+.game-summary h1 .small {
+  font-size: 15px;
+}
 .game-summary-snake {
   position: relative;
   border: solid 1px #333;
@@ -251,14 +221,10 @@ a:hover {
 }
 .game-summary-snake-winner:before {
   content: 'Winner!';
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-  -webkit-animation-name: pulseRotate;
-          animation-name: pulseRotate;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-name: pulseRotate;
   display: block;
   position: absolute;
   top: 15px;
@@ -268,8 +234,7 @@ a:hover {
   font-weight: bold;
 }
 .game-summary-snake-winner:before.infinite {
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
 }
 .game-summary-buttons {
   margin-top: 10px;
@@ -289,7 +254,6 @@ a:hover {
   font-size: 18px;
 }
 .snake-block {
-  margin-bottom: 10px;
   position: relative;
   padding-left: 60px;
   width: 100%;
@@ -302,6 +266,23 @@ a:hover {
   height: 50px;
   margin-right: 10px;
   padding: 4px;
+}
+.snake-block h3 {
+  margin-top: 0;
+}
+.snake-block .snake-team-name {
+  margin-bottom: 10px;
+}
+.snake-block .health-bar {
+  height: 20px;
+  margin-bottom: 3px;
+}
+.snake-block .gold-coin {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  display: inline-block;
+  margin-left: -3px;
 }
 .snake-block .col {
   padding: 0;
@@ -326,36 +307,6 @@ a:hover {
   background-color: rgba(130, 0, 0, 0.8);
   border-color: rgba(130, 0, 0, 0.8);
   color: #fff;
-}
-.game-summary h1 {
-  font-size: 18px;
-  text-transform: uppercase;
-  margin: 5px;
-}
-.game-summary h1 a {
-  padding-right: 10px;
-}
-.game-summary h1 .small {
-  font-size: 15px;
-}
-.game-summary .stat {
-  padding-top: 15px;
-}
-.game-summary .snake-name {
-  padding: 4;
-  padding-left: 60px;
-  position: relative;
-  height: 50px;
-}
-.game-summary .snake-name img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50px;
-  height: 50px;
-}
-.game-summary .snake-name .url {
-  font-size: 14px;
 }
 .game-wrapper.hash-left .left,
 .game-wrapper.hash-right .right {

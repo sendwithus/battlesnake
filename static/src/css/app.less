@@ -232,6 +232,21 @@ a:hover {
   border-color: #333 !important;
 }
 
+
+.game-summary h1 {
+  font-size: 18px;
+  text-transform: uppercase;
+  margin: 5px;
+}
+
+.game-summary h1 a {
+  padding-right: 10px;
+}
+
+.game-summary h1 .small {
+  font-size: 15px;
+}
+
 .game-summary-snake {
   position: relative;
   border: solid 1px #333;
@@ -284,7 +299,7 @@ a:hover {
 }
 
 .snake-block {
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   position: relative;
   padding-left: 60px;
   width: 100%;
@@ -298,6 +313,27 @@ a:hover {
   height: 50px;
   margin-right: 10px;
   padding: 4px;
+}
+
+.snake-block h3 {
+  margin-top: 0;
+}
+
+.snake-block .snake-team-name {
+  margin-bottom: 10px;
+}
+
+.snake-block .health-bar {
+  height: 20px;
+  margin-bottom: 3px;
+}
+
+.snake-block .gold-coin {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  display: inline-block;
+  margin-left: -3px;
 }
 
 .snake-block .col {
@@ -325,43 +361,6 @@ a:hover {
   background-color: rgba(130, 0, 0, 0.8);
   border-color: rgba(130, 0, 0, 0.8);
   color: #fff;
-}
-
-.game-summary h1 {
-  font-size: 18px;
-  text-transform: uppercase;
-  margin: 5px;
-}
-
-.game-summary h1 a {
-  padding-right: 10px;
-}
-
-.game-summary h1 .small {
-  font-size: 15px;
-}
-
-.game-summary .stat {
-  padding-top: 15px;
-}
-
-.game-summary .snake-name {
-  padding: 4;
-  padding-left: 60px;
-  position: relative;
-  height: 50px;
-}
-
-.game-summary .snake-name img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50px;
-  height: 50px;
-}
-
-.game-summary .snake-name .url {
-  font-size: 14px;
 }
 
 .game-wrapper.hash-left .left,

@@ -6,42 +6,28 @@ import GameSidebarSnake from './gameSidebarSnake'
 export default class GameSidebar extends Component {
 
   render () {
-    let buttons;
-    let snakes = '';
-
     if (!this.props.latestGameState) {
       return (
         <div></div>
       );
     }
 
-    let aliveSnakes = this.props.latestGameState.snakes.map((snake, i) => {
+    let buttons;
+    let aliveSnakes = this.props.latestGameState.snakes
+    let deadSnakes = this.props.latestGameState.dead_snakes
+    let allSnakes = aliveSnakes.concat(deadSnakes)
+
+    let snakes = allSnakes.map((snake, i) => {
       return (
         <GameSidebarSnake
           key={snake.name}
           snake={snake}
-          isDead={false}
+          isDead={$.inArray(snake, deadSnakes) !== -1}
           turn={this.props.latestGameState.turn}
           showGold={this.props.latestGameState.mode === 'advanced'}
         />
       )
     });
-
-    let deadSnakes = this.props.latestGameState.dead_snakes.map((snake, i) => {
-      return (
-        <GameSidebarSnake
-          key={snake.name}
-          snake={snake}
-          isDead={true}
-          turn={this.props.latestGameState.turn}
-          showGold={this.props.latestGameState.mode === 'advanced'}
-        />
-      )
-    });
-
-    if (!deadSnakes.length) {
-      deadSnakes = <p>None Yet</p>;
-    }
 
     if (!this.props.game) {
       buttons = ('');
@@ -66,7 +52,8 @@ export default class GameSidebar extends Component {
           </button>
         </div>
       );
-    } else if (!this.props.isReplay && this.props.game.state === 'done') {
+    } else if (this.props.game.state === 'done') {
+      if (!this.props.isReplay) {
         buttons = (
           <div>
             <button className="btn btn-success btn-block" onClick={this.props.startReplay}>
@@ -79,7 +66,7 @@ export default class GameSidebar extends Component {
             </button>
           </div>
         );
-    } else if (this.props.isReplay && this.props.game.state === 'done') {
+      } else {
         buttons = (
           <div>
             <button className="btn btn-info btn-block" onClick={this.props.cancelReplay}>
@@ -87,6 +74,7 @@ export default class GameSidebar extends Component {
             </button>
           </div>
         );
+      }
     } else if (this.props.game.state === 'paused') {
         buttons = (
           <div>
@@ -110,10 +98,7 @@ export default class GameSidebar extends Component {
       <div className="game-sidebar sidebar-inner">
         <h1>{this.props.gameId}</h1>
         <p>Turn {this.props.latestGameState ? this.props.latestGameState.turn : '--'}</p>
-        <h2>Living Snakes</h2>
-        {aliveSnakes}
-        <h2>Dead Snakes</h2>
-        {deadSnakes}
+        {snakes}
         <hr />
         {buttons}
       </div>

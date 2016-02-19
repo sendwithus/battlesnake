@@ -127,6 +127,9 @@ def games_list():
     data = []
     for game in games:
         obj = game.to_dict()
+        game_state = GameState.find({'game_id': game.id}, limit=1)[0]
+        state = game_state.to_dict()
+        obj['snakes'] = state['snakes']
         data.append(obj)
 
     return json_response(data)

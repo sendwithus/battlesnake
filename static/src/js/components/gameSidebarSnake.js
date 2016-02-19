@@ -77,7 +77,7 @@ export default class GameSidebarSnake extends Component {
       let i = 0;
       _.times(this.props.snake.gold || 0, function() {
         goldIndicator.push(
-          <div key={i++} style={{width: 30 + 'px', height: 30 + 'px', position: 'relative', display: 'inline-block', marginLeft: '-3'}}>
+          <div key={i++} className="gold-coin">
             <img src='/static/img/img-coin.gif' style={{borderRadius: '100%', width: '30px', height: '30px'}} />
           </div>
         );
@@ -89,10 +89,9 @@ export default class GameSidebarSnake extends Component {
     return (
       <div className="snake-block">
         <img src={this.props.snake.head} style={snakeStyles} ref='head' />
-        <h3 style={{marginBottom: '10px'}}>{this.props.snake.name} <span className="muted">({this.props.snake.coords.length})</span></h3>
-        <div className="muted meta" style={{height: 20 + 'px', marginBottom: '3px'}}>
-          <div className="inner" style={{width: this.props.snake.health + '%', height: 20 + 'px', backgroundColor: healthScale(this.props.snake.health), borderRadius: 5 + 'px'}}>
-          </div>
+        <h3 className="snake-team-name">{this.props.snake.name} <span className="muted">({this.props.snake.coords.length})</span></h3>
+        <div className="health-bar">
+          <div className="inner" style={{width: this.props.snake.health + '%', height: 20 + 'px', backgroundColor: healthScale(this.props.snake.health), borderRadius: 5 + 'px'}}></div>
         </div>
         <div className="muted meta">
           {goldIndicator}

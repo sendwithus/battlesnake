@@ -22,17 +22,17 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/setup')
+@app.route('/tutorial')
 @public
 def setup():
-    html = __load_markdown('static/md/setup.md')
+    html = __load_markdown('static/md/tutorial.md')
     return render_template('markdown.html', html=html, title='Getting Started')
 
 
-@app.route('/easy')
+@app.route('/cloud9')
 @public
 def easy():
-    html = __load_markdown('static/md/easy.md')
+    html = __load_markdown('static/md/cloud9.md')
     return render_template('markdown.html', html=html, title='Getting Started')
 
 

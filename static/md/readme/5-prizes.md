@@ -74,11 +74,11 @@ There will be door prizes raffled off throughout the event. Door prizes include.
         </tr>
         <tr>
             <td>
-                "TBA" <br>
+                "Murphy" <br>
                 <em><a href="http://www.workday.com/">Workday</a></em>
             </td>
             <td>Workday Patagonia Yerba Backpacks <br> <em>(up to five)</em></td>
-            <td>TBA</td>
+            <td>Completely surround Murphy and taunt "yield" in a classic game.</td>
             <td></td>
         </tr>
         <tr>

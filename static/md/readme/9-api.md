@@ -66,12 +66,10 @@ NOTE: Game IDs may be re-used throughout the day, however multiple games with th
     "game": "hairy-cheese",
     "mode": "advanced",
     "turn": 0,
-    "board": {
-        "height": 20,
-        "width": 30
-    },
+    "height": 20,
+    "width": 30,
     "snakes": [
-        &lt;Snake Object&gt;, &lt;Snake Object&gt;, ...
+        <Snake Object>, <Snake Object>, ...
     ],
     "food": [],
     "walls": [],  // Advanced Only
@@ -115,12 +113,10 @@ NOTE: Failing to properly respond to a MOVE command will forfeit your turn and y
     "game": "hairy-cheese",
     "mode": "advanced",
     "turn": 4,
-    "board": {
-        "height": 20,
-        "width": 30
-    },
+    "height": 20,
+    "width": 30,
     "snakes": [
-        &lt;Snake Object&gt;, &lt;Snake Object&gt;, ...
+        <Snake Object>, <Snake Object>, ...
     ],
     "food": [
         [1, 2], [9, 3], ...
@@ -169,12 +165,10 @@ Signals the end of a specific game. After this request, future requests for this
     "game": "hairy-cheese",
     "mode": "advanced",
     "turn": 4,
-    "board": {
-        "height": 20,
-        "width": 30
-    },
+    "height": 20,
+    "width": 30,
     "snakes": [
-        &lt;Snake Object&gt;, &lt;Snake Object&gt;, ...
+        <Snake Object>, <Snake Object>, ...
     ],
     "food": [
         [1, 2], [9, 3], ...

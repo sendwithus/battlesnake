@@ -23,7 +23,6 @@ class Team(Model):
             password='',
             snake_url=None,
             member_emails=None,
-            game_ids=None,
             game_mode=Game.MODE_CLASSIC,
             is_public=False,
             type=TYPE_NORMAL):
@@ -35,9 +34,6 @@ class Team(Model):
         if member_emails is None:
             member_emails = []
 
-        if game_ids is None:
-            game_ids = []
-
         if id is None:
             id = Team._generate_id()
 
@@ -48,7 +44,6 @@ class Team(Model):
         self.pw_hash = None
         self.snake_url = snake_url
         self.member_emails = member_emails
-        self.game_ids = game_ids
         self.is_public = is_public
         self.game_mode = game_mode
         self.type = type
@@ -98,7 +93,6 @@ class Team(Model):
             'pw_hash': self.pw_hash,
             'snake_url': self.snake_url,
             'member_emails': self.member_emails,
-            'game_ids': self.game_ids,
             'game_mode': self.game_mode,
             'is_public': self.is_public,
             'type': self.type,
@@ -118,7 +112,6 @@ class Team(Model):
         )
         instance.id = obj['_id']
         instance.pw_hash = obj['pw_hash']
-        instance.game_ids = obj['game_ids']
         instance.is_public = obj['is_public']
         instance.game_mode = obj.get('game_mode', Game.MODE_CLASSIC)
 

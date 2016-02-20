@@ -73,9 +73,8 @@ def update_team(team_id=None):
         return form_error('Snake name already in use')
     team.teamname = teamname
 
-    # Set snake_url if provided
-    if form.snake_url.data:
-        team.snake_url = form.snake_url.data
+    # Set snake_url unconditionally, so it can be cleared
+    team.snake_url = form.snake_url.data
 
     # Set is_public
     team.is_public = form.is_public.data

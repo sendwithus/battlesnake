@@ -16,8 +16,8 @@ def games_create():
     if data is None:
         return json_response(msg='Invalid request body', status=400)
 
-    width = data.get('width', 20)
-    height = data.get('height', 20)
+    width = data.get('width', 17)
+    height = data.get('height', 17)
     turn_time = data.get('turn_time', 1)
     mode = data.get('mode', Game.MODE_ADVANCED)
 

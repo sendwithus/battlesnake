@@ -31,3 +31,9 @@ Prize draws, Bounty Snake awards, and tournament prizes will be handed out.
 
 **After Party** <br>
 _After the event, sponsors and event organizers will meet at Felicita's for drinks. Everyone is invited!_
+
+### Wifi
+
+Network: UvVc <br>
+Username: bsnake <br>
+Password: l3tm31n

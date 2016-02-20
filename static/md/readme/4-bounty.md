@@ -33,17 +33,8 @@ The first team to claim verifiable victory over a Bounty Snake will receive its 
                 "Adder Lovelace" <br>
                 <em><a href="https://www.sendwithus.com">Sendwithus</a></em>
             </td>
-            <td>$500 Scholarship <br> <em>sponsored by Hello Ventures</em></td>
-            <td>Classic Mode, 1v1</td>
-            <td>--</td>
-        </tr>
-        <tr>
-            <td>
-                "Leanpub Bounty Snake" <br>
-                <em><a href="https://leanpub.com/">Leanpub</a></em>
-            </td>
-            <td>Xbox One <br> Leanpub Books and Coupons</td>
-            <td>TBA</td>
+            <td>$500 Scholarship for team<br> <em>sponsored by Hello Ventures</em></td>
+            <td>Classic Mode, 1v1, 17x17</td>
             <td>--</td>
         </tr>
         <tr>
@@ -52,7 +43,7 @@ The first team to claim verifiable victory over a Bounty Snake will receive its 
                 <em><a href="http://www.workday.com/">Workday</a></em>
             </td>
             <td>Workday Patagonia Yerba Backpacks <br> <em>(up to five)</em></td>
-            <td>Completely surround Murphy and taunt "yield" in a classic game.</td>
+            <td>Classic Mode, 1v1, 17x17</td>
             <td>--</td>
         </tr>
         <tr>
@@ -61,7 +52,7 @@ The first team to claim verifiable victory over a Bounty Snake will receive its 
                 <em><a href="http://www.beanstream.com/home/">Beanstream</a></em>
             </td>
             <td>$50 Steam Gift Card <br> <em>(up to five)</em></td>
-            <td>Classic Mode, 1v1</td>
+            <td>Classic Mode, 1v1, 17x17</td>
             <td>--</td>
         </tr>
         <tr>
@@ -74,7 +65,7 @@ The first team to claim verifiable victory over a Bounty Snake will receive its 
                 2nd - $20 Gift Card <em>(up to five)</em> <br>
                 3rd - Giftbit Moleskine Notebooks
             </td>
-            <td>Classic Mode, 2v1 <br> (Gotta beat 'em both!)</td>
+            <td>Classic Mode, 2v1 <br> (Gotta beat 'em both!), 17x17</td>
             <td>
                 1st: -- <br>
                 2nd: -- <br>
@@ -90,7 +81,7 @@ The first team to claim verifiable victory over a Bounty Snake will receive its 
                 $50 Gift Card for Peacocks, Ping Pong Paddle <br>
                 Red Brick Media T-Shirts <em>(up to five)</em>
             </td>
-            <td>Classic Mode, 1v1</td>
+            <td>Classic Mode, 1v1, 17x17</td>
             <td>--</td>
         </tr>
         <tr>
@@ -101,7 +92,7 @@ The first team to claim verifiable victory over a Bounty Snake will receive its 
             <td>
                 Pretio Swag Pack <em>(up to five)</em>
             </td>
-            <td>Classic Mode, 1v1</td>
+            <td>Classic Mode, 1v1, 17x17</td>
             <td>--</td>
         </tr>
     </tbody>

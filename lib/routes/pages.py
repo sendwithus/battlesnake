@@ -48,7 +48,7 @@ def easy():
 
 @app.route('/cloud9')
 @public
-def easy():
+def cloud9():
     html = __load_markdown('static/md/cloud9.md')
     return render_template('markdown.html', html=html, title='Getting Started')
 

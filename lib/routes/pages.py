@@ -1,4 +1,5 @@
 import markdown
+import requests
 
 from flask import Markup, redirect, render_template, url_for
 
@@ -8,6 +9,19 @@ from lib.routes.auth import public
 
 
 def __load_markdown(filepath):
+    if '4-bounty' in filepath:
+        BOUNTY_MD_URL = 'https://gist.githubusercontent.com/sean-lynch/e1f429d78cdd6f18ae46/raw/bounty.md'
+        r = requests.get(BOUNTY_MD_URL)
+        html = markdown.markdown(
+            r.text,
+            extensions=[
+                'markdown.extensions.fenced_code',
+                'markdown.extensions.codehilite'
+            ]
+        )
+
+        return Markup(html)
+
     with open(filepath) as f:
         html = markdown.markdown(
             f.read(),

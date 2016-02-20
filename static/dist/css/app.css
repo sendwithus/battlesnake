@@ -6,78 +6,39 @@
   font-weight: bold;
 }
 .animated {
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
+  animation-duration: 1s;
+  animation-fill-mode: both;
 }
 .animated.infinite {
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-}
-@-webkit-keyframes pulse {
-  from {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-  50% {
-    -webkit-transform: scale3d(1.05, 1.05, 1.05);
-            transform: scale3d(1.05, 1.05, 1.05);
-  }
-  to {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
+  animation-iteration-count: infinite;
 }
 @keyframes pulse {
   from {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
   50% {
-    -webkit-transform: scale3d(1.05, 1.05, 1.05);
-            transform: scale3d(1.05, 1.05, 1.05);
+    transform: scale3d(1.05, 1.05, 1.05);
   }
   to {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-}
-@-webkit-keyframes pulseRotate {
-  from {
-    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
-            transform: rotate(315deg) scale3d(1, 1, 1);
-  }
-  50% {
-    -webkit-transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
-            transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
-  }
-  to {
-    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
-            transform: rotate(315deg) scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
 }
 @keyframes pulseRotate {
   from {
-    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
-            transform: rotate(315deg) scale3d(1, 1, 1);
+    transform: rotate(315deg) scale3d(1, 1, 1);
   }
   50% {
-    -webkit-transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
-            transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
+    transform: rotate(315deg) scale3d(1.15, 1.15, 1.15);
   }
   to {
-    -webkit-transform: rotate(315deg) scale3d(1, 1, 1);
-            transform: rotate(315deg) scale3d(1, 1, 1);
+    transform: rotate(315deg) scale3d(1, 1, 1);
   }
 }
 .pulse {
-  -webkit-animation-name: pulse;
-          animation-name: pulse;
+  animation-name: pulse;
 }
 .pulseRotate {
-  -webkit-animation-name: pulseRotate;
-          animation-name: pulseRotate;
+  animation-name: pulseRotate;
 }
 /* App styles */
 body {
@@ -211,11 +172,9 @@ a:hover {
 }
 .btn:hover {
   cursor: pointer;
-  -webkit-transition: all 0.25s ease-in;
   transition: all 0.25s ease-in;
 }
 .btn:active {
-  -webkit-transition: all 0s ease-in;
   transition: all 0s ease-in;
 }
 .modal-content {
@@ -262,14 +221,10 @@ a:hover {
 }
 .game-summary-snake-winner:before {
   content: 'Winner!';
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-  -webkit-animation-name: pulseRotate;
-          animation-name: pulseRotate;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-name: pulseRotate;
   display: block;
   position: absolute;
   top: 15px;
@@ -279,8 +234,7 @@ a:hover {
   font-weight: bold;
 }
 .game-summary-snake-winner:before.infinite {
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
 }
 .game-summary-buttons {
   margin-top: 10px;

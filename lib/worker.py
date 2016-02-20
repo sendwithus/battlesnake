@@ -27,7 +27,7 @@ def maybe_run_game(mode):
         random.choice(Game.queues.values())
     )
 
-    game_id = queue.dequeue(timeout=60)
+    game_id = queue.dequeue(timeout=10)
 
     if not game_id:
         logger.info('No game is ready')

@@ -191,7 +191,7 @@ def game_states_turn(game_id, turn_number):
     })
 
     if game_state is None:
-        return json_error('not found', silent=True)
+        return json_error('Game turn not found', silent=True)
 
     return json_response(game_state.to_dict(include_board=True))
 

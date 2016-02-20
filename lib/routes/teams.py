@@ -1,7 +1,7 @@
 from flask import (
     request, g, session,
     render_template, redirect, flash,
-    abort
+    abort, url_for
 )
 
 from lib.server import form_error, json_response, app
@@ -37,8 +37,6 @@ def get_team(team_id=None):
 def update_team(team_id=None):
     """
     Update team profile
-
-    Can be used by admins to update any team by adding ?admin_override_id=<team_id> to URL
     """
     is_admin = (g.team.type == Team.TYPE_ADMIN)
     team = g.team
@@ -92,6 +90,29 @@ def update_team(team_id=None):
 
     flash('Team updated')
     return redirect(request.url)
+
+@app.route('/team/delete', methods=['POST'])
+@app.route('/admin/teams/<team_id>/delete', methods=['POST'])
+def delete_team(team_id=None):
+    """
+    Delete team profile
+    """
+    is_admin = (g.team.type == Team.TYPE_ADMIN)
+    team = g.team
+
+    # Admin override
+    if team_id:
+        team = Team.find_one({'_id': team_id})
+        if not is_admin or not team:
+            abort(404)
+
+    team.remove()
+
+    if team_id:
+        flash('Team deleted')
+        return redirect(url_for('list_teams'))
+
+    return redirect(url_for('logout'))
 
 
 @app.route('/api/teams/')

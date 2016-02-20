@@ -22,25 +22,25 @@ export default class Game extends Component {
 
   handlePause = () => {
     $.ajax({
-        type: 'PUT',
-        url: '/api/games/' + this.props.params.id + '/pause'
-      })
-      .done((response) => {
-        console.log('Paused Game', response.data);
-        this.setState({game: response.data});
-      });
+      type: 'PUT',
+      url: '/api/games/' + this.props.params.id + '/pause'
+    })
+    .done((response) => {
+      console.log('Paused Game', response.data);
+      this.setState({game: response.data});
+    });
   };
 
   handleResume = () => {
     $.ajax({
-        type: 'PUT',
-        url: '/api/games/' + this.props.params.id + '/resume'
-      })
-      .done((response) => {
-        console.log('Resumed Game', response.data);
-        this.setState({game: response.data});
-        this.checkInterval();
-      });
+      type: 'PUT',
+      url: '/api/games/' + this.props.params.id + '/resume'
+    })
+    .done((response) => {
+      console.log('Resumed Game', response.data);
+      this.setState({game: response.data});
+      this.checkInterval();
+    });
   };
 
   handleReplay = () => {
@@ -50,22 +50,22 @@ export default class Game extends Component {
     this.board.gameState.snakes = [];
 
     $.ajax({
-        type: 'GET',
-        url: url
-      })
-      .done((response) => {
-        let framesCompleted = 0;
-        let gameStates = response.data;
+      type: 'GET',
+      url: url
+    })
+    .done((response) => {
+      let framesCompleted = 0;
+      let gameStates = response.data;
 
-        let next = () => {
-          this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
-          if (++framesCompleted < response.data.length && this.state.isReplay) {
-            requestTimeout(next, 300);
-          }
-        };
+      let next = () => {
+        this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
+        if (++framesCompleted < response.data.length && this.state.isReplay) {
+          requestTimeout(next, 300);
+        }
+      };
 
-        next();
-      });
+      next();
+    });
 
     this.setState({isReplay: true});
   };
@@ -77,42 +77,42 @@ export default class Game extends Component {
   handleClickNextTurn = () => {
     this.setState({isLoading: true});
     $.ajax({
-        type: 'POST',
-        url: '/api/games/' + this.props.params.id + '/turn'
-      })
-      .done((response) => {
-        this.handleGameState(response.data);
-      });
+      type: 'POST',
+      url: '/api/games/' + this.props.params.id + '/turn'
+    })
+    .done((response) => {
+      this.handleGameState(response.data);
+    });
   };
 
   handleRematch = () => {
     this.setState({isLoading: true, turnNumber: 0});
 
     $.ajax({
-        type: 'POST',
-        url: '/api/games/' + this.props.params.id + '/rematch'
-      })
-      .done((response) => {
-        this.props.history.push('/app/games/' + response.data._id);
-        this.componentDidMount();
-      })
-      .error((xhr, textStatus, errorThrown) => {
-        this.setState({isLoading: false});
-      });
+      type: 'POST',
+      url: '/api/games/' + this.props.params.id + '/rematch'
+    })
+    .done((response) => {
+      this.props.history.push('/app/games/' + response.data._id);
+      this.componentDidMount();
+    })
+    .error((xhr, textStatus, errorThrown) => {
+      this.setState({isLoading: false});
+    });
   };
 
   handleStart (isManual) {
     let formData = JSON.stringify({manual: isManual});
     $.ajax({
-        type: 'POST',
-        url: '/api/games/' + this.props.params.id + '/start',
-        data: formData
-      })
-      .done((response) => {
-        console.log('Started Game', response.data);
-        this.setState({game: response.data});
-        this.checkInterval();
-      });
+      type: 'POST',
+      url: '/api/games/' + this.props.params.id + '/start',
+      data: formData
+    })
+    .done((response) => {
+      console.log('Started Game', response.data);
+      this.setState({game: response.data});
+      this.checkInterval();
+    });
   }
 
   handleGameState (gameState, ignoreEnd) {
@@ -182,20 +182,20 @@ export default class Game extends Component {
   componentDidMount () {
     this._isMounted = true;
     $.ajax({
-        type: 'GET',
-        url: '/api/games/' + this.props.params.id
-      })
-      .done((response) => {
-        if (this._isMounted) {
-          this.setState({game: response.data});
-        }
+      type: 'GET',
+      url: '/api/games/' + this.props.params.id
+    })
+    .done((response) => {
+      if (this._isMounted) {
+        this.setState({game: response.data});
+      }
 
-        // Get latest game state
-        this.tick(() => {
-          // See if we need to tick the game
-          this.checkInterval();
-        });
+      // Get latest game state
+      this.tick(() => {
+        // See if we need to tick the game
+        this.checkInterval();
       });
+    });
   }
 
   componentDidUpdate (prevProps, prevState) {

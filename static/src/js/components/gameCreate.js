@@ -50,10 +50,6 @@ export default class GameCreate extends Component {
       mode: this.state.mode
     };
 
-    // if (window.app.user.team.game_mode) {
-    //   gameData.mode = window.app.user.team.game_mode
-    // }
-
     this.setState({isLoading: true});
 
     $.ajax({
@@ -137,7 +133,6 @@ export default class GameCreate extends Component {
   }
 
   render () {
-    console.log(this.state.mode);
     let teamOpts = [];
 
     let availableTeamOptions = this.state.availableTeams.map((team, i) => {

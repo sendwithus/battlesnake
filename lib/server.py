@@ -22,8 +22,9 @@ def json_response(data={}, msg=None, status=200):
     ), status, {'Content-Type': 'application/json'}
 
 
-def json_error(msg=None, status=400):
-    logger.exception('ROUTE ERROR: %s' % str(msg))
+def json_error(msg=None, status=400, silent=False):
+    if not silent:
+        logger.exception('ROUTE ERROR: %s' % str(msg))
     return jsonify(message=str(msg)), status, {'Content-Type': 'application/json'}
 
 

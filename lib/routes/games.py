@@ -106,7 +106,7 @@ def game_turn(game_id):
     game = Game.find_one({'_id': game_id})
     game_state = controller.next_turn(game)
 
-    return json_response(game_state.to_dict())
+    return json_response(game_state.to_dict(include_board=True))
 
 
 @app.route('/api/games', methods=['GET'])

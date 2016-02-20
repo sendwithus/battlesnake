@@ -19,6 +19,7 @@ def get_redis():
 
     if __redis is None:
         __redis = __init_connection()
+        print 'init redis'
 
     return __redis
 

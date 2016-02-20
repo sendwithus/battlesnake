@@ -233,6 +233,10 @@ class Engine(object):
 
         return game_state
 
+    @staticmethod
+    def get_food_spawn_rate(game_state):
+        return int(20 / len(game_state.snakes))
+
     @classmethod
     def get_default_move(cls, snake):
         head_coords, next_coords = snake.coords[0:2]
@@ -358,12 +362,8 @@ class Engine(object):
                     new_food.remove(snake.coords[0])
                     snake.food_eaten += 1
                     snake.last_eaten = game_state.turn
-
-                    if game_state.mode == Game.MODE_ADVANCED:
-                        snake.health += constants.FOOD_VALUE
-                        if snake.health > Snake.FULL_HEALTH:
-                            snake.health = Snake.FULL_HEALTH
-                    else:
+                    snake.health += constants.FOOD_VALUE
+                    if snake.health > Snake.FULL_HEALTH:
                         snake.health = Snake.FULL_HEALTH
 
                     snake.grow_by(1)
@@ -412,7 +412,7 @@ class Engine(object):
         new_game_state.mode = game_state.mode
 
         # Add food every X turns
-        if new_game_state.turn % constants.TURNS_PER_FOOD == 0:
+        if new_game_state.turn % Engine.get_food_spawn_rate(new_game_state) == 0:
             cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_FOOD)
 
         # Advanced Mechanics

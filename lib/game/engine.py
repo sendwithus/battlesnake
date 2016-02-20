@@ -396,6 +396,7 @@ class Engine(object):
         # Kill Off Snakes
         for snake in new_snakes:
             if snake.name in kill:
+                snake.status = Snake.STATUS_DEAD
                 dead_snakes.append(snake)
 
         new_snakes = [snake for snake in new_snakes if snake.name not in kill]

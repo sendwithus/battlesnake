@@ -83,15 +83,19 @@ export default class Board {
       bitHeight = (boardHeight - innerBoardPadding * 2 - spacing) / gameState.height,
       boardData = gameState.board,
       deathAnimationDuration = 300,
-      explodeSize = 500,
+      explodeSize = 2000,
       rows = this.svg.select('g.inner-board').selectAll('g.row').data(boardData),
       cells = rows.selectAll('rect.cell').data(_.identity),
       food = this.svg.select('g.inner-board').selectAll('circle.food').data(gameState.food, _.identity),
       //food = d3.select(this.container).selectAll('img.food').data(gameState.food, _.identity),
-      snakes = this.svg.select('g.inner-board').selectAll('g.snake').data(gameState.snakes),
+      snakes = this.svg.select('g.inner-board').selectAll('g.snake').data(gameState.snakes, function(snake) {
+        return snake.team_id + 'body';
+      }),
       snakeBits = snakes.selectAll('rect.snakeBit').data(function(d) { return d.coords; }),
       walls = this.svg.select('g.inner-board').selectAll('rect.wall').data(gameState.walls),
-      heads = d3.select(this.container).selectAll('img.head').data(gameState.snakes),
+      heads = d3.select(this.container).selectAll('img.head').data(gameState.snakes, function(snake) {
+        return snake.team_id + 'head';
+      }),
       gold = d3.select(this.container).selectAll('img.gold').data(gameState.gold, _.identity);
 
     function isAbove(dx, dy) { return dx === 0 && dy === -1; }
@@ -237,7 +241,8 @@ export default class Board {
       .attr('height', explodeSize)
       .attr('x', function(d) { return spacing + d[0] * bitWidth - (explodeSize / 2) })
       .attr('y', function(d) { return spacing + d[1] * bitHeight - (explodeSize / 2) })
-      .style('opacity', 0);
+      .style('opacity', 0)
+      .remove();
     snakeBits.exit().transition()
       .duration(deathAnimationDuration).remove();
     heads.exit().transition()

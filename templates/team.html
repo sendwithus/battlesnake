@@ -10,7 +10,11 @@
       <div class="row">
         <br />
         <br />
-        <a href="/app/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back to Games</a>
+        {% if is_admin %}
+          <a href="/admin/teams" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back to Teams</a>
+        {% else %}
+          <a href="/app/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back to Games</a>
+        {% endif %}
 
         {% if is_admin %}
             <p class="pull-right">ADMIN MODE</p>
@@ -125,6 +129,34 @@
               <li>{{ email }}</li>
               {% endfor %}
             </ul>
+          </div>
+          <div class="row">
+            <h3>Delete team</h3>
+            <p>You probably don't want to do this</p>
+            <button type="button" class="btn btn-warning text-bold" data-toggle="modal" data-target="#deleteConfirmModal">
+              Delete team
+            </button>
+
+            <div id="deleteConfirmModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    Are you really, really, unreasonably sure you want to delete your team?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Heck no</button>
+                    <form style="display: inline-block" method="post"
+                          {% if is_admin %}
+                              action="/admin/teams/{{ team.id }}/delete"
+                          {% else %}
+                              action="/team/delete"
+                          {% endif %}>
+                      <button id="deleteConfirm" type="submit"  class="btn btn-warning">Yes</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           {% if test_results %}
           <div class="row">

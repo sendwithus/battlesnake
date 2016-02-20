@@ -3,7 +3,7 @@ import StringIO
 
 from flask import (
     request, render_template, redirect, url_for, flash,
-    make_response,
+    make_response, Markup
 )
 from pymongo.errors import DuplicateKeyError
 
@@ -78,5 +78,5 @@ def register():
 
     logger.slack('New Registered Team: %s' % team.teamname)
 
-    flash('New Registered Team: %s' % team.teamname)
+    flash(Markup('New Registered Team: <a href="/admin/teams/%s">%s</a>' % (team.id, team.teamname)))
     return redirect(url_for('register'))

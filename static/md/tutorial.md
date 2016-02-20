@@ -68,6 +68,8 @@ git push heroku master
 
 Copy the URL from the output above and open it in your browser (`heroku open` also does this).
 
+![Viewing your Snake](/static/img/setup/success.png)
+
 
 ### Debugging your Snake
 

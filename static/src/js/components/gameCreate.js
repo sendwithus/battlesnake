@@ -22,12 +22,21 @@ export default class GameCreate extends Component {
   };
 
   _restoreState () {
+    let oldState = {}
+    let { state } = this.props.location
+
     try {
-      let oldState = JSON.parse(localStorage['GameCreate.state']);
-      this.setState($.extend(this.state, oldState));
+      oldState = JSON.parse(localStorage['GameCreate.state']);
     } catch (e) {
       // No state saved yet. Default it
     }
+
+    // If were coming from a rematch
+    if (state) {
+      oldState.addedTeams = state.rematchTeams
+    }
+
+    this.setState($.extend(this.state, oldState));
   };
 
   handleGameCreate = (e) => {
@@ -129,33 +138,33 @@ export default class GameCreate extends Component {
   render () {
     let teamOpts = [];
 
-    teamOpts.push(
-      <option key="team_opt_none" value="none">Select a team</option>
-    );
+    let availableTeamOptions = this.state.availableTeams.map((team, i) => {
+      let teamname = team.teamname;
+      if (['bounty', 'test'].includes(team.type)) {
+        teamname = `${teamname} (${team.type} snake)`
+      }
+
+      let disabled = false;
+      for (let j = 0; j < this.state.addedTeams.length; j++) {
+        let t = this.state.addedTeams[j];
+        let isAddedAlready = t._id === team._id;
+        if (isAddedAlready) {
+          disabled = true;
+          teamname = `${teamname} - Added`;
+          break;
+        }
+      }
+
+      return (
+        <option key={'team_opt_' + i} value={i} disabled={disabled}>
+          {teamname}
+        </option>
+      );
+    })
+
     teamOpts = teamOpts.concat(
-      this.state.availableTeams.map((team, i) => {
-        let teamname = team.teamname;
-        if (['bounty', 'test'].includes(team.type)) {
-          teamname = `${teamname} (${team.type} snake)`
-        }
-
-        let disabled = false;
-        for (let j = 0; j < this.state.addedTeams.length; j++) {
-          let t = this.state.addedTeams[j];
-          let isAddedAlready = t._id === team._id;
-          if (isAddedAlready) {
-            disabled = true;
-            teamname = `${teamname} - Added`;
-            break;
-          }
-        }
-
-        return (
-          <option key={'team_opt_' + i} value={i} disabled={disabled}>
-            {teamname}
-          </option>
-        );
-      })
+      <option key="team_opt_none" value="none">Select a team</option>,
+      availableTeamOptions
     );
 
     let teamNames = this.state.addedTeams.map((team, i) => {

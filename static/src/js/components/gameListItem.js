@@ -9,6 +9,7 @@ export default class GameListItem extends Component {
     let gamePath = '/app/games/' + this.props.game._id
 
     let body = <div className="pull-left"></div>
+    let rematchBtn = ''
     let snakes = []
 
     if (this.props.game.state === 'done') {
@@ -23,7 +24,6 @@ export default class GameListItem extends Component {
         if(a.name > b.name) { return 1 }
         return 0
       })
-
     }
 
     let snakeImages = snakes.map((snake, i) => {
@@ -44,7 +44,7 @@ export default class GameListItem extends Component {
       }
 
       return (
-        <div className={classNames} key={this.props.game._id  + '-' + snake.name}>
+        <div className={classNames} key={i + '-' +this.props.game._id  + '-' + snake.name}>
           <img src={snake.head} style={snakeStyles} title={snake.name} />
         </div>
       )
@@ -60,11 +60,22 @@ export default class GameListItem extends Component {
     body = snakeImages
 
     // Build the snakes to be used in a rematch
-    let snakeIds = []
-    if (this.props.game.stats.snakes) {
-      for (let snake of this.props.game.stats.snakes) {
-        snakeIds.push(snake.team_id)
+    let rematchTeams = []
+    if (this.props.game.state === 'done') {
+      let teams = this.props.game.teams
+      for (let team of teams) {
+        rematchTeams.push(team)
       }
+    }
+
+    if (this.props.game.state === 'done') {
+      rematchBtn = (
+        <Link to='/app/game/new'
+              state={{ rematchTeams: rematchTeams }}
+              className="btn btn-success btn-lg pull-right">
+            Rematch
+        </Link>
+      )
     }
 
     return (
@@ -76,6 +87,7 @@ export default class GameListItem extends Component {
                 {body}
               </div>
               <div className="game-summary-buttons pull-right">
+                {rematchBtn}
                 <Link to={gamePath}
                       className="btn btn-primary btn-lg pull-right"
                       style={{ verticalAlign: 'middle' }}>

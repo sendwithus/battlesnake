@@ -1,6 +1,8 @@
+import random
 import time
 
 import newrelic.agent
+import sys
 
 import lib.game.controller as controller
 from lib.log import get_logger
@@ -18,8 +20,15 @@ def patch_gevent():
     gevent.monkey.patch_all(thread=False)
 
 
-def maybe_run_game():
-    game_id = Game.ready_queue.dequeue(timeout=60)
+def maybe_run_game(mode):
+    # Get queue by mode. If invalid mode, select random queue
+    queue = Game.queues.get(
+        mode,
+        random.choice(Game.queues.values())
+    )
+
+    game_id = queue.dequeue(timeout=60)
+
     if not game_id:
         logger.info('No game is ready')
         return
@@ -39,13 +48,16 @@ def run_game(game_to_run):
     controller.run_game(game_to_run)
 
 
-def main():
+def main(mode=None):
     patch_gevent()
 
     while True:
-        maybe_run_game()
+        maybe_run_game(mode=mode)
         time.sleep(1)
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) == 2:
+        main(sys.argv[1])
+    else:
+        main()

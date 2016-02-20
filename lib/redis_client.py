@@ -43,3 +43,7 @@ class Queue(object):
             return None
         queue, value = result
         return value
+
+    def items(self):
+        # Get all items in the list
+        return self.client.lrange(self.key, 0, -1)

@@ -11,9 +11,9 @@ logger = logging.getLogger(__name__)
 
 class Team(Model):
     TYPE_NORMAL = 'normal' # Standard contestant snake, only type allowed in tournament
-    TYPE_ADMIN  = 'admin'  # Is an super user team (doesn't appear in the UI at all)
+    TYPE_ADMIN = 'admin'  # Is an super user team (doesn't appear in the UI at all)
     TYPE_BOUNTY = 'bounty' # Bounty snake from a sponsor
-    TYPE_TEST   = 'test'   # Snake to test against
+    TYPE_TEST = 'test'   # Snake to test against
     TYPE_VALUES = [TYPE_NORMAL, TYPE_ADMIN, TYPE_BOUNTY, TYPE_TEST]
 
     def __init__(

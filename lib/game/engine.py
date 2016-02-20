@@ -235,7 +235,12 @@ class Engine(object):
 
     @staticmethod
     def get_food_spawn_rate(game_state):
-        return int(20 / len(game_state.snakes))
+        num_snakes = 1
+        if game_state.snakes:
+            num_snakes = len(game_state.snakes)
+
+        return int(constants.FOOD_SPAWN_RATE / num_snakes)
+
 
     @classmethod
     def get_default_move(cls, snake):
@@ -294,10 +299,6 @@ class Engine(object):
 
         # Track Snake Collisions
         kill = []       # [snake_name, snake_name]
-        if game_state.mode == Game.MODE_ADVANCED:
-            health_decay = int(math.exp(constants.HEALTH_DECAY_RATE * game_state.turn))  # Health Decay Rate this turn
-        else:
-            health_decay = 1
 
         # Check Collisions
         for snake in new_snakes:
@@ -378,7 +379,7 @@ class Engine(object):
 
         # Kill any 0 Health Snakes
         for snake in new_snakes:
-            snake.health -= health_decay
+            snake.health -= constants.HEALTH_DECAY_RATE
             if snake.health < 1:
                 kill.append(snake.name)
                 snake.killed_by = Engine.STARVATION

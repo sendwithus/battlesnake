@@ -17,7 +17,7 @@ function exiting() {
 # fork $n procs
 for i in $(seq 1 $NUM_PROCS); do
     echo "Starting worker #$i";
-    newrelic-admin run-program python -u -m lib.worker &
+    newrelic-admin run-program python -u -m lib.worker $@ &
     PIDS+=($!)
     sleep 0.1
 done

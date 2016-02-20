@@ -82,7 +82,7 @@ export default class Board {
       bitWidth = (boardWidth - innerBoardPadding * 2 - spacing) / gameState.width,
       bitHeight = (boardHeight - innerBoardPadding * 2 - spacing) / gameState.height,
       boardData = gameState.board,
-      deathAnimationDuration = 1000,
+      deathAnimationDuration = 300,
       explodeSize = 2000,
       rows = this.svg.select('g.inner-board').selectAll('g.row').data(boardData),
       cells = rows.selectAll('rect.cell').data(_.identity),

@@ -58,7 +58,7 @@ export default class Game extends Component {
         let next = () => {
           this.handleGameState(gameStates[gameStates.length - framesCompleted - 1]);
           if (++framesCompleted < response.data.length && this.state.isReplay) {
-            setTimeout(next, 300);
+            requestTimeout(next, 300);
           }
         };
 

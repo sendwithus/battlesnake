@@ -9,7 +9,7 @@ export default class App extends React.Component {
 
   displayName = "BattleSnake";
 
-  render() {
+  render () {
     return (
       <div className="App">
         <Navbar />

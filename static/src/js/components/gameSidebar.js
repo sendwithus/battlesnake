@@ -22,7 +22,7 @@ export default class GameSidebar extends Component {
         <GameSidebarSnake
           key={snake.name}
           snake={snake}
-          isDead={$.inArray(snake, deadSnakes) !== -1}
+          isDead={snake.status !== "alive"}
           turn={this.props.latestGameState.turn}
           showGold={this.props.latestGameState.mode === 'advanced'}
         />

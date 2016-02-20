@@ -11,7 +11,7 @@ export default class GameListItem extends Component {
     let body = <div className="pull-left"></div>
     let rematchBtn = ''
     let snakes = []
-
+    
     if (this.props.game.state === 'done') {
       snakes = this.props.game.stats.snakes.sort((a, b) => {
         if(a.name < b.name) { return -1 }

@@ -4,7 +4,6 @@ from lib.log import get_logger
 from lib.models.game import Game, GameState
 from lib.models.team import Team
 from lib.game import controller
-from lib.routes.auth import public
 from lib.server import json_response, json_error, app
 
 logger = get_logger(__name__)

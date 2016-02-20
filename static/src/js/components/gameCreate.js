@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import RouterContext from 'react-router';
 
-const GAME_MODES = [
-  'classic',
-  'advanced'
-];
-
 export default class GameCreate extends Component {
   state = {
     availableTeams: [],
@@ -47,8 +42,12 @@ export default class GameCreate extends Component {
       width: parseInt(this.state.currentWidth),
       height: parseInt(this.state.currentHeight),
       turn_time: parseFloat(this.state.currentTimeout),
-      mode: this.state.mode
+      mode: "advanced"
     };
+
+    if (window.app.user.team.game_mode) {
+      gameData.mode = window.app.user.team.game_mode
+    }
 
     this.setState({isLoading: true});
 
@@ -79,10 +78,6 @@ export default class GameCreate extends Component {
 
   handleHeightChange = (e) => {
     this.setState({currentHeight: e.target.value});
-  };
-
-  handleTimeoutChange = (e) => {
-    this.setState({currentTimeout: e.target.value});
   };
 
   handleTeamChange = (e) => {
@@ -118,21 +113,17 @@ export default class GameCreate extends Component {
     });
   };
 
-  handleModeSelect = (e) => {
-    this.setState({mode: e.target.value})
-  };
-
   componentDidMount () {
     this._restoreState();
 
     // fetch list of teams
     $.ajax({
-        type: 'GET',
-        url: '/api/teams/'
-      })
-      .done((response) => {
-        this.setState({availableTeams: response.data});
-      });
+      type: 'GET',
+      url: '/api/teams/'
+    })
+    .done((response) => {
+      this.setState({availableTeams: response.data});
+    });
   }
 
   render () {
@@ -178,14 +169,6 @@ export default class GameCreate extends Component {
           <p><strong>{team.teamname}</strong></p>
         </li>
       );
-    });
-
-    let gameModes = GAME_MODES.map((mode, i) => {
-      return (
-        <option key={'mode_opt_' + i} value={mode}>
-          {mode}
-        </option>
-      )
     });
 
     if (this.state.addedTeams.length === 0) {
@@ -252,25 +235,6 @@ export default class GameCreate extends Component {
                        value={this.state.currentHeight}
                        onChange={this.handleHeightChange}
                 />
-              </div>
-              <div className="form-group">
-                <label>Turn time</label>
-                <input type="number"
-                       step="0.1"
-                       min="0.1"
-                       className="form-control"
-                       placeholder="1.0 (seconds)"
-                       value={this.state.currentTimeout}
-                       onChange={this.handleTimeoutChange}
-                />
-              </div>
-              <div className="form-group">
-                <label>GAME MODE</label>
-                <select name="mode"
-                        className="form-control"
-                        onChange={this.handleModeSelect}>
-                  {gameModes}
-                </select>
               </div>
             </div>
           </div>

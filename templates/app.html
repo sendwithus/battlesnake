@@ -4,12 +4,18 @@
     <meta charset="utf-8">
     <title>BattleSnake</title>
     {% include "partials/app_head.html" %}
+    <script>
+      window.app = {
+        user: {}
+      }
+    </script>
   </head>
   <body class="page-play">
     <div id="root">Loading BattleSnake...</div>
 
     {% include "partials/app_foot.html" %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
+    <script src="/static/dist/js/app.js"></script>
     <script>
       $(document).ready(function () {
         /**
@@ -83,8 +89,18 @@
           window.msCancelRequestAnimationFrame ? window.msCancelRequestAnimationFrame(handle.value) :
           clearTimeout(handle);
         };
+
+        $.ajax({
+          type: 'GET',
+          url: '/api/team'
+        })
+        .then(function(response) {
+          window.app.user = response.data
+        })
+        .done(function() {
+          window.app.render()
+        });
       })
     </script>
-    <script src="/static/dist/js/app.js"></script>
   </body>
 </html>

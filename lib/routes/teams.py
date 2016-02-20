@@ -5,10 +5,19 @@ from flask import (
 )
 
 from lib.server import form_error, json_response, app
-from lib.models.game import Game
 from lib.models.team import Team
 from lib.forms import TeamUpdateForm
 
+
+@app.route('/api/team', methods=['GET'])
+def get_api_team(team_id=None):
+    """
+    Get the current team instance
+    """
+    return json_response({
+        'team': g.team.serialize(),
+        'is_admin': (g.team.type == Team.TYPE_ADMIN)
+    })
 
 @app.route('/team', methods=['GET'])
 @app.route('/admin/teams/<team_id>', methods=['GET'])

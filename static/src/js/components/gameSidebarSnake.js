@@ -29,9 +29,10 @@ export default class GameSidebarSnake extends Component {
 
   handleTaunt (state, props) {
     let words = props.snake.taunt || state.lastTaunt;
+    let deathMessage = 'Killed by ' + props.snake.killed_by
 
     if (props.isDead) {
-      words = 'Killed by ' + props.snake.killed_by;
+      words = deathMessage;
     }
 
     if (words && words.length > 53) {
@@ -52,6 +53,10 @@ export default class GameSidebarSnake extends Component {
       state.tauntToShow = words;
     }
 
+    if (props.isDead) {
+      state.tauntToShow = deathMessage;
+    }
+
     return state;
   }
 
@@ -61,8 +66,8 @@ export default class GameSidebarSnake extends Component {
     };
 
     let tauntStyles = {
-      display: this.state.tauntToShow ? 'block' : 'none',
-      opacity: 1.3 - (this.state.tauntCount / 10)
+      display: this.state.tauntToShow || this.props.isDead ? 'block' : 'none',
+      opacity: this.props.isDead ? 1 : 1.3 - (this.state.tauntCount / 10)
     };
 
     if (!this.props.isDead) {

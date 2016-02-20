@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import RouterContext from 'react-router';
 
+const GAME_MODES = [
+  'classic',
+  'advanced'
+];
+
 export default class GameCreate extends Component {
   state = {
     availableTeams: [],
     addedTeams: [],
     selectedTeam: null,
-    currentWidth: 20,
-    currentHeight: 20,
+    currentWidth: 17,
+    currentHeight: 17,
     currentTimeout: 1,
     isLoading: false
   };
@@ -42,12 +47,12 @@ export default class GameCreate extends Component {
       width: parseInt(this.state.currentWidth),
       height: parseInt(this.state.currentHeight),
       turn_time: parseFloat(this.state.currentTimeout),
-      mode: "advanced"
+      mode: this.state.mode
     };
 
-    if (window.app.user.team.game_mode) {
-      gameData.mode = window.app.user.team.game_mode
-    }
+    // if (window.app.user.team.game_mode) {
+    //   gameData.mode = window.app.user.team.game_mode
+    // }
 
     this.setState({isLoading: true});
 
@@ -113,6 +118,11 @@ export default class GameCreate extends Component {
     });
   };
 
+  handleModeSelect = (e) => {
+    console.log(e.target.value);
+    this.setState({mode: e.target.value})
+  };
+
   componentDidMount () {
     this._restoreState();
 
@@ -127,6 +137,7 @@ export default class GameCreate extends Component {
   }
 
   render () {
+    console.log(this.state.mode);
     let teamOpts = [];
 
     let availableTeamOptions = this.state.availableTeams.map((team, i) => {
@@ -158,6 +169,17 @@ export default class GameCreate extends Component {
       availableTeamOptions
     );
 
+    let gameModes = [<option key="mode_opt_none" disabled="true">Select a Game Mode</option>]
+    gameModes = gameModes.concat(
+      GAME_MODES.map((mode) => {
+        return (
+          <option key={mode} value={mode}>
+            {mode}
+          </option>
+        )
+      })
+    )
+
     let teamNames = this.state.addedTeams.map((team, i) => {
       return (
         <li key={'team_' + i}>
@@ -166,7 +188,7 @@ export default class GameCreate extends Component {
              onClick={this.handleDeleteTeam.bind(null, i)}>
             &times;
           </a>
-          <p><strong>{team.teamname}</strong></p>
+          <p>{team.teamname}</p>
         </li>
       );
     });
@@ -223,6 +245,7 @@ export default class GameCreate extends Component {
                        max="50"
                        value={this.state.currentWidth}
                        onChange={this.handleWidthChange}
+                       disabled={this.state.isLoading}
                 />
               </div>
               <div className="form-group">
@@ -234,7 +257,18 @@ export default class GameCreate extends Component {
                        max="50"
                        value={this.state.currentHeight}
                        onChange={this.handleHeightChange}
+                       disabled={this.state.isLoading}
                 />
+              </div>
+              <div className="form-group">
+                <label>Game Mode</label>
+                <select name="mode"
+                        className="form-control"
+                        disabled={this.state.isLoading}
+                        value={this.state.mode}
+                        onChange={this.handleModeSelect}>
+                  {gameModes}
+                </select>
               </div>
             </div>
           </div>

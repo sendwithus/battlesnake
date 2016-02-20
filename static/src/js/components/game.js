@@ -47,6 +47,8 @@ export default class Game extends Component {
     console.log('Started Replay');
     let url = '/api/games/' + this.props.params.id + '/gamestates';
 
+    this.board.gameState.snakes = [];
+
     $.ajax({
         type: 'GET',
         url: url

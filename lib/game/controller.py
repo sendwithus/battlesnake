@@ -79,7 +79,9 @@ def create_game(team_id, teams, width, height, turn_time, mode):
     _update_snakes(snakes, ai.whois(snakes))
 
     # Create game
-    game = Game(width=width, height=height, turn_time=turn_time, mode=mode, team_id=team_id)
+    team_ids = [team.id for team in teams]
+    print team_ids
+    game = Game(width=width, height=height, turn_time=turn_time, mode=mode, team_id=team_id, team_ids=team_ids)
     game.insert()
 
     # Create the first GameState

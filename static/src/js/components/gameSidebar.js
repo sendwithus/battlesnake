@@ -96,7 +96,8 @@ export default class GameSidebar extends Component {
 
     return (
       <div className="game-sidebar sidebar-inner">
-        <h1>{this.props.gameId}</h1>
+        <h1>{this.props.game._id}</h1>
+        <h3>Mode: {this.props.game.mode}</h3>
         <p>Turn {this.props.latestGameState ? this.props.latestGameState.turn : '--'}</p>
         {snakes}
         <hr />

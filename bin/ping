@@ -39,11 +39,12 @@ while True:
     for i in range(CHECKS_PER_BATCH):
         waiting_game_ids = set()
         for queue in Game.queues.values():
-            waiting_game_ids.add(queue.items())
+            waiting_game_ids.update(queue.items())
 
         overlap = waiting_game_ids & last_waiting_game_ids
         if overlap:
             logger.slack('<!channel> *ALERT* Games waiting too long in queue: %d' % len(overlap))
+            break
 
         last_waiting_game_ids = waiting_game_ids
 

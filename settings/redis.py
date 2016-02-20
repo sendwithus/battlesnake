@@ -3,8 +3,8 @@ from urlparse import urlparse
 
 
 # Try for Heroku Redis first
-if environ.get('REDIS_URL'):
-    parsed_url = urlparse(environ.get('REDIS_URL'))
+if environ.get('REDISCLOUD_URL'):
+    parsed_url = urlparse(environ.get('REDISCLOUD_URL'))
     REDIS_HOST = parsed_url.hostname
     REDIS_PORT = parsed_url.port
     REDIS_PASSWORD = parsed_url.password

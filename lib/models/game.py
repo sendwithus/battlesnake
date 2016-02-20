@@ -197,8 +197,8 @@ class GameState(Model):
                 if coord[1] < 0:
                     raise ValueError('board.snakes outside bounds of self.board')
 
-    def to_dict(self):
-        return {
+    def to_dict(self, include_board=False):
+        d = {
             '_id': self.id,
             'game_id': self.game_id,
             'is_done': self.is_done,
@@ -212,6 +212,11 @@ class GameState(Model):
             'height': self.height,
             'mode': self.mode,
         }
+
+        if include_board:
+            d['board'] = self.generate_board()
+
+        return d
 
     @classmethod
     def from_dict(cls, obj):

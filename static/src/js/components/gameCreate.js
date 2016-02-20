@@ -83,22 +83,19 @@ export default class GameCreate extends Component {
   };
 
   handleTeamChange = (e) => {
-    let i = parseInt(e.target.value, 10);
-    let team = this.state.availableTeams[i];
+    let id = e.target.value;
+    let team = this.state.availableTeams.find((team) => { return team._id == id; });
     this.setState({selectedTeam: team});
   };
 
   handleDeleteTeam = (i, e) => {
-    let availableTeams = this.state.availableTeams;
     let addedTeams = this.state.addedTeams;
 
     let team = addedTeams[i];
-    availableTeams.push(team);
     addedTeams.splice(i, 1);
 
     this.setState({
-      addedTeams: addedTeams,
-      availableTeams: availableTeams
+      addedTeams: addedTeams
     });
   };
 
@@ -133,15 +130,18 @@ export default class GameCreate extends Component {
   }
 
   render () {
-    let teamOpts = [];
+    let offset = 0;
+    let buildOption = (value, disabled, name) => {
+      offset++;
+      return (
+        <option key={'team_opt_' + offset} value={value} disabled={disabled}>
+          {name}
+        </option>
+      );
+    };
 
-    let availableTeamOptions = this.state.availableTeams.map((team, i) => {
+    let buildTeamOption = (team) => {
       let teamname = team.teamname;
-      if (['bounty', 'test'].includes(team.type)) {
-        teamname = `${teamname} (${team.type} snake)`
-      }
-
-      // Add the team
       teamname = `${teamname} [${team.game_mode}]`
 
       let disabled = false;
@@ -154,18 +154,38 @@ export default class GameCreate extends Component {
           break;
         }
       }
+      return buildOption(team._id, disabled, teamname);
+    };
 
-      return (
-        <option key={'team_opt_' + i} value={i} disabled={disabled}>
-          {teamname}
-        </option>
-      );
-    })
+    let buildTeamOptionList = (teamlist) => {
+      return teamlist.map((team, i) => {
+        return buildTeamOption(team);
+      })
+    }
 
-    teamOpts = teamOpts.concat(
-      <option key="team_opt_none" value="none">Select a team</option>,
-      availableTeamOptions
-    );
+    // Bucketed and ordered
+    let teamOpts = [buildOption('divider', 'true', 'Select a team')];
+
+    let bountySnakes = this.state.availableTeams.filter((team) => { return team.type === 'bounty'; });
+    if (bountySnakes.length > 0) {
+      teamOpts = teamOpts.concat(buildOption('divider', 'true', '–––– Bounty snakes ––––'));
+      teamOpts = teamOpts.concat(buildTeamOptionList(bountySnakes));
+    }
+
+    let testSnakes = this.state.availableTeams.filter((team) => { return team.type === 'test'; });
+    if (testSnakes.length > 0) {
+      teamOpts = teamOpts.concat(buildOption('divider', 'true', '–––– Test snakes ––––'));
+      teamOpts = teamOpts.concat(buildTeamOptionList(testSnakes));
+    }
+
+
+    if (bountySnakes.length > 0 || testSnakes.length > 0) {
+      teamOpts = teamOpts.concat(buildOption('divider', 'true', '–––– Competitor snakes ––––'));
+    }
+    let normalSnakes = this.state.availableTeams.filter((team) => { return team.type === 'normal'; });
+    teamOpts = teamOpts.concat(buildTeamOptionList(normalSnakes));
+
+
 
     let gameModes = GAME_MODES.map((mode) => {
       return (

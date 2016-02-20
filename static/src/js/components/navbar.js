@@ -5,6 +5,7 @@ export default class Navbar extends Component {
   static defaultProps = {
     links: [
       // Default nav links
+      ['/app/games/tournament', 'Tournament'],
       ['/app/games', 'Games'],
       ['/app/game/new', 'New'],
       ['/team', 'My Team'],

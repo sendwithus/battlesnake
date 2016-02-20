@@ -141,6 +141,39 @@ def games_list():
     return json_response(data)
 
 
+@app.route('/api/games/tournament', methods=['GET'])
+def games_list_tournament():
+    admin_ids = [team.id for team in Team.find({'type': Team.TYPE_ADMIN})]
+    games = Game.find({
+        'is_live': True,
+        'team_id': {'$in': admin_ids},
+        'state': {
+            '$in': [
+                Game.STATE_PLAYING,
+                Game.STATE_DONE
+            ]
+        }
+    }, limit=50)
+
+    data = []
+    for game in games:
+        obj = game.to_dict()
+        game_state = GameState.find({'game_id': game.id}, limit=1)[0]
+        state = game_state.to_dict()
+
+        snakes = state['snakes'] + state['dead_snakes']
+        obj['snakes'] = snakes
+
+        obj['teams'] = []
+        for snake in snakes:
+            team = Team.find_one({'_id': snake['team_id']})
+            obj['teams'].append(team.serialize())
+
+        data.append(obj)
+
+    return json_response(data)
+
+
 @app.route('/api/games/<game_id>')
 def game_details(game_id):
     game = Game.find_one({'_id': game_id})

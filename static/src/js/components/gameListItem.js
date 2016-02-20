@@ -84,7 +84,10 @@ export default class GameListItem extends Component {
           <tr>
             <td>
               <div className="pull-left">
-                {body}
+                <h4>{this.props.game._id}</h4>
+                <div>
+                    {body}
+                </div>
               </div>
               <div className="game-summary-buttons pull-right">
                 {rematchBtn}

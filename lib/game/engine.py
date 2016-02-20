@@ -235,7 +235,12 @@ class Engine(object):
 
     @staticmethod
     def get_food_spawn_rate(game_state):
-        return int(20 / len(game_state.snakes))
+        num_snakes = 1
+        if game_state.snakes:
+            num_snakes = len(game_state.snakes)
+
+        return int(constants.FOOD_SPAWN_RATE / num_snakes)
+
 
     @classmethod
     def get_default_move(cls, snake):

@@ -390,8 +390,8 @@ class Engine(object):
                 # If so, kill off all other snakes
                 for other_snake in new_snakes:
                     if other_snake.name not in kill and snake.name != other_snake.name:
+                        other_snake.killed_by = Engine.GOLD
                         kill.append(other_snake.name)
-                        snake.killed_by = Engine.GOLD
 
         # Kill Off Snakes
         for snake in new_snakes:

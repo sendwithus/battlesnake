@@ -52,7 +52,7 @@ def _count_moves(gs, start, count=0):
 
     best_count = 0
     for point in points:
-        if _is_on_board(gs, point) and not _is_snake(gs, point) and not _is_wall(gs, point):
+        if _is_on_board(gs, point) and not _is_snake(gs, point) and not _is_wall(gs, point) and not _is_potential_snake(gs, point):
             # Add new position to snake
             snake = _get_snake(gs, SNAKE_URL)
             snake['coords'].insert(0, point)
@@ -157,6 +157,16 @@ def _is_snake(gs, point):
     return False
 
 
+def _is_potential_snake(gs, point):
+    for snake in gs['snakes']:
+        head = snake['coords'][0]
+        points = _get_surrounding_points(gs, head)
+        if point in points:
+            return True
+
+    return False
+
+
 def _get_surrounding_points(gs, point):
     points = [
         [point[0] + 1, point[1]],
@@ -226,22 +236,6 @@ def _get_closest_gold(gs, point):
     return closest
 
 
-def _chase_tail(gs, snake, head):
-    tail = snake['coords'][-1]
-    desired_move = _make_move_from_points(head, tail)
-    desired_point = _make_point(head, desired_move)
-
-    safe_points = _get_safe_points(gs, head, min_moves=0)
-
-    # print 'SAFE POINTS', safe_points
-
-    if desired_point not in safe_points:
-        safe_point = random.choice(safe_points)
-        return _make_move_from_points(head, safe_point)
-    else:
-        return desired_move
-
-
 def _generate_board(gs):
     board = []
     for x in range(gs['width']):
@@ -264,7 +258,7 @@ def _generate_board(gs):
     return board
 
 
-def _stay_safe(gs, snake, head):
+def _move(gs, snake, head):
     tail = snake['coords'][-1]
 
     food = _get_closest_food(gs, head)
@@ -317,8 +311,7 @@ def next_move(gs):
     # Get the closest food
     head = snake['coords'][0]
 
-    move = _stay_safe(gs, snake, head)
-    # move = _chase_tail(gs, snake, head)
+    move = _move(gs, snake, head)
     # print 'MOVE', move
 
     return {

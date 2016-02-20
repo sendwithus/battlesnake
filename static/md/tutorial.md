@@ -45,6 +45,7 @@ First, clone Python Snake codebase to your machine.
 
 ```bash
 git clone https://github.com/<USERNAME>/battlesnake-python
+cd battlsnake-python
 ```
 
 Log in to the [Heroku Toolbelt](https://toolbelt.heroku.com/).

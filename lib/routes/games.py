@@ -54,7 +54,6 @@ def games_create():
 
     # Add the game ID to the team's list of games
     for team in teams:
-        team.game_ids.append(game.id)
         team.save()
 
     return json_response({

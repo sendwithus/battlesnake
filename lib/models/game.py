@@ -38,6 +38,7 @@ class Game(Model):
             turn_time=1.0,
             is_live=True,
             team_id=None,
+            team_ids=[],
             mode=MODE_CLASSIC):
 
         super(Game, self).__init__()
@@ -50,6 +51,7 @@ class Game(Model):
         self.turn_time = turn_time
         self.is_live = is_live
         self.team_id = team_id
+        self.team_ids = team_ids
         self.mode = mode
 
     def to_dict(self):
@@ -62,6 +64,7 @@ class Game(Model):
             'turn_time': self.turn_time,
             'is_live': self.is_live,
             'team_id': self.team_id,
+            'team_ids': self.team_ids,
             'mode': self.mode
         }
 
@@ -96,6 +99,7 @@ class Game(Model):
             turn_time=obj['turn_time'],
             is_live=obj.get('is_live', False),
             team_id=obj.get('team_id', None),
+            team_ids=obj.get('team_ids', []),
             mode=obj.get('mode', cls.MODE_CLASSIC)
         )
 
@@ -207,10 +211,6 @@ class GameState(Model):
             'width': self.width,
             'height': self.height,
             'mode': self.mode,
-
-            # TODO: Remove the need to have this here
-            # Should push this into lib.game.engine.resolve_moves
-            'board': self.generate_board(),
         }
 
     @classmethod

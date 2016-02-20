@@ -42,9 +42,9 @@ def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
     ai_responses = []
 
     for snake in snakes:
-        if snake.url.startswith('http://') or snake.url.startswith('https://'):
+        if snake.url and (snake.url.startswith('http://') or snake.url.startswith('https://')):
             remote_snakes.append(snake)
-        elif snake.url.startswith('localsnake://'):
+        elif snake.url and snake.url.startswith('localsnake://'):
             local_snakes.append(snake)
         else:
             ai_response = AIResponse(snake=snake)

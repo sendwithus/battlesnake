@@ -233,6 +233,15 @@ class Engine(object):
 
         return game_state
 
+    @staticmethod
+    def get_food_spawn_rate(game_state):
+        num_snakes = 1
+        if game_state.snakes:
+            num_snakes = len(game_state.snakes)
+
+        return int(constants.FOOD_SPAWN_RATE / num_snakes)
+
+
     @classmethod
     def get_default_move(cls, snake):
         head_coords, next_coords = snake.coords[0:2]
@@ -290,10 +299,6 @@ class Engine(object):
 
         # Track Snake Collisions
         kill = []       # [snake_name, snake_name]
-        if game_state.mode == Game.MODE_ADVANCED:
-            health_decay = int(math.exp(constants.HEALTH_DECAY_RATE * game_state.turn))  # Health Decay Rate this turn
-        else:
-            health_decay = 1
 
         # Check Collisions
         for snake in new_snakes:
@@ -358,12 +363,8 @@ class Engine(object):
                     new_food.remove(snake.coords[0])
                     snake.food_eaten += 1
                     snake.last_eaten = game_state.turn
-
-                    if game_state.mode == Game.MODE_ADVANCED:
-                        snake.health += constants.FOOD_VALUE
-                        if snake.health > Snake.FULL_HEALTH:
-                            snake.health = Snake.FULL_HEALTH
-                    else:
+                    snake.health += constants.FOOD_VALUE
+                    if snake.health > Snake.FULL_HEALTH:
                         snake.health = Snake.FULL_HEALTH
 
                     snake.grow_by(1)
@@ -378,7 +379,7 @@ class Engine(object):
 
         # Kill any 0 Health Snakes
         for snake in new_snakes:
-            snake.health -= health_decay
+            snake.health -= constants.HEALTH_DECAY_RATE
             if snake.health < 1:
                 kill.append(snake.name)
                 snake.killed_by = Engine.STARVATION
@@ -412,7 +413,7 @@ class Engine(object):
         new_game_state.mode = game_state.mode
 
         # Add food every X turns
-        if new_game_state.turn % constants.TURNS_PER_FOOD == 0:
+        if new_game_state.turn % Engine.get_food_spawn_rate(new_game_state) == 0:
             cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_FOOD)
 
         # Advanced Mechanics

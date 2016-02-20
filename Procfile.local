@@ -1,4 +1,5 @@
 web: python bin/flask
-game_worker: python -m lib.worker
+game_worker_regular: python -m lib.worker regular
+game_worker_admin: python -m lib.worker admin
 static: npm run build_dev
 watch_css: npm run watch_css

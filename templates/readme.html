@@ -1,37 +1,36 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Readme | BattleSnake 2016</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<head>
+  <meta charset="utf-8">
+  <title>Readme | BattleSnake 2016</title>
+  {% include "partials/app_head.html" %}
+  <link rel="stylesheet" href="/static/dist/css/markdown.css">
+  <link rel="stylesheet" href="/static/dist/css/pygments.css">
+</head>
 
-        <link rel="stylesheet" href="/static/dist/css/markdown.css">
-    </head>
-
-    <body class="markdown-body">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-9">
-                    <h1>BattleSnake Documentation</h3>
-                    <p>
-                        <a href="www.battlesnake.io">BattleSnake</a>
-                        is presented by
-                        <a href="https://www.sendwithus.com">Sendwithus</a>
-                        and powered by
-                        <a href="https://www.heroku.com">Heroku</a>.
-                    </p>
-                </div>
-            </div>
-        </div>
-        {% for name, html in sections %}
-            <div class="container" id="{{ name }}">
-                <div class="row">
-                    <div class="col-md-9">
-                        {{ html }}
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </body>
+<body class="markdown-body">
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <h1>BattleSnake Documentation</h3>
+        <p>
+          <a href="www.battlesnake.io">BattleSnake</a>
+          is presented by
+          <a href="https://www.sendwithus.com">Sendwithus</a>
+          and powered by
+          <a href="https://www.heroku.com">Heroku</a>.
+        </p>
+    </div>
+  </div>
+</div>
+{% for name, html in sections %}
+<div class="container" id="{{ name }}">
+  <div class="row">
+    <div class="col-md-9">
+      {{ html }}
+    </div>
+  </div>
+</div>
+{% endfor %}
+</body>
 </html>

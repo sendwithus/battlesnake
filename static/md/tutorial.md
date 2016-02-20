@@ -1,16 +1,16 @@
 # Getting Started Guide
 
-This guide will show you how to get up and running with the Python starter snake on a Unix system.
-If you're on Windows, we recommend using [Cloud9](https://c9.io) to get a Unix-like environment in
-the cloud.
+This guide will show you how to get up and running with the NodeJS starter snake on Heroku.
+
 
 ### Services to Sign Up For
 
 - [Heroku](https://heroku.com)
 - [Github](https://github.com)
+- [Cloud9](https://c9.io) (recommended for Windows users)
 
 
-## (1/4) Fork Python Snake on Github
+### Fork Python Snake on Github
 
 Navigate to [Python Snake](https://github.com/sendwithus/battlesnake-python) and click the `Fork`
 button in the top right.
@@ -19,45 +19,75 @@ button in the top right.
 
 This will create a copy in your Github account that you can modify.
 
-![Forked Repo](/static/img/setup/forked.png)
+
+## Edit some Code and Deploy
+
+This will be easiest on a Unix system (Linux or Mac). If you're on Windows, we recommend following
+along with a [Cloud9 Workspace](https://c9.io) which will give you a free Linux environment.
 
 
-## (2/4) Connect Github to Heroku
+### Basic Requirements
 
-![](/static/img/setup/deploybutton.png)
+Things to install (follow instructions in the links below):
 
-![](/static/img/setup/createapp.png)
-
-![](/static/img/setup/sanity.png)
-
-![](/static/img/setup/success.png)
+- [Git](https://git-scm.com/) for versioning and deploying code
+- [Heroku Toolbelt](https://toolbelt.heroku.com/) for deployment
 
 
-## (3/4) Add to Battlesnake
+### Setup Heroku
 
-Go to your [Team Page](http://www.battlesnake.io/team)
+_NOTE: Apart form these docs, Heroku has a great tutorial for
+[getting started with Python](https://devcenter.heroku.com/articles/getting-started-with-python#introduction)._
 
-![](/static/img/setup/team.png)
+First, clone Python Snake codebase to your machine.
 
-Click the [Run Snake Test](http://www.battlesnake.io/test) button to which will run some validation
-on your snake.
+![Clone Github Repo](/static/img/setup/clone.png)
 
-![](/static/img/setup/test.png)
+```bash
+git clone https://github.com/<USERNAME>/battlesnake-python
+```
+
+Log in to the [Heroku Toolbelt](https://toolbelt.heroku.com/).
+
+```bash
+heroku login
+```
+
+Create a heroku app with a creative name of your choosing. We'll be using `battlesnake-tutorial` for
+this tutorial.
+
+```bash
+heroku create battlesnake-tutorial
+```
+
+Deploy to Heroku using Git. Simply `git push` to the `heroku` remote.
+
+```bash
+git push heroku master
+```
+
+Copy the URL from the output above and open it in your browser (`heroku open` also does this).
 
 
-## (4/5) Enable Auto-deploy on Heroku
+### Debugging your Snake
 
-![](/static/img/setup/connect1.png)
-![](/static/img/setup/connect2.png)
+You can see the logs from your Heroku app by running the following command.
+
+```bash
+heroku logs -t
+```
+
+![Viewing Heroku Logs](/static/img/setup/logs.png)
 
 
-## (4/5) Make a Change to Your Snake
+## Making Changes
 
-![](/static/img/setup/edit.png)
-![](/static/img/setup/taunt.png)
-![](/static/img/setup/commit.png)
+You can also push to github instead of Heroku by pushing to the `origin` remote.
 
-Make sure Heroku detected changes by visiting the _Activity_ tab.
+```bash
+git add -A                            # Add your changes
+git commit -m "I changed some stuff"  # Commit your changes
+git push heroku master                # Deploy to Heroku
 
-![](/static/img/setup/connect3.png)
-![](/static/img/setup/test2.png)
+git push origin master                # Push to Github (if you want)
+```

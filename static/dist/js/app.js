@@ -1995,9 +1995,9 @@ require("./index.js", entryId$$);
       "fbjs/lib/shallowEqual": 29,
       "./ReactDOMOption": 170,
       "./AutoFocusUtils": 129,
-      "./ReactDOMInput": 169,
       "./ReactDOMSelect": 171,
       "./ReactDOMTextarea": 175,
+      "./ReactDOMInput": 169,
       "./ReactMultiChild": 194,
       "./CSSPropertyOperations": 132
     },
@@ -3222,9 +3222,9 @@ require("./index.js", entryId$$);
     "deps": {
       "react": 257,
       "react-transform-catch-errors": 128,
-      "./components/navbar": 275,
       "redbox-react": 258,
-      "livereactload/babel-transform": 50
+      "livereactload/babel-transform": 50,
+      "./components/navbar": 275
     },
     "hash": "b808a8d1849127765369b74bb11cf69a"
   },
@@ -3278,9 +3278,9 @@ require("./index.js", entryId$$);
     "deps": {
       "react": 257,
       "react-transform-catch-errors": 128,
+      "./gameListItem": 271,
       "redbox-react": 258,
-      "livereactload/babel-transform": 50,
-      "./gameListItem": 271
+      "livereactload/babel-transform": 50
     },
     "hash": "37772912dfba102b3cbf014982b6e4d9"
   },
@@ -3387,11 +3387,11 @@ require("./index.js", entryId$$);
     "deps": {
       "react": 257,
       "./components/gameCreate": 269,
+      "./app": 266,
+      "./components/game": 268,
       "react-router": 123,
       "history/lib/createBrowserHistory": 37,
-      "./app": 266,
-      "./components/gameList": 270,
-      "./components/game": 268
+      "./components/gameList": 270
     },
     "hash": "21574ccc84a84fa93e0634c88ac16e50"
   }

@@ -11,7 +11,10 @@ def __load_markdown(filepath):
     with open(filepath) as f:
         html = markdown.markdown(
             f.read(),
-            extensions=['markdown.extensions.fenced_code']
+            extensions=[
+                'markdown.extensions.fenced_code',
+                'markdown.extensions.codehilite'
+            ]
         )
     return Markup(html)
 
@@ -26,6 +29,20 @@ def index():
 @public
 def setup():
     html = __load_markdown('static/md/tutorial.md')
+    return render_template('markdown.html', html=html, title='Getting Started')
+
+
+@app.route('/github')
+@public
+def tutorial_github():
+    html = __load_markdown('static/md/github.md')
+    return render_template('markdown.html', html=html, title='Getting Started')
+
+
+@app.route('/local')
+@public
+def easy():
+    html = __load_markdown('static/md/local.md')
     return render_template('markdown.html', html=html, title='Getting Started')
 
 

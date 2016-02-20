@@ -166,7 +166,7 @@ export default class GameCreate extends Component {
              onClick={this.handleDeleteTeam.bind(null, i)}>
             &times;
           </a>
-          <p><strong>{team.teamname}</strong></p>
+          <p>{team.teamname}</p>
         </li>
       );
     });

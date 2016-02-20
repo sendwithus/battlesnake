@@ -11,6 +11,9 @@ import time
 import requests
 
 PING_TIMEOUT_SECONDS = 10
+DELAY_BETWEEN_CHECK_BATCHES = 60
+DELAY_BETWEEN_CHECKS = 10
+CHECKS_PER_BATCH = 6
 
 from lib.models.team import Team
 from lib.redis_client import Queue
@@ -35,12 +38,16 @@ while True:
                 print 'Ping %s... TIMED OUT' % url
 
     # Check for games that have been waiting too long
-    waiting_game_ids = set(ready_queue.items())
-    overlap = waiting_game_ids & last_waiting_game_ids
-    if overlap:
-        logger.slack('<!channel> *ALERT* Games waiting too long in queue: %d' % len(overlap))
+    for i in range(CHECKS_PER_BATCH):
+        waiting_game_ids = set(ready_queue.items())
+        overlap = waiting_game_ids & last_waiting_game_ids
+        if overlap:
+            logger.slack('<!channel> *ALERT* Games waiting too long in queue: %d' % len(overlap))
 
-    last_waiting_game_ids = waiting_game_ids
+        last_waiting_game_ids = waiting_game_ids
 
-    # Sleep for 1 minute
-    time.sleep(60)
+        # sleep between checks
+        time.sleep(DELAY_BETWEEN_CHECKS)
+
+    # Sleep until the next batch of pings/checks
+    time.sleep(DELAY_BETWEEN_CHECK_BATCHES)

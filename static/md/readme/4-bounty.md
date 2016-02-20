@@ -6,9 +6,11 @@ Bounty Snakes are snakes programmed by sponsors in advance of the tournament. Ea
 
 Bounty Snakes will not go down easy, and we suggest not spending time focused on defeating Bounty Snakes.
 
-Available Bounty Snakes and their rewards will are listed under [Prizes and Awards](#4-prizes). Some Bounty Snakes may not appear until the day of the event.
+Available Bounty Snakes and their rewards will are listed below. Some Bounty Snakes may not appear until the day of the event.
 
 #### Claiming a Bounty Prize
+
+All bounty snakes must be defeated on a 17x17 square game board, no exceptions.
 
 If your team feels they have successfully defeated a Bounty Snake, immediately record the name of the game and inform a BattleSnake volunteer or the registration desk of your glorious achievement.
 

@@ -12,7 +12,11 @@ Teams may decide which division they wish to enter during registration.
 
 Each tournament will consist of a group stage, semi-finals, and finals. Groups will be assigned randomly and the winning snake will move on to the next round.
 
+Tournament games may include up to 12 snakes, and will be played on a 17x17 board.
+
 Tournament format and group assignments will be announced at 5pm. The tournament itself will start at 6pm. All tournament games will be live casted on stage in ECS 123. Cheering and friendly shouting are strongly encouraged. Bring your friends!
+
+
 
 #### Tournament Prizes
 

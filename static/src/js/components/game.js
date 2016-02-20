@@ -155,10 +155,10 @@ export default class Game extends Component {
   }
 
   checkInterval () {
-    // let shouldTick = this.state.game.state === 'playing' || this.state.game.state === 'ready';
-    // if (!shouldTick) {
-    //   return;
-    // }
+    let shouldTick = this.state.game.state === 'playing' || this.state.game.state === 'ready';
+    if (!shouldTick) {
+      return;
+    }
 
     let startTimestamp = Date.now();
     this.tick((gameState, err) => {

@@ -146,6 +146,9 @@ export default class GameCreate extends Component {
         teamname = `${teamname} (${team.type} snake)`
       }
 
+      // Add the team
+      teamname = `${teamname} [${team.game_mode}]`
+
       let disabled = false;
       for (let j = 0; j < this.state.addedTeams.length; j++) {
         let t = this.state.addedTeams[j];
@@ -188,7 +191,7 @@ export default class GameCreate extends Component {
              onClick={this.handleDeleteTeam.bind(null, i)}>
             &times;
           </a>
-          <p>{team.teamname}</p>
+          <p>{team.teamname} {['bounty', 'test'].includes(team.type) ? team.type : ''}[{team.game_mode}]</p>
         </li>
       );
     });

@@ -38,7 +38,7 @@ while True:
     # Check for games that have been waiting too long
     for i in range(CHECKS_PER_BATCH):
         for queue in Game.queues.values():
-            waiting_game_ids = set(ready_queue.items())
+            waiting_game_ids = set(queue.items())
             overlap = waiting_game_ids & last_waiting_game_ids
             if overlap:
                 logger.slack('<!channel> *ALERT* Games waiting too long in queue: %d' % len(overlap))

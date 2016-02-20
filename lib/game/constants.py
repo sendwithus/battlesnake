@@ -1,6 +1,6 @@
 MAX_FOOD_ON_BOARD = 25  # Max food on board
 EAT_RATIO = 0.50  # Ammount of snake length absorbed
-FOOD_SPAWN_RATE = 20  # X/#ofsnakes turns between food spawns
+FOOD_SPAWN_RATE = 3  # Number of turns per food spawn
 HUNGER_THRESHOLD = 100  # Turns of inactivity before snake starvation
 SNAKE_STARTING_LENGTH = 3  # Snake starting size
 TURNS_PER_GOLD = 20  # Turns between the spawn of each gold food

@@ -413,7 +413,7 @@ class Engine(object):
         new_game_state.mode = game_state.mode
 
         # Add food every X turns
-        if new_game_state.turn % Engine.get_food_spawn_rate(new_game_state) == 0:
+        if new_game_state.turn % constants.FOOD_SPAWN_RATE == 0:
             cls.add_tile_to_board(new_game_state, GameState.TILE_STATE_FOOD)
 
         # Advanced Mechanics

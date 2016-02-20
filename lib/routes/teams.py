@@ -116,7 +116,7 @@ def remove_team_member(team_id=None):
             abort(404)
         redirect_url = '/admin/teams/%s' %  team_id
 
-    email = request.args.get('email')
+    email = request.form['email']
     if not (email and email in team.member_emails):
         return form_error('Email was not a member of a team')
 

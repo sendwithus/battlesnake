@@ -42,9 +42,9 @@ The first team to claim verifiable victory over a Bounty Snake will receive its 
                 "Leanpub Bounty Snake" <br>
                   <em><a href="https://leanpub.com/">Leanpub</a></em>
             </td>		
-            <td>Leanpub Books and Coupons</td>
+            <td>Leanpub Books and Coupons (25 team winners)</td>
             <td>Classic Mode, 1v1, 17x17</td>
-            <td>--</td>
+            <td>25 coupons remaining</td>
         </tr>
         <tr>
           <td>

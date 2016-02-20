@@ -64,7 +64,7 @@
               {% if is_admin %}
               <div class="form-group {% if form.type.errors %}has-error{% endif %}">
                 <label for="type" class="control-label">Team Type</label> <br>
-                <select name="type">
+                <select class="form-control" name="type">
                   {% for option in form.type %}
                     {{ option }}
                   {% endfor %}
@@ -76,7 +76,7 @@
               {% endif %}
               <div class="form-group {% if form.game_mode.errors %}has-error{% endif %}">
                 <label for="game_mode" class="control-label">Division</label> <br>
-                <select name="game_mode">
+                <select class="form-control" name="game_mode">
                   {% for option in form.game_mode %}
                     {{ option }}
                   {% endfor %}

@@ -14,4 +14,5 @@ To help teams get started quickly we've provided starter snakes for some common 
 * [NodeJS](http://github.com/sendwithus/battlesnake-node)
 * [Python](http://github.com/sendwithus/battlesnake-python)
 * [Ruby](http://github.com/sendwithus/battlesnake-ruby)
+* [Clojure](https://github.com/sendwithus/battlesnake-clojure)
 * [Java (Deprecated)](http://github.com/sendwithus/battlesnake-legacy-java)

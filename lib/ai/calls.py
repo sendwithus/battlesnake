@@ -39,16 +39,20 @@ def __call_snakes(snakes, method, endpoint, payload, timeout_seconds):
     local_snakes = []
     remote_snakes = []
 
+    ai_responses = []
+
     for snake in snakes:
         if snake.url.startswith('http://') or snake.url.startswith('https://'):
             remote_snakes.append(snake)
         elif snake.url.startswith('localsnake://'):
             local_snakes.append(snake)
         else:
-            raise Exception('unrecognized snake protocol: %s' % snake.url)
+            ai_response = AIResponse(snake=snake)
+            ai_response.error = 'Invalid URL'
+            ai_responses.append(ai_response)
 
     # Handle remote snakes first
-    ai_responses = __call_remote_snakes(remote_snakes, method, endpoint, payload, timeout_seconds)
+    ai_responses.extend(__call_remote_snakes(remote_snakes, method, endpoint, payload, timeout_seconds))
     ai_responses.extend(__call_local_snakes(local_snakes, endpoint, payload))
 
     return ai_responses

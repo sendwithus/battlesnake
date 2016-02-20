@@ -79,10 +79,10 @@ class Game(Model):
         from lib.models.team import Team
         team = Team.find_one({'_id': self.team_id})
 
-        if team.type == Team.TYPE_ADMIN:
-            self.ready_queue_admin.enqueue(self.id)
-        else:
+        if not team or team.type != Team.TYPE_ADMIN:
             self.ready_queue_regular.enqueue(self.id)
+        else:
+            self.ready_queue_admin.enqueue(self.id)
 
     @staticmethod
     def _generate_id():

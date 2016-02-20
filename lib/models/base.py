@@ -39,6 +39,9 @@ class Model(object):
         doc['created'] = self.created or datetime.now()
         self._get_collection().update({'_id': self.id}, doc, True)
 
+    def remove(self):
+        self._get_collection().remove({'_id': self.id})
+
     def to_dict(self):
         raise NotImplementedError
 

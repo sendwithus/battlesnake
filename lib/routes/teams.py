@@ -100,6 +100,36 @@ def update_team(team_id=None):
     flash('Team updated')
     return redirect(request.url)
 
+@app.route('/team/remove', methods=['POST'])
+@app.route('/admin/teams/<team_id>/remove', methods=['POST'])
+def remove_team_member(team_id=None):
+    """
+    Remove a team member
+    """
+    is_admin = (g.team.type == Team.TYPE_ADMIN)
+    team = g.team
+    redirect_url = '/team'
+
+    # Admin override
+    if team_id:
+        team = Team.find_one({'_id': team_id})
+        if not is_admin or not team:
+            abort(404)
+        redirect_url = '/admin/teams/%s' %  team_id
+
+    email = request.args.get('email')
+    if not (email and email in team.member_emails):
+        return form_error('Email was not a member of a team')
+
+    if len(team.member_emails) == 1:
+        return form_error('Cannot remove last member of a team')
+
+    team.member_emails.remove(email)
+    team.save()
+
+    flash('Team member removed')
+    return redirect(redirect_url)
+
 @app.route('/team/delete', methods=['POST'])
 @app.route('/admin/teams/<team_id>/delete', methods=['POST'])
 def delete_team(team_id=None):
@@ -122,7 +152,6 @@ def delete_team(team_id=None):
         return redirect(url_for('list_teams'))
 
     return redirect(url_for('logout'))
-
 
 @app.route('/api/teams/')
 def teams_list():

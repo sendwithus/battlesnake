@@ -126,7 +126,19 @@
             <h3>Team Members</h3>
             <ul>
               {% for email in team.member_emails %}
-              <li>{{ email }}</li>
+              <li>
+                {{ email }}
+                {% if team.member_emails|length > 1 %}
+                  <form style="display: inline-block" method="post"
+                      {% if is_admin %}
+                          action="/admin/teams/{{ team.id }}/remove?email={{ email }}"
+                      {% else %}
+                          action="/team/remove?email={{ email }}"
+                      {% endif %}>
+                    <button type="submit" class="btn btn-xs btn-warning">&#10005;</button>
+                  </form>
+                {% endif %}
+              </li>
               {% endfor %}
             </ul>
           </div>

@@ -71,7 +71,7 @@ The first team to claim verifiable victory over a Bounty Snake will receive its 
             </td>
             <td>$50 Steam Gift Card <br> <em>(up to five)</em></td>
             <td>Classic Mode, 1v1, 17x17</td>
-            <td>--</td>
+            <td><a href="http://www.battlesnake.io/app/games/capricious-larceny">Claimed by snakesonabiplane at 1:06pm</a></td>
         </tr>
         <tr>
             <td>

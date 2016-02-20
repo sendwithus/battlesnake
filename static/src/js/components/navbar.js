@@ -39,6 +39,14 @@ export default class Navbar extends Component {
       );
     });
 
+    navLinks.unshift(
+      <li key="1234">
+        <a href="#">
+          Logged in as {window.app.user.team.teamname}
+        </a>
+      </li>
+    )
+
     return (
       <nav className="navbar navbar-inverse">
         <div className="container-fluid">

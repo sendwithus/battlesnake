@@ -8,7 +8,7 @@ class Snake(LocalSnake):
     def whois(self):
         return {
             'color': '#f0f087',
-            'head': 'http://www.voxy.co.nz/files/imagecache/news_item_image/files/brad-pitt-square.jpg'
+            'head': 'http://www.battlesnake.io/static/img/curtis.png'
         }
 
     def start(self, payload):

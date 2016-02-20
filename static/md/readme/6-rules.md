@@ -22,6 +22,6 @@ Snakes must eat regularly to survive. Each snake starts the game with 100 health
 
 To avoid starving to death you must ensure that your snake is well fed.
 
-Food will spawn throughout the board during the game. If your snake collides with the food it will consume it. Consuming food will return your snake to full health (100 health points). In addition to avoiding starvation, your snake will grow longer for every piece of food eaten.
+Food will spawn throughout the board during the game. If your snake collides with the food it will consume it. Consuming food will add 30 health to your snake (up to 100 maximum). In addition to avoiding starvation, your snake will grow longer for every piece of food eaten.
 
 Growing your snake can be helpful or make the game more challenging to win, depending on how your AI behaves.

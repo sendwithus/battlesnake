@@ -131,10 +131,11 @@
                 {% if team.member_emails|length > 1 %}
                   <form style="display: inline-block" method="post"
                       {% if is_admin %}
-                          action="/admin/teams/{{ team.id }}/remove?email={{ email }}"
+                          action="/admin/teams/{{ team.id }}/remove"
                       {% else %}
-                          action="/team/remove?email={{ email }}"
+                          action="/team/remove"
                       {% endif %}>
+                    <input type="hidden" name="email" value="{{ email }}"/>
                     <button type="submit" class="btn btn-xs btn-warning">&#10005;</button>
                   </form>
                 {% endif %}

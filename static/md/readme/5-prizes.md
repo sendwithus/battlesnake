@@ -92,7 +92,7 @@ There will be door prizes raffled off throughout the event. Door prizes include.
         </tr>
         <tr>
             <td>
-                "Rouser" <br>
+                "Big Rouser &amp; Little Rouser" <br>
                 <em><a href="https://giftbit.com/">Giftbit</a></em>
             </td>
             <td>
@@ -100,7 +100,7 @@ There will be door prizes raffled off throughout the event. Door prizes include.
                 2nd - $20 Gift Card <em>(up to five)</em> <br>
                 3rd - Giftbit Moleskine Notebooks
             </td>
-            <td>Classic Mode, 2v1 <br> (vs. 2x Rouser)</td>
+            <td>Classic Mode, 2v1 <br> (Gotta beat 'em both!)</td>
             <td></td>
         </tr>
         <tr>

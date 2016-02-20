@@ -13,8 +13,18 @@ import requests
 PING_TIMEOUT_SECONDS = 10
 
 from lib.models.team import Team
+from lib.redis_client import Queue
+from lib.log import get_logger
+
+ready_queue = Queue('games:ready')
+
+logger = get_logger(__name__)
+
+# The set of game IDs that were waiting for a worker in the last check
+last_waiting_game_ids = set()
 
 while True:
+    # Ping all Heroku snake URLs
     for team in Team.find():
         if team.snake_url and 'herokuapp' in team.snake_url:
             url =  team.snake_url
@@ -23,4 +33,14 @@ while True:
                 print 'Ping %s... %s' % (url, r.status_code)
             except requests.exceptions.Timeout:
                 print 'Ping %s... TIMED OUT' % url
-    time.sleep(9 * 60)
+
+    # Check for games that have been waiting too long
+    waiting_game_ids = set(ready_queue.items())
+    overlap = waiting_game_ids & last_waiting_game_ids
+    if overlap:
+        logger.slack('<!channel> *ALERT* Games waiting too long in queue: %d' % len(overlap))
+
+    last_waiting_game_ids = waiting_game_ids
+
+    # Sleep for 1 minute
+    time.sleep(60)

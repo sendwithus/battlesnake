@@ -16,10 +16,8 @@ DELAY_BETWEEN_CHECKS = 10
 CHECKS_PER_BATCH = 6
 
 from lib.models.team import Team
-from lib.redis_client import Queue
 from lib.log import get_logger
-
-ready_queue = Queue('games:ready')
+from lib.models.game import Game
 
 logger = get_logger(__name__)
 
@@ -39,15 +37,16 @@ while True:
 
     # Check for games that have been waiting too long
     for i in range(CHECKS_PER_BATCH):
-        waiting_game_ids = set(ready_queue.items())
-        overlap = waiting_game_ids & last_waiting_game_ids
-        if overlap:
-            logger.slack('<!channel> *ALERT* Games waiting too long in queue: %d' % len(overlap))
+        for queue in Game.queues.values():
+            waiting_game_ids = set(ready_queue.items())
+            overlap = waiting_game_ids & last_waiting_game_ids
+            if overlap:
+                logger.slack('<!channel> *ALERT* Games waiting too long in queue: %d' % len(overlap))
 
-        last_waiting_game_ids = waiting_game_ids
+            last_waiting_game_ids = waiting_game_ids
 
-        # sleep between checks
-        time.sleep(DELAY_BETWEEN_CHECKS)
+            # sleep between checks
+            time.sleep(DELAY_BETWEEN_CHECKS)
 
     # Sleep until the next batch of pings/checks
     time.sleep(DELAY_BETWEEN_CHECK_BATCHES)

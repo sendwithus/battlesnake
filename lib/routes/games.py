@@ -160,7 +160,7 @@ def game_states_turn(game_id, turn_number):
     if game_state is None:
         return json_error('not found')
 
-    return json_response(game_state.to_dict())
+    return json_response(game_state.to_dict(include_board=True))
 
 
 @app.route('/api/games/<game_id>/gamestates/<game_state_id>')
@@ -170,7 +170,7 @@ def game_states_details(game_id, game_state_id):
     else:
         game_state = GameState.find_one({'_id': game_state_id})
 
-    return json_response(game_state.to_dict())
+    return json_response(game_state.to_dict(include_board=True))
 
 
 @app.route('/api/games/<game_id>/gamestates')
@@ -178,5 +178,5 @@ def game_states_list(game_id):
     game_states = GameState.find({'game_id': game_id})
     data = []
     for game_state in game_states:
-        data.append(game_state.to_dict())
+        data.append(game_state.to_dict(include_board=True))
     return json_response(data)

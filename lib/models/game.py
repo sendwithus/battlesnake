@@ -20,7 +20,13 @@ class Game(Model):
     MODE_ADVANCED = 'advanced'
     MODE_VALUES = [MODE_CLASSIC, MODE_ADVANCED]
 
-    ready_queue = Queue('games:ready')
+    ready_queue_regular = Queue('games:ready.regular')
+    ready_queue_admin = Queue('games:ready.admin')
+
+    queues = {
+        'regular': ready_queue_regular,
+        'admin': ready_queue_admin
+    }
 
     def __init__(
             self,
@@ -29,7 +35,7 @@ class Game(Model):
             height=10,
             state=STATE_CREATED,
             stats=None,
-            turn_time=2.0,
+            turn_time=1.0,
             is_live=True,
             team_id=None,
             mode=MODE_CLASSIC):
@@ -66,7 +72,14 @@ class Game(Model):
 
         self.state = Game.STATE_READY
         self.save()
-        self.ready_queue.enqueue(self.id)
+
+        from lib.models.team import Team
+        team = Team.find_one({'_id': self.team_id})
+
+        if team.type == Team.TYPE_ADMIN:
+            self.ready_queue_admin.enqueue(self.id)
+        else:
+            self.ready_queue_regular.enqueue(self.id)
 
     @staticmethod
     def _generate_id():

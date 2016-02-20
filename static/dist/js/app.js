@@ -23593,7 +23593,10 @@ var Board = function () {
       //  .attr('width', bitWidth - spacing)
       //  .attr('width', bitWidth - spacing)
       //  .attr('fill', snakewithus.COLORS.FOOD);
-      gold.enter().append('img').attr('class', 'gold').attr('width', bitWidth - spacing).attr('width', bitWidth - spacing).attr('fill', _snakewithus2.default.COLORS.GOLD);
+      gold.enter().append('img').attr('class', 'gold')
+      //.attr('width', bitWidth - spacing - 2)
+      //.attr('width', bitWidth - spacing - 2)
+      .attr('fill', _snakewithus2.default.COLORS.GOLD);
       walls.enter().append('rect').attr('class', 'wall').attr('width', bitWidth - spacing).attr('height', 0).attr('fill', 'steelblue');
       snakes.enter().append('g').attr('class', 'snake');
       snakeBits.enter().append('rect').attr('class', 'snakeBit');
@@ -23635,10 +23638,10 @@ var Board = function () {
       }).style('top', function (d) {
         return yOffs + innerBoardPadding + spacing + d.coords[0][1] * bitHeight + 'px';
       }).style('transform', directionRotation);
-      gold.transition().duration(0).attr('src', '/static/img/img-coin.gif').style('border-radius', '100%').attr('width', bitWidth - spacing - 10).attr('height', bitHeight - spacing - 10).style('position', 'absolute').style('left', function (d) {
-        return xOffs + innerBoardPadding + spacing + 15 + d[0] * bitWidth + 5 + 'px';
+      gold.transition().duration(0).attr('src', '/static/img/img-coin.gif').style('border-radius', '100%').attr('width', bitWidth - spacing - 16).attr('height', bitHeight - spacing - 16).style('position', 'absolute').style('left', function (d) {
+        return xOffs + innerBoardPadding + spacing + 15 + d[0] * bitWidth + 8 + 'px';
       }).style('top', function (d) {
-        return yOffs + innerBoardPadding + spacing + d[1] * bitHeight + 5 + 'px';
+        return yOffs + innerBoardPadding + spacing + d[1] * bitHeight + 8 + 'px';
       });
       //food.transition().duration(0)
       //  .attr('src', '/static/img/eco-green-apple.png')

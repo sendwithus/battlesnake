@@ -1,3 +1,5 @@
 web: bin/dynos/web.sh
-worker: bin/dynos/worker.sh
-ping: bin/ping
+game_worker_regular: bin/dynos/worker.sh admin
+game_worker_admin: bin/dynos/worker.sh regular
+game_worker: bin/dynos/worker.sh
+ping_worker: bin/ping

@@ -299,10 +299,6 @@ class Engine(object):
 
         # Track Snake Collisions
         kill = []       # [snake_name, snake_name]
-        if game_state.mode == Game.MODE_ADVANCED:
-            health_decay = int(math.exp(constants.HEALTH_DECAY_RATE * game_state.turn))  # Health Decay Rate this turn
-        else:
-            health_decay = 1
 
         # Check Collisions
         for snake in new_snakes:
@@ -383,7 +379,7 @@ class Engine(object):
 
         # Kill any 0 Health Snakes
         for snake in new_snakes:
-            snake.health -= health_decay
+            snake.health -= constants.HEALTH_DECAY_RATE
             if snake.health < 1:
                 kill.append(snake.name)
                 snake.killed_by = Engine.STARVATION

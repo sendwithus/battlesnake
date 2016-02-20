@@ -16,4 +16,29 @@ Tournament format and group assignments will be announced at 5pm. The tournament
 
 #### Tournament Prizes
 
-See [Prizes and Awards](#5-prizes).
+<table class="table">
+    <thead>
+        <tr>
+            <th>Prize</th>
+            <th>Classic Division</th>
+            <th>Advanced Division</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Grand Prize</td>
+            <td>$300</td>
+            <td>$1,000</td>
+        </tr>
+        <tr>
+            <td>Second Place</td>
+            <td>$200</td>
+            <td>$600</td>
+        </tr>
+        <tr>
+            <td>Third Place</td>
+            <td>$100</td>
+            <td>$300</td>
+        </tr>
+    </tbody>
+</table>

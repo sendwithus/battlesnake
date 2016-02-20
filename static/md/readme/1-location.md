@@ -34,6 +34,6 @@ _After the event, sponsors and event organizers will meet at Felicita's for drin
 
 ### Wifi
 
-Network: UvVc <br>
-Username: bsnake <br>
-Password: l3tm31n
+Network: `UVic` <br>
+Username: `bsnake` <br>
+Password: `l3tm31n`

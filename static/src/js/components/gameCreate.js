@@ -14,11 +14,12 @@ export default class GameCreate extends Component {
     currentWidth: 17,
     currentHeight: 17,
     currentTimeout: 1,
-    isLoading: false
+    isLoading: false,
+    mode: 'classic'
   };
 
   _persistState () {
-    localStorage['GameCreate.state'] = JSON.stringify(this.state);
+    localStorage['game_state'] = JSON.stringify(this.state);
   };
 
   _restoreState () {
@@ -26,7 +27,7 @@ export default class GameCreate extends Component {
     let { state } = this.props.location
 
     try {
-      oldState = JSON.parse(localStorage['GameCreate.state']);
+      oldState = JSON.parse(localStorage['game_state']);
     } catch (e) {
       // No state saved yet. Default it
     }
@@ -115,7 +116,6 @@ export default class GameCreate extends Component {
   };
 
   handleModeSelect = (e) => {
-    console.log(e.target.value);
     this.setState({mode: e.target.value})
   };
 
@@ -167,16 +167,13 @@ export default class GameCreate extends Component {
       availableTeamOptions
     );
 
-    let gameModes = [<option key="mode_opt_none" disabled="true">Select a Game Mode</option>]
-    gameModes = gameModes.concat(
-      GAME_MODES.map((mode) => {
-        return (
-          <option key={mode} value={mode}>
-            {mode}
-          </option>
-        )
-      })
-    )
+    let gameModes = GAME_MODES.map((mode) => {
+      return (
+        <option key={mode} value={mode}>
+          {mode}
+        </option>
+      )
+    })
 
     let teamNames = this.state.addedTeams.map((team, i) => {
       return (
@@ -262,8 +259,8 @@ export default class GameCreate extends Component {
                 <label>Game Mode</label>
                 <select name="mode"
                         className="form-control"
-                        disabled={this.state.isLoading}
                         value={this.state.mode}
+                        disabled={this.state.isLoading}
                         onChange={this.handleModeSelect}>
                   {gameModes}
                 </select>

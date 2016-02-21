@@ -11,7 +11,7 @@ export default class GameOverModal extends Component {
     let winningSnake;
 
     if (this.props.latestGameState.snakes.length === 1) {
-      winningSnake = this.props.latestGameState.snakes[0].name;
+      winningSnake = this.props.latestGameState.snakes[0];
     } else {
       winningSnake = 'N/A';
     }
@@ -26,8 +26,12 @@ export default class GameOverModal extends Component {
                 Finished {this.props.game.id}
               </h4>
             </div>
-            <div className="modal-body">
-              Winner: {winningSnake}
+            <div className="modal-body text-center">
+              <h2>
+                Winner: {winningSnake.name}
+              </h2>
+              <br />
+              <img src={winningSnake.head} style={{ height: 300, width: 'auto'}}/>
             </div>
             <div className="modal-footer">
               <button type="submit" className="btn btn-success" data-dismiss="modal">Continue</button>

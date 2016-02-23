@@ -1,4 +1,4 @@
-export default getURLParameter = (name, defaultValue) => {
+var getURLParameter = (name, defaultValue) => {
   var val = decodeURI(
     (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
   );
@@ -9,3 +9,4 @@ export default getURLParameter = (name, defaultValue) => {
 
   return val;
 }
+export default getURLParameter;

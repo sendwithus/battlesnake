@@ -39,6 +39,15 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/feedback')
+@public
+def feedback():
+    return redirect(
+        'https://sendwithus.wufoo.com/forms/zruoyzf026vi9i/',
+        code=301
+    )
+
+
 @app.route('/tutorial')
 @public
 def setup():

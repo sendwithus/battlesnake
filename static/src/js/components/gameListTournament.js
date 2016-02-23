@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import GameListItem from './gameListItem';
+import getURLParameter from '../constants/getURLParameter';
 
 
 export default class GameList extends Component {
@@ -16,6 +17,13 @@ export default class GameList extends Component {
     })
     .done((response) => {
       this.setState({ games: this.categorizeGames(response.data) });
+
+      let loop = getURLParameter('loop');
+      let lastGameId = getURLParameter('game_id');
+
+      if (loop === 'true') {
+        this.redirectToNextGame(response.data, lastGameId);
+      }
     });
   }
 
@@ -34,6 +42,31 @@ export default class GameList extends Component {
     }
 
     return categories;
+  }
+
+  redirectToNextGame (gamesList, gameId) {
+    let foundGame = false;
+    let nextGame;
+
+    for (var i = 0; i < gamesList.length; i++) {
+      let game = gamesList[i];
+
+      if(foundGame) {
+        nextGame = game;
+        break;
+      }
+
+      if (game._id === gameId) {
+        foundGame = true;
+      }
+    }
+
+    if (!nextGame) {
+      // loop around to first game
+      nextGame = gamesList[0];
+    }
+
+    window.location = '/app/games/' + nextGame._id + '?loop=true';
   }
 
   renderGameList (games) {

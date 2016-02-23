@@ -8,6 +8,7 @@ import navigate from 'react-router';
 import Board from './board';
 import GameSidebar from './gameSidebar'
 import GameOverModal from './gameOverModal'
+import getURLParameter from '../constants/getURLParameter';
 
 
 export default class Game extends Component {
@@ -17,7 +18,8 @@ export default class Game extends Component {
     isReplay: false,
     isLoading: false,
     latestGameState: null,
-    turnNumber: 0
+    turnNumber: 0,
+    isLooping: false
   };
 
   handlePause = () => {
@@ -127,6 +129,14 @@ export default class Game extends Component {
           $(this).find('button').focus();
         }).modal('show');
 
+        if (this.state.isLooping && this.state.isReplay) {
+          this.state.isLooping = false;
+          let tournamentUrl = '/app/games/tournament?loop=true&game_id=' + this.state.game._id;
+          requestTimeout(() => {
+            window.location = tournamentUrl;
+          }, 5000);
+        }
+
         this.state.isReplay = false;
         this.state.game.state = 'done';
       }
@@ -195,6 +205,10 @@ export default class Game extends Component {
         this.setState({game: response.data});
       }
 
+      if (getURLParameter('loop') == 'true') {
+        this.setState({isLooping: true});
+      }
+
       // Get latest game state
       this.tick(() => {
         // See if we need to tick the game
@@ -213,6 +227,10 @@ export default class Game extends Component {
     }
 
     this.board.update(this.state.latestGameState);
+
+    if (this.state.isLooping && !this.state.isReplay) {
+      this.handleReplay();
+    }
   }
 
   componentWillUnmount () {

@@ -9,19 +9,6 @@ from lib.routes.auth import public
 
 
 def __load_markdown(filepath):
-    if '4-bounty' in filepath:
-        BOUNTY_MD_URL = 'https://www.dropbox.com/s/zfn90l5uxvf5poj/bounty.md?dl=1'
-        r = requests.get(BOUNTY_MD_URL)
-        html = markdown.markdown(
-            r.text,
-            extensions=[
-                'markdown.extensions.fenced_code',
-                'markdown.extensions.codehilite'
-            ]
-        )
-
-        return Markup(html)
-
     with open(filepath) as f:
         html = markdown.markdown(
             f.read(),

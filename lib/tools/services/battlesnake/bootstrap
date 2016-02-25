@@ -1,0 +1,12 @@
+#!/bin/bash
+: <<__
+
+
+  Called by upstart to manage battlesnake
+
+__
+
+cd /home/vagrant/battlesnake
+. env/bin/activate
+nvm use
+./bin/run >> /home/vagrant/battlesnake/logs/battlesnake.log 2>&1

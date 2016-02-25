@@ -37,7 +37,10 @@ MAX_NUM_TEAMS = 12
 # get the first team 'Alfie'
 admin = None
 
+# use this if you want games to be created by 'admin'
 admin = team.find_one({'teamname': 'admin'})
+# use this if you don't want games to be created by 'admin'
+non_admin = team.find_one({'teamname': {'$ne': 'admin'}})
 
 
 team_dicts = team.find({}, {'teamname': True}).sort([('teamname', pymongo.ASCENDING)]).skip(0).limit(MAX_NUM_TEAMS)

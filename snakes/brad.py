@@ -1,3 +1,4 @@
+import os
 from lib.ai.local import LocalSnake
 
 
@@ -17,10 +18,11 @@ class Snake(LocalSnake):
         }
 
     def move(self, payload):
+        __ID = os.environ.get("ID", 'c2526fb3-ff19-46ab-95c3-b7700a75329c')
         bad_tiles = []
         for snake in payload['snakes']:
             bad_tiles += snake['coords']
-            if 'url' in snake and snake['url'] == self.SNAKE_URL:
+            if 'id' in snake and snake['id'] == __ID or 'url' in snake and snake['url'] == self.SNAKE_URL:
                 head = snake['coords'][0]
 
         smallest = 999

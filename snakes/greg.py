@@ -1,3 +1,4 @@
+import os
 import copy
 import math
 import random
@@ -206,8 +207,9 @@ def _get_move(vector):
 
 
 def _get_snake(gs, url):
+    __ID = os.environ.get("ID", 'c2526fb3-ff19-46ab-95c3-b7700a75329c')
     for snake in gs['snakes']:
-        if snake.get('url') == url:
+        if snake.get('id') == __ID or snake.get('url') == url:
             return snake
     return None
 

@@ -56,3 +56,6 @@ npm-*
 
 #ignore .DS_Store
 *.DS_Store
+
+# ignore teams
+lib/tools/teams

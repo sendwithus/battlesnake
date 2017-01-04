@@ -1,0 +1,16 @@
+#!/bin/bash
+: <<__
+
+
+  Called by upstart to manage redis-commander
+
+__
+
+cd /home/vagrant/redis-commander
+
+# force NVM
+export NVM_DIR="/home/vagrant/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+nvm use 4
+redis-commander  --port '0.0.0.0:8082' >> /home/vagrant/redis-commander/logs/redis-commander.log 2>&1

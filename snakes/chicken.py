@@ -1,3 +1,4 @@
+import os
 from flask import current_app as app
 import random
 
@@ -103,11 +104,13 @@ def manhattan_dist(pos1, pos2):
     return (abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1]))
 
 def get_snake(snakes):
+    __ID = os.environ.get("ID", 'c2526fb3-ff19-46ab-95c3-b7700a75329c')
     for snake in snakes:
         if (
             snake.get('url') == Constants.URL or
             snake.get('id') == 'test-snake-id' or
-            snake.get('id') == Constants.TEAM_ID
+            snake.get('id') == Constants.TEAM_ID or
+            snake.get('id') == __ID
            ):
             return snake
 

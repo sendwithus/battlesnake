@@ -1,7 +1,7 @@
 BattleSnake 2017
 ================
 
-#### presented by [sendwithus](https://www.sendwithus.com)
+#### presented by [sendwithus](https://www.sendwithus.com), [Stembolt](https://stembolt.com/), and [Workday](https://www.workday.com/).
 
 _March 4th, 2017 at the Victoria Conference Centre._
 

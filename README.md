@@ -9,8 +9,8 @@ BattleSnake is a programming competition held in Victoria, BC.
 
 Teams of students and developers build web-based AIs for the classic arcade game "Snake". Multiple teams will compete on the same board at the same time, and the winner is the last team slithering!
 
-__API Docs__ Visit [https://stembolthq.github.io/battle_snake/](https://stembolthq.github.io/battle_snake/)
-
 __Want to register?__ Visit [www.battlesnake.io](http://www.battlesnake.io).
+
+__API Docs__ Visit [https://stembolthq.github.io/battle_snake/](https://stembolthq.github.io/battle_snake/)
 
 __Questions?__ Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.com).

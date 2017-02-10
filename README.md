@@ -1,16 +1,43 @@
 BattleSnake 2017
 ================
 
+#### Presented by [Sendwithus](https://www.sendwithus.com), built by [Stembolt](https://stembolt.com/), and powered by [Workday](https://www.workday.com/).
+
 _March 4th, 2017 at the Victoria Conference Centre._
 
-#### presented by [sendwithus](https://www.sendwithus.com), [Stembolt](https://stembolt.com/), and [Workday](https://www.workday.com/).
+BattleSnake is a programming competition held in Victoria, BC.
 
-BattleSnake is a programming competition held in Victoria, BC. 
+Teams program web-based AIs for the classic arcade game "Snake". Multiple teams compete on the same board at the same time, and the winner is the last team slithering!
 
-Teams of students and developers build web-based AIs for the classic arcade game "Snake". Multiple teams will compete on the same board at the same time, and the winner is the last team slithering!
+__Looking for event info? Want to register?__ Visit [www.battlesnake.io](http://www.battlesnake.io).
 
-__Want to register?__ Visit [www.battlesnake.io](http://www.battlesnake.io).
+__Need help? Have questions?__ Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.com).
 
-__API Docs__ Visit [https://stembolthq.github.io/battle_snake/](https://stembolthq.github.io/battle_snake/)
+## Documentation
 
-__Questions?__ Email [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.com).
+__API Reference__ [stembolthq.github.io/battle_snake](https://stembolthq.github.io/battle_snake/)
+
+__Tutorial Slides__ [TODO](TODO)
+
+## Starter & Example Snakes
+
+Starter Snakes provided by Sendwithus (Heroku Ready)
+* [battlesnake-node](https://github.com/sendwithus/battlesnake-node)
+* [battlesnake-python](https://github.com/sendwithus/battlesnake-python)
+* [battlesnake-go](https://github.com/sendwithus/battlesnake-go)
+* [battlesnake-ruby](https://github.com/sendwithus/battlesnake-ruby)
+* [battlesnake-clojure](https://github.com/sendwithus/battlesnake-clojure)
+
+Example Snakes provided by Stembolt
+* [go_snake](https://github.com/StemboltHQ/battle_snake/tree/master/examples/go_snake)
+* [node_snake](https://github.com/StemboltHQ/battle_snake/tree/master/examples/node_snake)
+* [ruby_snake](https://github.com/StemboltHQ/battle_snake/tree/master/examples/ruby_snake)
+
+Traitor Snake (Winner of Battlesnake 2016)
+* [github.com/noahspriggs/battlesnake-python](https://github.com/noahspriggs/battlesnake-python)
+
+## Contributing
+
+Have sample code you'd like to share? Have useful links? See a typo?
+
+Create a Pull Request on Github or email us at [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.com).

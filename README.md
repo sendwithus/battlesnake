@@ -15,9 +15,14 @@ __Need help? Have questions?__ Email [battlesnake@sendwithus.com](mailto:battles
 
 ## Documentation
 
-__API Reference__ [stembolthq.github.io/battle_snake](https://stembolthq.github.io/battle_snake/)
+API Reference
+* [stembolthq.github.io/battle_snake](https://stembolthq.github.io/battle_snake/)
 
-__Tutorial Slides__ [TODO](TODO)
+Tutorial Slides
+* [TODO](TODO)
+
+2016 Orientation Slides
+* [BattleSnake 2016](https://docs.google.com/presentation/d/1iD2xZthNFaWeNfgPr6KjR8e7O80Pua9mdQje3i8782A/edit?usp=sharing)
 
 ## Starter & Example Snakes
 
@@ -35,6 +40,10 @@ Example Snakes provided by Stembolt
 
 Traitor Snake (Winner of Battlesnake 2016)
 * [github.com/noahspriggs/battlesnake-python](https://github.com/noahspriggs/battlesnake-python)
+
+## Bounty Snakes
+
+TODO
 
 ## Contributing
 

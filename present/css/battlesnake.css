@@ -7,7 +7,7 @@ html {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5a5669', endColorstr='#746f7e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 body {
-  background-image: url('/battlesnake/content/top-left.svg'), url("/battlesnake/content/bottom-right.svg");
+  background-image: url('battlesnake/present/content/top-left.svg'), url('battlesnake/present/content/bottom-right.svg');
   background-position: top left, bottom right;
   background-repeat: no-repeat;
   background-size: 25%, 25%;

@@ -1,0 +1,39 @@
+html {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#5a5669+0,746f7e+100 */
+  background: #5a5669; /* Old browsers */
+  background: -moz-linear-gradient(-45deg,  #5a5669 0%, #746f7e 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg,  #5a5669 0%,#746f7e 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg,  #5a5669 0%,#746f7e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5a5669', endColorstr='#746f7e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+body {
+  background-image: url('/content/top-left.svg'), url("/content/bottom-right.svg");
+  background-position: top left, bottom right;
+  background-repeat: no-repeat;
+  background-size: 25%, 25%;
+  background-color: transparent;
+  /* background-color: #676374; */
+}
+
+.reveal a,
+.reveal a:hover {
+  color: #ef5e43; 
+  text-shadow: none;
+}
+
+.reveal .progress span {
+  background: #ef5e43;
+}
+
+.reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled {
+  border-left-color: #ef5e43;
+}
+.reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled {
+  border-right-color: #ef5e43;
+}
+.reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled {
+  border-bottom-color: #ef5e43;
+}
+.reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled {
+  border-top-color: #ef5e43;
+}

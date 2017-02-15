@@ -5,12 +5,14 @@
 
 ---
 
-![Battlesnake Logo](content/battlesnake-logo.svg)<!-- .element: width="95%" -->
+![Battlesnake Logo](content/battlesnake-logo.svg) <!-- .element: width="95%" -->
 
 ---
 
-## battlesnake.io
-## battlesnake.io/docs
+## Everything you need
+<br/>
+### battlesnake.io
+### battlesnake.io/docs
 
 ...
 Everything you will need to know will be available at these URLs
@@ -18,6 +20,11 @@ Everything you will need to know will be available at these URLs
 ---
 
 ## What is Battlesnake?
+
+AI competition held annually, on its 4th year
+
+As a competitor, _you_ code the AI for your snake
+
 ![Snake Game](content/snake_game.gif) <!-- .element: class="fragment" data-fragment-index="1" -->
 
 ...
@@ -27,7 +34,7 @@ Everything you will need to know will be available at these URLs
 
 ---
 
-![Battlesnake v2](http://i.imgur.com/Oyw3jXl.gif)
+![Battlesnake v2](http://i.imgur.com/Oyw3jXl.gif) <!-- .element: width="60%" -->
 
 ...
 - We put a BUNCH of snakes on the board, and YOU program the Snake's AI!
@@ -59,18 +66,6 @@ Everything you will need to know will be available at these URLs
 
 ---
 
-## Coming Prepared
-
-Bring your own
-- laptop <!-- .element: class="fragment" data-fragment-index="1" -->
-- Github and Heroku accounts <!-- .element: class="fragment" data-fragment-index="2" -->
-- resources available at battlesnake.io <!-- .element: class="fragment" data-fragment-index="3" -->
-
-...
-- Don't go into detail, just highlight the points
-
----
-
 ## Divisions
 
 ![Classic Division](https://static1.squarespace.com/static/583102acff7c504696a7009b/t/58683e2346c3c4a162ee9a29/1483226666696/?format=500w)
@@ -94,22 +89,30 @@ Bring your own
 
 # Prizes
 
-## GRAND PRIZE: $1,000
+## GRAND PRIZE: $1,000 <!-- .element: class="fragment" data-fragment-index="1" -->
 
-### SECOND PLACE: $750
+### SECOND PLACE: $750 <!-- .element: class="fragment" data-fragment-index="2" -->
 
-#### THIRD PLACE: $500
+#### THIRD PLACE: $500 <!-- .element: class="fragment" data-fragment-index="2" -->
 
 ---
 
-![#neverforget](http://blog.sendwithus.com/wp-content/uploads/2015/02/ripinpeacechicken-500x492.png)
+## Coming Prepared
+
+Bring your own
+- laptop
+- team
+- resources @ battlesnake.io
+
+...
+- Don't go into detail, just highlight the points
 
 ===
 
-# Prerequisites
+## Things you'll need to know
 
-- Host a web server <!-- .element: class="fragment" data-fragment-index="1" -->
-- Collaborate on code <!-- .element: class="fragment" data-fragment-index="2" -->
+- Host a web server
+- Collaborate on code
 
 ...
 - Heroku is a great starting point, Digital Ocean and AWS are also good
@@ -121,18 +124,25 @@ Bring your own
 
 ---
 
-# Battlesnake
+## The Game
 
 - is played on a grid of variable size
 - consists of up to 8-10 players on a single game board
 
 ---
 
-![Battlesnake Game Board](http://i.imgur.com/Oyw3jXl.gif)
+![Battlesnake Game Board](http://i.imgur.com/Oyw3jXl.gif) <!-- .element: width="60%" -->
+
+...
+A game played by multiple snakes may look similar to this
 
 ---
 
-[DIAGRAM OF INTERACTION WITH GAME SERVER HERE]
+
+![Battlesnake Game Board Interaction](content/game_server_interaction.png) <!-- .element: width="80%" -->
+
+...
+Talk about steps to go through to interact with the game serve
 
 
 ===
@@ -233,3 +243,7 @@ https://www.battlesnake.io/docs
 ===
 
 # Sample Snakes
+
+===
+
+![#neverforget](http://blog.sendwithus.com/wp-content/uploads/2015/02/ripinpeacechicken-500x492.png)

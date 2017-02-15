@@ -37,21 +37,25 @@ Everything you will need to know will be available at these URLs
 
 ---
 
-## Where is Battlesnake?
-
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5295.656450024255!2d-123.36646983071856!3d48.42144202091193!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd79ebbb26089dbd6!2sVictoria+Conference+Centre!5e0!3m2!1sen!2sca!4v1487123899505" width="800" height="550" frameborder="0" style="border:0" allowfullscreen></iframe>
-
----
-
 ## Who is Battlesnake for?
 
-- interested in technology
+- interested in technology?
 - non-programmers
 - programmers of all skill levels
 - teams consist of 2-5 people
 - individuals are welcome to compete solo
 
 ...
+- Reinforce that literally _anyone_ can participate in and have fun at Battlesnake
+
+---
+
+## Where is Battlesnake?
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5295.656450024255!2d-123.36646983071856!3d48.42144202091193!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd79ebbb26089dbd6!2sVictoria+Conference+Centre!5e0!3m2!1sen!2sca!4v1487123899505" width="800" height="550" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+...
+- Conference center on the map
 
 ---
 
@@ -63,6 +67,7 @@ Bring your own
 - resources available at battlesnake.io <!-- .element: class="fragment" data-fragment-index="3" -->
 
 ...
+- Don't go into detail, just highlight the points
 
 ---
 
@@ -72,9 +77,9 @@ Bring your own
 ![Advanced Division](https://static1.squarespace.com/static/583102acff7c504696a7009b/t/58683e331b631bf419079e9e/1483226683992/BS-HARD.png?format=500w)
 
 ...
-- Talk about Divisions
-  - No coins this year
-  - Divisions only to separate beginner and advanced snakes for even playing grid
+- Divisions this year, changes from previous years
+  - No coins this year, no random walls either
+  - Divisions only to separate beginner and advanced snakes for even playing grid, otherwise virtually the same
 
 ---
 
@@ -113,6 +118,21 @@ Bring your own
 - As far as editors go
   - Visual studio code
   - Atom editor
+
+---
+
+# Battlesnake
+
+- is played on a grid of variable size
+- consists of up to 8-10 players on a single game board
+
+---
+
+![Battlesnake Game Board](http://i.imgur.com/Oyw3jXl.gif)
+
+---
+
+[DIAGRAM OF INTERACTION WITH GAME SERVER HERE]
 
 
 ===

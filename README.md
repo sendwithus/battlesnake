@@ -19,7 +19,7 @@ API Reference
 * [stembolthq.github.io/battle_snake](https://stembolthq.github.io/battle_snake/)
 
 Tutorial Slides
-* [TODO](TODO)
+* [2017 Info Sessions](http://sendwithus.github.io/battlesnake/present/#/)
 
 2016 Orientation Slides
 * [BattleSnake 2016](https://docs.google.com/presentation/d/1iD2xZthNFaWeNfgPr6KjR8e7O80Pua9mdQje3i8782A/edit?usp=sharing)
@@ -38,7 +38,7 @@ Example Snakes provided by Stembolt
 * [node_snake](https://github.com/StemboltHQ/battle_snake/tree/master/examples/node_snake)
 * [ruby_snake](https://github.com/StemboltHQ/battle_snake/tree/master/examples/ruby_snake)
 
-Traitor Snake (Winner of Battlesnake 2016)
+Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
 * [github.com/noahspriggs/battlesnake-python](https://github.com/noahspriggs/battlesnake-python)
 
 ## Bounty Snakes

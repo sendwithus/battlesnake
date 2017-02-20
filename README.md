@@ -38,6 +38,9 @@ Example Snakes provided by Stembolt
 * [node_snake](https://github.com/StemboltHQ/battle_snake/tree/master/examples/node_snake)
 * [ruby_snake](https://github.com/StemboltHQ/battle_snake/tree/master/examples/ruby_snake)
 
+Example Snakes provided by Giftbit
+* [typescript snake](https://github.com/Giftbit/battlesnake-node-typescript)
+
 Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
 * [github.com/noahspriggs/battlesnake-python](https://github.com/noahspriggs/battlesnake-python)
 

@@ -41,6 +41,11 @@ Example Snakes provided by Stembolt
 Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
 * [github.com/noahspriggs/battlesnake-python](https://github.com/noahspriggs/battlesnake-python)
 
+## Running With Docker
+* Install Docker
+* Run `docker run -it -p 4000:4000 stembolt/battle_snake`
+* Visit `http://localhost:4000` *NOTE:* Docker runs on a virtual lan so when you add a snake to the game you cannot use localhost, use your internal IP instead.
+
 ## Bounty Snakes
 
 TODO

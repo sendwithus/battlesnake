@@ -56,8 +56,27 @@ Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
 
 TODO
 
+## FAQ
+
+#### Will there be food provided?
+* Yes, BattleSnake has partnered with four food trucks to provide lunch and dinner free of charge to all participants and volunteers. You will be given a lunch and dinner voucher to use when you check-in and register your team. The trucks will be located at the [Royal BC Museum](http://royalbcmuseum.bc.ca/visit/plan-your-visit/eat-drink). 
+
+#### What should I bring for the day?
+* Bring your laptop with power adapter and a water bottle. That is it!
+
+#### Is there an after party this year?
+* Yes, Barkerville Beer is hosting the BattleSnake after party at The Guild Freehouse. It will start right after the tournament is finished. Small bites will be provided for all attendees and the first 50 arrivals will receive a free glass of beer. 
+
+#### Can I work on my snake before the event?
+* YES! We highly recommend it. 
+
+#### How do I collect Bounty Snake prizes?
+* If you want to collect a Bounty Snake prize you have to go to the company booth that is hosting that snake and challenge them to a duel. The company will run the battle and if your snake is victorious you will be awarded the prize. Each snake will have different win conditions so come prepared.
+
 ## Contributing
 
 Have sample code you'd like to share? Have useful links? See a typo?
 
 Create a Pull Request on Github or email us at [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.com).
+
+

@@ -54,7 +54,21 @@ Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
 
 ## Bounty Snakes
 
-TODO
+INFO ABOUT BOUNTY SNAKES HERE
+
+| Team | Snake(s) | Grid | Win Condition | Bounty |
+| --- | --- | --- | --- | --- |
+| Beanstream | Beantail - Hungry<br>Beantail - Mamba<br>Beantail - Venom | 12x12 <br> 30x30 <br> 20x20 | 3 x 1v1 | ?? |
+| Giftbit | Typescript Snake <br> Little Rouser | ?? | 2v1 Survival | ?? |
+| Latitude Geographics | Cascadia Megathrust | 30x30 | 1v1 Survial | ?? |
+| Silkstart | Remora Snake | 20x20 | Remora will follow your snake. <br> Lead it towards food. <br> Once the taunt indicates it <br> has eaten enough, kill it. | ?? |
+| Pretio | Mimic Snake | 20x20 | 1v1 Survival | ?? |
+| RedBrick | Robosnake | 17x17 | 1v1 Survial | ?? |
+| Rooof | Rooof | 20x20 | 1v1 Survial | ?? |
+| Sendwithus | jsnek <br> dsnek | ?? | 2v1 Survival | ?? |
+| Stembolt | Genetisnake | ?? | ?? | ?? |
+| Stocksy | Snakesy | 20x20 | ?? | ?? |
+| Workday | Battle Constrictor | ?? | 1v1 Survial | ?? |
 
 ## FAQ
 

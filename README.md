@@ -87,6 +87,9 @@ INFO ABOUT BOUNTY SNAKES HERE
 #### How do I collect Bounty Snake prizes?
 * If you want to collect a Bounty Snake prize you have to go to the company booth that is hosting that snake and challenge them to a duel. The company will run the battle and if your snake is victorious you will be awarded the prize. Each snake will have different win conditions so come prepared.
 
+#### When should I show up?
+* If you want to attend the morning tutorial you need to be at the Conference Centre by 9:00 am. If you don't plan on being at the morning tutorial you need to start registering your team and check-in individually at 10:00 am. Orientation starts at 11:00am sharp. 
+
 ## Contributing
 
 Have sample code you'd like to share? Have useful links? See a typo?

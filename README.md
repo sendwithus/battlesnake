@@ -61,7 +61,7 @@ INFO ABOUT BOUNTY SNAKES HERE
 | Beanstream | Beantail - Hungry<br>Beantail - Mamba<br>Beantail - Venom | 12x12 <br> 30x30 <br> 20x20 | 3 x 1v1 | ?? |
 | Giftbit | Typescript Snake <br> Little Rouser | ?? | 2v1 Survival | ?? |
 | Latitude Geographics | Cascadia Megathrust | 30x30 | 1v1 Survial | ?? |
-| Silkstart | Remora Snake | 20x20 | Remora will follow your snake. <br> Lead it towards food. <br> Once the taunt indicates it <br> has eaten enough, kill it. | ?? |
+| SparkLIT | Remora Snake | 20x20 | Remora will follow your snake. <br> Lead it towards food. <br> Once the taunt indicates it <br> has eaten enough, kill it. | ?? |
 | Pretio | Mimic Snake | 20x20 | 1v1 Survival | ?? |
 | RedBrick | Robosnake | 17x17 | 1v1 Survial | ?? |
 | Rooof | Rooof | 20x20 | 1v1 Survial | ?? |

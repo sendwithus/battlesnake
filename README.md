@@ -54,41 +54,128 @@ Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
 
 ## Bounty Snakes
 
-INFO ABOUT BOUNTY SNAKES HERE
+Bounty Snakes are snakes built by sponsoring teams. Teams that defeat a Bounty Snake will win its prize - some snakes have one big prize, others have prizes for all winners.
 
-| Team | Snake(s) | Grid | Win Condition | Bounty |
-| --- | --- | --- | --- | --- |
-| Beanstream | Beantail - Hungry<br>Beantail - Mamba<br>Beantail - Venom | 12x12 <br> 30x30 <br> 20x20 | 3 x 1v1 | ?? |
-| Giftbit | Typescript Snake <br> Little Rouser | ?? | 2v1 Survival | ?? |
-| Latitude Geographics | Cascadia Megathrust | 30x30 | 1v1 Survial | ?? |
-| Silkstart | Remora Snake | 20x20 | Remora will follow your snake. <br> Lead it towards food. <br> Once the taunt indicates it <br> has eaten enough, kill it. | ?? |
-| Pretio | Mimic Snake | 20x20 | 1v1 Survival | ?? |
-| RedBrick | Robosnake | 17x17 | 1v1 Survial | ?? |
-| Rooof | Rooof | 20x20 | 1v1 Survial | ?? |
-| Sendwithus | jsnek <br> dsnek | ?? | 2v1 Survival | ?? |
-| Stembolt | Genetisnake | ?? | ?? | ?? |
-| Stocksy | Snakesy | 20x20 | ?? | ?? |
-| Workday | Battle Constrictor | ?? | 1v1 Survial | ?? |
+Bounty Snakes will be available at 3:00pm in the lobby. To challenge a Bounty Snake, visit the sponsor table in the lobby and tell them you'd like to challenge their Bounty.
+
+#### 2017 Bounty Snakes
+
+| Sendwithus | |
+| --- | --- |
+| Snakes | Blinky, Inky, Pinky, & Clyde |
+| Game | 1v1v1v1v1 Survival |
+| Board | 15x15 |
+| Food | 6 |
+| Reward | Drones & T-Shirts |
+
+| Giftbit | |
+| --- | --- |
+| Snakes | Monty & The Passivist |
+| Game | 2v2 Survival |
+| Board | 15x15 |
+| Food | 2 |
+| Reward | Dinner, Giftcards, Moleskines |
+
+| Stembolt | |
+| --- | --- |
+| Snakes | ?? |
+| Game | ?? |
+| Board | ?? |
+| Food | ?? |
+| Reward | ?? |
+
+| Latitude Geographics | |
+| --- | --- |
+| Snakes | Cascadia Megathrust |
+| Game | 1v1 Survival |
+| Board | 30x30 |
+| Food | 1 |
+| Reward | Amazon Giftcards & Swag |
+
+| Sparklit | |
+| --- | --- |
+| Snakes | Ramora Snake |
+| Game | Ramora will follow your snake. Direct it to food until it announces it's eaten enough (via taunt). Then kill it. |
+| Board | 20x20 |
+| Food | 1 |
+| Reward | Giftcards & Swag |
+
+| Pretio | |
+| --- | --- |
+| Snakes | Mimic Snake |
+| Game | 1v1 Survival |
+| Board | 20x20 |
+| Food | 1 |
+| Reward | Pretio Swag |
+
+| Stocksy | |
+| --- | --- |
+| Snakes | Snakesy |
+| Game | 1v1 Survival (Best of 3) |
+| Board | 20x20 |
+| Food | 1 |
+| Reward | Giftcards & Swag |
+
+| Rooof | |
+| --- | --- |
+| Snakes | Rooof |
+| Game | 1v1 Survival |
+| Board | 20x20 |
+| Food | 1 |
+| Reward | Limited Edition Rooof Battlesnake T-Shirts |
+
+| RedBrick | |
+| --- | --- |
+| Snakes | RedBrick Robosnake |
+| Game | 1v1 Survival |
+| Board | 17x17 |
+| Food | 4 |
+| Reward | Boardgame Mega Pack |
+
+| Beanstream | |
+| --- | --- |
+| Snakes | Beantail Hungry, Beantail Mamba, Beantail Venom |
+| Game | 1v1 Survival (x3) |
+| Board | 12x12, 30x30, 20x20 |
+| Food | 10, 3, 2 |
+| Reward | Luchador Masks |
+
+| Workday | |
+| --- | --- |
+| Snakes | Battle Constrictor, Erik the Barbarian |
+| Game | 2v1 Survival |
+| Board | 20x20 |
+| Food | 1 |
+| Reward | Raspberry Pi Start Kits & Tons of Swag |
+
+| Ladies Learning Code | |
+| --- | --- |
+| Snakes | LLCentipede |
+| Game | 1v1 Survival |
+| Board | 20x20 |
+| Food | 2 |
+| Reward | Amazon Giftcards |
+
 
 ## FAQ
 
 #### Will there be food provided?
-* Yes, BattleSnake has partnered with four food trucks to provide lunch and dinner free of charge to all participants and volunteers. You will be given a lunch and dinner voucher to use when you check-in and register your team. The trucks will be located at the [Royal BC Museum](http://royalbcmuseum.bc.ca/visit/plan-your-visit/eat-drink). 
+* Yes, BattleSnake has partnered with four food trucks to provide lunch and dinner free of charge to all participants and volunteers. You will be given a lunch and dinner voucher to use when you check-in and register your team. The trucks will be located at the [Royal BC Museum](http://royalbcmuseum.bc.ca/visit/plan-your-visit/eat-drink).
 
 #### What should I bring for the day?
 * Bring your laptop with power adapter and a water bottle. That is it!
 
 #### Is there an after party this year?
-* Yes, Barkerville Beer is hosting the BattleSnake after party at The Guild Freehouse. It will start right after the tournament is finished. Small bites will be provided for all attendees and the first 50 arrivals will receive a free glass of beer. 
+* Yes, Barkerville Beer is hosting the BattleSnake after party at The Guild Freehouse. It will start right after the tournament is finished. Small bites will be provided for all attendees and the first 50 arrivals will receive a free glass of beer.
 
 #### Can I work on my snake before the event?
-* YES! We highly recommend it. 
+* YES! We highly recommend it.
 
 #### How do I collect Bounty Snake prizes?
 * If you want to collect a Bounty Snake prize you have to go to the company booth that is hosting that snake and challenge them to a duel. The company will run the battle and if your snake is victorious you will be awarded the prize. Each snake will have different win conditions so come prepared.
 
 #### When should I show up?
-* If you want to attend the morning tutorial you need to be at the Conference Centre by 9:00 am. If you don't plan on being at the morning tutorial you need to start registering your team and check-in individually at 10:00 am. Orientation starts at 11:00am sharp. 
+* If you want to attend the morning tutorial you need to be at the Conference Centre by 9:00 am. If you don't plan on being at the morning tutorial you need to start registering your team and check-in individually at 10:00 am. Orientation starts at 11:00am sharp.
 
 ## Contributing
 

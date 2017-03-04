@@ -15,14 +15,11 @@ __Need help? Have questions?__ Email [battlesnake@sendwithus.com](mailto:battles
 
 ## Documentation
 
-API Reference
-* [stembolthq.github.io/battle_snake](https://stembolthq.github.io/battle_snake/)
+### [API Reference](https://stembolthq.github.io/battle_snake/)
 
-Tutorial Slides
-* [2017 Info Sessions](http://sendwithus.github.io/battlesnake/present/#/)
+##### [2017 Info Session Slides](http://sendwithus.github.io/battlesnake/present/#/)
 
-2016 Orientation Slides
-* [BattleSnake 2016](https://docs.google.com/presentation/d/1iD2xZthNFaWeNfgPr6KjR8e7O80Pua9mdQje3i8782A/edit?usp=sharing)
+##### [2016 Orientation Slides](https://docs.google.com/presentation/d/1iD2xZthNFaWeNfgPr6KjR8e7O80Pua9mdQje3i8782A/edit?usp=sharing)
 
 ## Starter & Example Snakes
 

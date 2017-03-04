@@ -58,103 +58,41 @@ Bounty Snakes are snakes built by sponsoring teams. Teams that defeat a Bounty S
 
 Bounty Snakes will be available at 3:00pm in the lobby. To challenge a Bounty Snake, visit the sponsor table in the lobby and tell them you'd like to challenge their Bounty.
 
-#### 2017 Bounty Snakes
+### Sendwithus Bounty
+Defeat Inky, Blinky, Pinky, & Clyde in 4v1 Survival - Win Drones & T-Shirts!
 
-| Sendwithus | |
-| --- | --- |
-| Snakes | Blinky, Inky, Pinky, & Clyde |
-| Game | 1v1v1v1v1 Survival |
-| Board | 15x15 |
-| Food | 6 |
-| Reward | Drones & T-Shirts |
+### Stembolt Bounty
+??
 
-| Giftbit | |
-| --- | --- |
-| Snakes | Monty & The Passivist |
-| Game | 2v2 Survival |
-| Board | 15x15 |
-| Food | 2 |
-| Reward | Dinner, Giftcards, Moleskines |
+### Workday Bounty
+Defeat Battle Constrictor *and* Erik the Barbarian in 2v1 Survival - Win Raspberry Pi Starter Kits and Swag!
 
-| Stembolt | |
-| --- | --- |
-| Snakes | ?? |
-| Game | ?? |
-| Board | ?? |
-| Food | ?? |
-| Reward | ?? |
+### Rooof Bounty
+Defeat Rooof Snake in 1v1 Survival - Win Custom T-Shirts!
 
-| Latitude Geographics | |
-| --- | --- |
-| Snakes | Cascadia Megathrust |
-| Game | 1v1 Survival |
-| Board | 30x30 |
-| Food | 1 |
-| Reward | Amazon Giftcards & Swag |
+### Beanstream Bounty
+Defeat All 3 Beantail Snakes in 1v1 Survival - Win Luchador Masks!
 
-| Sparklit | |
-| --- | --- |
-| Snakes | Ramora Snake |
-| Game | Ramora will follow your snake. Direct it to food until it announces it's eaten enough (via taunt). Then kill it. |
-| Board | 20x20 |
-| Food | 1 |
-| Reward | Giftcards & Swag |
+### Giftbit Bounty
+2v2 Survival - Win Dinner & Giftcards!
 
-| Pretio | |
-| --- | --- |
-| Snakes | Mimic Snake |
-| Game | 1v1 Survival |
-| Board | 20x20 |
-| Food | 1 |
-| Reward | Pretio Swag |
+### Ladies Learning Code Bounty
+Defeat LLCentipede in 1v1 Survival - Win Amazon Giftcards!
 
-| Stocksy | |
-| --- | --- |
-| Snakes | Snakesy |
-| Game | 1v1 Survival (Best of 3) |
-| Board | 20x20 |
-| Food | 1 |
-| Reward | Giftcards & Swag |
+### Latitude Bounty
+Defeat Cascadia Megathrus in 1v1 Survival - Win Giftcards & Swag!
 
-| Rooof | |
-| --- | --- |
-| Snakes | Rooof |
-| Game | 1v1 Survival |
-| Board | 20x20 |
-| Food | 1 |
-| Reward | Limited Edition Rooof Battlesnake T-Shirts |
+### Pretio Bounty
+Defeat Mimic Snake in 1v1 Survival - Win Swag!
 
-| RedBrick | |
-| --- | --- |
-| Snakes | RedBrick Robosnake |
-| Game | 1v1 Survival |
-| Board | 17x17 |
-| Food | 4 |
-| Reward | Boardgame Mega Pack |
+### Sparklit Bounty
+1v1 Ramora Snake, Killing It After It's Full - Win Giftcards & Swag!
 
-| Beanstream | |
-| --- | --- |
-| Snakes | Beantail Hungry, Beantail Mamba, Beantail Venom |
-| Game | 1v1 Survival (x3) |
-| Board | 12x12, 30x30, 20x20 |
-| Food | 10, 3, 2 |
-| Reward | Luchador Masks |
+### Stocksy Bounty
+Defeat Snakesy in 1v1 Survival - Win Giftcards & Swag!
 
-| Workday | |
-| --- | --- |
-| Snakes | Battle Constrictor, Erik the Barbarian |
-| Game | 2v1 Survival |
-| Board | 20x20 |
-| Food | 1 |
-| Reward | Raspberry Pi Start Kits & Tons of Swag |
-
-| Ladies Learning Code | |
-| --- | --- |
-| Snakes | LLCentipede |
-| Game | 1v1 Survival |
-| Board | 20x20 |
-| Food | 2 |
-| Reward | Amazon Giftcards |
+### RedBrick Bounty
+Defeat Redbrick Robosnake in 1v1 Survival - Win Boardgames!
 
 
 ## FAQ
@@ -182,5 +120,3 @@ Bounty Snakes will be available at 3:00pm in the lobby. To challenge a Bounty Sn
 Have sample code you'd like to share? Have useful links? See a typo?
 
 Create a Pull Request on Github or email us at [battlesnake@sendwithus.com](mailto:battlesnake@sendwithus.com).
-
-

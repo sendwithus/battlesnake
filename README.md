@@ -96,7 +96,7 @@ Bounty Snakes will be available at 3:00pm in the lobby. To challenge a Bounty Sn
 
 ## Community Resources
 
-### [Snakedown test server](https://play.snakedown.com/)created by Cory Binnersley to help you test your snake!
+* [Snakedown test server](https://play.snakedown.com/) created by Cory Binnersley to help you test your snake!
 
 ## Contributing
 

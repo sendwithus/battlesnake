@@ -94,6 +94,10 @@ Bounty Snakes will be available at 3:00pm in the lobby. To challenge a Bounty Sn
 #### When should I show up?
 * Check in and team registration will open at 8:30 am for folks attending the morning tutorial (9:00-10:00am). If you are not attending the tutorial, please arrive by 10:00am to check in and register your team. Orientation starts at 10:30am sharp.
 
+## Community Resources
+
+### [Snakedown test server](https://play.snakedown.com/)created by Cory Binnersley to help you test your snake!
+
 ## Contributing
 
 Have sample code you'd like to share? Have useful links? See a typo?

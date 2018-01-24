@@ -1,9 +1,9 @@
-BattleSnake 2017
+BattleSnake 2018
 ================
 
-#### Presented by [Sendwithus](https://www.sendwithus.com), built by [Stembolt](https://stembolt.com/), and powered by [Workday](https://www.workday.com/).
+#### Presented by [Sendwithus](https://www.sendwithus.com), in partnership with [GitHub](https://github.com/).
 
-_March 4th, 2017 at the Victoria Conference Centre._
+_March 3th, 2018 at the Victoria Conference Centre._
 
 BattleSnake is a programming competition held in Victoria, BC.
 
@@ -56,52 +56,34 @@ Bounty Snakes are snakes built by sponsoring teams. Teams that defeat a Bounty S
 Bounty Snakes will be available at 3:00pm in the lobby. To challenge a Bounty Snake, visit the sponsor table in the lobby and tell them you'd like to challenge their Bounty.
 
 ### Sendwithus Bounty
-Defeat Inky, Blinky, Pinky, & Clyde in 4v1 Survival - Win Drones & T-Shirts!
-
-### Stembolt Bounty
-??
-
-### Workday Bounty
-Defeat Battle Constrictor *and* Erik the Barbarian in 2v1 Survival - Win Raspberry Pi Starter Kits and Swag!
 
 ### Rooof Bounty
-Defeat Rooof Snake in 1v1 Survival - Win Custom T-Shirts!
 
-### Beanstream Bounty
-Defeat All 3 Beantail Snakes in 1v1 Survival - Win Luchador Masks!
+### Workday Bounty
+
+### AppColony Bounty
+
+### Redbrick Bounty
 
 ### Giftbit Bounty
-2v2 Survival - Win Dinner & Giftcards!
 
-### Ladies Learning Code Bounty
-Defeat LLCentipede in 1v1 Survival - Win Amazon Giftcards!
+### Checkfront Bounty
 
-### Latitude Bounty
-Defeat Cascadia Megathrus in 1v1 Survival - Win Giftcards & Swag!
+### Bambora Bounty
 
-### Pretio Bounty
-Defeat Mimic Snake in 1v1 Survival - Win Swag!
-
-### Sparklit Bounty
-1v1 Ramora Snake, Killing It After It's Full - Win Giftcards & Swag!
-
-### Stocksy Bounty
-Defeat Snakesy in 1v1 Survival - Win Giftcards & Swag!
-
-### RedBrick Bounty
-Defeat Redbrick Robosnake in 1v1 Survival - Win Boardgames!
+### Accio Bounty
 
 
 ## FAQ
 
 #### Will there be food provided?
-* Yes, BattleSnake has partnered with four food trucks to provide lunch and dinner free of charge to all participants and volunteers. You will be given a lunch and dinner voucher to use when you check-in and register your team. The trucks will be located at the [Royal BC Museum](http://royalbcmuseum.bc.ca/visit/plan-your-visit/eat-drink).
+* Yes, BattleSnake has partnered with four food trucks to provide lunch free of charge to all participants and volunteers. You will be given a lunch voucher to use when you check-in and register your team. The trucks will be located at the [Royal BC Museum](http://royalbcmuseum.bc.ca/visit/plan-your-visit/eat-drink).
 
 #### What should I bring for the day?
 * Bring your laptop with power adapter and a water bottle. That is it!
 
 #### Is there an after party this year?
-* Yes, Barkerville Beer is hosting the BattleSnake after party at The Guild Freehouse. It will start right after the tournament is finished. Small bites will be provided for all attendees and the first 50 arrivals will receive a free glass of beer.
+* Yes, VIATEC is hosting the BattleSnake after party at Fort Tectoria! It will start right after the tournament is finished. Light appetizers and two complimentary drinks provided with entry (beer, wine, and non-alcoholic options). 
 
 #### Can I work on my snake before the event?
 * YES! We highly recommend it.
@@ -110,7 +92,7 @@ Defeat Redbrick Robosnake in 1v1 Survival - Win Boardgames!
 * If you want to collect a Bounty Snake prize you have to go to the company booth that is hosting that snake and challenge them to a duel. The company will run the battle and if your snake is victorious you will be awarded the prize. Each snake will have different win conditions so come prepared.
 
 #### When should I show up?
-* If you want to attend the morning tutorial you need to be at the Conference Centre by 9:00 am. If you don't plan on being at the morning tutorial you need to start registering your team and check-in individually at 10:00 am. Orientation starts at 11:00am sharp.
+* Check in and team registration will open at 8:30 am for folks attending the morning tutorial (9:00-10:00am). If you are not attending the tutorial, please arrive by 10:00am to check in and register your team. Orientation starts at 10:30am sharp.
 
 ## Contributing
 

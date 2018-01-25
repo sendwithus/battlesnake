@@ -53,25 +53,18 @@ Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
 
 Bounty Snakes are snakes built by sponsoring teams. Teams that defeat a Bounty Snake will win its prize - some snakes have one big prize, others have prizes for all winners.
 
-Bounty Snakes will be available at 3:00pm in the lobby. To challenge a Bounty Snake, visit the sponsor table in the lobby and tell them you'd like to challenge their Bounty.
+Bounty Snakes will be available at 3:00pm in the lobby. To challenge a Bounty Snake, visit the sponsor table in the lobby and tell them you'd like to challenge their Bounty. Challange Bounty Snakes from:
 
-### Sendwithus Bounty
-
-### Rooof Bounty
-
-### Workday Bounty
-
-### AppColony Bounty
-
-### Redbrick Bounty
-
-### Giftbit Bounty
-
-### Checkfront Bounty
-
-### Bambora Bounty
-
-### Accio Bounty
+* GitHub
+* Sendwithus 
+* Rooof
+* Workday 
+* AppColony 
+* Redbrick
+* Giftbit 
+* Checkfront 
+* Bambora 
+* Accio
 
 
 ## FAQ

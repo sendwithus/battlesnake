@@ -72,9 +72,6 @@ Vagrant.configure("2") do |config|
 	  vb.name = 'Alpine1'
 	  vb.cpus = 1
 	  vb.memory = 1024
-	  #vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-	  # Display the VirtualBox GUI when booting the machine
-	  # vb.gui = true
 	end
   config.vm.provision "shell", inline: <<-SHELL
     echo http://dl-3.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories

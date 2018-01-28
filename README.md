@@ -15,7 +15,7 @@ __Need help? Have questions?__ Email [battlesnake@sendwithus.com](mailto:battles
 
 ## Documentation
 
-### [API Reference](https://stembolthq.github.io/battle_snake/)
+### [API Reference](https://github.com/battle-snake/battle_snake/)
 
 ##### [2017 Info Session Slides](http://sendwithus.github.io/battlesnake/present/#/)
 
@@ -45,9 +45,55 @@ Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
 * [github.com/noahspriggs/battlesnake-python](https://github.com/noahspriggs/battlesnake-python)
 
 ## Running Your Own Game Server (With Docker)
-* Install Docker
-* Run `docker run -it -p 4000:4000 stembolt/battle_snake`
-* Visit `http://localhost:4000` *NOTE:* Docker runs on a virtual lan so when you add a snake to the game you cannot use localhost, use your internal IP instead.
+
+This list of steps will work on Mac OS X or on Linux, if you are on Windows please use the vagrant setup.
+
+* [Install Docker](https://docs.docker.com/install/)
+* Run `docker run -it --rm -p 3000:3000 battlesnake/battle_snake`
+* Visit `http://localhost:3000` *NOTE:* Docker runs on a virtual lan so when you add a snake to the game you cannot use localhost, use your internal IP instead.
+
+## Running Your Own Game Server (With Vagrant)
+
+This list of steps will work on Windows/Mac OS X/Linux
+
+* [Install Virtual Box](https://www.virtualbox.org/wiki/Downloads)
+* [Install Vagrant](https://www.vagrantup.com/downloads.html)
+* Create a directory somewhere on your computer
+* Inside the created directory, create a file named Vagrantfile and save it with the following:
+```
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/alpine36"
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+	config.vm.provider "virtualbox" do |vb|
+	  vb.name = 'Alpine1'
+	  vb.cpus = 1
+	  vb.memory = 1024
+	  #vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+	  # Display the VirtualBox GUI when booting the machine
+	  # vb.gui = true
+	end
+  config.vm.provision "shell", inline: <<-SHELL
+    echo http://dl-3.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
+		echo http://dl-3.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
+		apk update
+		apk add docker
+		rc-update add docker boot
+    service docker start
+    sleep 2
+    docker run -td -p 3000:3000 battlesnake/battle_snake
+  SHELL
+  
+end
+```
+* Open a terminal and cd into the created directory
+* Run `vagrant up`
+  * first time running this command with take a bit because of images that need to be downloaded
+* Visit `http://localhost:3000` *NOTE:* The virtual machine runs on a virtual lan so when you add a snake to the game you cannot use localhost, use your internal IP instead.
+* `vagrant halt` will stop the virtual machine, and `vagrant destroy` will remove it.
 
 ## Bounty Snakes
 

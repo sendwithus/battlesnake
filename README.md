@@ -47,7 +47,7 @@ Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
 This list of steps will work on Mac OS X or on Linux, if you are on Windows please use the vagrant setup.
 
 * [Install Docker](https://docs.docker.com/install/)
-* Run `docker run -it --rm -p 3000:3000 battlesnake/battle_snake`
+* Run `docker run -it --rm -p 3000:3000 sendwithus/battlesnake-server`
 * Visit `http://localhost:3000` *NOTE:* Docker runs on a virtual lan so when you add a snake to the game you cannot use localhost, use your internal IP instead.
 
 ## Running Your Own Game Server (With Vagrant)
@@ -80,7 +80,7 @@ Vagrant.configure("2") do |config|
     rc-update add docker boot
     service docker start
     sleep 2
-    docker run -td -p 3000:3000 battlesnake/battle_snake
+    docker run -td -p 3000:3000 sendwithus/battlesnake-server
   SHELL
 
 end

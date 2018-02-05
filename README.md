@@ -1,7 +1,6 @@
-BattleSnake 2018
-================
+# BattleSnake 2018
 
-#### Presented by [Sendwithus](https://www.sendwithus.com), in partnership with [GitHub](https://github.com/).
+## Presented by [Sendwithus](https://www.sendwithus.com), in partnership with [GitHub](https://github.com/).
 
 _March 3th, 2018 at the Victoria Conference Centre._
 
@@ -15,33 +14,32 @@ __Need help? Have questions?__ Email [battlesnake@sendwithus.com](mailto:battles
 
 ## Documentation
 
-### [API Reference](https://github.com/battle-snake/battle_snake/)
+### [API Reference](https://github.com/sendwithus/battlesnake-server/)
 
-##### [2017 Info Session Slides](http://sendwithus.github.io/battlesnake/present/#/)
+#### [2017 Info Session Slides](http://sendwithus.github.io/battlesnake/present/#/)
 
-##### [2016 Orientation Slides](https://docs.google.com/presentation/d/1iD2xZthNFaWeNfgPr6KjR8e7O80Pua9mdQje3i8782A/edit?usp=sharing)
+#### [2016 Orientation Slides](https://docs.google.com/presentation/d/1iD2xZthNFaWeNfgPr6KjR8e7O80Pua9mdQje3i8782A/edit?usp=sharing)
 
 ## Starter & Example Snakes
 
 Starter Snakes provided by Sendwithus (Heroku Ready)
+
 * [battlesnake-node](https://github.com/sendwithus/battlesnake-node)
 * [battlesnake-python](https://github.com/sendwithus/battlesnake-python)
 * [battlesnake-go](https://github.com/sendwithus/battlesnake-go)
 * [battlesnake-ruby](https://github.com/sendwithus/battlesnake-ruby)
 * [battlesnake-clojure](https://github.com/sendwithus/battlesnake-clojure)
 
-Example Snakes provided by Stembolt
-* [go_snake](https://github.com/StemboltHQ/battle_snake/tree/master/examples/go_snake)
-* [node_snake](https://github.com/StemboltHQ/battle_snake/tree/master/examples/node_snake)
-* [ruby_snake](https://github.com/StemboltHQ/battle_snake/tree/master/examples/ruby_snake)
-
 Example Snakes provided by Giftbit
+
 * [typescript snake](https://github.com/Giftbit/battlesnake-node-typescript)
 
 Other Example Snakes
+
 * [java snake](https://github.com/tflinz/BasicBattleSnake)
 
 Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
+
 * [github.com/noahspriggs/battlesnake-python](https://github.com/noahspriggs/battlesnake-python)
 
 ## Running Your Own Game Server (With Docker)
@@ -60,7 +58,8 @@ This list of steps will work on Windows/Mac OS X/Linux
 * [Install Vagrant](https://www.vagrantup.com/downloads.html)
 * Create a directory somewhere on your computer
 * Inside the created directory, create a file named Vagrantfile and save it with the following:
-```
+
+```vagrantfile
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -68,24 +67,25 @@ Vagrant.configure("2") do |config|
   config.vm.box = "generic/alpine36"
   config.vm.network "forwarded_port", guest: 3000, host: 3000
   config.vm.synced_folder ".", "/vagrant", disabled: true
-	config.vm.provider "virtualbox" do |vb|
-	  vb.name = 'Alpine1'
-	  vb.cpus = 1
-	  vb.memory = 1024
-	end
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = 'Alpine1'
+    vb.cpus = 1
+    vb.memory = 1024
+  end
   config.vm.provision "shell", inline: <<-SHELL
     echo http://dl-3.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
-		echo http://dl-3.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
-		apk update
-		apk add docker
-		rc-update add docker boot
+    echo http://dl-3.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
+    apk update
+    apk add docker
+    rc-update add docker boot
     service docker start
     sleep 2
     docker run -td -p 3000:3000 battlesnake/battle_snake
   SHELL
-  
+
 end
 ```
+
 * Open a terminal and cd into the created directory
 * Run `vagrant up`
   * first time running this command with take a bit because of images that need to be downloaded
@@ -99,40 +99,46 @@ Bounty Snakes are snakes built by sponsoring teams. Teams that defeat a Bounty S
 Bounty Snakes will be available at 3:00pm in the lobby. To challenge a Bounty Snake, visit the sponsor table in the lobby and tell them you'd like to challenge their Bounty. Challange Bounty Snakes from:
 
 * GitHub
-* Sendwithus 
+* Sendwithus
 * Rooof
-* Workday 
-* AppColony 
+* Workday
+* AppColony
 * Redbrick
-* Giftbit 
-* Checkfront 
-* Bambora 
+* Giftbit
+* Checkfront
+* Bambora
 * Accio
-
+* Metalab
 
 ## FAQ
 
-#### Will there be food provided?
-* Yes, BattleSnake has partnered with four food trucks to provide lunch free of charge to all participants and volunteers. You will be given a lunch voucher to use when you check-in and register your team. The trucks will be located at the [Royal BC Museum](http://royalbcmuseum.bc.ca/visit/plan-your-visit/eat-drink).
+### Will there be food provided?
 
-#### What should I bring for the day?
-* Bring your laptop with power adapter and a water bottle. That is it!
+Yes, BattleSnake has partnered with four food trucks to provide lunch free of charge to all participants and volunteers. You will be given a lunch voucher to use when you check-in and register your team. The trucks will be located at the [Royal BC Museum](http://royalbcmuseum.bc.ca/visit/plan-your-visit/eat-drink).
 
-#### Is there an after party this year?
-* Yes, VIATEC is hosting the BattleSnake after party at Fort Tectoria! It will start right after the tournament is finished. Light appetizers and two complimentary drinks provided with entry (beer, wine, and non-alcoholic options). 
+### What should I bring for the day?
 
-#### Can I work on my snake before the event?
-* YES! We highly recommend it.
+Bring your laptop with power adapter and a water bottle. That is it!
 
-#### How do I collect Bounty Snake prizes?
+### Is there an after party this year
+
+Yes, VIATEC is hosting the BattleSnake after party at Fort Tectoria! It will start right after the tournament is finished. Light appetizers and two complimentary drinks provided with entry (beer, wine, and non-alcoholic options).
+
+### Can I work on my snake before the event
+
+YES! We highly recommend it.
+
+### How do I collect Bounty Snake prizes?
+
 * If you want to collect a Bounty Snake prize you have to go to the company booth that is hosting that snake and challenge them to a duel. The company will run the battle and if your snake is victorious you will be awarded the prize. Each snake will have different win conditions so come prepared.
 
-#### When should I show up?
-* Check in and team registration will open at 8:30 am for folks attending the morning tutorial (9:00-10:00am). If you are not attending the tutorial, please arrive by 10:00am to check in and register your team. Orientation starts at 10:30am sharp.
+### When should I show up?
+
+Check in and team registration will open at 8:30 am for folks attending the morning tutorial (9:00-10:00am). If you are not attending the tutorial, please arrive by 10:00am to check in and register your team. Orientation starts at 10:30am sharp.
 
 ## Community Resources
 
-* [Snakedown test server](https://play.snakedown.com/) created by Cory Binnersley to help you test your snake!
+[Snakedown test server](https://play.snakedown.com/) created by Cory Binnersley to help you test your snake!
 
 ## Contributing
 

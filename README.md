@@ -36,7 +36,8 @@ Example Snakes provided by Giftbit
 
 Other Example Snakes
 
-* [java snake](https://github.com/tflinz/BasicBattleSnake)
+* [battlesnake-java](https://github.com/tflinz/BasicBattleSnake)
+* [battlesnake-elixir](https://github.com/nbw/battlesnake-elixir)
 
 Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
 

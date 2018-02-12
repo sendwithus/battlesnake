@@ -49,7 +49,7 @@ This list of steps will work on Mac OS X or on Linux, if you are on Windows plea
 
 * [Install Docker](https://docs.docker.com/install/)
 * Run `docker run -it --rm -p 3000:3000 sendwithus/battlesnake-server`
-* Visit `http://localhost:3000` *NOTE:* Docker runs on a virtual lan so when you add a snake to the game you cannot use localhost, use your internal IP instead.
+* Visit <a href="http://localhost:3000" target="_blank">http://localhost:3000</a> *NOTE:* Docker runs on a virtual lan so when you add a snake to the game you cannot use localhost, use your internal IP instead.
 
 ## Running Your Own Game Server (With Vagrant)
 

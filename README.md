@@ -109,7 +109,7 @@ Bounty Snakes will be available at 3:00pm in the lobby. To challenge a Bounty Sn
 * Checkfront
 * Bambora
 * Accio
-* Metalab
+* Semaphore
 
 ## FAQ
 

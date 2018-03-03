@@ -16,9 +16,9 @@ __Need help? Have questions?__ Email [battlesnake@sendwithus.com](mailto:battles
 
 ### [API Reference](https://github.com/sendwithus/battlesnake-server/)
 
-#### [2017 Info Session Slides](http://sendwithus.github.io/battlesnake/present/#/)
+#### [2018 Tutorial Slides](https://docs.google.com/presentation/d/1PU3PMb6J7AD91qkHQD24IcBFWMuLXXusvOgswfgYI3Q/edit?usp=sharing)
 
-#### [2016 Orientation Slides](https://docs.google.com/presentation/d/1iD2xZthNFaWeNfgPr6KjR8e7O80Pua9mdQje3i8782A/edit?usp=sharing)
+#### [2017 Info Session Slides](http://sendwithus.github.io/battlesnake/present/#/)
 
 ## Starter & Example Snakes
 

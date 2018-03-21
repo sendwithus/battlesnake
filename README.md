@@ -39,9 +39,20 @@ Other Example Snakes
 * [battlesnake-java](https://github.com/tflinz/BasicBattleSnake2018)
 * [battlesnake-elixir](https://github.com/nbw/battlesnake-elixir)
 
-Traitor Snake (Winner of Battlesnake 2016, Advanced Division)
+## Past Winners
 
+Traitor Snake (First Place, Advanced Division, BattleSnake 2016)
 * [github.com/noahspriggs/battlesnake-python](https://github.com/noahspriggs/battlesnake-python)
+
+HungryBoyo (Third place, Beginner Division, BattleSnake 2018)
+* [https://github.com/SajanDinsa/2018-battlesnake](https://github.com/SajanDinsa/2018-battlesnake)
+
+asdf123 (First Place, Intermediate Division, BattleSnake 2018) 
+* [https://github.com/aleksiy325/snek-two](https://github.com/aleksiy325/snek-two)
+
+Graeme and Chris (First Place, Expert Division, BattleSnake 2018)
+* [https://github.com/graeme-hill/snakebot](https://github.com/graeme-hill/snakebot)
+
 
 ## Running Your Own Game Server (With Docker)
 
